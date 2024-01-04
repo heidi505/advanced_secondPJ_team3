@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:team3_kakao/ui/pages/main_screen.dart';
-import 'package:team3_kakao/ui/pages/splash_screen.dart';
-
+import 'package:team3_kakao/ui/pages/main_page.dart';
+import 'package:team3_kakao/ui/pages/splash_page.dart';
 
 class Move {
   // splash
-  static String splashScreen = "/splash";
+  static String splashPage = "/splash";
 
   // main
-  static String mainScreen = "/main";
+  static String mainPage = "/main";
 
   // auth
   static String loginScreen = "/login";
@@ -18,10 +17,10 @@ class Move {
 Map<String, Widget Function(BuildContext)> getRouters() {
   return {
     // splash
-    Move.splashScreen: (context) => const SplashScreen(),
+    Move.splashPage: (context) => const SplashPage(),
 
     // main
-    Move.mainScreen: (context) => const MainScreen(),
+    Move.mainPage: (context) => const MainPage(),
 
     // // auth
     // Move.loginScreen: (context) => const LoginScreen(),

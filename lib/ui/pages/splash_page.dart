@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 
-import 'main_screen.dart';
+import 'main_page.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashPage> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
@@ -22,10 +22,10 @@ class _SplashScreenState extends State<SplashScreen> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MainScreen(),
+          builder: (context) => MainPage(),
         ),
       ),
-    ); // Timer
+    );
   }
 
   @override
@@ -47,8 +47,8 @@ class _SplashScreenState extends State<SplashScreen> {
                         SvgPicture.asset(
                           "assets/icons/kakao_logo.svg",
                           fit: BoxFit.cover,
-                          width: 200,
-                          height: 200,
+                          width: 120,
+                          height: 120,
                         ),
                       ],
                     ),
