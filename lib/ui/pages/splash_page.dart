@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 
 import 'main_page.dart';
 
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashPage> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MainPage(),
+          builder: (context) => ChatRoomPage(),
         ),
       ),
     );
