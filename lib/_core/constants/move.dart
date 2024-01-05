@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/ui/pages/main_screen.dart';
 import 'package:team3_kakao/ui/pages/splash_screen.dart';
+import 'package:team3_kakao/ui/pages/user/login/login_screen.dart';
 
 
 class Move {
@@ -23,8 +24,8 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     // main
     Move.mainScreen: (context) => const MainScreen(),
 
-    // // auth
-    // Move.loginScreen: (context) => const LoginScreen(),
+    // auth
+    Move.loginScreen: (context) => const LoginPage(),
     // Move.joinScreen: (context) => const JoinScreen(),
   };
 }

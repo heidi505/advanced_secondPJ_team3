@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/ui/pages/user/login/login_screen.dart';
 
 import '_core/constants/move.dart';
 import '_core/constants/theme.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(),
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      initialRoute: Move.mainScreen,
+      initialRoute: Move.splashScreen,
+      // initialRoute: Move.loginScreen,
       routes: getRouters(),
       theme: theme(),
     );
