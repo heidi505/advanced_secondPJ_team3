@@ -6,6 +6,7 @@ const pointColor01 = Color(0xff20B94D);
 const pointColor02 = Color(0xffE36C7F);
 const pointColor03 = Color(0xffDC6346);
 const pointColor04 = Color(0xff156ABA);
+const pointColor05 = Color(0xff788490);
 const basicColorB1 = Color(0xff111111);
 const basicColorB3 = Color(0xff333333);
 const basicColorB5 = Color(0xff555555);

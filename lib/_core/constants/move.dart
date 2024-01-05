@@ -9,6 +9,9 @@ class Move {
   // main
   static String mainPage = "/main";
 
+  // chat
+  static String chatRoomPage = "/chatRoomPage";
+
   // auth
   static String loginScreen = "/login";
   static String joinScreen = "/join";
@@ -18,6 +21,8 @@ Map<String, Widget Function(BuildContext)> getRouters() {
   return {
     // splash
     Move.splashPage: (context) => const SplashPage(),
+
+    // Move.chatRoomPage: (context) => const ChatRoomPage(),
 
     // main
     Move.mainPage: (context) => const MainPage(),

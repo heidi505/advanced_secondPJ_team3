@@ -27,11 +27,11 @@ class ChattingItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {},
-      child: Card(
+      child: Container(
+        margin: EdgeInsets.zero,
         color: Colors.transparent,
-        elevation: 0,
         child: ListTile(
-          contentPadding: EdgeInsets.all(0),
+          contentPadding: EdgeInsets.zero,
           dense: true,
           leading: ProfileImage(
             circular: circular,
@@ -48,6 +48,9 @@ class ChattingItem extends StatelessWidget {
               : null,
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
+            children: [
+              if (multiItem != null) multiItem!,
+            ],
           ),
           isThreeLine: subTitle != null,
         ),
