@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashPage> {
     super.initState();
     Timer(
       const Duration(seconds: 5),
-      () => Navigator.push(
+          () => Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => ChatRoomPage(),
