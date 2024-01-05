@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:team3_kakao/ui/widgets/join/join_text_form_feild.dart';
+import 'package:team3_kakao/ui/widgets/join/join_text_form_field.dart';
 
 import '../../../../_core/constants/size.dart';
-import '../../../widgets/join/join_button_form_feild.dart';
+import '../../../widgets/join/join_button_form_field.dart';
 
 class JoinWelcomePage extends StatelessWidget {
   const JoinWelcomePage({super.key});

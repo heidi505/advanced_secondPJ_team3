@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:team3_kakao/ui/widgets/join/join_button_form_feild.dart';
-import 'package:team3_kakao/ui/widgets/join/join_text_form_feild.dart';
+import 'package:team3_kakao/ui/widgets/join/join_button_form_field.dart';
+import 'package:team3_kakao/ui/widgets/join/join_text_form_field.dart';
 
 import '../../../../_core/constants/size.dart';
 

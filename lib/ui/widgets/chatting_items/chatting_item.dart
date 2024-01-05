@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class ChattingItem extends StatelessWidget {
   const ChattingItem({
@@ -7,48 +10,49 @@ class ChattingItem extends StatelessWidget {
     required this.imagePath,
     this.subTitle,
     this.multiItem,
+    required this.imageWidth,
+    required this.imageHeight,
+    required this.circular,
   }) : super(key: key);
-
 
   final String title;
   final String imagePath;
   final String? subTitle;
   final Widget? multiItem;
-
+  final double imageWidth;
+  final double imageHeight;
+  final double circular;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-      },
-      child: Card(
+      onTap: () {},
+      child: Container(
+        margin: EdgeInsets.zero,
         color: Colors.transparent,
-        elevation: 0,
         child: ListTile(
-          contentPadding: EdgeInsets.all(0),
+          contentPadding: EdgeInsets.zero,
           dense: true,
-          leading: ClipRRect(
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-              width: 40,
-              height: 40,
-            ),
-            borderRadius: BorderRadius.circular(16.0),
+          leading: ProfileImage(
+            circular: circular,
+            imagePath: imagePath,
+            imageWidth: imageWidth,
+            imageHeight: imageHeight,
           ),
           title: Text(title),
-          subtitle: Text(subTitle!),
+          subtitle: subTitle != null
+              ? Text(
+                  subTitle!,
+                  style: subText(color: basicColorB9), // Corrected placement
+                )
+              : null,
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                icon: Icon(Icons.ac_unit),
-                onPressed: () {
-                },
-              ),
+              if (multiItem != null) multiItem!,
             ],
           ),
-          isThreeLine: true,
+          isThreeLine: subTitle != null,
         ),
       ),
     );

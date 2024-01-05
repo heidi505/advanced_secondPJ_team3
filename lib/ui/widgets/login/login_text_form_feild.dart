@@ -3,7 +3,7 @@ import 'package:team3_kakao/_core/constants/size.dart';
 
 
 import '../../pages/user/join/join_check_page.dart';
-import '../join/join_button_form_feild.dart';
+import '../join/join_button_form_field.dart';
 
 class LoginTextFormField extends StatelessWidget {
   String text;

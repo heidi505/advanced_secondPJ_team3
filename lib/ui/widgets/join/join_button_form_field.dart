@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_password_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_profile_page.dart';
 
 import '../../../_core/constants/color.dart';
 import '../../../_core/constants/size.dart';
-import '../../pages/main_screen.dart';
 import '../../pages/user/join/join_welcome_page.dart';
 
 class CheckPageButton extends StatelessWidget {
@@ -113,7 +113,7 @@ class MainScreenButton extends StatelessWidget {
                 // 버튼 클릭 시 join_agree_page.dart로 이동
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MainScreen()),
+                  MaterialPageRoute(builder: (context) => MainPage()),
                 );
               },
               child: Text("$text")),

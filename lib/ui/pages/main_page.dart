@@ -9,14 +9,14 @@ import '../../_core/constants/theme.dart';
 import '../widgets/navigation/com_navigation_item.dart';
 import 'chatting/chatting_page.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainPage> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen>
+class _MainScreenState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   TabController? _tabController;
@@ -36,44 +36,15 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text("채팅"),
-              SizedBox(width: 16),
-            ],
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-            },
-            icon: Icon(Icons.search),
-          ),
-          IconButton(
-            onPressed: () {
-            },
-            icon: Icon(Icons.abc_outlined),
-          ),
-        ],
-      ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: IndexedStack(
-            index: _currentIndex,
-            children: [
-              FriendsPage(),
-              ChattingPage(),
-              OpenChattingPage(),
-              MyInfoPage()
-            ],
-          ),
+        child: IndexedStack(
+          index: _currentIndex,
+          children: [
+            FriendsPage(),
+            ChattingPage(),
+            OpenChattingPage(),
+            MyInfoPage()
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
