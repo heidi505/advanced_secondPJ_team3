@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
+import 'package:team3_kakao/ui/pages/chatting/chatting_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/splash_page.dart';
 
@@ -16,6 +17,7 @@ class Move {
   // auth
   static String loginScreen = "/login";
   static String joinScreen = "/join";
+  static String chattingScreen = "/chatting";
 }
 
 Map<String, Widget Function(BuildContext)> getRouters() {
@@ -31,5 +33,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     // // auth
     // Move.loginScreen: (context) => const LoginScreen(),
     // Move.joinScreen: (context) => const JoinScreen(),
+
+    Move.chattingScreen: (context) => const ChattingPage()
   };
 }
