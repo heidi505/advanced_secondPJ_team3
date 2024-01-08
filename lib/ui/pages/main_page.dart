@@ -36,16 +36,14 @@ class _MainScreenState extends State<MainPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: IndexedStack(
-          index: _currentIndex,
-          children: [
-            FriendsPage(),
-            ChattingPage(),
-            OpenChattingPage(),
-            MyInfoPage()
-          ],
-        ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          FriendsPage(),
+          ChattingPage(),
+          OpenChattingPage(),
+          MyInfoPage()
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: List.generate(
