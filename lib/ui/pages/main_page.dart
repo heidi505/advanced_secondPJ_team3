@@ -7,7 +7,7 @@ import 'package:team3_kakao/ui/pages/open_chatting/open_chatting_page.dart';
 import '../../_core/constants/color.dart';
 import '../../_core/constants/theme.dart';
 import '../widgets/navigation/com_navigation_item.dart';
-import 'chatting/chatting_page.dart';
+import 'chatting/chatting_list_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
