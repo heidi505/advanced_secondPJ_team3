@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "608122388695",
+    "project_id": "kkatalk-24148",
+    "storage_bucket": "kkatalk-24148.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608122388695:android:22e0f157f27926f7837092",
+        "android_client_info": {
+          "package_name": "com.example.team3_kakao"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD92v7H8QvGs8bSLn65dew9RYt7fq7fMwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
