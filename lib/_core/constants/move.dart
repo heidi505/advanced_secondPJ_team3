@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
-import 'package:team3_kakao/ui/pages/chatting/chatting_page.dart';
+import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/splash_page.dart';
 
