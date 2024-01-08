@@ -33,7 +33,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.mainPage: (context) => const MainPage(),
 
     // auth
-    Move.loginScreen: (context) => const LoginPage(),
+    Move.loginScreen: (context) => const LoginPage()
     // Move.joinScreen: (context) => const JoinScreen(),
   };
 }
