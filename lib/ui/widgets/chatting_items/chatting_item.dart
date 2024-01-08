@@ -13,6 +13,7 @@ class ChattingItem extends StatelessWidget {
     required this.imageWidth,
     required this.imageHeight,
     required this.circular,
+    this.peopleCount
   }) : super(key: key);
 
   final String title;
@@ -22,6 +23,7 @@ class ChattingItem extends StatelessWidget {
   final double imageWidth;
   final double imageHeight;
   final double circular;
+  final int? peopleCount;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,15 @@ class ChattingItem extends StatelessWidget {
             imageWidth: imageWidth,
             imageHeight: imageHeight,
           ),
-          title: Text(title),
+          title: Container(
+            child: Row(
+              children: [
+                Text("$title", style: TextStyle(color: Colors.black)),
+                SizedBox(width: 7),
+                Text("$peopleCount", style: TextStyle(color: Colors.grey),)
+              ],
+            ),
+          ),
           subtitle: subTitle != null
               ? Text(
                   subTitle!,
