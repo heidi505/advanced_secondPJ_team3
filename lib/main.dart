@@ -1,6 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
+import 'package:team3_kakao/_core/constants/theme.dart';
+import 'package:team3_kakao/ui/pages/splash_page.dart';
+
 import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
 
 import '_core/constants/move.dart';
