@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:team3_kakao/ui/pages/chatting/chatting_page.dart';
+import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
+
 
 import '_core/constants/move.dart';
 import '_core/constants/theme.dart';
@@ -14,7 +15,6 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //얘는 그림 그려지기 전에 실행되어야하니까 여기 넣어줌. 세팅 되고나서 그림 그려야하니까 await 붙임
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

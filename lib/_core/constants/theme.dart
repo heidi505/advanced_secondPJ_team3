@@ -26,8 +26,8 @@ ThemeData theme() {
     appBarTheme: appBarTheme(),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-          backgroundColor: basicColorB1,
-          foregroundColor: primaryColor01,
+          backgroundColor: primaryColor01,
+          foregroundColor: basicColorB1,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
             side: BorderSide(color: primaryColor01), // 테두리 색상 설정
