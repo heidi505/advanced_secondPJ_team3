@@ -16,9 +16,12 @@ class TimeLine extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             color: Color(0xFF9cafbe),
           ),
-          child: Text(
-            time,
-            style: TextStyle(color: Colors.white),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            child: Text(
+              time,
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         )
       ],

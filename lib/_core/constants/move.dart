@@ -23,7 +23,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     // splash
     Move.splashPage: (context) => const SplashPage(),
 
-    Move.chatRoomPage: (context) => const ChatRoomPage(),
+    Move.chatRoomPage: (context) => ChatRoomPage(),
 
     // main
     Move.mainPage: (context) => const MainPage(),
