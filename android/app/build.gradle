@@ -67,10 +67,6 @@ flutter {
 }
 
 dependencies {
-<<<<<<< HEAD
 //    implementation 'pub.dev.ui:permission_handler:11.1.0'
-=======
     implementation 'com.android.support:multidex:2.0.1'
-
->>>>>>> main
 }
