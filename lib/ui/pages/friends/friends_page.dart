@@ -18,7 +18,7 @@ class _FriendsPageState extends State<FriendsPage> {
         imagePathL: "assets/icons/search_icon.svg",
         imagePathR: "assets/icons/friend_add_icon.svg",
       ),
-      body: FriendBody(),
+      body: FriendBody()
     );
   }
 }

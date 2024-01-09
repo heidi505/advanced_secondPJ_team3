@@ -48,8 +48,11 @@ dependencies:
   card_swiper: ^3.0.1 # slider
   carousel_slider: ^4.0.0 # slider
   font_awesome_flutter: ^10.5.0
+  image_picker: ^1.0.6
   firebase_core: ^2.24.2
+  cloud_firestore: ^4.14.0
 #  permission_handler: ^11.1.0 # 앱 권한 설정(저장소,주소록,전화)에 관련된 라이브러리입니다.
+
 
 dev_dependencies:
   flutter_test:
