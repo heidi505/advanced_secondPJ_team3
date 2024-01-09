@@ -14,7 +14,9 @@ class ChattingList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     ref.read(chattingPageProvider.notifier).notifyInit();
-    ChattingPageModel? model = ref.watch(chattingPageProvider);
+    ChattingPageModel? model = ref.read(chattingPageProvider);
+
+    // ref.watch(chattingPageProvider);
 
     if(model == null){
       return SliverToBoxAdapter(child: CircularProgressIndicator());
