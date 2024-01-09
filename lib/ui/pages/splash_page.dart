@@ -23,10 +23,10 @@ class _SplashScreenState extends State<SplashPage> {
     super.initState();
     Timer(
       const Duration(seconds: 5),
-          () => Navigator.push(
+      () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ChattingPage(),
+          builder: (context) => FriendsPage(),
         ),
       ),
     );
@@ -39,26 +39,24 @@ class _SplashScreenState extends State<SplashPage> {
         children: <Widget>[
           Scaffold(
             backgroundColor: primaryColor01,
-            body: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/icons/kakao_logo.svg",
-                          fit: BoxFit.cover,
-                          width: 120,
-                          height: 120,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/icons/kakao_logo.svg",
+                        fit: BoxFit.cover,
+                        width: 120,
+                        height: 120,
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         ],

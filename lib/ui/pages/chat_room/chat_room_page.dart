@@ -16,6 +16,7 @@ class ChatRoomPage extends ConsumerStatefulWidget {
   @override
   _ChatRoomPageState createState() => _ChatRoomPageState();
 }
+
 //메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
 //이 부분 stateless로 만들면 안되는 건지?
 class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
@@ -24,26 +25,25 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   double bottomInset = 0.0;
   bool isPopupVisible = false;
 
-
   @override
   Widget build(BuildContext context) {
     OtherChatModel? model = ref.watch(otherChatProvider);
 
-    if(model == null){
+    if (model == null) {
       return CircularProgressIndicator();
     }
 
-    for(var message in model!.messages){
+    for (var message in model!.messages) {
       dynamic chat;
-      if(message.userId == 1){
+      if (message.userId == 1) {
         chat = MyChat(text: message.content, time: message.time!);
-      }else{
-        chat = OtherChat(name: "홍길동", text: message.content, time: message.time!);
+      } else {
+        chat =
+            OtherChat(name: "홍길동", text: message.content, time: message.time!);
       }
       Logger().d(message.content);
       chats.add(chat);
     }
-
 
     return Scaffold(
       backgroundColor: primaryColor02,
@@ -165,24 +165,20 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ChatMenuIcon(
-                                imagePath:
-                                    "assets/icons/chat_menu_icon_01.png",
+                                imagePath: "assets/icons/chat_menu_icon_01.png",
                                 text: "앨범",
                                 onTap: () {},
                               ),
                               ChatMenuIcon(
-                                imagePath:
-                                    "assets/icons/chat_menu_icon_02.png",
+                                imagePath: "assets/icons/chat_menu_icon_02.png",
                                 text: "카메라",
                               ),
                               ChatMenuIcon(
-                                imagePath:
-                                    "assets/icons/chat_menu_icon_03.png",
+                                imagePath: "assets/icons/chat_menu_icon_03.png",
                                 text: "일정",
                               ),
                               ChatMenuIcon(
-                                imagePath:
-                                    "assets/icons/chat_menu_icon_04.png",
+                                imagePath: "assets/icons/chat_menu_icon_04.png",
                                 text: "지도",
                               ),
                             ],
@@ -198,23 +194,19 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ChatMenuIcon(
-                                imagePath:
-                                    "assets/icons/chat_menu_icon_05.png",
+                                imagePath: "assets/icons/chat_menu_icon_05.png",
                                 text: "연락처",
                               ),
                               ChatMenuIcon(
-                                imagePath:
-                                    "assets/icons/chat_menu_icon_06.png",
+                                imagePath: "assets/icons/chat_menu_icon_06.png",
                                 text: "파일",
                               ),
                               ChatMenuIcon(
-                                imagePath:
-                                    "assets/icons/chat_menu_icon_07.png",
+                                imagePath: "assets/icons/chat_menu_icon_07.png",
                                 text: "캡쳐",
                               ),
                               ChatMenuIcon(
-                                imagePath:
-                                    "assets/icons/chat_menu_icon_08.png",
+                                imagePath: "assets/icons/chat_menu_icon_08.png",
                                 text: "송금",
                               ),
                             ],
@@ -238,7 +230,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     setState(() {
       ref.read(otherChatProvider.notifier).addMessage(text);
       // 2
-
     });
   }
 }
