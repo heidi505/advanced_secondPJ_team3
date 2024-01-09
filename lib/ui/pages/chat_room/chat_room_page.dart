@@ -1,26 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
+import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/chat_menu_icon.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/my_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/other_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/time_line.dart';
 
-class ChatRoomPage extends StatefulWidget {
+class ChatRoomPage extends ConsumerStatefulWidget {
   @override
   _ChatRoomPageState createState() => _ChatRoomPageState();
 }
 
-class _ChatRoomPageState extends State<ChatRoomPage> {
-  final List<MyChat> chats = [];
+//메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
+//이 부분 stateless로 만들면 안되는 건지?
+class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
+  List<dynamic> chats = [];
   final TextEditingController _textController = TextEditingController();
   double bottomInset = 0.0;
   bool isPopupVisible = false;
 
   @override
   Widget build(BuildContext context) {
+    OtherChatModel? model = ref.watch(otherChatProvider);
+
+    if (model == null) {
+      return CircularProgressIndicator();
+    }
+
+    for (var message in model!.messages) {
+      dynamic chat;
+      if (message.userId == 1) {
+        chat = MyChat(text: message.content, time: message.time!);
+      } else {
+        chat =
+            OtherChat(name: "홍길동", text: message.content, time: message.time!);
+      }
+      Logger().d(message.content);
+      chats.add(chat);
+    }
+
     return Scaffold(
       backgroundColor: primaryColor02,
       appBar: AppBar(
@@ -40,29 +64,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 child: Column(
                   children: [
                     TimeLine(time: getCurrentDay()),
-                    SizedBox(
-                      height: mediumGap,
-                    ),
-                    const OtherChat(
-                      name: "홍길동",
-                      text: "새해 복 많이 받으세요.",
-                      time: "오전 10:10",
-                    ),
-                    SizedBox(
-                      height: mediumGap,
-                    ),
-                    MyChat(
-                      text: "선생님도 많이 받으십시오.",
-                      time: "오후 2:15",
-                    ),
-                    SizedBox(
-                      height: mediumGap,
-                    ),
-                    const OtherChat(
-                      name: "홍길동",
-                      text: "새해 복 많이 받으세요.",
-                      time: "오전 10:10",
-                    ),
+                    //나중에 동적으로 처리해야함
                     SizedBox(
                       height: mediumGap,
                     ),
@@ -226,11 +228,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     _textController.clear(); // 1
 
     setState(() {
+      ref.read(otherChatProvider.notifier).addMessage(text);
       // 2
-      chats.add(MyChat(
-        text: text,
-        time: getCurrentTime(),
-      ));
     });
   }
 }

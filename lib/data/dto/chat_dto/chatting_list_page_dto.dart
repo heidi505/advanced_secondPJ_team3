@@ -24,11 +24,25 @@ class ChatroomDTO{
 
 
 class MessageDTO {
-  String? content;
+  late String content;
   Timestamp? createdAt;
   int? messageId;
   int? userId;
   String? messageDocId;
+  String? time;
 
-  MessageDTO({this.content, this.createdAt, this.messageId, this.userId, this.messageDocId});
+  MessageDTO({required this.content, this.createdAt, this.messageId, this.userId, this.messageDocId, this.time});
+
+  MessageDTO.fromJson(Map<String, dynamic> json, String docId)
+  { content = json["content"];
+    createdAt = json["createdAt"];
+    userId = json["userId"];
+    messageDocId = docId;
+    if(this.createdAt!.toDate().hour >= 12){
+      time = "오후 " + (createdAt!.toDate().hour - 12).toString() + ":" + createdAt!.toDate().minute.toString();
+    }else{
+      time = "오전 " + (createdAt!.toDate().hour - 12).toString() + ":" + createdAt!.toDate().minute.toString();
+    }
+  }
+
 }

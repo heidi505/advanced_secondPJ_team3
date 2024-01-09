@@ -48,8 +48,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
       QuerySnapshot<Map<String, dynamic>> messages = await db.collection("ChatRoom1").doc(chatDoc.id).collection("messages").get();
       List<MessageDTO> messageDTOList = [];
       for(var message in messages.docs){
-        MessageDTO dto = MessageDTO(content: message["content"], createdAt: message["createdAt"], userId: message["userId"], messageDocId: message.id);
-        Logger().d(message["content"]);
+        MessageDTO dto = MessageDTO(content: message["content"], createdAt: message["createdAt"], userId: message["userId"], messageDocId: message.id,);
         messageDTOList.add(dto);
       }
 
@@ -107,7 +106,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
 
 }
 
-final chattingPageProvider = StateNotifierProvider.autoDispose<ChattingPageViewModel, ChattingPageModel?>(
+final chattingPageProvider = StateNotifierProvider<ChattingPageViewModel, ChattingPageModel?>(
     (ref){
       return new ChattingPageViewModel(ref, null)..notifyInit();
     }
