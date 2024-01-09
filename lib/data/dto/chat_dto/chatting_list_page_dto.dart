@@ -7,6 +7,7 @@ class ChatroomDTO{
   String? lastChatTime;
   String? chatName;
   int? chatId;
+  String? chatDocId;
   List<MessageDTO>? messageList;
 
   ChatroomDTO(
@@ -16,6 +17,7 @@ class ChatroomDTO{
     this.lastChatTime,
     this.chatName,
     this.chatId,
+    this.chatDocId,
     this.messageList});
 
 }
@@ -26,6 +28,7 @@ class MessageDTO {
   Timestamp? createdAt;
   int? messageId;
   int? userId;
+  String? messageDocId;
 
-  MessageDTO({this.content, this.createdAt, this.messageId, this.userId});
+  MessageDTO({this.content, this.createdAt, this.messageId, this.userId, this.messageDocId});
 }
