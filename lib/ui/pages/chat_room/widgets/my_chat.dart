@@ -15,23 +15,28 @@ class MyChat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: Column(
         children: [
-          Text(time, style: const TextStyle(fontSize: 12)),
-          const SizedBox(width: 5),
-          Flexible(
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: primaryColor01,
-              ),
-              child: Text(text),
-            ),
-          )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(time, style: const TextStyle(fontSize: 12)),
+              const SizedBox(width: 5),
+              Flexible(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: primaryColor01,
+                  ),
+                  child: Text(text),
+                ),
+              )
+            ],
+          ),
         ],
+
       ),
     );
   }

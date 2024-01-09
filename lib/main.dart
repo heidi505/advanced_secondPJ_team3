@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       home: SplashPage(),
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      initialRoute: Move.chattingScreen,
+      initialRoute: Move.chatRoomPage,
       routes: getRouters(),
       theme: theme(),
     );
