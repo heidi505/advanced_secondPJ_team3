@@ -21,7 +21,6 @@ class GroupProfile extends StatelessWidget {
               padding: const EdgeInsets.all(2.0),
               child: ProfileImage(imagePath:"assets/images/basic_img.jpeg", imageWidth: 20.0, imageHeight: 20.0, circular: 16.0),
             ),
-
         ],),
         Wrap(
           runAlignment: WrapAlignment.center,

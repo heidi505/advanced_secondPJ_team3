@@ -34,12 +34,9 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
     //쿼리 스냅샷은 컬렉션, 다큐먼트 스냅샷은 문서
     QuerySnapshot<Map<String, dynamic>> chatRoomCollection = await db.collection("ChatRoom1").get();
 
-    Logger().d(chatRoomCollection.docs);
-
-
-    List<ChatroomDTO> dtoList = [];
-
     //채팅방 for문 돌리기
+    List<ChatroomDTO> dtoList = [];
+    //컬렉션 내의 문서 for문 돌면서 하나하나 list에 넣어줌
     for(var chatDoc in chatRoomCollection.docs){
       dynamic data = chatDoc.data();
 
@@ -49,16 +46,15 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
 
       //채팅방 내부 메시지들을 for문 돌려서 DTO에 담은 후, ChatRoomDTO에 담기
       QuerySnapshot<Map<String, dynamic>> messages = await db.collection("ChatRoom1").doc(chatDoc.id).collection("messages").get();
-
       List<MessageDTO> messageDTOList = [];
       for(var message in messages.docs){
-        MessageDTO dto = MessageDTO(content: message["content"], createdAt: message["createdAt"], userId: message["userId"]);
+        MessageDTO dto = MessageDTO(content: message["content"], createdAt: message["createdAt"], userId: message["userId"], messageDocId: message.id);
         Logger().d(message["content"]);
         messageDTOList.add(dto);
       }
 
+      //lastchat 세팅
       int messageLength = messageDTOList.length;
-
       String? lastChat = messageDTOList[messageLength-1].content;
 
       //시간 파싱
@@ -72,7 +68,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
 
 
 
-      ChatroomDTO dto = ChatroomDTO(chatName: chatName, chatId: id, peopleCount: users.length, messageList: messageDTOList, lastChat: lastChat, lastChatTime: lastchatTime);
+      ChatroomDTO dto = ChatroomDTO(chatName: chatName, chatId: id, peopleCount: users.length, messageList: messageDTOList, lastChat: lastChat, lastChatTime: lastchatTime,chatDocId: chatDoc.id);
 
 
 
@@ -82,6 +78,33 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
     state = ChattingPageModel(chatRoomDTOList: dtoList);
 
   }
+
+
+  Future<void> changeChatName(String newChatName, String chatDocId, int userId) async{
+
+    FirebaseFirestore db = FirebaseFirestore.instance;
+
+    //userId, chatDocId 사용해서 동적으로 처리
+    final chatRoom = await db.collection("chatRoom1").doc(chatDocId);
+
+    db.runTransaction((transaction) async{
+      final snapshot = await transaction.get(chatRoom);
+      transaction.update(chatRoom, {"chatName" : newChatName});
+    })
+        .then((value) {
+          print("변경 완료");
+
+          for(var chatRoom in state!.chatRoomDTOList){
+            if(chatRoom.chatDocId == chatDocId){
+              chatRoom.chatName = newChatName;
+            }
+          }
+          state = ChattingPageModel(chatRoomDTOList: state!.chatRoomDTOList);
+          },
+        onError: (e)=> print("변경 에러 $e"));
+  }
+
+
 }
 
 final chattingPageProvider = StateNotifierProvider.autoDispose<ChattingPageViewModel, ChattingPageModel?>(
