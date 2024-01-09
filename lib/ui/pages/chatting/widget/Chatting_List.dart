@@ -12,8 +12,6 @@ class ChattingList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-    ref.read(chattingPageProvider.notifier).notifyInit();
     ChattingPageModel? model = ref.watch(chattingPageProvider);
 
     if(model == null){
