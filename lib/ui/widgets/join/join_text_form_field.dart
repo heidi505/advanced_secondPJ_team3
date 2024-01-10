@@ -288,24 +288,59 @@ class InsertPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-          hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
+        hintText: "$text",
+        hintStyle: TextStyle(color: basicColorB9),
+      ),
+      obscureText: true,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return '비밀번호를 입력하세요.';
+        }
+        return null;
+      },
     );
   }
 }
 
-class InsertPassword2 extends StatelessWidget {
-  String text;
+class InsertPassword2 extends StatefulWidget {
+  final Function(bool isValid) onValidationChanged;
 
-  InsertPassword2({required this.text});
+  InsertPassword2({required this.onValidationChanged});
+
+  @override
+  // _InsertPassword2State createState() => _InsertPassword2State();
+  State<InsertPassword2> createState() => _InsertPassword2State();
+}
+
+class _InsertPassword2State extends State<InsertPassword2> {
+  TextEditingController _controller = TextEditingController();
+  bool _passwordsMatch = false;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: _controller,
       decoration: InputDecoration(
-          hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
+        hintText: "비밀번호 재입력",
+        hintStyle: TextStyle(color: basicColorB9),
+        errorText: _passwordsMatch ? null : '비밀번호를 입력해 주세요',
+      ),
+      obscureText: true,
+      onChanged: (value){
+        setState(() {
+          _passwordsMatch = value.isNotEmpty;
+          widget.onValidationChanged(_passwordsMatch);
+        });
+      },
     );
   }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }
+
 
 class WelcomeTitle extends StatelessWidget {
   String text;
