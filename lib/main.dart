@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       home: SplashPage(),
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      initialRoute: Move.splashPage,
+      initialRoute: Move.loginScreen,
       routes: getRouters(),
       theme: theme(),
     );
