@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 
 import '../../../_core/constants/color.dart';
 import '../../../_core/constants/size.dart';
@@ -116,51 +119,58 @@ class CheckEmail extends StatefulWidget {
 
 class _CheckEmailState extends State<CheckEmail> {
   TextEditingController _emailController = TextEditingController();
+
   String? _emailErrorText;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        return Column(
           children: [
-            Expanded(
-              child: TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  hintText: "이메일을 입력해주세요",
-                  hintStyle: TextStyle(color: basicColorB9),
-                  errorText: _emailErrorText,
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _emailErrorText = validateEmail()(value);
-                  });
-                },
-              ),
-            ),
-            SizedBox(width: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                backgroundColor: basicColorW,
-                side: BorderSide(color: primaryColor01),
-              ),
-              onPressed: () {
-                if (_emailErrorText == null) {
-                  // 이메일 유효성 검사 통과 시 수행할 동작 추가
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('인증메일을 발송했습니다.'),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      hintText: "이메일을 입력해주세요",
+                      hintStyle: TextStyle(color: basicColorB9),
+                      errorText: _emailErrorText,
                     ),
-                  );
-                }
-              },
-              child: Text('인증메일 발송', style: TextStyle(color: basicColorB1)),
+                    onChanged: (value) {
+                      setState(() {
+                        _emailErrorText = validateEmail()(value);
+                        ref.read(joinFormProvider.notifier).setEmail(value);
+                        Logger().d(_emailController);
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(width: 10),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: basicColorW,
+                    side: BorderSide(color: primaryColor01),
+                  ),
+                  onPressed: () {
+                    if (_emailErrorText == null) {
+                      // 이메일 유효성 검사 통과 시 수행할 동작 추가
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('인증메일을 발송했습니다.'),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text('인증메일 발송', style: TextStyle(color: basicColorB1)),
+                ),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -287,7 +297,7 @@ class _InsertPassword2State extends State<InsertPassword2> {
         errorText: _passwordsMatch ? null : '비밀번호를 입력해 주세요',
       ),
       obscureText: true,
-      onChanged: (value){
+      onChanged: (value) {
         setState(() {
           _passwordsMatch = value.isNotEmpty;
           widget.onValidationChanged(_passwordsMatch);
@@ -295,13 +305,13 @@ class _InsertPassword2State extends State<InsertPassword2> {
       },
     );
   }
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 }
-
 
 class WelcomeTitle extends StatelessWidget {
   String text;

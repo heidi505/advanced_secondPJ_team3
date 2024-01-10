@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
@@ -18,10 +19,7 @@ class SessionUser {
   User? user;
   String? jwt;
 
-  SessionUser({
-    this.user,
-    this.jwt
-  });
+  SessionUser({this.user, this.jwt});
 
   Future<void> login(LoginReqDTO loginReqDTO) async {
     //1. 통신코드
@@ -33,7 +31,6 @@ class SessionUser {
       this.user = responseDTO.data as User;
       this.jwt = responseDTO.token;
 
-
       // print("성공");
       // 3. 페이지 이동
       Navigator.pushNamedAndRemoveUntil(
@@ -43,8 +40,45 @@ class SessionUser {
           SnackBar(content: Text("${responseDTO.errorType!.message!}")));
     }
   }
+
+  Future<void> join(JoinReqDTO joinReqDTO) async {
+    Logger().d("여기까지 실행됨");
+    // 1. 통신 코드
+    ResponseDTO responseDTO = await UserRepository().fetchJoin(joinReqDTO);
+    Logger().d("여기까지 실행됨1");
+
+    // 2. 비지니스 로직
+    if (responseDTO.success == true) {
+      Navigator.pushNamed(mContext!, Move.loginScreen);
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(
+          content: Text(responseDTO.errorType!.message!),
+        ),
+      );
+    }
+  }
+
+  Future<void> mailSend(MailSendDTO mailSendDTO) async {
+    Logger().d("여기까지 실행됨");
+    // 1. 통신 코드
+    ResponseDTO responseDTO = await UserRepository().fetchMailSend(mailSendDTO);
+    Logger().d("여기까지 실행됨1");
+
+    // 2. 비지니스 로직
+    if (responseDTO.success == true) {
+      Navigator.pushNamed(mContext!, Move.loginScreen);
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(
+          content: Text(responseDTO.errorType!.message!),
+        ),
+      );
+    }
+  }
 }
-  //3. 창고 관리자
-final sessionProvider = Provider<SessionUser>((ref){
+
+//3. 창고 관리자
+final sessionProvider = Provider<SessionUser>((ref) {
   return SessionUser();
 });
