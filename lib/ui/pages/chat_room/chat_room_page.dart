@@ -18,13 +18,13 @@ class ChatRoomPage extends ConsumerStatefulWidget {
 }
 
 //메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
-//이 부분 stateless로 만들면 안되는 건지?
 class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   List<dynamic> chats = [];
   final TextEditingController _textController = TextEditingController();
   double bottomInset = 0.0;
   bool isPopupVisible = false;
 
+  //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
     OtherChatModel? model = ref.watch(otherChatProvider);
