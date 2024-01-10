@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
+import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
@@ -32,7 +33,7 @@ class _SplashScreenState extends State<SplashPage> {
         context,
         MaterialPageRoute(
 
-          builder: (context) => MainPage(),
+          builder: (context) => ChatNotifyPage(),
 
         ),
       ),

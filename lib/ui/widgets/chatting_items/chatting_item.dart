@@ -14,7 +14,7 @@ class ChattingItem extends StatelessWidget {
       required this.imageWidth,
       required this.imageHeight,
       required this.circular,
-      this.peopleCount})
+      this.peopleCount, this.ontap})
       : super(key: key);
 
   final String title;
@@ -25,13 +25,12 @@ class ChattingItem extends StatelessWidget {
   final double imageHeight;
   final double circular;
   final int? peopleCount;
+  final void Function()? ontap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, Move.profilePage);
-      },
+      onTap: ontap,
       child: Container(
         margin: EdgeInsets.zero,
         color: Colors.transparent,
