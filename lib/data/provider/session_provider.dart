@@ -22,6 +22,7 @@ class SessionUser {
   SessionUser({this.user, this.jwt});
 
   Future<void> login(LoginReqDTO loginReqDTO) async {
+    Logger().d("프로바이더까지 들어옴" + loginReqDTO.email!);
     //1. 통신코드
     ResponseDTO responseDTO = await UserRepository().fetchLogin(loginReqDTO);
 
