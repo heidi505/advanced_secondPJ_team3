@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/_core/utils/validator_util.dart';
 
 import '../../../widgets/login/login_button_form_field.dart';
 import '../../../widgets/login/login_text_form_feild.dart';
@@ -46,12 +47,14 @@ class _LoginScreenState extends State<LoginPage>
               LoginTextFormField(
                 text: "이메일 또는 전화번호",
                 controller: _email,
+                validator: validateEmail(),
               ),
               LoginTextFormField(
                 text: "비밀번호",
                 controller: _password,
+                validator: validatePassword(),
               ),
-              LoginButton(email: _email.text, password: _password.text, text:"로그인"),
+              LoginButton(email: _email.text, password: _password.text, text:"로그인", formKey: _formKey,),
               JoinButton(text: "새로운 카카오계정 만들기"),
               LoginButton(text: "카카오계정 또는 비밀번호 찾기")
             ],

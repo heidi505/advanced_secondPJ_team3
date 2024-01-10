@@ -30,7 +30,6 @@ class UserRepository {
         responseDTO.token = jwt.first; // jwt[0]과 같음
       }
 
-      Logger().d(responseDTO.data);
       // 필요할때만 쓰기
       // responseDTO.data = User.fromJson(responseDTO.data);
 

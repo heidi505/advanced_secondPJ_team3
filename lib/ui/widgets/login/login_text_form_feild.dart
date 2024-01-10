@@ -11,10 +11,11 @@ import '../join/join_button_form_field.dart';
 
 class LoginTextFormField extends ConsumerWidget {
   final TextEditingController controller;
+  final validator;
   String text;
 
 
-  LoginTextFormField({required this.text, required this.controller});
+  LoginTextFormField({required this.text, required this.controller, required this.validator});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,6 +29,7 @@ class LoginTextFormField extends ConsumerWidget {
             decoration: InputDecoration(
               hintText: "$text",
             ),
+            validator: validator,
           ),
         ),
       ],
@@ -36,21 +38,25 @@ class LoginTextFormField extends ConsumerWidget {
 }
 
 class LoginButton extends ConsumerWidget {
+  dynamic? formKey;
   String text;
   String? email;
   String? password;
 
-  LoginButton({super.key, required this.text, this.email, this.password});
+  LoginButton({super.key, required this.text, this.email, this.password, this.formKey});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(onPressed: () {
-          Logger().d("텍스트폼필드에서는 받아짐 " + email! + password!);
+        if(formKey.currentState!.validate()){
+          Logger().d("유효성 통과");
           LoginReqDTO loginReqDTO = new LoginReqDTO(email:email! ,password:password!);
           SessionUser user = ref.read(sessionProvider);
           user.login(loginReqDTO);
+        }
+         
 
       }, child: Text("$text")),
     );
