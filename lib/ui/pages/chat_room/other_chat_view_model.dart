@@ -21,10 +21,13 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?>{
 
   Future<void> notifyInit() async{
     List<MessageDTO> messageList = await ChatRepository().getInitMessages();
-
     state = OtherChatModel(messages: messageList);
 
+    ChatRepository().fetchMessages().listen((event) {
+      state = OtherChatModel(messages: event);
+    });
   }
+
 
   Future<void> addMessage(String text) async{
     await ChatRepository().addMessage(text);

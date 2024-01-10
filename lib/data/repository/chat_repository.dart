@@ -7,6 +7,7 @@ import 'package:team3_kakao/data/model/message.dart';
 
 class ChatRepository{
 
+
   Future<List<MessageDTO>> getInitMessages() async {
     final db = FirebaseFirestore.instance;
 
@@ -38,6 +39,7 @@ class ChatRepository{
         .collection("messages")
         .orderBy("createdAt", descending: false)
         .snapshots();
+
 
     return stream.map((snapshot){
       return snapshot.docs.map((e) {
