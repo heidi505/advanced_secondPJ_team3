@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
@@ -7,6 +7,8 @@ import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 import 'package:team3_kakao/ui/pages/splash_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_welcome_page.dart';
 
 import '../../ui/pages/user/login/login_page.dart';
 
@@ -34,6 +36,11 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.splashPage: (context) => const SplashPage(),
 
     Move.chatRoomPage: (context) => ChatRoomPage(),
+
+    // Move.profilePage: (context) => ProfilePage(
+    //
+    //     ),
+
     Move.profilePage: (context) => ProfilePage(
           user: friends[0],
         ),
@@ -41,12 +48,14 @@ Map<String, Widget Function(BuildContext)> getRouters() {
           user: friends[0],
         ),
 
+
     // main
     Move.mainPage: (context) => const MainPage(),
 
     // auth
-    Move.loginScreen: (context) => const LoginPage(),
-    // Move.joinScreen: (context) => const JoinScreen(),
+    Move.loginScreen: (context) =>  LoginPage(),
+    Move.joinScreen: (context) => const JoinWelcomePage(),
+
 
     Move.chattingScreen: (context) => const ChattingPage()
   };

@@ -6,6 +6,7 @@ import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_camera_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_edit_bottom_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
@@ -15,7 +16,7 @@ import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 class ProfileEditPage extends StatefulWidget {
   const ProfileEditPage({Key? key, required this.user}) : super(key: key);
 
-  final User user;
+  final UserMock user;
 
   @override
   State<ProfileEditPage> createState() => _ProfileEditPageState();
