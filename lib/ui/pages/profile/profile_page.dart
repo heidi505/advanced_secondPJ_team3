@@ -4,7 +4,7 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
-import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
@@ -12,7 +12,7 @@ import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key, required this.user}) : super(key: key);
 
-  final User user;
+  final UserMock user;
 
   @override
   Widget build(BuildContext context) {
