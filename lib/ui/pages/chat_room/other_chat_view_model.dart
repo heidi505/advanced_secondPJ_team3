@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/repository/chat_repository.dart';
 import 'package:team3_kakao/main.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
@@ -19,12 +20,9 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?>{
   OtherChatViewModel(this.ref, super._state);
 
   Future<void> notifyInit() async{
-    List<MessageDTO> newMessageList = [];
-    state = OtherChatModel(messages: newMessageList);
-    ChatRepository().fetchMessages().listen((event) {
-      state = OtherChatModel(messages: newMessageList);
-    });
-    
+    List<MessageDTO> messageList = await ChatRepository().getInitMessages();
+
+    state = OtherChatModel(messages: messageList);
 
   }
 
@@ -32,7 +30,11 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?>{
     await ChatRepository().addMessage(text);
   }
 
-
+  // List<MessageDTO> newMessageList = [];
+  // state = OtherChatModel(messages: newMessageList);
+  // ChatRepository().fetchMessages().listen((event) {
+  // state = OtherChatModel(messages: newMessageList);
+  // });
 }
 
 final otherChatProvider = StateNotifierProvider.autoDispose<OtherChatViewModel, OtherChatModel?>((ref){
