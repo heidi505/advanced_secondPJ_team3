@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 
 class FriendMainProfile extends StatelessWidget {
@@ -12,7 +13,9 @@ class FriendMainProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
         child: InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, Move.profilePage);
+      },
       child: Container(
         padding:
             EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0, top: 8.0),
