@@ -185,44 +185,6 @@ class InsertText2 extends StatelessWidget {
   }
 }
 
-// class AuthNum extends StatefulWidget {
-//
-//   @override
-//   State<AuthNum> createState() => _AuthNumState();
-// }
-//
-// class _AuthNumState extends State<AuthNum> {
-//   TextEditingController _AuthNumController = TextEditingController();
-//   String? _AuthNumErrorText;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         TextFormField(
-//           controller: _AuthNumController,
-//           decoration: InputDecoration(
-//             hintText: "인증번호 입력",
-//             hintStyle: TextStyle(color: basicColorB9),
-//             errorText: _AuthNumErrorText,
-//           ),
-//           onChanged: (value) {
-//             setState(() {
-//               _AuthNumErrorText = validateAuthentication()(value);
-//             });
-//           },
-//         ),
-//       ],
-//     );
-//   }
-//
-//   @override
-//   void dispose() {
-//     _AuthNumController.dispose();
-//     super.dispose();
-//   }
-// }
-
 class AuthNum extends StatefulWidget {
   final Function(bool isValid) onValidationChanged;
 
@@ -263,7 +225,6 @@ class _AuthNumState extends State<AuthNum> {
     super.dispose();
   }
 }
-
 
 class InsertText extends StatelessWidget {
   String text;
