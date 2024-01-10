@@ -1,13 +1,14 @@
 class ResponseDTO {
   final bool? success;
-  dynamic response;
-  final String? error; // response field is dynamic
+  dynamic data;
+  final String? errorType; // response field is dynamic
   String? token;
 
-  ResponseDTO({this.success, this.response, this.error});
+  ResponseDTO({this.success, this.data, this.errorType});
 
   ResponseDTO.fromJson(Map<String, dynamic> json)
       : success = json["success"],
-        response = json["response"],
-        error = json["error"];
+        data = json["data"],
+        errorType = json["errorType"];
+
 }

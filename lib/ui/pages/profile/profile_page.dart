@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
+import 'package:team3_kakao/ui/pages/profile/widgets/profile_model.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
-class ProfilePage extends StatelessWidget {
+
+
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key, required this.user}) : super(key: key);
 
   final User user;
 
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ProfileModel? model = ref.watch(profileProvider);
+    if (model == null) {
+      return CircularProgressIndicator();
+    }
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -33,13 +41,14 @@ class ProfilePage extends StatelessWidget {
                   imageWidth: 110,
                   imageHeight: 110,
                   circular: 45),
+              Text("확인1"),
               const SizedBox(
                 height: xsmallGap,
               ),
-              Text(user.name, style: h4(color: basicColorW)),
+              Text(model.nickname, style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
-                user.intro,
+                model.statusMessage,
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
