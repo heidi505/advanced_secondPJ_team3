@@ -62,6 +62,34 @@ class ChatRepository{
 
   }
 
+  Future<String> setChatting(String chatDocId, String func) async{
+    final db = FirebaseFirestore.instance;
+
+    func = "isFixed";
+
+    final chatDoc = await db
+        .collection("ChatRoom1")
+        .doc("MrJLNXVtsN6fYV6nZ57g");
+
+    //alarm이면 기본값 true로 하는 로직 세팅해야함
+
+    String result = "";
+
+    db.runTransaction((transaction)async{
+      final snapshot = await transaction.get(chatDoc);
+
+     bool currentState = snapshot.data()?[func] ?? false;
+     bool newFunc = !currentState;
+
+      transaction.update(chatDoc, {func : newFunc});
+    }).then((value) => {
+      result = "변경 완료"
+    },onError: (e)=> result =  "설정 변경 에러$e");
+
+    return result;
+  }
+
+
 
 
 
