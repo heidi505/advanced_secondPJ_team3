@@ -12,6 +12,7 @@ class ResponseDTO {
   ResponseDTO.fromJson(Map<String, dynamic> json)
       : success = json["success"],
         response = json["response"],
+        data = json["data"],
         errorType = json["errorType"] == null ? null : ErrorType.fromJson(json["errorType"]);
 
   @override

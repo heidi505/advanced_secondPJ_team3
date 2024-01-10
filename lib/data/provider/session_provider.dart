@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
@@ -24,6 +25,7 @@ class SessionUser {
   });
 
   Future<void> login(LoginReqDTO loginReqDTO) async {
+    Logger().d("프로바이더까지 들어옴" + loginReqDTO.email!);
     //1. 통신코드
     ResponseDTO responseDTO = await UserRepository().fetchLogin(loginReqDTO);
 

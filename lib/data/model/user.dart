@@ -1,15 +1,18 @@
 class User {
-  int id;
+  int? id;
+  String? nickname;
   String? email;
   String? phoneNum;
-  String password;
+  String? password;
+  String? jwt;
 
 
   User({
-    required this.id,
-    required this.email,
-    required this.phoneNum,
-    required this.password,
+    this.id,
+    this.email,
+    this.phoneNum,
+    this.nickname,
+    this.jwt
   });
 
 
@@ -26,8 +29,11 @@ class User {
       : id = json["id"],
         email = json["email"],
         phoneNum = json["phoneNum"],
-  password = json["password"];
+        password = json["password"],
+        nickname = json["nickname"],
+        jwt = json["jwt"];
 }
+
 
 
 
