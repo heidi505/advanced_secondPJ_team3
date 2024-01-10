@@ -8,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
 import 'package:team3_kakao/data/model/chat.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/data/repository/chat_repository.dart';
 import 'package:team3_kakao/main.dart';
 
 class ChattingPageModel{
@@ -101,6 +102,12 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
           state = ChattingPageModel(chatRoomDTOList: state!.chatRoomDTOList);
           },
         onError: (e)=> print("변경 에러 $e"));
+  }
+
+  Future<String> chatSetting(String chatDocId, String func) async{
+    String result = await ChatRepository().setChatting(chatDocId, func);
+
+    return result;
   }
 
 
