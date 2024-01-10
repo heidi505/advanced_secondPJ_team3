@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class ChattingItem extends StatelessWidget {
@@ -28,7 +29,9 @@ class ChattingItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, Move.profilePage);
+      },
       child: Container(
         margin: EdgeInsets.zero,
         color: Colors.transparent,

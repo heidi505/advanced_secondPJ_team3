@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
@@ -30,9 +31,9 @@ class ProfilePage extends StatelessWidget {
               const Spacer(),
               ProfileImage(
                   imagePath: "assets/images/basic_img.jpeg",
-                  imageWidth: 110,
-                  imageHeight: 110,
-                  circular: 45),
+                  imageWidth: 100,
+                  imageHeight: 100,
+                  circular: 42),
               const SizedBox(
                 height: xsmallGap,
               ),
@@ -95,7 +96,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildMyProfileIcons() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.only(top: 20, bottom: 35),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -103,6 +104,7 @@ class ProfilePage extends StatelessWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_01.png",
             text: "나와의 채팅",
+            routeToNavigate: Move.chatRoomPage,
           ),
           SizedBox(
             width: 50,
@@ -110,6 +112,7 @@ class ProfilePage extends StatelessWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_02.png",
             text: "프로필 편집",
+            routeToNavigate: Move.profileEditPage,
           ),
           SizedBox(
             width: 50,

@@ -12,7 +12,6 @@ import 'package:team3_kakao/ui/pages/friends/friends_page.dart';
 import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 
-
 import 'main_page.dart';
 import 'my_info/my_info_page.dart';
 
@@ -32,8 +31,9 @@ class _SplashScreenState extends State<SplashPage> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ChatRoomPage(
-          ),
+
+          builder: (context) => MainPage(),
+
         ),
       ),
     );

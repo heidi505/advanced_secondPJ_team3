@@ -4,12 +4,14 @@ class User {
   String? phoneNum;
   String password;
 
+
   User({
     required this.id,
     required this.email,
     required this.phoneNum,
     required this.password,
   });
+
 
 
   Map<String, dynamic> toJson() =>
@@ -27,3 +29,6 @@ class User {
   password = json["password"];
 }
 
+
+
+   
