@@ -12,6 +12,7 @@ class User {
   });
 
 
+
   Map<String, dynamic> toJson() =>
       {
         "id": id,
@@ -27,3 +28,6 @@ class User {
   password = json["password"];
 }
 
+
+
+   

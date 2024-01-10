@@ -4,6 +4,7 @@ import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
+import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 import 'package:team3_kakao/ui/pages/splash_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
@@ -21,6 +22,7 @@ class Move {
   // chat
   static String chatRoomPage = "/chatRoomPage";
   static String profilePage = "/profilePage";
+  static String profileEditPage = "/profileEditPage";
 
   // auth
   static String loginScreen = "/login";
@@ -34,9 +36,18 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.splashPage: (context) => const SplashPage(),
 
     Move.chatRoomPage: (context) => ChatRoomPage(),
+
     // Move.profilePage: (context) => ProfilePage(
     //
     //     ),
+
+    Move.profilePage: (context) => ProfilePage(
+          user: friends[0],
+        ),
+    Move.profileEditPage: (context) => ProfileEditPage(
+          user: friends[0],
+        ),
+
 
     // main
     Move.mainPage: (context) => const MainPage(),
