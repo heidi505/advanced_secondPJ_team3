@@ -44,11 +44,10 @@ class LoginTextFormField extends ConsumerWidget {
 
 class LoginButton extends ConsumerWidget {
   String text;
-  final _formKey = GlobalKey<FormState>();
   String email;
   String password;
 
-  LoginButton({required this.text, required this.email, required this.password});
+  LoginButton({super.key, required this.text, required this.email, required this.password});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,8 +57,6 @@ class LoginButton extends ConsumerWidget {
           LoginReqDTO loginReqDTO = LoginReqDTO(email:email,password:password);
           Logger().d(email);
           Logger().d(password);
-
-
           SessionUser user = ref.read(sessionProvider);
           user.login(loginReqDTO);
 
