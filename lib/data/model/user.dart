@@ -15,15 +15,15 @@ final String _img = "https://picsum.photos/id/${imageNum + 1}/200/300";
 
 User me = User(
   backgroundImage: _img,
-  name: "김철수",
-  intro: "고통없이는 얻는 것도 없다",
+  name: "김하얀",
+  intro: "프로젝트 화이팅",
 );
 
 List<User> friends = [
   User(
     backgroundImage: _img,
-    name: "홍길동",
-    intro: "아버지라 불러도 되겠습니까",
+    name: "김하얀",
+    intro: "프로젝트 화이팅",
   ),
   User(
     backgroundImage: _img,
