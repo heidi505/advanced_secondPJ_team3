@@ -80,12 +80,12 @@ class _PasswordPageButtonState extends State<PasswordPageButton> {
       child: TextButton(
         onPressed: widget.isAuthNumValid
             ? () {
-          // 버튼 클릭 시 join_agree_page.dart로 이동
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => JoinPassWordPage()),
-          );
-        }
+                // 버튼 클릭 시 join_agree_page.dart로 이동
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => JoinPassWordPage()),
+                );
+              }
             : null, // 입력값이 없을 때 버튼 비활성화
         child: Text("${widget.text}"),
       ),
@@ -126,7 +126,6 @@ class WelcomePageButton extends StatelessWidget {
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(
           onPressed: () {
-            // 버튼 클릭 시 join_agree_page.dart로 이동
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => JoinWelcomePage()),
@@ -146,26 +145,21 @@ class MainScreenButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-        child:
-        Padding(
-          padding: const EdgeInsets.only(bottom: xmediumGap),
-          child: TextButton(
-              onPressed: () {
-                // 버튼 클릭 시 join_agree_page.dart로 이동
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MainPage()),
-                );
-              },
-              child: Text("$text")),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: xmediumGap),
+        child: TextButton(
+            onPressed: () {
+              // 버튼 클릭 시 join_agree_page.dart로 이동
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MainPage()),
+              );
+            },
+            child: Text("$text")),
+      ),
     );
   }
 }
-
-// bottomNavigationBar: ProductDetailBottomSheet(
-// funPageRoute: () {}, text: "구매하기", productId: widget.productId),
-// );
 
 class CheckErrorButton extends StatelessWidget {
   String text;
@@ -175,18 +169,19 @@ class CheckErrorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: mediumGap, left: xsmallGap, bottom: mediumGap),
+      padding: const EdgeInsets.only(
+          top: mediumGap, left: xsmallGap, bottom: mediumGap),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
           "$text",
-          style: TextStyle(fontSize: smallGap, decoration: TextDecoration.underline),
+          style: TextStyle(
+              fontSize: smallGap, decoration: TextDecoration.underline),
         ),
       ),
     );
   }
 }
-
 
 class RadioButtons extends StatefulWidget {
   @override

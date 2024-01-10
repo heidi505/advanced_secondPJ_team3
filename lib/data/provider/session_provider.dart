@@ -19,10 +19,7 @@ class SessionUser {
   User? user;
   String? jwt;
 
-  SessionUser({
-    this.user,
-    this.jwt
-  });
+  SessionUser({this.user, this.jwt});
 
   Future<void> login(LoginReqDTO loginReqDTO) async {
     Logger().d("프로바이더까지 들어옴" + loginReqDTO.email!);
@@ -35,7 +32,6 @@ class SessionUser {
       this.user = responseDTO.data as User;
       this.jwt = responseDTO.token;
 
-
       // print("성공");
       // 3. 페이지 이동
       Navigator.pushNamedAndRemoveUntil(
@@ -45,8 +41,45 @@ class SessionUser {
           SnackBar(content: Text("${responseDTO.errorType!.message!}")));
     }
   }
+
+  Future<void> join(JoinReqDTO joinReqDTO) async {
+    Logger().d("여기까지 실행됨");
+    // 1. 통신 코드
+    ResponseDTO responseDTO = await UserRepository().fetchJoin(joinReqDTO);
+    Logger().d("여기까지 실행됨1");
+
+    // 2. 비지니스 로직
+    if (responseDTO.success == true) {
+      Navigator.pushNamed(mContext!, Move.loginScreen);
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(
+          content: Text(responseDTO.errorType!.message!),
+        ),
+      );
+    }
+  }
+
+  Future<void> mailSend(MailSendDTO mailSendDTO) async {
+    Logger().d("여기까지 실행됨");
+    // 1. 통신 코드
+    ResponseDTO responseDTO = await UserRepository().fetchMailSend(mailSendDTO);
+    Logger().d("여기까지 실행됨1");
+
+    // 2. 비지니스 로직
+    if (responseDTO.success == true) {
+      Navigator.pushNamed(mContext!, Move.loginScreen);
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(
+          content: Text(responseDTO.errorType!.message!),
+        ),
+      );
+    }
+  }
 }
-  //3. 창고 관리자
-final sessionProvider = Provider<SessionUser>((ref){
+
+//3. 창고 관리자
+final sessionProvider = Provider<SessionUser>((ref) {
   return SessionUser();
 });

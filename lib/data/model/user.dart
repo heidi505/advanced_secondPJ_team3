@@ -6,19 +6,9 @@ class User {
   String? password;
   String? jwt;
 
+  User({this.id, this.email, this.phoneNum, this.nickname, this.jwt});
 
-  User({
-    this.id,
-    this.email,
-    this.phoneNum,
-    this.nickname,
-    this.jwt
-  });
-
-
-
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "email": email,
         "phoneNum": phoneNum,
@@ -33,8 +23,3 @@ class User {
         nickname = json["nickname"],
         jwt = json["jwt"];
 }
-
-
-
-
-   
