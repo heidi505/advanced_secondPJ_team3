@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
@@ -13,11 +14,15 @@ class UserRepository {
 
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
+
       Response response = await dio.post("/sign-in", data: requestDTO.toJson());
+
 
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
 
+
       responseDTO.data = new User.fromJson(responseDTO.data);
+
 
       List<String>? jwt = response.headers["Authorization"];
 
@@ -25,6 +30,7 @@ class UserRepository {
         responseDTO.token = jwt.first; // jwt[0]과 같음
       }
 
+      Logger().d(responseDTO.data);
       // 필요할때만 쓰기
       // responseDTO.data = User.fromJson(responseDTO.data);
 

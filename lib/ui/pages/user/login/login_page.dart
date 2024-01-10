@@ -5,10 +5,6 @@ import '../../../widgets/login/login_button_form_field.dart';
 import '../../../widgets/login/login_text_form_feild.dart';
 
 class LoginPage extends StatefulWidget {
-  final _formKey = GlobalKey<FormState>();
-  final _email = TextEditingController();
-  final _password = TextEditingController();
-  final _phoneNum = TextEditingController();
 
   LoginPage({Key? key}) : super(key: key);
 
@@ -57,7 +53,7 @@ class _LoginScreenState extends State<LoginPage>
               ),
               LoginButton(email: _email.text, password: _password.text, text:"로그인"),
               JoinButton(text: "새로운 카카오계정 만들기"),
-              // LoginButton(text: "카카오계정 또는 비밀번호 찾기")
+              LoginButton(text: "카카오계정 또는 비밀번호 찾기")
             ],
           ),
     ),

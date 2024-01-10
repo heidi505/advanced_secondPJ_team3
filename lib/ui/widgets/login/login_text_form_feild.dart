@@ -11,9 +11,6 @@ import '../join/join_button_form_field.dart';
 
 class LoginTextFormField extends ConsumerWidget {
   final TextEditingController controller;
-  //final _formKey = GlobalKey<FormState>();
-  final _email = TextEditingController();
-  final _password = TextEditingController();
   String text;
 
 
@@ -30,10 +27,6 @@ class LoginTextFormField extends ConsumerWidget {
             controller: controller,
             decoration: InputDecoration(
               hintText: "$text",
-
-
-
-
             ),
           ),
         ),
@@ -44,19 +37,18 @@ class LoginTextFormField extends ConsumerWidget {
 
 class LoginButton extends ConsumerWidget {
   String text;
-  String email;
-  String password;
+  String? email;
+  String? password;
 
-  LoginButton({super.key, required this.text, required this.email, required this.password});
+  LoginButton({super.key, required this.text, this.email, this.password});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(onPressed: () {
-          LoginReqDTO loginReqDTO = LoginReqDTO(email:email,password:password);
-          Logger().d(email);
-          Logger().d(password);
+          Logger().d("텍스트폼필드에서는 받아짐 " + email! + password!);
+          LoginReqDTO loginReqDTO = new LoginReqDTO(email:email! ,password:password!);
           SessionUser user = ref.read(sessionProvider);
           user.login(loginReqDTO);
 
