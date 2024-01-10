@@ -6,6 +6,8 @@ import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_sub_title.dart';
 
+import '../../../../data/model/user_mock.dart';
+
 class FriendUpdateProfile extends StatelessWidget {
   const FriendUpdateProfile({
     super.key,
@@ -41,7 +43,7 @@ class FriendUpdateProfile extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: friends.length,
                   itemBuilder: (BuildContext context, int index) {
-                    User friend = friends[index];
+                    UserMock friend = friends[index];
                     return Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: InkWell(
