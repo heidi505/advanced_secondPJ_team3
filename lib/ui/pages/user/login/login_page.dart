@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 
+import '../../../widgets/login/login_button_form_field.dart';
 import '../../../widgets/login/login_text_form_feild.dart';
 
 class LoginPage extends StatefulWidget {
@@ -59,8 +60,8 @@ class _LoginScreenState extends State<LoginPage>
               // LoginButton(text: "카카오계정 또는 비밀번호 찾기")
             ],
           ),
-        ),
-      ),
+    ),
+      )
     );
   }
 }

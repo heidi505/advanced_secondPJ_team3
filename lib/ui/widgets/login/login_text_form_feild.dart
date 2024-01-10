@@ -87,6 +87,7 @@ class JoinButton extends StatelessWidget {
   }
 }
 
+
 class LoginTitle extends StatelessWidget {
   String text;
 
