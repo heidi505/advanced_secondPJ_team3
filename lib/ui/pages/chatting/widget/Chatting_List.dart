@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_person_count.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/group_profile.dart';
@@ -30,6 +31,9 @@ class ChattingList extends ConsumerWidget {
                   imagePath: "assets/images/basic_img.jpeg",
                   imageWidth: 40,
                   imageHeight: 40,
+                  ontap: () {
+                    Navigator.pushNamed(context, Move.chatRoomPage);
+                  },
                   circular: 16.0,
                   subTitle: model!.chatRoomDTOList[index].lastChat,
                   multiItem: Text(
