@@ -14,14 +14,12 @@ class ProfileDetailResponseDTO{
     this.statusMessage
   });
 
-  Map<String, dynamic> toJson(){
-    return{
-      "id": id,
-      "nickname": nickname,
-      "profileImage": profileImage,
-      "backImage": backImage,
-      "statusMessage": statusMessage
-    };
-  }
+  ProfileDetailResponseDTO.fromJson(Map<String, dynamic> json)
+  : id = json["id"],
+    nickname = json["nickname"],
+    profileImage = json["profileImage"],
+    backImage = json["backImage"],
+    statusMessage = json["statusMessage"];
+
 }
 

@@ -10,6 +10,9 @@ import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
+import '../../../data/model/profile_detail_model.dart';
+import '../../../data/provider/profile_detail_provider.dart';
+
 
 
 class ProfilePage extends ConsumerWidget {

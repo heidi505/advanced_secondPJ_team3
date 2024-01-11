@@ -6,6 +6,8 @@ import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
+
+import '../model/profile_detail_model.dart';
 // MVVM패턴 : View -> Provider(전역프로바이더or뷰모델) -> Repository(통신+파싱을 책임)
 // 나중에 싱글톤으로 바꿀것
 class UserRepository {
@@ -81,15 +83,15 @@ class UserRepository {
   Future<ResponseDTO> fetchProfileDetail() async {
     //Logger().d("유저 리파지토리 진입");
     try {
-      Response response = await dio.get("/user/my-profile-detail/3");
+      Response response = await dio.get("/user/my-profile-detail/1");
       // options: Options(headers: {"Authorization": "$jwt"});
-      //Logger().d("페이지 통신 완료 : ${response.data}");
+      // Logger().d("페이지 통신 완료 : ${response.data}");
 
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
-      //Logger().d("타입 변경 완료 : ${responseDTO.data}");
+      // Logger().d("타입 변경 완료 : ${responseDTO.data}");
 
       ProfileDetailModel model = ProfileDetailModel.fromJson(responseDTO.data);
-      //Logger().d("파싱 완료 : ${model}");
+      // Logger().d("파싱 완료 : ${model}");
 
       responseDTO.data = model;
 
@@ -99,5 +101,11 @@ class UserRepository {
       return ResponseDTO(success: false);
     }
   }
+
+  // // 프로필 수정
+  // Future<ResponseDTO> fetchProfileUpdate() async{
+  //   Response response = await dio.post("/my-profile-update", );
+  //
+  // }
 
 }

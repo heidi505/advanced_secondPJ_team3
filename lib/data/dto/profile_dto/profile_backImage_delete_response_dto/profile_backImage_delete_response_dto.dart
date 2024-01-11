@@ -1,9 +1,9 @@
 
-class MyProfileImageDeleteResponseDTO{
+class ProfileImageDeleteResponseDTO{
   int? id;
   String? backImage;
 
-  MyProfileImageDeleteResponseDTO({
+  ProfileImageDeleteResponseDTO({
     this.id,
     this.backImage
   });
