@@ -14,11 +14,10 @@ class JoinCheckPage extends ConsumerStatefulWidget {
 class _JoinCheckPageState extends ConsumerState<JoinCheckPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController authNumController = TextEditingController();
-  bool _isAuthNumValid = false;
+  bool _isAuthNumValid = true;
 
   @override
   Widget build(BuildContext context) {
-    JoinFormModel? joinFormModel = ref.watch(joinFormProvider);
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -29,6 +28,7 @@ class _JoinCheckPageState extends ConsumerState<JoinCheckPage> {
               JoinTitle(text: "이메일로 발송된 \n인증번호를 입력해 주세요."),
               CheckEmail(),
               AuthNum(
+                authNumController: authNumController,
                 onValidationChanged: _updateAuthNumValidation,
               ),
               CheckErrorButton(text: "인증메일을 받지 못하셨나요?"),
