@@ -2,22 +2,22 @@ import 'package:team3_kakao/data/model/user.dart';
 
 class ResponseDTO {
   final bool? success;
-  dynamic response;
   dynamic? data;
   ErrorType? errorType; // response field is dynamic
   String? token;
 
-  ResponseDTO({this.data,this.success, this.response, this.errorType});
+  ResponseDTO({this.data, this.success, this.errorType});
 
   ResponseDTO.fromJson(Map<String, dynamic> json)
       : success = json["success"],
-        response = json["response"],
         data = json["data"],
-        errorType = json["errorType"] == null ? null : ErrorType.fromJson(json["errorType"]);
+        errorType = json["errorType"] == null
+            ? null
+            : ErrorType.fromJson(json["errorType"]);
 
   @override
   String toString() {
-    return 'ResponseDTO{token: $token, data: $data, success: $success, error: $Error}';
+    return 'ResponseDTO{token: $token, data: $data, success: $success, error: $errorType}';
   }
 
 // response에만 쓰니까 toJson은 필요없다
@@ -38,4 +38,3 @@ class ErrorType {
     return 'ErrorType{message: $message, status: $status}';
   }
 }
-
