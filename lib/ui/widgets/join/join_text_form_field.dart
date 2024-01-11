@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/dto/user_requestDTO.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 
 import '../../../_core/constants/color.dart';
 import '../../../_core/constants/size.dart';
@@ -116,51 +121,61 @@ class CheckEmail extends StatefulWidget {
 
 class _CheckEmailState extends State<CheckEmail> {
   TextEditingController _emailController = TextEditingController();
+
   String? _emailErrorText;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        return Column(
           children: [
-            Expanded(
-              child: TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  hintText: "이메일을 입력해주세요",
-                  hintStyle: TextStyle(color: basicColorB9),
-                  errorText: _emailErrorText,
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _emailErrorText = validateEmail()(value);
-                  });
-                },
-              ),
-            ),
-            SizedBox(width: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                backgroundColor: basicColorW,
-                side: BorderSide(color: primaryColor01),
-              ),
-              onPressed: () {
-                if (_emailErrorText == null) {
-                  // 이메일 유효성 검사 통과 시 수행할 동작 추가
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('인증메일을 발송했습니다.'),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      hintText: "이메일을 입력해주세요",
+                      hintStyle: TextStyle(color: basicColorB9),
+                      errorText: _emailErrorText,
                     ),
-                  );
-                }
-              },
-              child: Text('인증메일 발송', style: TextStyle(color: basicColorB1)),
+                    onChanged: (value) {
+                      setState(() {
+                        _emailErrorText = validateEmail()(value);
+                        ref.read(joinFormProvider.notifier).setEmail(value);
+                        Logger().d(_emailController);
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(width: 10),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor: basicColorW,
+                    side: BorderSide(color: primaryColor01),
+                  ),
+                  onPressed: () {
+                    if (_emailErrorText == null) {
+                      MailSendDTO mailSendDTO =
+                          new MailSendDTO(email: _emailController.text);
+                      SessionUser user = ref.read(sessionProvider);
+                      user.mailSend(mailSendDTO);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('인증메일을 발송했습니다.'),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text('인증메일 발송', style: TextStyle(color: basicColorB1)),
+                ),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -185,85 +200,62 @@ class InsertText2 extends StatelessWidget {
   }
 }
 
-// class AuthNum extends StatefulWidget {
-//
-//   @override
-//   State<AuthNum> createState() => _AuthNumState();
-// }
-//
-// class _AuthNumState extends State<AuthNum> {
-//   TextEditingController _AuthNumController = TextEditingController();
-//   String? _AuthNumErrorText;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         TextFormField(
-//           controller: _AuthNumController,
-//           decoration: InputDecoration(
-//             hintText: "인증번호 입력",
-//             hintStyle: TextStyle(color: basicColorB9),
-//             errorText: _AuthNumErrorText,
-//           ),
-//           onChanged: (value) {
-//             setState(() {
-//               _AuthNumErrorText = validateAuthentication()(value);
-//             });
-//           },
-//         ),
-//       ],
-//     );
-//   }
-//
-//   @override
-//   void dispose() {
-//     _AuthNumController.dispose();
-//     super.dispose();
-//   }
-// }
-
 class AuthNum extends StatefulWidget {
   final Function(bool isValid) onValidationChanged;
+  final TextEditingController authNumController;
 
-  AuthNum({required this.onValidationChanged});
+  AuthNum({required this.onValidationChanged, required this.authNumController});
 
   @override
   State<AuthNum> createState() => _AuthNumState();
 }
 
 class _AuthNumState extends State<AuthNum> {
-  TextEditingController _authNumController = TextEditingController();
   bool _isAuthNumValid = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextFormField(
-          controller: _authNumController,
-          decoration: InputDecoration(
-            hintText: "인증번호 입력",
-            errorText: _isAuthNumValid ? null : "인증번호를 입력해주세요.",
-          ),
-          onChanged: (value) {
-            setState(() {
-              _isAuthNumValid = value.isNotEmpty;
-              widget.onValidationChanged(_isAuthNumValid);
-            });
-          },
-        ),
-      ],
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        return Column(
+          children: [
+            TextFormField(
+              controller: widget.authNumController,
+              decoration: InputDecoration(
+                hintText: "인증번호 입력",
+                errorText: _isAuthNumValid ? null : "인증번호를 입력해주세요.",
+              ),
+              onChanged: (value) {
+                setState(() {
+                  int? verifyNumber =
+                      int.tryParse(widget.authNumController.text);
+                  Logger().d(verifyNumber);
+                  Logger().d(widget.authNumController.text + "야야야야야야양야ㄷㄱ");
+                  Logger().d(
+                      "_authNumController.text: ${widget.authNumController.text}");
+                  Logger().d(
+                      "_authNumController.text runtimeType: ${widget.authNumController.text.runtimeType}");
+
+                  ref
+                      .read(joinFormProvider.notifier)
+                      .setVerifyNumber(verifyNumber!);
+                  _isAuthNumValid = value.isNotEmpty;
+                  widget.onValidationChanged(_isAuthNumValid);
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
   @override
   void dispose() {
-    _authNumController.dispose();
+    widget.authNumController?.dispose();
     super.dispose();
   }
 }
-
 
 class InsertText extends StatelessWidget {
   String text;
@@ -314,6 +306,7 @@ class InsertPassword2 extends StatefulWidget {
 
 class _InsertPassword2State extends State<InsertPassword2> {
   TextEditingController _controller = TextEditingController();
+
   bool _passwordsMatch = false;
 
   @override
@@ -326,7 +319,7 @@ class _InsertPassword2State extends State<InsertPassword2> {
         errorText: _passwordsMatch ? null : '비밀번호를 입력해 주세요',
       ),
       obscureText: true,
-      onChanged: (value){
+      onChanged: (value) {
         setState(() {
           _passwordsMatch = value.isNotEmpty;
           widget.onValidationChanged(_passwordsMatch);
@@ -334,13 +327,13 @@ class _InsertPassword2State extends State<InsertPassword2> {
       },
     );
   }
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 }
-
 
 class WelcomeTitle extends StatelessWidget {
   String text;

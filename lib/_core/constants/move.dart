@@ -11,6 +11,7 @@ import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 import 'package:team3_kakao/ui/pages/splash_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_password_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_welcome_page.dart';
 
 import '../../ui/pages/user/login/login_page.dart';
@@ -32,9 +33,10 @@ class Move {
 
 
   // auth
-  static String loginScreen = "/login";
-  static String joinScreen = "/join";
-  static String chattingScreen = "/chatting";
+  static String loginPage = "/login";
+  static String joinPage = "/join";
+  static String chattingPage = "/chatting";
+  static String joinPasswordPage = "/joinPasswordPage";
 }
 
 Map<String, Widget Function(BuildContext)> getRouters() {
@@ -59,15 +61,15 @@ Map<String, Widget Function(BuildContext)> getRouters() {
           user: friends[0],
         ),
 
+    Move.joinPasswordPage: (context) => JoinPassWordPage(),
 
     // main
     Move.mainPage: (context) => const MainPage(),
 
     // auth
-    Move.loginScreen: (context) =>  LoginPage(),
-    Move.joinScreen: (context) => const JoinWelcomePage(),
+    Move.loginPage: (context) => LoginPage(),
+    Move.joinPage: (context) => const JoinWelcomePage(),
 
-
-    Move.chattingScreen: (context) => const ChattingPage()
+    Move.chattingPage: (context) => const ChattingPage()
   };
 }
