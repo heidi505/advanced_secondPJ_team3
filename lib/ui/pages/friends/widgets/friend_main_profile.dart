@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 
-class FriendMainProfile extends StatelessWidget {
+import '../../../../data/model/profile.dart';
+
+class FriendMainProfile extends ConsumerWidget {
+  final Profile myProfile;
   const FriendMainProfile({
-    super.key,
+    super.key, required this.myProfile
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    SessionUser session = ref.read(sessionProvider);
     return SliverToBoxAdapter(
         child: InkWell(
       onTap: () {
@@ -22,8 +29,8 @@ class FriendMainProfile extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              child: Image.asset(
-                "assets/images/basic_img.jpeg",
+              child: Image.network(
+                baseUrl + "/images/${session.user!.id}.jpg",
                 fit: BoxFit.cover,
                 width: 60,
                 height: 60,
@@ -37,11 +44,11 @@ class FriendMainProfile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "김하얀",
+                  "${session.user!.nickname}",
                   style: h4(),
                 ),
                 Text(
-                  "상태메시지",
+                  "${myProfile.statusMessage}",
                   style: h6(color: basicColorB9),
                 ),
               ],
