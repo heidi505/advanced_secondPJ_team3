@@ -40,7 +40,7 @@ class UserRepository {
           await dio.post("/sign-up", data: requestDTO.toJson());
       Logger().d("요청완료됨111");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
-
+      Logger().d("요청완료됨222");
       return responseDTO;
     } catch (e) {
       // 200이 아니면 catch로 감

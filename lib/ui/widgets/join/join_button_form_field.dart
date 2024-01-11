@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_password_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_profile_page.dart';
 
@@ -111,45 +113,63 @@ class _PasswordPageButtonState extends State<PasswordPageButton> {
   }
 }
 
-class ProfilePageButton extends StatelessWidget {
+class ProfilePageButton extends ConsumerWidget {
+  final TextEditingController controller;
   String text;
 
-  ProfilePageButton({required this.text});
+  ProfilePageButton({required this.text, required this.controller});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(
           onPressed: () {
-            // 버튼 클릭 시 join_agree_page.dart로 이동
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => JoinProfilePage()),
-            );
+            JoinReqDTO joinReqDTO = JoinReqDTO(password: controller.text);
+            SessionUser user = ref.read(sessionProvider);
+            user.join(joinReqDTO);
           },
           child: Text("$text")),
     );
   }
 }
 
-class WelcomePageButton extends StatelessWidget {
+class WelcomePageButton extends ConsumerWidget {
   String text;
+  final TextEditingController nickNameController;
+  final TextEditingController birthDateController;
+  final TextEditingController phoneNumController;
 
-  WelcomePageButton({required this.text});
+  WelcomePageButton({
+    required this.text,
+    required this.nickNameController,
+    required this.birthDateController,
+    required this.phoneNumController,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => JoinWelcomePage()),
-            );
-          },
-          child: Text("$text")),
+        onPressed: () {
+          Logger().d(
+              "닉네임 , 생일, 전화번호 : " +
+                  nickNameController.text +
+                  birthDateController.text,
+              phoneNumController.text);
+          SessionUser user = ref.read(sessionProvider);
+
+          JoinReqDTO joinReqDTO = JoinReqDTO(
+            nickname: nickNameController.text,
+            birthdate: birthDateController.text,
+            phoneNum: phoneNumController.text,
+          );
+
+          user.join(joinReqDTO);
+        },
+        child: Text("$text"),
+      ),
     );
   }
 }
