@@ -4,13 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
+
+import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
+
 import 'package:team3_kakao/ui/lesson_temp/userid/map_test_page.dart';
 import 'package:team3_kakao/ui/lesson_temp/userid/user_id_page.dart';
 import 'package:team3_kakao/ui/lesson_temp/userid/user_list_page.dart';
+
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/friends/friends_page.dart';
+import 'package:team3_kakao/ui/pages/notify_write/notify_write_page.dart';
 
 import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';

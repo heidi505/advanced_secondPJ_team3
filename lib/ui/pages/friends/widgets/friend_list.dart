@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
-
 import '../../../../data/dto/friend_dto/main_dto.dart';
 
 class FriendList extends StatelessWidget {
