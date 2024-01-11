@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_sub_title.dart';
+
+import '../../../../data/model/user_mock.dart';
 
 class FriendUpdateProfile extends StatelessWidget {
   const FriendUpdateProfile({
@@ -37,12 +41,15 @@ class FriendUpdateProfile extends StatelessWidget {
                 height: 68,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 20,
+                  itemCount: friends.length,
                   itemBuilder: (BuildContext context, int index) {
+                    UserMock friend = friends[index];
                     return Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, Move.profilePage);
+                        },
                         child: Container(
                           alignment: Alignment.center,
                           child: Column(
@@ -60,7 +67,7 @@ class FriendUpdateProfile extends StatelessWidget {
                                 height: xsmallGap,
                               ),
                               Text(
-                                "김하얀",
+                                friend.name,
                                 style: subText(),
                               ),
                             ],

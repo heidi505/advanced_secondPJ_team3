@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
+import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 import 'package:team3_kakao/ui/pages/splash_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_password_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_welcome_page.dart';
 
 import '../../ui/pages/user/login/login_page.dart';
 
@@ -19,11 +23,13 @@ class Move {
   // chat
   static String chatRoomPage = "/chatRoomPage";
   static String profilePage = "/profilePage";
+  static String profileEditPage = "/profileEditPage";
 
   // auth
-  static String loginScreen = "/login";
-  static String joinScreen = "/join";
-  static String chattingScreen = "/chatting";
+  static String loginPage = "/login";
+  static String joinPage = "/join";
+  static String chattingPage = "/chatting";
+  static String joinPasswordPage = "/joinPasswordPage";
 }
 
 Map<String, Widget Function(BuildContext)> getRouters() {
@@ -32,17 +38,27 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.splashPage: (context) => const SplashPage(),
 
     Move.chatRoomPage: (context) => ChatRoomPage(),
+
+    // Move.profilePage: (context) => ProfilePage(
+    //
+    //     ),
+
     Move.profilePage: (context) => ProfilePage(
           user: friends[0],
         ),
+    Move.profileEditPage: (context) => ProfileEditPage(
+          user: friends[0],
+        ),
+
+    Move.joinPasswordPage: (context) => JoinPassWordPage(),
 
     // main
     Move.mainPage: (context) => const MainPage(),
 
     // auth
-    Move.loginScreen: (context) => const LoginPage(),
-    // Move.joinScreen: (context) => const JoinScreen(),
+    Move.loginPage: (context) => LoginPage(),
+    Move.joinPage: (context) => const JoinWelcomePage(),
 
-    Move.chattingScreen: (context) => const ChattingPage()
+    Move.chattingPage: (context) => const ChattingPage()
   };
 }

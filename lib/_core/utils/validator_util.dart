@@ -81,3 +81,37 @@ Function validateContent() {
     }
   };
 }
+
+Function validateAuthentication() {
+  return (String? value) {
+    if (value!.isEmpty) {
+      return "내용은 공백이 들어갈 수 없습니다.";
+    } else if (value.length > 500) {
+      return "내용의 길이를 초과하였습니다.";
+    } else {
+      return null;
+    }
+  };
+}
+
+String? _validator(String pw, String checkPW) {
+  if (pw.length < 10) {
+    return ('비밀번호를 더 길게 설정해주세요.');
+  }
+  if (pw != checkPW) {
+    return ('비밀번호가 일치하지 않습니다.');
+  }
+  return null;
+}
+
+Function validatorPassword() {
+  return (String? value, String? value2) {
+    if (value!.length < 10) {
+      return ('비밀번호를 더 길게 설정해주세요.');
+    }
+    if (value != value2) {
+      return ('비밀번호가 일치하지 않습니다.');
+    }
+    return null;
+  };
+}

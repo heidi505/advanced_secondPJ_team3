@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
-import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
@@ -14,7 +15,7 @@ import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key, required this.user}) : super(key: key);
 
-  final User user;
+  final UserMock user;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,13 +38,16 @@ class ProfilePage extends ConsumerWidget {
               const Spacer(),
               ProfileImage(
                   imagePath: "assets/images/basic_img.jpeg",
-                  imageWidth: 110,
-                  imageHeight: 110,
-                  circular: 45),
-              Text("확인1"),
+                  imageWidth: 100,
+                  imageHeight: 100,
+                  circular: 42),
               const SizedBox(
                 height: xsmallGap,
               ),
+              // --------------- 테스트 ----------------
+              Text(model.profileImage),
+              Text(model.backImage),
+              // --------------- 테스트 ----------------
               Text(model.nickname, style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
@@ -103,7 +107,7 @@ class ProfilePage extends ConsumerWidget {
   }
 
   Widget _buildMyProfileIcons() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.only(top: 20, bottom: 35),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -111,6 +115,7 @@ class ProfilePage extends ConsumerWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_01.png",
             text: "나와의 채팅",
+            routeToNavigate: Move.chatRoomPage,
           ),
           SizedBox(
             width: 50,
@@ -118,6 +123,7 @@ class ProfilePage extends ConsumerWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_02.png",
             text: "프로필 편집",
+            routeToNavigate: Move.profileEditPage,
           ),
           SizedBox(
             width: 50,
