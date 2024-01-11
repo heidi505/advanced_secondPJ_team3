@@ -10,5 +10,4 @@ class ResponseDTO {
       : success = json["success"],
         data = json["data"],
         errorType = json["errorType"];
-
 }

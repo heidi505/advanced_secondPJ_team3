@@ -1,12 +1,12 @@
 
-class MyProfileDetailResponseDTO{
+class ProfileDetailResponseDTO{
   int? id;
   String? nickname;
   String? profileImage;
   String? backImage;
   String? statusMessage;
 
-  MyProfileDetailResponseDTO({
+  ProfileDetailResponseDTO({
     this.id,
     this.nickname,
     this.profileImage,

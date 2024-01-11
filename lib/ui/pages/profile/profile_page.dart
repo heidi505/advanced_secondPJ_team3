@@ -5,7 +5,7 @@ import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
-import 'package:team3_kakao/ui/pages/profile/widgets/profile_model.dart';
+import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
@@ -16,10 +16,9 @@ class ProfilePage extends ConsumerWidget {
 
   final User user;
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ProfileModel? model = ref.watch(profileProvider);
+    ProfileDetailModel? model = ref.watch(profileDetailProvider);
     if (model == null) {
       return CircularProgressIndicator();
     }
