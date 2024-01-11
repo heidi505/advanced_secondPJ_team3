@@ -359,6 +359,8 @@ class InsertPassword2 extends StatefulWidget {
 }
 
 class _InsertPassword2State extends State<InsertPassword2> {
+  TextEditingController _controller = TextEditingController();
+
   bool _passwordsMatch = false;
 
   @override

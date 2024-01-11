@@ -12,6 +12,8 @@ import 'package:team3_kakao/ui/pages/chat_room/widgets/my_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/other_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/time_line.dart';
 
+import 'chat_room_hamburger_page.dart';
+
 class ChatRoomPage extends ConsumerStatefulWidget {
   @override
   _ChatRoomPageState createState() => _ChatRoomPageState();
@@ -54,7 +56,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           style: h3(),
         ),
       ),
-      endDrawer: Drawer(),
+      endDrawer: ChatRoomHamburger(),
       body: Column(
         children: [
           Expanded(
