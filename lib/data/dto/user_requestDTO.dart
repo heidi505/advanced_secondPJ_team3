@@ -1,16 +1,16 @@
 class JoinReqDTO {
-  final String email;
-  final String nickname;
-  final String password;
-  final String phoneNum;
-  final String birthdate;
+  final String? email;
+  final String? nickname;
+  final String? password;
+  final String? phoneNum;
+  final String? birthdate;
 
   JoinReqDTO({
-    required this.email,
-    required this.nickname,
-    required this.password,
-    required this.phoneNum,
-    required this.birthdate,
+    this.email,
+    this.nickname,
+    this.password,
+    this.phoneNum,
+    this.birthdate,
   });
 
   Map<String, dynamic> toJson() => {
@@ -47,4 +47,12 @@ class MailCheckDTO {
   MailCheckDTO({required this.verifyNumber});
 
   Map<String, dynamic> toJson() => {"verifyNumber": verifyNumber};
+}
+
+class PasswordDTO {
+  final String password;
+
+  PasswordDTO({required this.password});
+
+  Map<String, dynamic> toJson() => {"password": password};
 }
