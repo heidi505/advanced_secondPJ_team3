@@ -6,16 +6,17 @@ import 'package:team3_kakao/ui/widgets/appbar/main_app_bar.dart';
 class ChatNotifyPage extends StatelessWidget {
   const ChatNotifyPage({super.key});
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NotifyAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            NotifyTabBar(),
-          ],
-        ),
+      body: Column(
+        children: [
+          NotifyTabBar(),
+        ],
       ),
     );
   }

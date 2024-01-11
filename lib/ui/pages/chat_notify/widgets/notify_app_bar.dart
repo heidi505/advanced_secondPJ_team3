@@ -16,7 +16,7 @@ class NotifyAppBar extends StatelessWidget implements PreferredSizeWidget  {
       elevation: 0.0,
       leading: IconButton(
         onPressed: () {
-          //Navigator.pushNamed(context, Move.NotifyWritePage);
+          Navigator.pushNamed(context, Move.chatRoomPage);
         },
         icon: Icon(Icons.close),
       ),

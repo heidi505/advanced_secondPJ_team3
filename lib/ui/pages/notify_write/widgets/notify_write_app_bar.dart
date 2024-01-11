@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 
@@ -30,7 +31,7 @@ class NotifyWirteAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 child: Text(
                   "완료",
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color:basicColorB9),
                 ))),
         //액션이 크기 무한으로 잡혀 있어서 너비를 정해줘야 함
         SizedBox(

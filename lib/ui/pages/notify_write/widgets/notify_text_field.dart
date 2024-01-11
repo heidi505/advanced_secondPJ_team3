@@ -15,7 +15,7 @@ class NotifyTextField extends StatelessWidget {
       padding: const EdgeInsets.all(smallGap),
       child: Container(
         child: TextField(
-          controller: _textEditingController ,
+          controller: _textEditingController , //여기 연결
           decoration: InputDecoration(
             hintText: "멤버들과 공유하고 싶은 소식을 남겨보세요.",
             border: InputBorder.none,// 밑줄 없애기
