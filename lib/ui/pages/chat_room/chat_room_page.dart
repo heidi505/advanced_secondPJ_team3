@@ -6,13 +6,12 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_main_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/chat_menu_icon.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/my_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/other_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/time_line.dart';
-
-import 'chat_room_hamburger_page.dart';
 
 class ChatRoomPage extends ConsumerStatefulWidget {
   @override

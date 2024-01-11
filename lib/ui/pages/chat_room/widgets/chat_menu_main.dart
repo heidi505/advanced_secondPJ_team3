@@ -1,31 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_media_page.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_settings_page.dart';
 
-import '../../../_core/constants/color.dart';
-import '../../../_core/constants/size.dart';
+import '../../../../../_core/constants/color.dart';
+import '../../../../../_core/constants/size.dart';
 
 class ChatHamIcon extends StatelessWidget {
   String text;
   String svg;
+  Widget? linkto;
 
-  ChatHamIcon({required this.text, required this.svg});
+  ChatHamIcon({required this.text, required this.svg, required this.linkto});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: smallGap, bottom: smallGap),
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            "$svg",
-            height: mediumGap,
-            width: mediumGap,
-            color: basicColorB5,
-          ),
-          Text(" $text",
-              style:
-                  TextStyle(color: basicColorB3, fontWeight: FontWeight.w500)),
-        ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => linkto!),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: smallGap, bottom: smallGap),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              "$svg",
+              height: mediumGap,
+              width: mediumGap,
+              color: basicColorB5,
+            ),
+            Text(" $text",
+                style: TextStyle(
+                    color: basicColorB3, fontWeight: FontWeight.w500)),
+          ],
+        ),
       ),
     );
   }
@@ -53,9 +64,7 @@ class BoldText extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-          border: Border(
-        top: BorderSide(width: 1.0, color: formColor),
-      )),
+          border: Border(top: BorderSide(width: 1.0, color: formColor))),
       child: Text("$text",
           style: TextStyle(fontSize: mediumGap, fontWeight: FontWeight.bold)),
     );
@@ -73,17 +82,17 @@ class PlusUser extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: smallGap),
       child: Row(
-          children: [
-            SvgPicture.asset(
-              "$svg",
-              height: 50,
-              width: 50,
-              color: pointColor04,
-            ),
-            Text(" $text",
-                style:
-                TextStyle(color: pointColor04, fontWeight: FontWeight.bold)),
-          ],
+        children: [
+          SvgPicture.asset(
+            "$svg",
+            height: 50,
+            width: 50,
+            color: pointColor04,
+          ),
+          Text(" $text",
+              style:
+                  TextStyle(color: pointColor04, fontWeight: FontWeight.bold)),
+        ],
       ),
     );
   }
@@ -93,7 +102,7 @@ class MyProfile extends StatelessWidget {
   String text;
   String profilePic;
 
-  MyProfile ({required this.text, required this.profilePic});
+  MyProfile({required this.text, required this.profilePic});
 
   @override
   Widget build(BuildContext context) {
@@ -137,12 +146,11 @@ class MyProfile extends StatelessWidget {
   }
 }
 
-
 class UserList extends StatelessWidget {
   String text;
   String profilePic;
 
-  UserList ({required this.text, required this.profilePic});
+  UserList({required this.text, required this.profilePic});
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +175,6 @@ class UserList extends StatelessWidget {
   }
 }
 
-
 class HamBottomMenu extends StatelessWidget {
   const HamBottomMenu({
     super.key,
@@ -183,15 +190,20 @@ class HamBottomMenu extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            HamBotMenuIcon(svg: "assets/icons/chat_logout_icon.svg"),
+            HamBotMenuIcon(
+                svg: "assets/icons/chat_logout_icon.svg", linkto: null),
             Container(
               child: Row(
                 children: [
-                  HamBotMenuIcon(svg: "assets/icons/chat_bell_icon.svg"),
+                  HamBotMenuIcon(
+                      svg: "assets/icons/chat_bell_icon.svg", linkto: null),
                   SizedBox(width: 20),
-                  HamBotMenuIcon(svg: "assets/icons/chat_star_icon.svg"),
+                  HamBotMenuIcon(
+                      svg: "assets/icons/chat_star_icon.svg", linkto: null),
                   SizedBox(width: 20),
-                  HamBotMenuIcon(svg: "assets/icons/chat_settings_icon.svg"),
+                  HamBotMenuIcon(
+                      svg: "assets/icons/chat_settings_icon.svg",
+                      linkto: ChatRoomSettingsPage()),
                 ],
               ),
             ),
@@ -204,14 +216,26 @@ class HamBottomMenu extends StatelessWidget {
 
 class HamBotMenuIcon extends StatelessWidget {
   String svg;
-  HamBotMenuIcon ({required this.svg});
+  Widget? linkto;
+
+  HamBotMenuIcon({required this.svg, required this.linkto});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => linkto!),
+        );
+      },
+      child: Container(
         child: SvgPicture.asset(
-          "$svg",
+          ("$svg"),
           color: basicColorB9,
-        ));
+        ),
+      ),
+    );
   }
 }
+
