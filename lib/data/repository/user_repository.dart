@@ -11,15 +11,11 @@ import 'package:team3_kakao/data/model/user_mock.dart';
 class UserRepository {
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
-
       Response response = await dio.post("/sign-in", data: requestDTO.toJson());
-
 
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
 
-
       responseDTO.data = new User.fromJson(responseDTO.data);
-
 
       List<String>? jwt = response.headers["Authorization"];
 
@@ -56,7 +52,7 @@ class UserRepository {
     try {
       Response<dynamic> response =
           await dio.post("/mail-send", data: requestDTO.toJson());
-      Logger().d("요청완료됨111");
+      Logger().d("요청완료됨111" + "mail_send");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
       return responseDTO;
@@ -66,13 +62,13 @@ class UserRepository {
     }
   }
 
-  Future<ResponseDTO> fetchMailCheck(JoinReqDTO requestDTO) async {
+  Future<ResponseDTO> fetchMailCheck(MailCheckDTO requestDTO) async {
     try {
       Response<dynamic> response =
           await dio.post("/mail-check", data: requestDTO.toJson());
       Logger().d("요청완료됨1ss1");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
-
+      Logger().d("요청완료됨1ss1" + "ddddd");
       return responseDTO;
     } catch (e) {
       // 200이 아니면 catch로 감

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/dto/user_requestDTO.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_password_page.dart';
@@ -75,20 +79,34 @@ class PasswordPageButton extends StatefulWidget {
 class _PasswordPageButtonState extends State<PasswordPageButton> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-      child: TextButton(
-        onPressed: widget.isAuthNumValid
-            ? () {
-                // 버튼 클릭 시 join_agree_page.dart로 이동
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => JoinPassWordPage()),
-                );
-              }
-            : null, // 입력값이 없을 때 버튼 비활성화
-        child: Text("${widget.text}"),
-      ),
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          child: TextButton(
+            onPressed: widget.isAuthNumValid
+                ? () {
+                    // int verifyNumber =
+                    //     int.tryParse(authNumController.text ?? '') ?? 0;
+                    // Logger().d(authNumController.text);
+                    int? verifyNumber =
+                        int.tryParse(widget.authNumController.text);
+                    Logger().d("${verifyNumber} d제발 나와줘");
+                    MailCheckDTO mailCheckDTO =
+                        MailCheckDTO(verifyNumber: verifyNumber!);
+                    SessionUser user = ref.read(sessionProvider);
+                    user.mailCheck(mailCheckDTO);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => JoinPassWordPage()),
+                    // );
+                  }
+                : null,
+            child: Text("${widget.text}"),
+          ),
+        );
+      },
     );
   }
 }
