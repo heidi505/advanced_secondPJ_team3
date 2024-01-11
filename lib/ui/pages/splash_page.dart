@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashPage> {
         context,
         MaterialPageRoute(
 
-          builder: (context) => UserListPage(),
+          builder: (context) => MainPage(),
 
         ),
       ),
