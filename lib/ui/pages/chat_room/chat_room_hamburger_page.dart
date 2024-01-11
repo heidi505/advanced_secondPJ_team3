@@ -55,7 +55,7 @@ class ChatRoomHamburger extends StatelessWidget {
                     MyProfile(
                         text: "고양이 VS 멍멍이",
                         profilePic: "assets/images/catdog.jpg"),
-                    // 리스트로 쭉 나오게 해야함
+                    // 리스트로 쭉 나오게 해야함.
                     UserList(text: "뽀메", profilePic: "assets/images/dog.jpg"),
                     UserList(text: "냥", profilePic: "assets/images/cat.jpg"),
                     UserList(text: "뽀메2", profilePic: "assets/images/dog.jpg"),
