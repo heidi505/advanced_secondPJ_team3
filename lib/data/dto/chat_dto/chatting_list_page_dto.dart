@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatroomDTO{
-  int? peopleCount;
+  String? peopleCount;
   int? messageCount;
   String? lastChat;
   String? lastChatTime;
@@ -9,6 +9,7 @@ class ChatroomDTO{
   int? chatId;
   String? chatDocId;
   List<MessageDTO>? messageList;
+
 
   ChatroomDTO(
   {this.peopleCount,
@@ -18,7 +19,8 @@ class ChatroomDTO{
     this.chatName,
     this.chatId,
     this.chatDocId,
-    this.messageList});
+    this.messageList,
+  });
 
 }
 

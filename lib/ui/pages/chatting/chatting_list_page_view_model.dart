@@ -30,10 +30,12 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
 
   Future<void> notifyInit() async {
 
+    SessionUser session = ref.read(sessionProvider);
+
     late FirebaseFirestore db = FirebaseFirestore.instance;
     //나중에 userId 넣든지 동적으로 처리해야함
     //쿼리 스냅샷은 컬렉션, 다큐먼트 스냅샷은 문서
-    QuerySnapshot<Map<String, dynamic>> chatRoomCollection = await db.collection("ChatRoom1").get();
+    QuerySnapshot<Map<String, dynamic>> chatRoomCollection = await db.collection("ChatRoom${session.user!.id}").get();
 
     //채팅방 for문 돌리기
     List<ChatroomDTO> dtoList = [];
@@ -68,7 +70,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
 
 
 
-      ChatroomDTO dto = ChatroomDTO(chatName: chatName, chatId: id, peopleCount: users.length, messageList: messageDTOList, lastChat: lastChat, lastChatTime: lastchatTime,chatDocId: chatDoc.id);
+      ChatroomDTO dto = ChatroomDTO(chatName: chatName, chatId: id, peopleCount: users.length.toString(), messageList: messageDTOList, lastChat: lastChat, lastChatTime: lastchatTime,chatDocId: chatDoc.id);
 
 
 
