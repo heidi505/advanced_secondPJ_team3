@@ -13,7 +13,7 @@ class ChatNotifyPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-
+            NotifyTabBar(),
           ],
         ),
       ),

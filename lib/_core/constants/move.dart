@@ -6,6 +6,7 @@ import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
+import 'package:team3_kakao/ui/pages/notify_write/notify_write_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 import 'package:team3_kakao/ui/pages/splash_page.dart';
@@ -26,6 +27,8 @@ class Move {
   static String profilePage = "/profilePage";
   static String profileEditPage = "/profileEditPage";
   static String chatNotifyPage = "/chatNotifyPage";
+  static String NotifyWritePage = "/NotifyWritePage";
+
 
 
   // auth
@@ -42,6 +45,8 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.chatRoomPage: (context) => ChatRoomPage(),
 
     Move.chatNotifyPage: (context) => ChatNotifyPage(),
+
+    Move.NotifyWritePage: (context) => NotifyWritePage(),
 
     // Move.profilePage: (context) => ProfilePage(
     //

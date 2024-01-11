@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
+import 'package:team3_kakao/ui/pages/notify_write/notify_write_page.dart';
 
 class NotifyAppBar extends StatelessWidget implements PreferredSizeWidget  {
   const NotifyAppBar({
@@ -13,14 +15,21 @@ class NotifyAppBar extends StatelessWidget implements PreferredSizeWidget  {
       centerTitle: true,
       elevation: 0.0,
       leading: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          //Navigator.pushNamed(context, Move.NotifyWritePage);
+        },
         icon: Icon(Icons.close),
       ),
       actions: [
-        Image.asset("assets/icons/profile/profile_icon_02.png",
-          fit: BoxFit.cover,
-          width: 30,
-          height: 30,
+        InkWell(
+          onTap: (){
+            Navigator.pushNamed(context, Move.NotifyWritePage);
+          },
+          child: Image.asset("assets/icons/profile/profile_icon_02.png",
+            fit: BoxFit.cover,
+            width: 30,
+            height: 30,
+          ),
         ),
         SizedBox(width: smallGap,),
       ],
