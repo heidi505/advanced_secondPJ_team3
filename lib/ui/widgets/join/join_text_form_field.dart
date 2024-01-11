@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/dto/user_requestDTO.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 
 import '../../../_core/constants/color.dart';
@@ -156,7 +158,10 @@ class _CheckEmailState extends State<CheckEmail> {
                   ),
                   onPressed: () {
                     if (_emailErrorText == null) {
-                      // 이메일 유효성 검사 통과 시 수행할 동작 추가
+                      MailSendDTO mailSendDTO =
+                          new MailSendDTO(email: _emailController.text);
+                      SessionUser user = ref.read(sessionProvider);
+                      user.mailSend(mailSendDTO);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('인증메일을 발송했습니다.'),
@@ -197,41 +202,57 @@ class InsertText2 extends StatelessWidget {
 
 class AuthNum extends StatefulWidget {
   final Function(bool isValid) onValidationChanged;
+  final TextEditingController authNumController;
 
-  AuthNum({required this.onValidationChanged});
+  AuthNum({required this.onValidationChanged, required this.authNumController});
 
   @override
   State<AuthNum> createState() => _AuthNumState();
 }
 
 class _AuthNumState extends State<AuthNum> {
-  TextEditingController _authNumController = TextEditingController();
   bool _isAuthNumValid = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextFormField(
-          controller: _authNumController,
-          decoration: InputDecoration(
-            hintText: "인증번호 입력",
-            errorText: _isAuthNumValid ? null : "인증번호를 입력해주세요.",
-          ),
-          onChanged: (value) {
-            setState(() {
-              _isAuthNumValid = value.isNotEmpty;
-              widget.onValidationChanged(_isAuthNumValid);
-            });
-          },
-        ),
-      ],
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        return Column(
+          children: [
+            TextFormField(
+              controller: widget.authNumController,
+              decoration: InputDecoration(
+                hintText: "인증번호 입력",
+                errorText: _isAuthNumValid ? null : "인증번호를 입력해주세요.",
+              ),
+              onChanged: (value) {
+                setState(() {
+                  int? verifyNumber =
+                      int.tryParse(widget.authNumController.text);
+                  Logger().d(verifyNumber);
+                  Logger().d(widget.authNumController.text + "야야야야야야양야ㄷㄱ");
+                  Logger().d(
+                      "_authNumController.text: ${widget.authNumController.text}");
+                  Logger().d(
+                      "_authNumController.text runtimeType: ${widget.authNumController.text.runtimeType}");
+
+                  ref
+                      .read(joinFormProvider.notifier)
+                      .setVerifyNumber(verifyNumber!);
+                  _isAuthNumValid = value.isNotEmpty;
+                  widget.onValidationChanged(_isAuthNumValid);
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
   @override
   void dispose() {
-    _authNumController.dispose();
+    widget.authNumController?.dispose();
     super.dispose();
   }
 }
@@ -285,6 +306,7 @@ class InsertPassword2 extends StatefulWidget {
 
 class _InsertPassword2State extends State<InsertPassword2> {
   TextEditingController _controller = TextEditingController();
+
   bool _passwordsMatch = false;
 
   @override

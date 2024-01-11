@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 //하얀
-String baseUrl = "http://192.168.0.201:80";
+String baseUrl = "http://192.168.45.50:8080";
 // http 통신
 final dio = Dio(
   BaseOptions(

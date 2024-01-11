@@ -43,14 +43,12 @@ class SessionUser {
   }
 
   Future<void> join(JoinReqDTO joinReqDTO) async {
-    Logger().d("여기까지 실행됨");
     // 1. 통신 코드
     ResponseDTO responseDTO = await UserRepository().fetchJoin(joinReqDTO);
-    Logger().d("여기까지 실행됨1");
 
     // 2. 비지니스 로직
     if (responseDTO.success == true) {
-      Navigator.pushNamed(mContext!, Move.loginScreen);
+      Navigator.pushNamed(mContext!, Move.loginPage);
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(
         SnackBar(
@@ -61,14 +59,32 @@ class SessionUser {
   }
 
   Future<void> mailSend(MailSendDTO mailSendDTO) async {
-    Logger().d("여기까지 실행됨");
     // 1. 통신 코드
     ResponseDTO responseDTO = await UserRepository().fetchMailSend(mailSendDTO);
-    Logger().d("여기까지 실행됨1");
 
     // 2. 비지니스 로직
     if (responseDTO.success == true) {
-      Navigator.pushNamed(mContext!, Move.loginScreen);
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(
+          content: Text(responseDTO.errorType!.message!),
+        ),
+      );
+    }
+  }
+
+  Future<void> mailCheck(MailCheckDTO mailCheckDTO) async {
+    Logger().d("여기까지 실행됨33");
+    // 1. 통신 코드
+    ResponseDTO responseDTO =
+        await UserRepository().fetchMailCheck(mailCheckDTO);
+    Logger().d("여기까지 실행됨13344");
+    Logger().d("${responseDTO.success} 야 진짜 집에 가자");
+
+    // 2. 비지니스 로직
+    if (responseDTO.success == true) {
+      Logger().d("${responseDTO.success} 야 진짜 집에 보내줘");
+      Navigator.pushNamed(mContext!, Move.joinPasswordPage);
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(
         SnackBar(
