@@ -31,15 +31,13 @@ class JoinProfilePage extends StatelessWidget {
               InsertNickName(
                   text: "닉네임 입력", nickNameController: _nickNameController),
               TextFormHint(text: "\n생일"),
-              InsertBirthday(
-                  text: "생일 날짜 입력", birthDateController: _birthDayController),
+              InsertBirthday(text: "생일 날짜 입력"),
               TextFormHint(text: "\n핸드폰 번호"),
               InsertPhoneNum(
                 text: "- 없이 핸드폰 번호를 입력해 주세요.",
                 phoneNumController: _phoneNumController,
               ),
               WelcomePageButton(
-                birthDateController: _birthDayController!,
                 nickNameController: _nickNameController!,
                 phoneNumController: _phoneNumController!,
                 text: "확인",
