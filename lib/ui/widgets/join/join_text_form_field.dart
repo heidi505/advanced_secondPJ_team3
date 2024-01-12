@@ -151,7 +151,6 @@ class _CheckEmailState extends State<CheckEmail> {
                       if (widget.funcNum == 1) {
                         _emailErrorText = validateEmail()(value);
                         ref.read(joinFormProvider.notifier).setEmail(value);
-                        Logger().d(_emailController);
                       } else if (widget.funcNum == 2) {}
                     },
                   ),
@@ -266,7 +265,6 @@ class InsertNickName extends ConsumerWidget {
       controller: nickNameController,
       onChanged: (value) {
         ref.read(joinFormProvider.notifier).setNickName(value);
-        Logger().d(nickNameController.text);
       },
       decoration: InputDecoration(
           hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
@@ -384,8 +382,6 @@ class InsertPassword2 extends StatefulWidget {
 }
 
 class _InsertPassword2State extends State<InsertPassword2> {
-  TextEditingController _controller = TextEditingController();
-
   bool _passwordsMatch = false;
 
   @override

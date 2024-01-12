@@ -20,7 +20,7 @@ String baseUrl = "http://192.168.0.165:8080";
 // http 통신
 final dio = Dio(
   BaseOptions(
-      baseUrl: "http://192.168.0.71:8080", // 내 IP 입력
+      baseUrl: baseUrl, // 내 IP 입력
       contentType: "application/json; charset=utf-8"),
 );
 
