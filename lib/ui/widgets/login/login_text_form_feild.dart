@@ -48,6 +48,7 @@ class LoginButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
+
       child: TextButton(
           onPressed: () {
             if (formKey.currentState!.validate()) {
@@ -59,6 +60,7 @@ class LoginButton extends ConsumerWidget {
             }
           },
           child: Text("$text")),
+
     );
   }
 }
