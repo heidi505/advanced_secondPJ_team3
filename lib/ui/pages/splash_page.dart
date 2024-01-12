@@ -25,6 +25,7 @@ import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 
 import 'main_page.dart';
 import 'my_info/my_info_page.dart';
+import 'profile/profile_edit_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -42,7 +43,9 @@ class _SplashScreenState extends State<SplashPage> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginPage(),
+          builder: (context) => ProfileEditPage(
+            user: friends[0],
+          ),
         ),
       ),
     );

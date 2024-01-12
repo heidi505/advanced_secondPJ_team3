@@ -118,7 +118,6 @@ class ProfilePageButton extends ConsumerWidget {
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(
           onPressed: () {
-            final email = ref.read(joinFormProvider)?.email;
             ref.read(joinFormProvider).password = controller.text;
             Navigator.pushNamed(context, Move.joinProfilePage);
           },
@@ -153,14 +152,12 @@ class WelcomePageButton extends ConsumerWidget {
           // final formattedBirthdate =
           //     DateFormat('yyyy-MM-dd').format(birthdate ?? DateTime.now());
 
-
           JoinReqDTO joinReqDTO = JoinReqDTO(
-            email:  email,
-            password: password,
-            nickname: nickNameController.text,
-            phoneNum: phoneNumController.text,
-            birthdate: birthdate
-          );
+              email: email,
+              password: password,
+              nickname: nickNameController.text,
+              phoneNum: phoneNumController.text,
+              birthdate: birthdate);
 
           user.finalJoin(joinReqDTO);
         },
