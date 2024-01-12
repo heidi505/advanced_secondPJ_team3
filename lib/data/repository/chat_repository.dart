@@ -60,6 +60,8 @@ class ChatRepository{
         .collection("messages")
         .add(msg.toJson());
 
+    
+
   }
 
   Future<String> setChatting(String chatDocId, String func) async{

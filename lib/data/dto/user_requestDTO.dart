@@ -4,6 +4,7 @@ class JoinReqDTO {
   final String password;
   final String phoneNum;
   final String birthdate;
+  String? fcmToken;
 
   JoinReqDTO({
     required this.email,
@@ -11,6 +12,7 @@ class JoinReqDTO {
     required this.password,
     required this.phoneNum,
     required this.birthdate,
+    this.fcmToken
   });
 
   Map<String, dynamic> toJson() => {
@@ -19,19 +21,19 @@ class JoinReqDTO {
         "password": password,
         "phoneNum": phoneNum,
         "birthdate": birthdate,
+        "fcmToken":fcmToken
       };
 
 // request에만 쓰니까 fromJson은 필요없다
 }
 
 class LoginReqDTO {
-  String? fcmToken;
   final String? email;
   final String? password;
 
-  LoginReqDTO({required this.email, required this.password, this.fcmToken});
+  LoginReqDTO({required this.email, required this.password});
 
-  Map<String, dynamic> toJson() => {"email": email, "password": password, "fcmToken":fcmToken};
+  Map<String, dynamic> toJson() => {"email": email, "password": password};
 }
 
 class MailSendDTO {

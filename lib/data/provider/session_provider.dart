@@ -23,8 +23,6 @@ class SessionUser {
   SessionUser({this.user, this.jwt});
 
   Future<void> login(LoginReqDTO loginReqDTO) async {
-
-    loginReqDTO.fcmToken = myTokenFCM;
     //1. 통신코드
     ResponseDTO responseDTO = await UserRepository().fetchLogin(loginReqDTO);
 
