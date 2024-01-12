@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class OtherChat extends StatelessWidget {
   final String name;
   final String text;
   final String time;
+  final int userId;
 
   const OtherChat({
     Key? key,
     required this.name,
     required this.text,
     required this.time,
+    required this.userId
   }) : super(key: key);
 
   @override
@@ -21,7 +24,7 @@ class OtherChat extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProfileImage(
-          imagePath: 'assets/images/basic_img.jpeg',
+          imagePath: "$baseUrl/images/$userId.jpg",
           imageHeight: 40,
           imageWidth: 40,
           circular: 16,

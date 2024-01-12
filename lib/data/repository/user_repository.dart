@@ -12,10 +12,12 @@ class UserRepository {
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
       Response response = await dio.post("/sign-in", data: requestDTO.toJson());
+      Logger().d(response.data);
 
-      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+      ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
-      responseDTO.data = new User.fromJson(responseDTO.data);
+      responseDTO.data = User.fromJson(responseDTO.data);
+      Logger().d(responseDTO.data);
 
       List<String>? jwt = response.headers["Authorization"];
 
@@ -40,7 +42,7 @@ class UserRepository {
           await dio.post("/sign-up", data: requestDTO.toJson());
       Logger().d("요청완료됨111");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
-
+      Logger().d("요청완료됨222");
       return responseDTO;
     } catch (e) {
       // 200이 아니면 catch로 감

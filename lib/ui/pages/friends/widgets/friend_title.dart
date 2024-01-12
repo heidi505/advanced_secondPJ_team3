@@ -1,16 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_sub_title.dart';
 
 class FriendTItle extends StatelessWidget {
-  const FriendTItle({
-    super.key,
+  int? count;
+  FriendTItle({
+    super.key, this.count
   });
 
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: FriendSubTitle(
-        title: "친구 11",
+        title: "친구 $count",
       ),
     );
   }

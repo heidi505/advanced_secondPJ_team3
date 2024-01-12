@@ -19,8 +19,19 @@ class MapSample{
       "errorType" : null
     };
 
+    Map<String, dynamic> sample3 = {
+      "success" : true,
+      "data" : {
+        "userId" : 1,
+        "userNickname" : "나야나"
+      },
+      "errorType" : null
+    };
+
     //맵 꺼내오기
     Logger().d(map["userId"]);
+
+    Logger().d("User Nickname : ${sample3["data"]["userNickname"]}");
 }
 
   MapSample();

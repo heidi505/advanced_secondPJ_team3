@@ -5,7 +5,7 @@ import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class ChattingItem extends StatelessWidget {
-  const ChattingItem(
+  ChattingItem(
       {Key? key,
       required this.title,
       required this.imagePath,
@@ -14,9 +14,10 @@ class ChattingItem extends StatelessWidget {
       required this.imageWidth,
       required this.imageHeight,
       required this.circular,
-      this.peopleCount, this.ontap})
+      this.peopleCount, this.ontap, this.chatDocId})
       : super(key: key);
 
+  String? chatDocId;
   final String title;
   final String imagePath;
   final String? subTitle;
@@ -24,11 +25,16 @@ class ChattingItem extends StatelessWidget {
   final double imageWidth;
   final double imageHeight;
   final double circular;
-  final int? peopleCount;
+  String? peopleCount;
   final void Function()? ontap;
+
 
   @override
   Widget build(BuildContext context) {
+    if(peopleCount == null){
+      peopleCount = "";
+    }
+
     return InkWell(
       onTap: ontap,
       child: Container(
@@ -49,7 +55,7 @@ class ChattingItem extends StatelessWidget {
                 Text("$title", style: TextStyle(color: Colors.black)),
                 SizedBox(width: 7),
                 Text(
-                  "$peopleCount",
+                  peopleCount!,
                   style: TextStyle(color: Colors.grey),
                 )
               ],

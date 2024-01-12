@@ -16,7 +16,7 @@ class ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      child: Image.asset(
+      child: Image.network(
         imagePath,
         fit: BoxFit.cover,
         width: imageWidth,
