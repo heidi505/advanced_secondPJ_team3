@@ -8,7 +8,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 //String baseUrl = "http://192.168.0.201:8080";
 //누군가의 baseUrl
 // String baseUrl = "http://192.168.45.50:8080";
-// 박남규 - baseUrl: "http://192.168.0.71:8080"
+// 박남규
+String baseUrl = "http://192.168.0.71:8080";
 
 //String baseUrl = "http://192.168.0.201:8080";
 //혜림
@@ -21,7 +22,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // http 통신
 final dio = Dio(
   BaseOptions(
-      baseUrl: "http://192.168.0.71:8080", // 내 IP 입력
+      baseUrl: baseUrl, // 내 IP 입력
       contentType: "application/json; charset=utf-8"),
 );
 

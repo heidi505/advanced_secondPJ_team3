@@ -12,7 +12,6 @@ import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 class ChattingList extends ConsumerWidget {
   ChattingList({super.key});
 
-  get baseUrl => null;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,7 +31,7 @@ class ChattingList extends ConsumerWidget {
               ChattingItem(
                   title: model!.chatRoomDTOList[index].chatName!,
                   peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                  imagePath: baseUrl + "/images/${index+1}.jpg",
+                  imagePath: "$baseUrl/images/${index+1}.jpg",
                   imageWidth: 40,
                   imageHeight: 40,
                   ontap: () {

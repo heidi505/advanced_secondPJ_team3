@@ -15,7 +15,6 @@ class FriendMainProfile extends ConsumerWidget {
     super.key, required this.myProfile
   });
 
-  get baseUrl => null;
 
 
   @override
@@ -37,7 +36,7 @@ class FriendMainProfile extends ConsumerWidget {
           children: [
             ClipRRect(
               child: Image.network(
-                baseUrl + "/images/${session.user!.id}.jpg",
+                "$baseUrl/images/${session.user!.id}.jpg",
                 fit: BoxFit.cover,
                 width: 60,
                 height: 60,

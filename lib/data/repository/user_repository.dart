@@ -89,7 +89,7 @@ class UserRepository {
     Logger().d("유저 리파지토리 진입");
     try {
       // 서버에 요청
-      Response response = await dio.get("/user/my-profile-detail/2");
+      Response response = await dio.get("/user/my-profile-detail/1");
       Logger().d("페이지 통신 완료 : ${response.data}");
 
       // 서버에서 받아온 값을 Dart 객체로 변환
@@ -144,6 +144,16 @@ class UserRepository {
     } catch (e) {
       return ResponseDTO(success: false);
     }
+  }
+
+  // // 연락처로 친구 추가
+  // Future<ResponseDTO> fetchPhoneNumFriendAdd() async{
+  //   try {
+  //
+  //
+  //   } catch
+
+
   }
 
 }
