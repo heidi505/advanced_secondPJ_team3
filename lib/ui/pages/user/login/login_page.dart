@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginPage>
               text: "로그인",
             ),
             JoinButton(text: "새로운 카카오계정 만들기"),
-            LoginButton(text: "카카오계정 또는 비밀번호 찾기")
+            FindButton(account: "계정 찾기", password: "비밀번호 찾기",),
           ],
         ),
       ),
