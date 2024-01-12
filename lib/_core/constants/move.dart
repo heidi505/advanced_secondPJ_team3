@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
+import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
 
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
+import 'package:team3_kakao/ui/pages/notify_write/notify_write_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 import 'package:team3_kakao/ui/pages/splash_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_password_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_profile_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_welcome_page.dart';
 
 import '../../ui/pages/user/login/login_page.dart';
@@ -24,6 +27,10 @@ class Move {
   static String chatRoomPage = "/chatRoomPage";
   static String profilePage = "/profilePage";
   static String profileEditPage = "/profileEditPage";
+  static String joinProfilePage = "/joinProfilePage";
+  static String joinWelcomePage = "/joinWelcomePage";
+  static String chatNotifyPage = "/chatNotifyPage";
+  static String NotifyWritePage = "/NotifyWritePage";
 
   // auth
   static String loginPage = "/login";
@@ -39,6 +46,10 @@ Map<String, Widget Function(BuildContext)> getRouters() {
 
     Move.chatRoomPage: (context) => ChatRoomPage(),
 
+    Move.chatNotifyPage: (context) => ChatNotifyPage(),
+
+    Move.NotifyWritePage: (context) => NotifyWritePage(),
+
     // Move.profilePage: (context) => ProfilePage(
     //
     //     ),
@@ -50,6 +61,9 @@ Map<String, Widget Function(BuildContext)> getRouters() {
           user: friends[0],
         ),
 
+    Move.joinProfilePage: (context) => JoinProfilePage(),
+    Move.joinWelcomePage: (context) => JoinWelcomePage(),
+
     Move.joinPasswordPage: (context) => JoinPassWordPage(),
 
     // main
@@ -57,7 +71,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
 
     // auth
     Move.loginPage: (context) => LoginPage(),
-    Move.joinPage: (context) => const JoinWelcomePage(),
+    Move.joinPage: (context) => JoinWelcomePage(),
 
     Move.chattingPage: (context) => const ChattingPage()
   };

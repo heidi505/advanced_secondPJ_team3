@@ -5,10 +5,16 @@ import 'package:team3_kakao/ui/pages/friends/widgets/friend_sub_title.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_text_item.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 
+import '../../../../_core/constants/http.dart';
+import '../../../../data/dto/friend_dto/main_dto.dart';
+
 class FriendBirthday extends StatelessWidget {
+  final List<FriendsDTO> friendList;
   const FriendBirthday({
-    super.key,
+    super.key, required this.friendList
   });
+
+  get baseUrl => null;
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +48,17 @@ class FriendBirthday extends StatelessWidget {
                             circular: 16.0,
                             imageWidth: 40,
                             imageHeight: 40,
-                            imagePath: "assets/images/basic_img.jpeg",
-                            title: "김하얀",
-                            subTitle: "어제 1월 2일",
+                            imagePath: baseUrl + "/images/${friendList[0].userId}.jpg",
+                            title: "${friendList[0].nickname}",
+                            subTitle: "${friendList[0].birthdate}",
                           ),
                           ChattingItem(
                             circular: 16.0,
                             imageWidth: 40,
                             imageHeight: 40,
-                            imagePath: "assets/images/basic_img.jpeg",
-                            title: "김하얀",
-                            subTitle: "어제 1월 2일",
+                            imagePath:  baseUrl + "/images/${friendList[1].userId}.jpg",
+                            title: "${friendList[1].nickname}",
+                            subTitle: "${friendList[1].birthdate}",
                           ),
                         ],
                       ),

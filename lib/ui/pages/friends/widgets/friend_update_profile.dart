@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/model/user.dart';
@@ -12,6 +13,8 @@ class FriendUpdateProfile extends StatelessWidget {
   const FriendUpdateProfile({
     super.key,
   });
+
+  get baseUrl => null;
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +58,8 @@ class FriendUpdateProfile extends StatelessWidget {
                           child: Column(
                             children: [
                               ClipRRect(
-                                child: Image.asset(
-                                  "assets/images/basic_img.jpeg",
+                                child: Image.network(
+                                  baseUrl + "/images/basic.jpeg",
                                   fit: BoxFit.cover,
                                   width: 40,
                                   height: 40,

@@ -45,10 +45,12 @@ class SessionUser {
   Future<void> join(JoinReqDTO joinReqDTO) async {
     // 1. 통신 코드
     ResponseDTO responseDTO = await UserRepository().fetchJoin(joinReqDTO);
-
+    Logger().d(" join 요청 확인");
+    Logger().d("응답 responseDTO : " + responseDTO.success.toString());
     // 2. 비지니스 로직
     if (responseDTO.success == true) {
-      Navigator.pushNamed(mContext!, Move.loginPage);
+      Navigator.pushNamed(mContext!, Move.joinProfilePage);
+      Logger().d(" join 요청 확인22");
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(
         SnackBar(
@@ -57,6 +59,22 @@ class SessionUser {
       );
     }
   }
+
+  // Future<void> profileJoin(JoinReqDTO joinReqDTO) async {
+  //   // 1. 통신 코드
+  //   ResponseDTO responseDTO = await UserRepository().fetchJoin(joinReqDTO);
+  //
+  //   // 2. 비지니스 로직
+  //   if (responseDTO.success == true) {
+  //     Navigator.pushNamed(mContext!, Move.joinWelcomePage);
+  //   } else {
+  //     ScaffoldMessenger.of(mContext!).showSnackBar(
+  //       SnackBar(
+  //         content: Text(responseDTO.errorType!.message!),
+  //       ),
+  //     );
+  //   }
+  // }
 
   Future<void> mailSend(MailSendDTO mailSendDTO) async {
     // 1. 통신 코드

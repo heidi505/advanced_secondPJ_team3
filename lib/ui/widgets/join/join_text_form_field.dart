@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -257,28 +259,81 @@ class _AuthNumState extends State<AuthNum> {
   }
 }
 
-class InsertText extends StatelessWidget {
+class InsertNickName extends ConsumerWidget {
   String text;
-
-  InsertText({required this.text});
+  final TextEditingController nickNameController;
+  InsertNickName({required this.nickNameController, required this.text});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TextFormField(
+      controller: nickNameController,
+      onChanged: (value) {
+        ref.read(joinFormProvider.notifier).setNickName(value);
+        Logger().d(nickNameController.text);
+      },
       decoration: InputDecoration(
           hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
     );
   }
 }
 
-class InsertPassword extends StatelessWidget {
+class InsertBirthday extends ConsumerWidget {
   String text;
+  final TextEditingController birthDateController;
 
-  InsertPassword({required this.text});
+  InsertBirthday({required this.birthDateController, required this.text});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TextFormField(
+      controller: birthDateController,
+      onChanged: (value) {
+        Logger().d(birthDateController.text);
+        DateTime? selectedDate = DateTime.tryParse(value);
+        if (selectedDate != null) {
+          ref.read(joinFormProvider.notifier).setBirthDate(selectedDate);
+        }
+      },
+      decoration: InputDecoration(
+          hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
+    );
+  }
+}
+
+class InsertPhoneNum extends ConsumerWidget {
+  String text;
+  final TextEditingController phoneNumController;
+
+  InsertPhoneNum({required this.phoneNumController, required this.text});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return TextFormField(
+      controller: phoneNumController,
+      onChanged: (value) {
+        Logger().d(phoneNumController.text);
+        ref.read(joinFormProvider.notifier).setPhoneNum(value);
+        Logger().d(value);
+      },
+      decoration: InputDecoration(
+          hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
+    );
+  }
+}
+
+class InsertPassword extends ConsumerWidget {
+  final TextEditingController? authNumController;
+  String text;
+  InsertPassword({required this.text, this.authNumController});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return TextFormField(
+      controller: authNumController,
+      onChanged: (value) {
+        ref.read(joinFormProvider.notifier).setPassword(value);
+      },
       decoration: InputDecoration(
         hintText: "$text",
         hintStyle: TextStyle(color: basicColorB9),
@@ -296,11 +351,10 @@ class InsertPassword extends StatelessWidget {
 
 class InsertPassword2 extends StatefulWidget {
   final Function(bool isValid) onValidationChanged;
-
-  InsertPassword2({required this.onValidationChanged});
+  final TextEditingController? authNumController;
+  InsertPassword2({required this.onValidationChanged, this.authNumController});
 
   @override
-  // _InsertPassword2State createState() => _InsertPassword2State();
   State<InsertPassword2> createState() => _InsertPassword2State();
 }
 
@@ -311,26 +365,31 @@ class _InsertPassword2State extends State<InsertPassword2> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: _controller,
-      decoration: InputDecoration(
-        hintText: "비밀번호 재입력",
-        hintStyle: TextStyle(color: basicColorB9),
-        errorText: _passwordsMatch ? null : '비밀번호를 입력해 주세요',
-      ),
-      obscureText: true,
-      onChanged: (value) {
-        setState(() {
-          _passwordsMatch = value.isNotEmpty;
-          widget.onValidationChanged(_passwordsMatch);
-        });
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        return TextFormField(
+          controller: widget.authNumController,
+          decoration: InputDecoration(
+            hintText: "비밀번호 재입력",
+            hintStyle: TextStyle(color: basicColorB9),
+            errorText: _passwordsMatch ? null : '비밀번호를 입력해 주세요',
+          ),
+          obscureText: true,
+          onChanged: (value) {
+            setState(() {
+              _passwordsMatch = value.isNotEmpty;
+              widget.onValidationChanged(_passwordsMatch);
+              ref.read(joinFormProvider.notifier).setPassword(value);
+            });
+          },
+        );
       },
     );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    widget.authNumController!.dispose();
     super.dispose();
   }
 }

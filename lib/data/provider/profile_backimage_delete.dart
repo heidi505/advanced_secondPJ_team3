@@ -1,8 +1,8 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:team3_kakao/data/dto/profile_dto/profile_backImage_delete_response_dto/profile_backImage_delete_response_dto.dart';
 import 'package:team3_kakao/data/repository/user_repository.dart';
 
+import '../dto/profile_dto/profile_backImage_delete_response_dto/profile_backimage_delete_response_dto.dart';
 import '../dto/response_dto.dart';
 
 // 모델
