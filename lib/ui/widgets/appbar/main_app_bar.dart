@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/ui/pages/friends/friends_plus_Id_page.dart';
+import 'package:team3_kakao/ui/pages/friends/friends_plus_add_Page.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   String title;
@@ -48,27 +49,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         GestureDetector(
           onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext ctx) {
-                return AlertDialog(
-                  contentPadding: EdgeInsets.all(16),
-                  backgroundColor: basicColorW,
-                  content: SingleChildScrollView(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        FriendsPlusIcon(
-                            text: "ID로 추가", linkto: FriendsPlusIdPage()),
-                        Text("연락처로 추가"),
-                        Text("id로 추가"),
-                        Text("추천친구"),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
+            _showFriendsPlusModal(context);
           },
           child: SvgPicture.asset(
             imagePathR,
@@ -92,8 +73,10 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 class FriendsPlusIcon extends StatelessWidget {
   String text;
   Widget? linkto;
+  String svg;
 
-  FriendsPlusIcon({required this.text, required this.linkto});
+  FriendsPlusIcon(
+      {required this.text, required this.linkto, required this.svg});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +89,7 @@ class FriendsPlusIcon extends StatelessWidget {
           child: Column(
         children: [
           SvgPicture.asset(
-            "assets/icon/chat_add_icon.svg",
+            "$svg",
             width: 25,
             height: 25,
           ),
@@ -115,4 +98,40 @@ class FriendsPlusIcon extends StatelessWidget {
       )),
     );
   }
+}
+
+_showFriendsPlusModal(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FriendsPlusIcon(
+                  text: "QR 코드", linkto: null, svg: "assets/icons/qr_icon.svg"),
+              FriendsPlusIcon(
+                text: "연락처로 추가",
+                linkto: FriendsPlusAddPage(),
+                svg: "assets/icons/contact_icon.svg",
+              ),
+              FriendsPlusIcon(
+                text: "ID로 추가",
+                linkto: FriendsPlusIdPage(),
+                svg: "assets/icons/id_add_icon.svg",
+              ),
+              FriendsPlusIcon(
+                text: "추천 친구",
+                linkto: null,
+                svg: "assets/icons/friend_add_icon.svg",
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
