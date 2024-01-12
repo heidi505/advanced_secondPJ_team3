@@ -13,7 +13,8 @@ String baseUrl = "http://192.168.0.165:8080";
 // baseUrl: "http://192.168.0.71:8080"
 //누군가의 baseUrl
 // String baseUrl = "http://192.168.45.50:8080";
-// 박남규 - baseUrl: "http://192.168.0.71:8080"
+// 박남규
+String baseUrl = "http://192.168.0.71:8080";
 
 //String baseUrl = "http://192.168.0.201:8080";
 //혜림
