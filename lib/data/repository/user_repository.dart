@@ -107,11 +107,11 @@ class UserRepository {
       // 200이 아니면 catch로 감
 
   // 프로필 상세보기
-  Future<ResponseDTO> fetchProfileDetail() async {
+  Future<ResponseDTO> fetchProfileDetail(int id) async {
     Logger().d("유저 리파지토리 진입");
     try {
       // 서버에 요청
-      Response response = await dio.get("/user/my-profile-detail/1");
+      Response response = await dio.get("/user/my-profile-detail/$id");
       Logger().d("페이지 통신 완료 : ${response.data}");
 
       // 서버에서 받아온 값을 Dart 객체로 변환

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import '../../ui/pages/profile/widgets/profile_detail_model.dart';
 import '../dto/response_dto.dart';
 import '../model/profile_detail_model.dart';
@@ -21,8 +22,9 @@ class ProfileDetailViewModel extends StateNotifier<ProfileDetailModel?>{
   ProfileDetailViewModel(super._state, this.ref);
   // 화면이 그려지기 전에 값을 가져오거나 초기화하는 역할
   Future<void> notifyInit() async {
+    int id = ref.read(sessionProvider).user?.id ?? 1;
     // 통신을 통해 가져온 값 담기
-    ResponseDTO responseDTO = await UserRepository().fetchProfileDetail();
+    ResponseDTO responseDTO = await UserRepository().fetchProfileDetail(id);
     state = ProfileDetailModel(responseDTO.data);
   }
 }
