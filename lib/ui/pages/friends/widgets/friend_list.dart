@@ -10,7 +10,6 @@ class FriendList extends StatelessWidget {
     super.key, this.friendsList
   });
 
-  get baseUrl => null;
 
   @override
   Widget build(BuildContext context) {
