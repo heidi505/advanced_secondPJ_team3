@@ -6,6 +6,7 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/chat_menu_icon.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/my_chat.dart';
@@ -29,6 +30,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
+    chats = [];
+    SessionUser session = ref.read(sessionProvider);
     OtherChatModel? model = ref.watch(otherChatProvider);
 
     if (model == null) {
@@ -37,11 +40,11 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
     for (var message in model!.messages) {
       dynamic chat;
-      if (message.userId == 1) {
+      if (message.userId == session.user!.id!) {
         chat = MyChat(text: message.content, time: message.time!);
       } else {
         chat =
-            OtherChat(name: "홍길동", text: message.content, time: message.time!);
+            OtherChat(name: "홍길동", text: message.content, time: message.time!, userId: message.userId!);
       }
       Logger().d(message.content);
       chats.add(chat);
@@ -228,9 +231,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
   void _handleSubmitted(text) {
     _textController.clear(); // 1
-
+    ref.read(otherChatProvider.notifier).addMessage(text);
     setState(() {
-      ref.read(otherChatProvider.notifier).addMessage(text);
+
       // 2
     });
   }

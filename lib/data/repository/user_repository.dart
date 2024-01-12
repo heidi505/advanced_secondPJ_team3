@@ -13,9 +13,9 @@ class UserRepository {
     try {
       Response response = await dio.post("/sign-in", data: requestDTO.toJson());
 
-      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+      ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
-      responseDTO.data = new User.fromJson(responseDTO.data);
+      responseDTO.data = User.fromJson(responseDTO.data);
 
       List<String>? jwt = response.headers["Authorization"];
 

@@ -8,12 +8,12 @@ import 'package:team3_kakao/data/model/message.dart';
 class ChatRepository{
 
 
-  Future<List<MessageDTO>> getInitMessages() async {
+  Future<List<MessageDTO>> getInitMessages(String chatRoomDocId, int userId) async {
     final db = FirebaseFirestore.instance;
 
     QuerySnapshot<Map<String, dynamic>> initMessages = await db
-        .collection("ChatRoom1")
-        .doc("MrJLNXVtsN6fYV6nZ57g")
+        .collection("ChatRoom$userId")
+        .doc(chatRoomDocId)
         .collection("messages")
         .orderBy("createdAt", descending: false)
         .get();
@@ -30,12 +30,12 @@ class ChatRepository{
   }
 
   //통신
-  Stream<List<MessageDTO>> fetchMessages(){
+  Stream<List<MessageDTO>> fetchMessages(String chatRoomDocId, int userId){
     final db = FirebaseFirestore.instance;
 
     Stream<QuerySnapshot<Map<String, dynamic>>> stream = db
-        .collection("ChatRoom1")
-        .doc("MrJLNXVtsN6fYV6nZ57g")
+        .collection("ChatRoom$userId")
+        .doc(chatRoomDocId)
         .collection("messages")
         .orderBy("createdAt", descending: false)
         .snapshots();
@@ -50,13 +50,13 @@ class ChatRepository{
   }
 
   //userId 받아야함!!
-  Future<void> addMessage(String text) async {
+  Future<void> addMessage(String text, int userId, String chatRoomDocId) async {
     final db = FirebaseFirestore.instance;
-    message msg = new message(content: text,userId: 1, createdAt: Timestamp.now());
+    message msg = message(content: text,userId: userId, createdAt: Timestamp.now());
 
     final docRef = await db
-        .collection("ChatRoom1")
-        .doc("MrJLNXVtsN6fYV6nZ57g")
+        .collection("ChatRoom$userId")
+        .doc(chatRoomDocId)
         .collection("messages")
         .add(msg.toJson());
 
