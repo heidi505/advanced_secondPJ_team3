@@ -15,6 +15,8 @@ class FriendMainProfile extends ConsumerWidget {
     super.key, required this.myProfile
   });
 
+  get baseUrl => null;
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
