@@ -1,6 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
+import 'package:team3_kakao/data/dto/friend_add_dto/email_friend_add_request_dto.dart';
+import 'package:team3_kakao/data/dto/friend_add_dto/email_friend_add_response_dto.dart';
+import 'package:team3_kakao/data/dto/friend_add_dto/phoneNum_friend_add_request_dto.dart';
+import 'package:team3_kakao/data/dto/friend_add_dto/phoneNum_friend_add_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_backImage_delete_response_dto/profile_backimage_delete_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_image_delete_response_dto/profile_image_delete_response_dto.dart';
@@ -146,14 +150,28 @@ class UserRepository {
     }
   }
 
-  // // 연락처로 친구 추가
-  // Future<ResponseDTO> fetchPhoneNumFriendAdd() async{
-  //   try {
-  //
-  //
-  //   } catch
+  // 연락처로 친구 추가
+  Future<ResponseDTO> fetchPhoneNumFriendAdd(PhoneNumFriendAddRequestDTO phoneNumFriendAddRequestDTO) async{
+    try {
+      Response response = await dio.post("/user/phoneNum-friend-add", data: phoneNumFriendAddRequestDTO.toJson());
+      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+      responseDTO.data = PhoneNumFriendAddResponseDTO.fromJson(responseDTO.data);
+      return responseDTO;
+    } catch (e) {
+      return ResponseDTO(success: false);
+    }
+  }
 
-
+  // 이메일로 친구 추가
+  Future<ResponseDTO> fetchEmailFriendAdd(EmailFrinedAddRequestDTO emailFrinedAddRequestDTO) async {
+    try {
+      Response response = await dio.post("/user/emil-friend-add", data: emailFrinedAddRequestDTO.toJson());
+      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+      responseDTO.data = EmailFriendAddResponseDTO.fromJson(responseDTO.data);
+      return responseDTO;
+    } catch (e) {
+      return ResponseDTO(success: false);
+    }
   }
 
 }
