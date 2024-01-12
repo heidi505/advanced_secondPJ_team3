@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/user/find/find_password_view_model.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 
 import '../../../_core/constants/color.dart';
@@ -116,9 +117,14 @@ class InfoText extends StatelessWidget {
   }
 }
 
+
 class CheckEmail extends StatefulWidget {
+  int? funcNum;
+
   @override
   _CheckEmailState createState() => _CheckEmailState();
+
+  CheckEmail({this.funcNum});
 }
 
 class _CheckEmailState extends State<CheckEmail> {
@@ -143,11 +149,15 @@ class _CheckEmailState extends State<CheckEmail> {
                       errorText: _emailErrorText,
                     ),
                     onChanged: (value) {
-                      setState(() {
+                      if (widget.funcNum == 1) {
                         _emailErrorText = validateEmail()(value);
                         ref.read(joinFormProvider.notifier).setEmail(value);
                         Logger().d(_emailController);
-                      });
+                        Logger().d("+++설마 이거...?+++");
+                      } else if (widget.funcNum == 2) {
+                        Logger().d("++어떤게 실행됐지??++");
+                        ref.read(findPasswordProvider.notifier).notifyInit();
+                      }
                     },
                   ),
                 ),
@@ -161,7 +171,7 @@ class _CheckEmailState extends State<CheckEmail> {
                   onPressed: () {
                     if (_emailErrorText == null) {
                       MailSendDTO mailSendDTO =
-                          new MailSendDTO(email: _emailController.text);
+                      new MailSendDTO(email: _emailController.text);
                       SessionUser user = ref.read(sessionProvider);
                       user.mailSend(mailSendDTO);
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -187,6 +197,8 @@ class _CheckEmailState extends State<CheckEmail> {
     super.dispose();
   }
 }
+
+
 
 class InsertText2 extends StatelessWidget {
   String text;
@@ -230,13 +242,15 @@ class _AuthNumState extends State<AuthNum> {
               onChanged: (value) {
                 setState(() {
                   int? verifyNumber =
-                      int.tryParse(widget.authNumController.text);
+                  int.tryParse(widget.authNumController.text);
                   Logger().d(verifyNumber);
                   Logger().d(widget.authNumController.text + "야야야야야야양야ㄷㄱ");
                   Logger().d(
-                      "_authNumController.text: ${widget.authNumController.text}");
+                      "_authNumController.text: ${widget.authNumController
+                          .text}");
                   Logger().d(
-                      "_authNumController.text runtimeType: ${widget.authNumController.text.runtimeType}");
+                      "_authNumController.text runtimeType: ${widget
+                          .authNumController.text.runtimeType}");
 
                   ref
                       .read(joinFormProvider.notifier)
@@ -262,6 +276,7 @@ class _AuthNumState extends State<AuthNum> {
 class InsertNickName extends ConsumerWidget {
   String text;
   final TextEditingController nickNameController;
+
   InsertNickName({required this.nickNameController, required this.text});
 
   @override
@@ -325,6 +340,7 @@ class InsertPhoneNum extends ConsumerWidget {
 class InsertPassword extends ConsumerWidget {
   final TextEditingController? authNumController;
   String text;
+
   InsertPassword({required this.text, this.authNumController});
 
   @override
@@ -352,6 +368,7 @@ class InsertPassword extends ConsumerWidget {
 class InsertPassword2 extends StatefulWidget {
   final Function(bool isValid) onValidationChanged;
   final TextEditingController? authNumController;
+
   InsertPassword2({required this.onValidationChanged, this.authNumController});
 
   @override

@@ -76,5 +76,19 @@ class UserRepository {
     }
   }
 
-//
+//임시 비번
+  Future<ResponseDTO> fetchPasswordCheck(FindPasswordDTO findPasswordDTO) async {
+    try {
+      Response<dynamic> response =
+      await dio.post("/password-find", data: findPasswordDTO.toJson());
+      Logger().d("111.+++이메일 요청이요+++");
+      ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+      Logger().d("222. ???이메일 요청이요???" );
+      return responseDTO;
+    } catch (e) {
+      // 200이 아니면 catch로 감
+      return ResponseDTO(success: false);
+    }
+  }
+
 }

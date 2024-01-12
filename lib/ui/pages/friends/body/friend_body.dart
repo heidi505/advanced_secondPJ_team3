@@ -20,7 +20,7 @@ class FriendBody extends ConsumerWidget {
     MainPageModel? model = ref.watch(mainProvider);
 
     if(model == null){
-      return SliverToBoxAdapter(child: CircularProgressIndicator());
+      return CircularProgressIndicator();
     }
 
     MainDTO? mainDTO = model!.mainDTO;

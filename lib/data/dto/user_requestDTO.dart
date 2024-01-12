@@ -56,3 +56,11 @@ class PasswordDTO {
 
   Map<String, dynamic> toJson() => {"password": password};
 }
+
+class FindPasswordDTO{
+  final String email;
+
+  FindPasswordDTO({required this.email});
+
+  Map<String, dynamic> toJson() => {"email": email};
+}
