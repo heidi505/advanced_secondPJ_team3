@@ -12,6 +12,7 @@ import 'package:team3_kakao/ui/lesson_temp/userid/user_id_page.dart';
 import 'package:team3_kakao/ui/lesson_temp/userid/user_list_page.dart';
 
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
+import 'package:team3_kakao/ui/pages/chat_room/widgets/my_chat.dart';
 
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/friends/friends_page.dart';
@@ -39,13 +40,10 @@ class _SplashScreenState extends State<SplashPage> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-<<<<<<< HEAD
 
-          builder: (context) => UserIdTest(),
 
-=======
           builder: (context) => LoginPage(),
->>>>>>> main
+
         ),
       ),
     );
