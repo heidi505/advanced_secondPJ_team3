@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
+import 'package:team3_kakao/_core/firebase/api/firebase_api.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/model/user.dart';
@@ -22,7 +23,8 @@ class SessionUser {
   SessionUser({this.user, this.jwt});
 
   Future<void> login(LoginReqDTO loginReqDTO) async {
-    Logger().d("프로바이더까지 들어옴" + loginReqDTO.email!);
+
+    loginReqDTO.fcmToken = myTokenFCM;
     //1. 통신코드
     ResponseDTO responseDTO = await UserRepository().fetchLogin(loginReqDTO);
 

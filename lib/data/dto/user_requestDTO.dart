@@ -25,12 +25,13 @@ class JoinReqDTO {
 }
 
 class LoginReqDTO {
+  String? fcmToken;
   final String? email;
   final String? password;
 
-  LoginReqDTO({required this.email, required this.password});
+  LoginReqDTO({required this.email, required this.password, this.fcmToken});
 
-  Map<String, dynamic> toJson() => {"email": email, "password": password};
+  Map<String, dynamic> toJson() => {"email": email, "password": password, "fcmToken":fcmToken};
 }
 
 class MailSendDTO {
