@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/validator_util.dart';
 
@@ -54,13 +55,13 @@ class _LoginScreenState extends State<LoginPage>
               validator: validatePassword(),
             ),
             LoginButton(
-              text: "로그인",
-              formKey: _formKey,
               email: _email.text,
               password: _password.text,
+              text: "로그인",
+              formKey: _formKey,
             ),
             JoinButton(text: "새로운 카카오계정 만들기"),
-            LoginButton(text: "카카오계정 또는 비밀번호 찾기")
+            FindButton(account: "계정 찾기", password: "비밀번호 찾기"), //비번찾기 버튼
           ],
         ),
       ),
