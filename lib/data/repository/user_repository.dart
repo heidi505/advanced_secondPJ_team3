@@ -56,6 +56,7 @@ class UserRepository {
     try {
 
       requestDTO.fcmToken = myTokenFCM;
+      Logger().d(myTokenFCM);
       Response<dynamic> response =
           await dio.post("/sign-up", data: requestDTO.toJson());
       Logger().d("요청완료됨111");
