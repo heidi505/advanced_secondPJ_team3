@@ -37,7 +37,7 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: mediumGap, bottom: xsmallGap),
+      padding: const EdgeInsets.only(top: smallGap, bottom: xsmallGap),
       child: TextButton(
           onPressed: () {
             // 버튼 클릭 시 join_agree_page.dart로 이동
@@ -46,7 +46,11 @@ class LoginButton extends StatelessWidget {
               MaterialPageRoute(builder: (context) => LoginPage()),
             );
           },
-          child: Text("$text")),
+          style: TextButton.styleFrom(
+            backgroundColor: basicColorW,
+            side: BorderSide(color: Colors.deepOrangeAccent),
+          ),
+          child: Text("$text", style: TextStyle(color: Colors.deepOrangeAccent),)),
     );
   }
 }

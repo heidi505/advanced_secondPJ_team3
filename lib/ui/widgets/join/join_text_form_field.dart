@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/user/find/find_password_view_model.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 
 import '../../../_core/constants/color.dart';
@@ -258,6 +259,7 @@ class _AuthNumState extends State<AuthNum> {
 class InsertNickName extends ConsumerWidget {
   String text;
   final TextEditingController nickNameController;
+
   InsertNickName({required this.nickNameController, required this.text});
 
   @override
@@ -266,7 +268,6 @@ class InsertNickName extends ConsumerWidget {
       controller: nickNameController,
       onChanged: (value) {
         ref.read(joinFormProvider.notifier).setNickName(value);
-        Logger().d(nickNameController.text);
       },
       decoration: InputDecoration(
           hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
@@ -350,6 +351,7 @@ class InsertPhoneNum extends ConsumerWidget {
 class InsertPassword extends ConsumerWidget {
   final TextEditingController? authNumController;
   String text;
+
   InsertPassword({required this.text, this.authNumController});
 
   @override
@@ -377,6 +379,7 @@ class InsertPassword extends ConsumerWidget {
 class InsertPassword2 extends StatefulWidget {
   final Function(bool isValid) onValidationChanged;
   final TextEditingController? authNumController;
+
   InsertPassword2({required this.onValidationChanged, this.authNumController});
 
   @override
@@ -384,8 +387,6 @@ class InsertPassword2 extends StatefulWidget {
 }
 
 class _InsertPassword2State extends State<InsertPassword2> {
-  TextEditingController _controller = TextEditingController();
-
   bool _passwordsMatch = false;
 
   @override

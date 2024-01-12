@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_media_page.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_notice_page.dart';
+import 'package:team3_kakao/ui/pages/chat_room/widgets/chat_menu_main.dart';
 
-import '../../../_core/constants/size.dart';
-import '../../widgets/chatting_items/chatting_hamburger.dart';
+import '../../../../_core/constants/size.dart';
 
 class ChatRoomHamburger extends StatelessWidget {
   const ChatRoomHamburger({
@@ -25,7 +25,7 @@ class ChatRoomHamburger extends StatelessWidget {
                   children: [
                     BoldTtitle(text: "채팅방 서랍"),
                     ChatHamIcon(
-                        text: "사진/동영상", svg: "assets/icons/chat_pic_icon.svg"),
+                        text: "사진/동영상", svg: "assets/icons/chat_pic_icon.svg", linkto: ChatRoomMediaPage()),
                     // 실제 보유 이미지들 + 리스트로(?) 가져오게 수정해야함!
                     Container(
                       height: 90,
@@ -40,13 +40,13 @@ class ChatRoomHamburger extends StatelessWidget {
                       ),
                     ),
                     ChatHamIcon(
-                        text: "파일", svg: "assets/icons/chat_folder_icon.svg"),
+                        text: "파일", svg: "assets/icons/chat_folder_icon.svg", linkto: ChatRoomMediaPage()),
                     ChatHamIcon(
-                        text: "링크", svg: "assets/icons/chat_link_icon.svg"),
+                        text: "링크", svg: "assets/icons/chat_link_icon.svg", linkto: ChatRoomMediaPage()),
                     BoldText(text: "톡캘린더"),
                     BoldText(text: "톡게시판"),
                     ChatHamIcon(
-                        text: "공지", svg: "assets/icons/chat_notice_icon.svg"),
+                        text: "공지", svg: "assets/icons/chat_notice_icon.svg", linkto: ChatRoomNoticePage()),
                     BoldText(text: "대화상대"),
                     // 프로필아이콘으로 추가 수정 해야함
                     PlusUser(
