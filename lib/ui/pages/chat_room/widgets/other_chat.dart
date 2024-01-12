@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
@@ -10,13 +11,13 @@ class OtherChat extends StatelessWidget {
   final String time;
   final int userId;
 
-  const OtherChat({
-    Key? key,
-    required this.name,
-    required this.text,
-    required this.time,
-    required this.userId
-  }) : super(key: key);
+  const OtherChat(
+      {Key? key,
+      required this.name,
+      required this.text,
+      required this.time,
+      required this.userId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
