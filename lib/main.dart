@@ -6,6 +6,7 @@ import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/theme.dart';
+import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 import 'package:team3_kakao/ui/pages/splash_page.dart';
 import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
 
@@ -18,6 +19,7 @@ import '_core/firebase/firebase_options.dart';
 
 // TODO 1: Widget이 아닌 곳에서 현재 화면의 context에 접근해주는 객체
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

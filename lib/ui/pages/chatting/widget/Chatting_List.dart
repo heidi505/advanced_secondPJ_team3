@@ -13,6 +13,8 @@ import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 class ChattingList extends ConsumerWidget {
   ChattingList({super.key});
 
+  get baseUrl => null;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ChattingPageModel? model = ref.watch(chattingPageProvider);
