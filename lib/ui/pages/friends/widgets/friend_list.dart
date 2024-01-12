@@ -18,7 +18,7 @@ class FriendList extends StatelessWidget {
             circular: 16.0,
             imageWidth: 40,
             imageHeight: 40,
-            imagePath: baseUrl + "/images/${friendsList![index].userId}.jpg",
+            imagePath: "$baseUrl/images/${friendsList![index].userId}.jpg",
             title: friendsList![index].nickname!,
             subTitle: friendsList![index].statusMessage,
           ),
