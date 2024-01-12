@@ -32,7 +32,7 @@ class LoginReqDTO {
 
   LoginReqDTO({required this.email, required this.password});
 
-  Map<String, dynamic> toJson() => {"email": email, "password": password};
+  Map<String, dynamic> toJson() => {"email": email!, "password": password!};
 }
 
 class MailSendDTO {
@@ -57,4 +57,12 @@ class PasswordDTO {
   PasswordDTO({required this.password});
 
   Map<String, dynamic> toJson() => {"password": password};
+}
+
+class FindPasswordDTO{
+  final String email;
+
+  FindPasswordDTO({required this.email});
+
+  Map<String, dynamic> toJson() => {"email": email};
 }

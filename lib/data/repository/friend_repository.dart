@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
@@ -15,6 +17,7 @@ class FriendRepository{
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
     MainDTO mainDTO = MainDTO.fromJson(responseDTO.data);
+
 
     responseDTO.data = mainDTO;
 
