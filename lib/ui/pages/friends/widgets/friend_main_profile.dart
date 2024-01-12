@@ -15,9 +15,14 @@ class FriendMainProfile extends ConsumerWidget {
     super.key, required this.myProfile
   });
 
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SessionUser session = ref.read(sessionProvider);
+
+    if(myProfile == null || session == null){
+      return CircularProgressIndicator();
+    }
     return SliverToBoxAdapter(
         child: InkWell(
       onTap: () {
