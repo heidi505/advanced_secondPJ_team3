@@ -6,41 +6,41 @@ import '../../../_core/constants/size.dart';
 import '../../pages/user/find/find_password_reset_page.dart';
 import '../../pages/user/join/join_check_page.dart';
 
-class LoginButton extends StatelessWidget {
-  String text;
+// class LoginButton extends StatelessWidget {
+//   String text;
+//
+//   LoginButton({required this.text});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
+//       child: TextButton(onPressed: () {}, child: Text("$text")),
+//     );
+//   }
+// }
 
-  LoginButton({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
-      child: TextButton(onPressed: () {}, child: Text("$text")),
-    );
-  }
-}
-
-class JoinButton extends StatelessWidget {
-  String text;
-
-  JoinButton({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
-      child: TextButton(
-          onPressed: () {
-            // 버튼 클릭 시 join_agree_page.dart로 이동
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => JoinCheckPage()),
-            );
-          },
-          child: Text("$text")),
-    );
-  }
-}
+// class JoinButton extends StatelessWidget {
+//   String text;
+//
+//   JoinButton({required this.text});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
+//       child: TextButton(
+//           onPressed: () {
+//             // 버튼 클릭 시 join_agree_page.dart로 이동
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => JoinCheckPage()),
+//             );
+//           },
+//           child: Text("$text")),
+//     );
+//   }
+// }
 
 class FindButton extends StatelessWidget {
   String account;

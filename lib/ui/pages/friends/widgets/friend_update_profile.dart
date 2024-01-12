@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_sub_title.dart';
 
+import '../../../../data/model/user_mock.dart';
+
 class FriendUpdateProfile extends StatelessWidget {
   const FriendUpdateProfile({
     super.key,
   });
+
+  get baseUrl => null;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,7 @@ class FriendUpdateProfile extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: friends.length,
                   itemBuilder: (BuildContext context, int index) {
-                    User friend = friends[index];
+                    UserMock friend = friends[index];
                     return Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: InkWell(
@@ -53,8 +58,8 @@ class FriendUpdateProfile extends StatelessWidget {
                           child: Column(
                             children: [
                               ClipRRect(
-                                child: Image.asset(
-                                  "assets/images/basic_img.jpeg",
+                                child: Image.network(
+                                  baseUrl + "/images/basic.jpeg",
                                   fit: BoxFit.cover,
                                   width: 40,
                                   height: 40,

@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
-import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
+import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
-class ProfilePage extends StatelessWidget {
+import '../../../data/model/profile_detail_model.dart';
+import '../../../data/provider/profile_detail_provider.dart';
+
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key, required this.user}) : super(key: key);
 
-  final User user;
+  final UserMock user;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ProfileDetailModel? model = ref.watch(profileDetailProvider);
+    if (model == null) {
+      return CircularProgressIndicator();
+    }
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -37,10 +45,15 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(
                 height: xsmallGap,
               ),
-              Text(user.name, style: h4(color: basicColorW)),
+              // --------------- 테스트 ----------------
+              Text(model.profileDetailResponseDTO.profileImage),
+              Text(model.profileDetailResponseDTO.backImage),
+              // --------------- 테스트 ----------------
+              Text(model.profileDetailResponseDTO.nickname,
+                  style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
-                user.intro,
+                model.profileDetailResponseDTO.statusMessage,
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
@@ -50,9 +63,11 @@ class ProfilePage extends StatelessWidget {
                 color: formColor,
               ),
               if (user.name == me.name)
-                _buildMyProfileIcons()
+                //_buildMyProfileIcons()
+                _buildFriendProfileIcons()
               else
-                _buildFriendProfileIcons(),
+                //_buildFriendProfileIcons(),
+                _buildMyProfileIcons(),
             ],
           ),
           appBar: AppBar(
