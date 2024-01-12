@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/chat_menu_sub.dart';
@@ -16,61 +17,15 @@ class ChatRoomSettingsPage extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.only(
-              top: mediumGap,
+              top: smallGap,
               left: mediumGap,
               right: mediumGap,
               bottom: xsmallGap),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 140,
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.grey,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: Image.asset(
-                          "assets/images/cat.jpg",
-                          width: 50,
-                          height: 50,
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: Image.asset(
-                          "assets/images/cat.jpg",
-                          width: 50,
-                          height: 50,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        child: Image.asset(
-                          "assets/images/cat.jpg",
-                          width: 50,
-                          height: 50,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Image.asset(
-                          "assets/images/cat.jpg",
-                          width: 50,
-                          height: 50,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              ChatSettingsProfile(),
+              SizedBox(height: 30),
               BoldText(text: "채팅방 이름"),
               InfoText(text: "심화반 2차 3조"),
               SizedBox(height: 20),
