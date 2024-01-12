@@ -14,6 +14,10 @@ class FriendMakePop extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border(
+            top: BorderSide(
+              color: bgAndLineColor,
+              width: 1.0
+            ),
             bottom: BorderSide(
               color: bgAndLineColor,
               width: 1.0,

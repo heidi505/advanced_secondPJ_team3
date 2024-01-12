@@ -3,6 +3,8 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_sub_title.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 
+import '../../../../_core/constants/http.dart';
+
 class FriendFavorites extends StatelessWidget {
   const FriendFavorites({
     super.key,
@@ -40,7 +42,7 @@ class FriendFavorites extends StatelessWidget {
                             circular: 16.0,
                             imageWidth: 40,
                             imageHeight: 40,
-                            imagePath: "assets/images/basic_img.jpeg",
+                            imagePath: baseUrl + "/images/basic.jpeg",
                             title: "김하얀",
                             subTitle: "어제 1월 2일",
                           ),
@@ -48,7 +50,7 @@ class FriendFavorites extends StatelessWidget {
                             circular: 16.0,
                             imageWidth: 40,
                             imageHeight: 40,
-                            imagePath: "assets/images/basic_img.jpeg",
+                            imagePath: baseUrl + "/images/basic.jpeg",
                             title: "김하얀",
                             subTitle: "어제 1월 2일",
                           ),

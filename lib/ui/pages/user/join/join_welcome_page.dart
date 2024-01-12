@@ -6,7 +6,7 @@ import '../../../../_core/constants/size.dart';
 import '../../../widgets/join/join_button_form_field.dart';
 
 class JoinWelcomePage extends StatelessWidget {
-  const JoinWelcomePage({super.key});
+  JoinWelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

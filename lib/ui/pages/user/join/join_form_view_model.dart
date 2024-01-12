@@ -6,7 +6,7 @@ class JoinFormModel {
   String nickname;
   String password;
   String phoneNum;
-  String birthdate;
+  DateTime birthdate;
   int verifyNumber;
 
   JoinFormModel({
@@ -29,7 +29,7 @@ class JoinFormModel {
     String? nickname,
     String? password,
     String? phoneNum,
-    String? birthdate,
+    DateTime? birthdate,
   }) {
     return JoinFormModel(
       verifyNumber: verifyNumber ?? this.verifyNumber,
@@ -66,7 +66,7 @@ class JoinFormViewModel extends StateNotifier<JoinFormModel> {
     state = state.copyWith(phoneNum: value);
   }
 
-  void setBirthDate(String value) {
+  void setBirthDate(DateTime value) {
     state = state.copyWith(birthdate: value);
   }
 }
@@ -80,7 +80,7 @@ final joinFormProvider =
       nickname: "",
       password: "",
       phoneNum: "",
-      birthdate: "",
+      birthdate: DateTime.now(),
     ),
   );
 });
