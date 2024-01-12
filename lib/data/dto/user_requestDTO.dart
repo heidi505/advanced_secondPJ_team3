@@ -1,9 +1,11 @@
+import 'package:intl/intl.dart';
+
 class JoinReqDTO {
   final String? email;
   final String? nickname;
   final String? password;
   final String? phoneNum;
-  final String? birthdate;
+  final DateTime? birthdate;
 
   JoinReqDTO({
     this.email,
@@ -18,7 +20,7 @@ class JoinReqDTO {
         "nickname": nickname,
         "password": password,
         "phoneNum": phoneNum,
-        "birthdate": birthdate,
+        "birthdate": DateFormat('yyyy-MM-dd').format(birthdate!),
       };
 
 // request에만 쓰니까 fromJson은 필요없다
@@ -30,7 +32,7 @@ class LoginReqDTO {
 
   LoginReqDTO({required this.email, required this.password});
 
-  Map<String, dynamic> toJson() => {"email": email, "password": password};
+  Map<String, dynamic> toJson() => {"email": email!, "password": password!};
 }
 
 class MailSendDTO {
@@ -55,4 +57,12 @@ class PasswordDTO {
   PasswordDTO({required this.password});
 
   Map<String, dynamic> toJson() => {"password": password};
+}
+
+class FindPasswordDTO{
+  final String email;
+
+  FindPasswordDTO({required this.email});
+
+  Map<String, dynamic> toJson() => {"email": email};
 }

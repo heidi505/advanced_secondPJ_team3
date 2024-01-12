@@ -23,10 +23,12 @@ class UserRepository {
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
       Response response = await dio.post("/sign-in", data: requestDTO.toJson());
+      Logger().d(response.data);
 
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
       responseDTO.data = User.fromJson(responseDTO.data);
+      Logger().d(responseDTO.data);
 
       List<String>? jwt = response.headers["Authorization"];
 
@@ -48,8 +50,8 @@ class UserRepository {
   //  회원가입
   Future<ResponseDTO> fetchJoin(JoinReqDTO requestDTO) async {
     try {
-      Response<dynamic> response =
-          await dio.post("/sign-up", data: requestDTO.toJson());
+      Logger().d(requestDTO.email! + "여기" + requestDTO.password!);
+      Response<dynamic> response = await dio.post("/sign-up", data: requestDTO.toJson());
       Logger().d("요청완료됨111");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
       Logger().d("요청완료됨222");
@@ -87,6 +89,20 @@ class UserRepository {
       return ResponseDTO(success: false);
     }
   }
+
+  Future<ResponseDTO> fetchPasswordCheck(FindPasswordDTO findPasswordDTO) async {
+    try {
+      Response<dynamic> response =
+      await dio.post("/password-find", data: findPasswordDTO.toJson());
+      Logger().d("111.+++이메일 요청이요+++");
+      ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+      Logger().d("222. ???이메일 요청이요???");
+      return responseDTO;
+    } catch (e) {
+      return ResponseDTO(success: false);
+    }
+  }
+      // 200이 아니면 catch로 감
 
   // 프로필 상세보기
   Future<ResponseDTO> fetchProfileDetail() async {
@@ -146,6 +162,7 @@ class UserRepository {
       responseDTO.data = new ProfileBackImageDeleteResponseDTO.fromJson(responseDTO.data);
       return responseDTO;
     } catch (e) {
+
       return ResponseDTO(success: false);
     }
   }

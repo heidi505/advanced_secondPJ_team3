@@ -34,6 +34,7 @@ class ChattingItem extends StatelessWidget {
     if(peopleCount == null){
       peopleCount = "";
     }
+
     return InkWell(
       onTap: ontap,
       child: Container(

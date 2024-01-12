@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
@@ -88,21 +89,13 @@ class _PasswordPageButtonState extends State<PasswordPageButton> {
           child: TextButton(
             onPressed: widget.isAuthNumValid
                 ? () {
-                    // int verifyNumber =
-                    //     int.tryParse(authNumController.text ?? '') ?? 0;
-                    // Logger().d(authNumController.text);
                     int? verifyNumber =
                         int.tryParse(widget.authNumController.text);
-                    Logger().d("${verifyNumber} d제발 나와줘");
+
                     MailCheckDTO mailCheckDTO =
                         MailCheckDTO(verifyNumber: verifyNumber!);
                     SessionUser user = ref.read(sessionProvider);
                     user.mailCheck(mailCheckDTO);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => JoinPassWordPage()),
-                    // );
                   }
                 : null,
             child: Text("${widget.text}"),
@@ -125,9 +118,9 @@ class ProfilePageButton extends ConsumerWidget {
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(
           onPressed: () {
-            JoinReqDTO joinReqDTO = JoinReqDTO(password: controller.text);
-            SessionUser user = ref.read(sessionProvider);
-            user.join(joinReqDTO);
+            final email = ref.read(joinFormProvider)?.email;
+            ref.read(joinFormProvider).password = controller.text;
+            Navigator.pushNamed(context, Move.joinProfilePage);
           },
           child: Text("$text")),
     );
@@ -137,36 +130,39 @@ class ProfilePageButton extends ConsumerWidget {
 class WelcomePageButton extends ConsumerWidget {
   String text;
   final TextEditingController nickNameController;
-  final TextEditingController birthDateController;
   final TextEditingController phoneNumController;
 
   WelcomePageButton({
     required this.text,
     required this.nickNameController,
-    required this.birthDateController,
     required this.phoneNumController,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    JoinFormModel? model = ref.watch(joinFormProvider);
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(
         onPressed: () {
-          Logger().d(
-              "닉네임 , 생일, 전화번호 : " +
-                  nickNameController.text +
-                  birthDateController.text,
-              phoneNumController.text);
           SessionUser user = ref.read(sessionProvider);
+          final email = ref.watch(joinFormProvider)?.email;
+          final password = ref.watch(joinFormProvider)?.password;
+          final birthdate = ref.watch(joinFormProvider)?.birthdate;
+          //
+          // final formattedBirthdate =
+          //     DateFormat('yyyy-MM-dd').format(birthdate ?? DateTime.now());
+
 
           JoinReqDTO joinReqDTO = JoinReqDTO(
+            email:  email,
+            password: password,
             nickname: nickNameController.text,
-            birthdate: birthDateController.text,
             phoneNum: phoneNumController.text,
+            birthdate: birthdate
           );
 
-          user.join(joinReqDTO);
+          user.finalJoin(joinReqDTO);
         },
         child: Text("$text"),
       ),

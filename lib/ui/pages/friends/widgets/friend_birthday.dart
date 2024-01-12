@@ -15,7 +15,6 @@ class FriendBirthday extends StatelessWidget {
   });
 
 
-
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
