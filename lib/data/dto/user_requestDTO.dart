@@ -1,9 +1,11 @@
+import 'package:intl/intl.dart';
+
 class JoinReqDTO {
   final String? email;
   final String? nickname;
   final String? password;
   final String? phoneNum;
-  final String? birthdate;
+  final DateTime? birthdate;
 
   JoinReqDTO({
     this.email,
@@ -18,7 +20,7 @@ class JoinReqDTO {
         "nickname": nickname,
         "password": password,
         "phoneNum": phoneNum,
-        "birthdate": birthdate,
+        "birthdate": DateFormat('yyyy-MM-dd').format(birthdate!),
       };
 
 // request에만 쓰니까 fromJson은 필요없다
