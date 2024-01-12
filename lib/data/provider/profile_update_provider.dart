@@ -19,8 +19,8 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
 
   // 화면이 그려지기 전에 값을 가져오거나 초기화하는 역할
   Future<void> notifyInit(ProfileUpdateRequestDTO profileUpdateRequestDTO) async {
-  ResponseDTO responseDTO = await UserRepository().fetchProfileUpdate(profileUpdateRequestDTO);
-  state = ProfileUpdateModel(profileUpdateRequestDTO);
+    ResponseDTO responseDTO = await UserRepository().fetchProfileUpdate(profileUpdateRequestDTO);
+    state = ProfileUpdateModel(profileUpdateRequestDTO);
   }
 }
 

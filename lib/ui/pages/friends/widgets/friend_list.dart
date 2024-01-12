@@ -10,8 +10,6 @@ class FriendList extends StatelessWidget {
     super.key, this.friendsList
   });
 
-  get baseUrl => null;
-
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
@@ -22,7 +20,7 @@ class FriendList extends StatelessWidget {
             circular: 16.0,
             imageWidth: 40,
             imageHeight: 40,
-            imagePath: baseUrl + "/images/${friendsList![index].userId}.jpg",
+            imagePath: "$baseUrl/images/${friendsList![index].userId}.jpg",
             title: friendsList![index].nickname!,
             subTitle: friendsList![index].statusMessage,
           ),
