@@ -13,8 +13,6 @@ import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 import '../../../data/model/profile_detail_model.dart';
 import '../../../data/provider/profile_detail_provider.dart';
 
-
-
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key, required this.user}) : super(key: key);
 
@@ -48,13 +46,14 @@ class ProfilePage extends ConsumerWidget {
                 height: xsmallGap,
               ),
               // --------------- 테스트 ----------------
-              Text(model.profileImage),
-              Text(model.backImage),
+              Text(model.profileDetailResponseDTO.profileImage),
+              Text(model.profileDetailResponseDTO.backImage),
               // --------------- 테스트 ----------------
-              Text(model.nickname, style: h4(color: basicColorW)),
+              Text(model.profileDetailResponseDTO.nickname,
+                  style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
-                model.statusMessage,
+                model.profileDetailResponseDTO.statusMessage,
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
@@ -64,9 +63,11 @@ class ProfilePage extends ConsumerWidget {
                 color: formColor,
               ),
               if (user.name == me.name)
-                _buildMyProfileIcons()
+                //_buildMyProfileIcons()
+                _buildFriendProfileIcons()
               else
-                _buildFriendProfileIcons(),
+                //_buildFriendProfileIcons(),
+                _buildMyProfileIcons(),
             ],
           ),
           appBar: AppBar(

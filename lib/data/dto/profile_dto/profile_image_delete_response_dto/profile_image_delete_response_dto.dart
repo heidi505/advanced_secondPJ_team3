@@ -1,18 +1,14 @@
 
 class ProfileImageDeleteResponseDTO{
-  int? id;
-  String? profileImage;
+  int id;
+  String profileImage;
 
-  ProfileImageDeleteResponseDTO({
+  ProfileImageDeleteResponseDTO(
     this.id,
     this.profileImage
-  });
+  );
 
-  Map<String, dynamic> toJson(){
-    return{
-      "id": id,
-      "profileImage": profileImage
-    };
-  }
-
+  ProfileImageDeleteResponseDTO.fromJson(Map<String, dynamic> json)
+  : id = json["id"],
+    profileImage = json["profileImage"];
 }

@@ -1,4 +1,3 @@
-
 class ProfileUpdateRequestDTO{
   int? id;
   String? nickname;
@@ -9,20 +8,19 @@ class ProfileUpdateRequestDTO{
   ProfileUpdateRequestDTO({
     this.id,
     this.nickname,
+    this.statusMessage,
     this.profileImage,
-    this.backImage,
-    this.statusMessage
+    this.backImage
   });
 
   Map<String, dynamic> toJson(){
     return{
-      "id":id,
-      "nickname":nickname,
-      "statusMessage":statusMessage,
-      "profileImage":profileImage,
-      "backImage":backImage
+      "id":this.id,
+      "nickname":this.nickname,
+      "statusMessage":this.statusMessage,
+      "profileImage":this.profileImage,
+      "backImage":this.backImage
     };
   }
-
 }
 
