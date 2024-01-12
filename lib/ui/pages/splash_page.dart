@@ -43,8 +43,8 @@ class _SplashScreenState extends State<SplashPage> {
         context,
         MaterialPageRoute(
 
-
           builder: (context) => LoginPage(),
+
 
         ),
       ),

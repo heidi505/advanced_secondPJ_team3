@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/chat_repository.dart';
 import 'package:team3_kakao/main.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
@@ -20,17 +22,22 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?>{
   OtherChatViewModel(this.ref, super._state);
 
   Future<void> notifyInit() async{
-    List<MessageDTO> messageList = await ChatRepository().getInitMessages();
+    ParamStore paramStore = ref.read(paramProvider);
+    SessionUser session = ref.read(sessionProvider);
+
+    List<MessageDTO> messageList = await ChatRepository().getInitMessages(paramStore.chatRoomDocId!, session.user!.id!);
     state = OtherChatModel(messages: messageList);
 
-    ChatRepository().fetchMessages().listen((event) {
+    ChatRepository().fetchMessages(paramStore.chatRoomDocId!, session.user!.id!).listen((event) {
       state = OtherChatModel(messages: event);
     });
   }
 
 
   Future<void> addMessage(String text) async{
-    await ChatRepository().addMessage(text);
+    SessionUser session = ref.read(sessionProvider);
+    ParamStore paramStore = ref.read(paramProvider);
+    await ChatRepository().addMessage(text, session.user!.id!, paramStore.chatRoomDocId!);
   }
 
   // List<MessageDTO> newMessageList = [];

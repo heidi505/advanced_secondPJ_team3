@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_person_count.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/group_profile.dart';
@@ -12,6 +13,8 @@ import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 class ChattingList extends ConsumerWidget {
   ChattingList({super.key});
 
+  get baseUrl => null;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ChattingPageModel? model = ref.watch(chattingPageProvider);
@@ -19,8 +22,6 @@ class ChattingList extends ConsumerWidget {
     if(model == null){
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
-
-
 
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -34,6 +35,7 @@ class ChattingList extends ConsumerWidget {
                   imageWidth: 40,
                   imageHeight: 40,
                   ontap: () {
+                    ref.read(paramProvider).addChatRoomDocId(model!.chatRoomDTOList[index].chatDocId!);
                     Navigator.pushNamed(context, Move.chatRoomPage);
                   },
                   circular: 16.0,

@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/user/find/find_password_view_model.dart';
@@ -153,11 +155,13 @@ class _CheckEmailState extends State<CheckEmail> {
                         _emailErrorText = validateEmail()(value);
                         ref.read(joinFormProvider.notifier).setEmail(value);
                         Logger().d(_emailController);
+
                         Logger().d("+++설마 이거...?+++");
                       } else if (widget.funcNum == 2) {
                         Logger().d("++어떤게 실행됐지??++");
                         ref.read(findPasswordProvider.notifier).notifyInit();
                       }
+
                     },
                   ),
                 ),
@@ -240,24 +244,13 @@ class _AuthNumState extends State<AuthNum> {
                 errorText: _isAuthNumValid ? null : "인증번호를 입력해주세요.",
               ),
               onChanged: (value) {
-                setState(() {
-                  int? verifyNumber =
-                  int.tryParse(widget.authNumController.text);
-                  Logger().d(verifyNumber);
-                  Logger().d(widget.authNumController.text + "야야야야야야양야ㄷㄱ");
-                  Logger().d(
-                      "_authNumController.text: ${widget.authNumController
-                          .text}");
-                  Logger().d(
-                      "_authNumController.text runtimeType: ${widget
-                          .authNumController.text.runtimeType}");
+                int? verifyNumber = int.tryParse(widget.authNumController.text);
 
-                  ref
-                      .read(joinFormProvider.notifier)
-                      .setVerifyNumber(verifyNumber!);
-                  _isAuthNumValid = value.isNotEmpty;
-                  widget.onValidationChanged(_isAuthNumValid);
-                });
+                ref
+                    .read(joinFormProvider.notifier)
+                    .setVerifyNumber(verifyNumber!);
+                _isAuthNumValid = value.isNotEmpty;
+                widget.onValidationChanged(_isAuthNumValid);
               },
             ),
           ],
@@ -272,6 +265,7 @@ class _AuthNumState extends State<AuthNum> {
     super.dispose();
   }
 }
+
 
 class InsertNickName extends ConsumerWidget {
   String text;
@@ -295,23 +289,52 @@ class InsertNickName extends ConsumerWidget {
 
 class InsertBirthday extends ConsumerWidget {
   String text;
-  final TextEditingController birthDateController;
 
-  InsertBirthday({required this.birthDateController, required this.text});
+  InsertBirthday({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return TextFormField(
-      controller: birthDateController,
-      onChanged: (value) {
-        Logger().d(birthDateController.text);
-        DateTime? selectedDate = DateTime.tryParse(value);
-        if (selectedDate != null) {
-          ref.read(joinFormProvider.notifier).setBirthDate(selectedDate);
-        }
-      },
-      decoration: InputDecoration(
-          hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
+    JoinFormModel? model = ref.watch(joinFormProvider);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: smallGap,
+        ),
+        TextButton(
+          onPressed: () {
+            showCupertinoDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (context) {
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    color: basicColorW,
+                    height: 300,
+                    child: CupertinoDatePicker(
+                      backgroundColor: Colors.white,
+                      mode: CupertinoDatePickerMode.date,
+                      onDateTimeChanged: (DateTime date) {
+                        ref.read(joinFormProvider.notifier).setBirthDate(date);
+                      },
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: basicColorW,
+            side: BorderSide(color: formColor),
+          ),
+          child: Text(
+            "${model?.birthdate?.year ?? 0000}.${model?.birthdate?.month ?? 00}.${model?.birthdate?.day ?? 00}",
+            style: h5(),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -393,11 +416,9 @@ class _InsertPassword2State extends State<InsertPassword2> {
           ),
           obscureText: true,
           onChanged: (value) {
-            setState(() {
-              _passwordsMatch = value.isNotEmpty;
-              widget.onValidationChanged(_passwordsMatch);
-              ref.read(joinFormProvider.notifier).setPassword(value);
-            });
+            _passwordsMatch = value.isNotEmpty;
+            widget.onValidationChanged(_passwordsMatch);
+            ref.read(joinFormProvider.notifier).setPassword(value);
           },
         );
       },

@@ -10,6 +10,8 @@ class FriendFavorites extends StatelessWidget {
     super.key,
   });
 
+  get baseUrl => null;
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(

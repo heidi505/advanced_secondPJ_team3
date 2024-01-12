@@ -7,7 +7,6 @@ import '../../../widgets/login/login_button_form_field.dart';
 import '../../../widgets/login/login_text_form_feild.dart';
 
 class LoginPage extends StatefulWidget {
-
   LoginPage({Key? key}) : super(key: key);
 
   @override
