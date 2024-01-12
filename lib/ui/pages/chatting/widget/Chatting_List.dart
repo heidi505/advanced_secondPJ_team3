@@ -29,7 +29,7 @@ class ChattingList extends ConsumerWidget {
               ChattingItem(
                   title: model!.chatRoomDTOList[index].chatName!,
                   peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                  imagePath: baseUrl + "/images/${index+1}.jpg",
+                  imagePath: "$baseUrl/images/${index+1}.jpg",
                   imageWidth: 40,
                   imageHeight: 40,
                   ontap: () {
