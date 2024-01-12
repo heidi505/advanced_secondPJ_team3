@@ -28,7 +28,8 @@ class FriendsPlusIdPage extends StatelessWidget {
                   textAlign: TextAlign.end,
                 ))
               ],
-            )
+            ),
+            TextButton(onPressed: () {}, child: Text("확인")),
           ],
         ),
       ),
