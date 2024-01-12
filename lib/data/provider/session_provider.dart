@@ -22,7 +22,7 @@ class SessionUser {
   SessionUser({this.user, this.jwt});
 
   Future<void> login(LoginReqDTO loginReqDTO) async {
-    Logger().d("프로바이더까지 들어옴" + loginReqDTO.email!);
+    Logger().d("++프로바이더까지 들어옴++" + loginReqDTO.email!);
     //1. 통신코드
     ResponseDTO responseDTO = await UserRepository().fetchLogin(loginReqDTO);
 
@@ -50,6 +50,24 @@ class SessionUser {
     // 2. 비지니스 로직
     if (responseDTO.success == true) {
       Navigator.pushNamed(mContext!, Move.joinProfilePage);
+      Logger().d(" join 요청 확인22");
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(
+          content: Text(responseDTO.errorType!.message!),
+        ),
+      );
+    }
+  }
+
+  Future<void> finalJoin(JoinReqDTO joinReqDTO) async {
+    // 1. 통신 코드
+    ResponseDTO responseDTO = await UserRepository().fetchJoin(joinReqDTO);
+    Logger().d(" finaljoin 요청 확인");
+    Logger().d("응답 responseDTO : " + responseDTO.success.toString());
+    // 2. 비지니스 로직
+    if (responseDTO.success == true) {
+      Navigator.pushNamed(mContext!, Move.joinWelcomePage);
       Logger().d(" join 요청 확인22");
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(
@@ -96,12 +114,9 @@ class SessionUser {
     // 1. 통신 코드
     ResponseDTO responseDTO =
         await UserRepository().fetchMailCheck(mailCheckDTO);
-    Logger().d("여기까지 실행됨13344");
-    Logger().d("${responseDTO.success} 야 진짜 집에 가자");
 
     // 2. 비지니스 로직
     if (responseDTO.success == true) {
-      Logger().d("${responseDTO.success} 야 진짜 집에 보내줘");
       Navigator.pushNamed(mContext!, Move.joinPasswordPage);
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(

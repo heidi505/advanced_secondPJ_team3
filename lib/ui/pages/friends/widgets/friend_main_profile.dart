@@ -16,6 +16,7 @@ class FriendMainProfile extends ConsumerWidget {
   });
 
 
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SessionUser session = ref.read(sessionProvider);
@@ -35,7 +36,7 @@ class FriendMainProfile extends ConsumerWidget {
           children: [
             ClipRRect(
               child: Image.network(
-                baseUrl + "/images/${session.user!.id}.jpg",
+                "$baseUrl/images/${session.user!.id}.jpg",
                 fit: BoxFit.cover,
                 width: 60,
                 height: 60,

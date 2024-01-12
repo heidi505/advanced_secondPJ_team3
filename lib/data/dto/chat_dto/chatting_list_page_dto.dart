@@ -43,7 +43,7 @@ class MessageDTO {
     if(this.createdAt!.toDate().hour >= 12){
       time = "오후 " + (createdAt!.toDate().hour - 12).toString() + ":" + createdAt!.toDate().minute.toString();
     }else{
-      time = "오전 " + (createdAt!.toDate().hour - 12).toString() + ":" + createdAt!.toDate().minute.toString();
+      time = "오전 " + createdAt!.toDate().hour.toString() + ":" + createdAt!.toDate().minute.toString();
     }
   }
 

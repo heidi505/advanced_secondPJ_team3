@@ -14,6 +14,7 @@ class JoinCheckPage extends ConsumerStatefulWidget {
 class _JoinCheckPageState extends ConsumerState<JoinCheckPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController authNumController = TextEditingController();
+
   bool _isAuthNumValid = true;
 
   @override
@@ -26,7 +27,7 @@ class _JoinCheckPageState extends ConsumerState<JoinCheckPage> {
           child: ListView(
             children: [
               JoinTitle(text: "이메일로 발송된 \n인증번호를 입력해 주세요."),
-              CheckEmail(),
+              CheckEmail(funcNum: 1),
               AuthNum(
                 authNumController: authNumController,
                 onValidationChanged: _updateAuthNumValidation,

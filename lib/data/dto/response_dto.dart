@@ -2,6 +2,7 @@ import 'package:team3_kakao/data/model/user.dart';
 
 class ResponseDTO {
   final bool? success;
+
   dynamic? data;
   ErrorType? errorType; // response field is dynamic
   String? token;
@@ -37,4 +38,5 @@ class ErrorType {
   String toString() {
     return 'ErrorType{message: $message, status: $status}';
   }
+
 }

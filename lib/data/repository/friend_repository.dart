@@ -18,6 +18,7 @@ class FriendRepository{
 
     MainDTO mainDTO = MainDTO.fromJson(responseDTO.data);
 
+
     responseDTO.data = mainDTO;
 
     return responseDTO;

@@ -14,7 +14,6 @@ class FindPasswordReset extends StatefulWidget {
 }
 
 class _FindAccountScreenState extends State<FindPasswordReset> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,11 +25,10 @@ class _FindAccountScreenState extends State<FindPasswordReset> {
             FindTitle(
               text: "카카오계정의 \n비밀번호를 재설정합니다.",
             ),
-            FindHintText(
-                text: "비밀번호를 재설정할 \n카카오계정의 이메일 또는 전화번호를 입력해 주세요."),
+            FindHintText(text: "비밀번호를 재설정할 \n카카오계정의 이메일 또는 전화번호를 입력해 주세요."),
             Padding(
               padding: const EdgeInsets.only(top: mediumGap),
-              child: CheckEmail(),
+              child: CheckEmail(funcNum: 2),
             ),
             LoginButton(text: "로그인"),
           ],
