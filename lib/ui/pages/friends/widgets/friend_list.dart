@@ -6,11 +6,7 @@ import '../../../../data/dto/friend_dto/main_dto.dart';
 
 class FriendList extends StatelessWidget {
   List<FriendsDTO>? friendsList;
-  FriendList({
-    super.key, this.friendsList
-  });
-
-  get baseUrl => null;
+  FriendList({super.key, this.friendsList});
 
   @override
   Widget build(BuildContext context) {
