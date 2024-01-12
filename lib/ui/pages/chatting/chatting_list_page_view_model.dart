@@ -70,6 +70,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
 
       //시간 파싱
       int lastHour = messageDTOList[messageLength-1].createdAt!.toDate().hour;
+      Logger().d(messageDTOList[messageLength-1].createdAt!.toDate());
       String? lastchatTime = "";
       if(lastHour >= 12){
         lastchatTime = "오후 " + (lastHour - 12).toString() + ":" + messageDTOList[messageLength-1].createdAt!.toDate().minute.toString();
