@@ -14,8 +14,6 @@ class FriendBirthday extends StatelessWidget {
     super.key, required this.friendList
   });
 
-  get baseUrl => null;
-
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
