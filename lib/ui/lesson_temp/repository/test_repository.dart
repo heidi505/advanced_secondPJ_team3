@@ -10,7 +10,7 @@ import '../../../data/dto/response_dto.dart';
 
 class TestRepository{
 
-  Future<ResponseDTO> notifyuserId(ReqDTO reqDTO) async{
+  Future<ResponseDTO> notifyuserId(ReqDTO reqDTO) async{ //뷰모델에서 받은 ReqDTO
 
     //toJson 으로 요청을 보내고 나면 => Response라는 객체 안에 헤더랑 바디가 있는 거임. reponse.data가 바디
     Response response = await dio.post("/userTest", data: reqDTO.toJson());

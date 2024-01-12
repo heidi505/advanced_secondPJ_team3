@@ -1,12 +1,13 @@
 // 창고 데이터
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 class JoinFormModel {
   String email;
   String nickname;
   String password;
   String phoneNum;
-  String birthdate;
+  DateTime birthdate;
   int verifyNumber;
 
   JoinFormModel({
@@ -20,7 +21,7 @@ class JoinFormModel {
 
   @override
   String toString() {
-    return 'JoinFormModel{userId: $email, userPassword: $nickname, userConfirmPassword: $password, username: $phoneNum, userEmail: $birthdate';
+    return 'JoinFormModel{email: $email, nickname: $nickname, password: $password, phoneNum: $phoneNum, birthdate: $birthdate';
   }
 
   JoinFormModel copyWith({
@@ -29,7 +30,7 @@ class JoinFormModel {
     String? nickname,
     String? password,
     String? phoneNum,
-    String? birthdate,
+    DateTime? birthdate,
   }) {
     return JoinFormModel(
       verifyNumber: verifyNumber ?? this.verifyNumber,
@@ -44,35 +45,41 @@ class JoinFormModel {
 
 // 창고
 class JoinFormViewModel extends StateNotifier<JoinFormModel> {
-  JoinFormViewModel(super.state);
+  JoinFormViewModel(JoinFormModel state) : super(state);
 
   void setVerifyNumber(int value) {
     state = state.copyWith(verifyNumber: value);
+    Logger().d(state);
   }
 
   void setEmail(String value) {
     state = state.copyWith(email: value);
+    Logger().d(state);
   }
 
   void setNickName(String value) {
     state = state.copyWith(nickname: value);
+    Logger().d(state);
   }
 
   void setPassword(String value) {
     state = state.copyWith(password: value);
+    Logger().d(state);
   }
 
   void setPhoneNum(String value) {
     state = state.copyWith(phoneNum: value);
+    Logger().d(state);
   }
 
-  void setBirthDate(String value) {
+  void setBirthDate(DateTime value) {
     state = state.copyWith(birthdate: value);
+    Logger().d(state);
   }
 }
 
 final joinFormProvider =
-    StateNotifierProvider.autoDispose<JoinFormViewModel, JoinFormModel?>((ref) {
+    StateNotifierProvider<JoinFormViewModel, JoinFormModel>((ref) {
   return JoinFormViewModel(
     JoinFormModel(
       verifyNumber: 0,
@@ -80,7 +87,7 @@ final joinFormProvider =
       nickname: "",
       password: "",
       phoneNum: "",
-      birthdate: "",
+      birthdate: DateTime.now(),
     ),
   );
 });

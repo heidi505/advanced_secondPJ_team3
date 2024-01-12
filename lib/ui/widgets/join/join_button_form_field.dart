@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_password_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_profile_page.dart';
 
@@ -86,21 +89,13 @@ class _PasswordPageButtonState extends State<PasswordPageButton> {
           child: TextButton(
             onPressed: widget.isAuthNumValid
                 ? () {
-                    // int verifyNumber =
-                    //     int.tryParse(authNumController.text ?? '') ?? 0;
-                    // Logger().d(authNumController.text);
                     int? verifyNumber =
                         int.tryParse(widget.authNumController.text);
-                    Logger().d("${verifyNumber} d제발 나와줘");
+
                     MailCheckDTO mailCheckDTO =
                         MailCheckDTO(verifyNumber: verifyNumber!);
                     SessionUser user = ref.read(sessionProvider);
                     user.mailCheck(mailCheckDTO);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => JoinPassWordPage()),
-                    // );
                   }
                 : null,
             child: Text("${widget.text}"),
@@ -111,45 +106,67 @@ class _PasswordPageButtonState extends State<PasswordPageButton> {
   }
 }
 
-class ProfilePageButton extends StatelessWidget {
+class ProfilePageButton extends ConsumerWidget {
+  final TextEditingController controller;
   String text;
 
-  ProfilePageButton({required this.text});
+  ProfilePageButton({required this.text, required this.controller});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(
           onPressed: () {
-            // 버튼 클릭 시 join_agree_page.dart로 이동
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => JoinProfilePage()),
-            );
+            final email = ref.read(joinFormProvider)?.email;
+            JoinReqDTO joinReqDTO =
+                new JoinReqDTO(email: email!, password: controller.text, birthdate: DateTime.now());
+            SessionUser user = ref.read(sessionProvider);
+            user.join(joinReqDTO);
           },
           child: Text("$text")),
     );
   }
 }
 
-class WelcomePageButton extends StatelessWidget {
+class WelcomePageButton extends ConsumerWidget {
   String text;
+  final TextEditingController nickNameController;
+  final TextEditingController phoneNumController;
 
-  WelcomePageButton({required this.text});
+  WelcomePageButton({
+    required this.text,
+    required this.nickNameController,
+    required this.phoneNumController,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    JoinFormModel? model = ref.watch(joinFormProvider);
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => JoinWelcomePage()),
-            );
-          },
-          child: Text("$text")),
+        onPressed: () {
+          SessionUser user = ref.read(sessionProvider);
+          final email = ref.watch(joinFormProvider)?.email;
+          final password = ref.watch(joinFormProvider)?.password;
+          final birthdate = ref.watch(joinFormProvider)?.birthdate;
+          //
+          // final formattedBirthdate =
+          //     DateFormat('yyyy-MM-dd').format(birthdate ?? DateTime.now());
+
+          JoinReqDTO joinReqDTO = JoinReqDTO(
+            email: email,
+            password: password,
+            nickname: nickNameController.text,
+            birthdate: birthdate,
+            phoneNum: phoneNumController.text,
+          );
+
+          user.finalJoin(joinReqDTO);
+        },
+        child: Text("$text"),
+      ),
     );
   }
 }

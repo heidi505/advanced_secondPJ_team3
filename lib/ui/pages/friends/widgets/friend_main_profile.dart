@@ -16,6 +16,8 @@ class FriendMainProfile extends ConsumerWidget {
   });
 
 
+
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SessionUser session = ref.read(sessionProvider);

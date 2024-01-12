@@ -1,17 +1,19 @@
+import 'package:intl/intl.dart';
+
 class JoinReqDTO {
-  final String email;
-  final String nickname;
-  final String password;
-  final String phoneNum;
-  final String birthdate;
-  String? fcmToken;
+  final String? email;
+  final String? nickname;
+  final String? password;
+  final String? phoneNum;
+  final DateTime? birthdate;
+  final String? fcmToken;
 
   JoinReqDTO({
-    required this.email,
-    required this.nickname,
-    required this.password,
-    required this.phoneNum,
-    required this.birthdate,
+    this.email,
+    this.nickname,
+    this.password,
+    this.phoneNum,
+    this.birthdate,
     this.fcmToken
   });
 
@@ -50,4 +52,12 @@ class MailCheckDTO {
   MailCheckDTO({required this.verifyNumber});
 
   Map<String, dynamic> toJson() => {"verifyNumber": verifyNumber};
+}
+
+class PasswordDTO {
+  final String password;
+
+  PasswordDTO({required this.password});
+
+  Map<String, dynamic> toJson() => {"password": password};
 }
