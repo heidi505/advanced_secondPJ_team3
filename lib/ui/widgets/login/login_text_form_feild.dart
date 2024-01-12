@@ -51,6 +51,7 @@ class LoginButton extends ConsumerWidget {
       child: TextButton(
           onPressed: () {
             if (formKey.currentState!.validate()) {
+
               Logger().d("유효성 통과");
               LoginReqDTO loginReqDTO =
                   new LoginReqDTO(email: email!, password: password!);
