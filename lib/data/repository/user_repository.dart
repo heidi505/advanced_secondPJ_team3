@@ -19,10 +19,12 @@ class UserRepository {
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
       Response response = await dio.post("/sign-in", data: requestDTO.toJson());
+      Logger().d(response.data);
 
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
       responseDTO.data = User.fromJson(responseDTO.data);
+      Logger().d(responseDTO.data);
 
       List<String>? jwt = response.headers["Authorization"];
 
@@ -84,6 +86,20 @@ class UserRepository {
     }
   }
 
+  Future<ResponseDTO> fetchPasswordCheck(FindPasswordDTO findPasswordDTO) async {
+    try {
+      Response<dynamic> response =
+      await dio.post("/password-find", data: findPasswordDTO.toJson());
+      Logger().d("111.+++이메일 요청이요+++");
+      ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+      Logger().d("222. ???이메일 요청이요???");
+      return responseDTO;
+    } catch (e) {
+      return ResponseDTO(success: false);
+    }
+  }
+      // 200이 아니면 catch로 감
+
   // 프로필 상세보기
   Future<ResponseDTO> fetchProfileDetail() async {
     Logger().d("유저 리파지토리 진입");
@@ -142,6 +158,7 @@ class UserRepository {
       responseDTO.data = new ProfileBackImageDeleteResponseDTO.fromJson(responseDTO.data);
       return responseDTO;
     } catch (e) {
+
       return ResponseDTO(success: false);
     }
   }
