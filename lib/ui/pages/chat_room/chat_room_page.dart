@@ -41,7 +41,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         chat = MyChat(text: message.content, time: message.time!);
       } else {
         chat =
-            OtherChat(name: "홍길동", text: message.content, time: message.time!);
+            OtherChat(name: "홍길동", text: message.content, time: message.time!, userId: message.userId!);
       }
       Logger().d(message.content);
       chats.add(chat);

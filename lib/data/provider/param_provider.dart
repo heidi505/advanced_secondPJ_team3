@@ -4,17 +4,18 @@ import 'package:team3_kakao/main.dart';
 import '../dto/chat_dto/chatting_list_page_dto.dart';
 
 class RequestParam {
-  List<ChatroomDTO>? chatRoomDTOList;
+  String? chatRoomDocId;
 
-  RequestParam({this.chatRoomDTOList});
+  RequestParam({this.chatRoomDocId});
 }
 
 class ParamStore extends RequestParam{
   final mContext = navigatorKey.currentContext;
 
-  void addChatRoomList(List<ChatroomDTO> chatRoomDTOList){
-    this.chatRoomDTOList = chatRoomDTOList;
+  void addChatRoomDocId(String chatRoomDocId){
+    this.chatRoomDocId = chatRoomDocId;
   }
+
 
 }
 
