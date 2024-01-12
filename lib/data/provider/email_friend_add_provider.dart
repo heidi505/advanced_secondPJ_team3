@@ -14,10 +14,11 @@ class EmailFriendAddModel {
 class EmailFriendAddViewModel extends StateNotifier<EmailFriendAddModel?> {
   Ref ref;
   EmailFriendAddViewModel(super.state, this.ref);
-  Future<void> notifyInit(EmailFrinedAddRequestDTO emailFrinedAddRequestDTO) async {
-    ResponseDTO responseDTO = await UserRepository().fetchEmailFriendAdd(emailFrinedAddRequestDTO);
-    state = EmailFriendAddModel(emailFrinedAddRequestDTO);
+  Future<void> notifyInit(EmailFrinedAddRequestDTO emailFriendAddRequestDTO) async {
+    ResponseDTO responseDTO = await UserRepository().fetchEmailFriendAdd(emailFriendAddRequestDTO);
+    state = EmailFriendAddModel(emailFriendAddRequestDTO);
   }
+
 }
 
 // // 프로바이더
@@ -25,4 +26,3 @@ class EmailFriendAddViewModel extends StateNotifier<EmailFriendAddModel?> {
 //     StateNotifierProvider((ref) {
 //
 //     });
-
