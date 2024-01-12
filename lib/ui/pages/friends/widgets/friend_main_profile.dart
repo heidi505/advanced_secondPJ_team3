@@ -15,7 +15,7 @@ class FriendMainProfile extends ConsumerWidget {
     super.key, required this.myProfile
   });
 
-  get baseUrl => null;
+
 
 
   @override
