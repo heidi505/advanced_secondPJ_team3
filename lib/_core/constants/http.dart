@@ -10,3 +10,4 @@ final dio = Dio(
 
 // 휴대폰 로컬에 파일로 저장
 const secureStorage = FlutterSecureStorage();
+gi
