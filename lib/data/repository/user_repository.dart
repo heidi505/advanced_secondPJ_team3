@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
+import 'package:team3_kakao/_core/firebase/api/firebase_api.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_backImage_delete_response_dto/profile_backimage_delete_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_image_delete_response_dto/profile_image_delete_response_dto.dart';
@@ -44,6 +45,7 @@ class UserRepository {
   //  회원가입
   Future<ResponseDTO> fetchJoin(JoinReqDTO requestDTO) async {
     try {
+      requestDTO.fcmToken = myTokenFCM;
       Response<dynamic> response =
           await dio.post("/sign-up", data: requestDTO.toJson());
       Logger().d("요청완료됨111");

@@ -6,7 +6,7 @@ class JoinReqDTO {
   final String? password;
   final String? phoneNum;
   final DateTime? birthdate;
-  final String? fcmToken;
+  String? fcmToken;
 
   JoinReqDTO({
     this.email,
