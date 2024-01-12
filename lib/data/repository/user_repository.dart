@@ -46,8 +46,8 @@ class UserRepository {
   //  회원가입
   Future<ResponseDTO> fetchJoin(JoinReqDTO requestDTO) async {
     try {
-      Response<dynamic> response =
-          await dio.post("/sign-up", data: requestDTO.toJson());
+      Logger().d(requestDTO.email! + "여기" + requestDTO.password!);
+      Response<dynamic> response = await dio.post("/sign-up", data: requestDTO.toJson());
       Logger().d("요청완료됨111");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
       Logger().d("요청완료됨222");
