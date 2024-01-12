@@ -18,11 +18,14 @@ class FriendBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     MainPageModel? model = ref.watch(mainProvider);
-    MainDTO? mainDTO = model!.mainDTO;
 
     if(model == null){
       return CircularProgressIndicator();
     }
+
+    MainDTO? mainDTO = model!.mainDTO;
+
+
 
     return CustomScrollView(
       slivers: [

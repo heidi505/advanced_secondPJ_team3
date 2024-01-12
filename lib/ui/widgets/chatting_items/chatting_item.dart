@@ -14,9 +14,10 @@ class ChattingItem extends StatelessWidget {
       required this.imageWidth,
       required this.imageHeight,
       required this.circular,
-      this.peopleCount, this.ontap})
+      this.peopleCount, this.ontap, this.chatDocId})
       : super(key: key);
 
+  String? chatDocId;
   final String title;
   final String imagePath;
   final String? subTitle;
