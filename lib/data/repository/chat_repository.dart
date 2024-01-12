@@ -50,13 +50,13 @@ class ChatRepository{
   }
 
   //userId 받아야함!!
-  Future<void> addMessage(String text, int userId) async {
+  Future<void> addMessage(String text, int userId, String chatRoomDocId) async {
     final db = FirebaseFirestore.instance;
-    message msg = new message(content: text,userId: 1, createdAt: Timestamp.now());
+    message msg = message(content: text,userId: userId, createdAt: Timestamp.now());
 
     final docRef = await db
-        .collection("ChatRoom1")
-        .doc("MrJLNXVtsN6fYV6nZ57g")
+        .collection("ChatRoom$userId")
+        .doc(chatRoomDocId)
         .collection("messages")
         .add(msg.toJson());
 
