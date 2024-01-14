@@ -11,7 +11,7 @@ class ChattingPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-         Text("채팅페이지"),
+          Text("채팅페이지"),
         ],
       ),
     );

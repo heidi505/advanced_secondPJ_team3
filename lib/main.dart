@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/ui/pages/chatting/chatting_page.dart';
 import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
 
 import '_core/constants/move.dart';
@@ -19,10 +20,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashPage(),
+      home: ChattingPage(),
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      initialRoute: Move.splashPage,
+      initialRoute: Move.chatScreen,
       routes: getRouters(),
       theme: theme(),
     );
