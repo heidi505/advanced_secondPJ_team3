@@ -1,6 +1,12 @@
+import 'dart:core';
+
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
+import 'package:team3_kakao/data/dto/friend_add_dto/email_friend_add_request_dto.dart';
+import 'package:team3_kakao/data/dto/friend_add_dto/email_friend_add_response_dto.dart';
+import 'package:team3_kakao/data/dto/friend_add_dto/phoneNum_friend_add_request_dto.dart';
+import 'package:team3_kakao/data/dto/friend_add_dto/phoneNum_friend_add_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_backImage_delete_response_dto/profile_backimage_delete_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_image_delete_response_dto/profile_image_delete_response_dto.dart';
@@ -20,12 +26,14 @@ class UserRepository {
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
       Response response = await dio.post("/sign-in", data: requestDTO.toJson());
+      Logger().d(response.data);
 
       Logger().d("++로그인 요청++");
 
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
       responseDTO.data = User.fromJson(responseDTO.data);
+      Logger().d(responseDTO.data);
 
       List<String>? jwt = response.headers["Authorization"];
 
@@ -47,8 +55,8 @@ class UserRepository {
   //  회원가입
   Future<ResponseDTO> fetchJoin(JoinReqDTO requestDTO) async {
     try {
-      Response<dynamic> response =
-          await dio.post("/sign-up", data: requestDTO.toJson());
+      Logger().d(requestDTO.email! + "여기" + requestDTO.password!);
+      Response<dynamic> response = await dio.post("/sign-up", data: requestDTO.toJson());
       Logger().d("요청완료됨111");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
       Logger().d("요청완료됨222");
@@ -102,11 +110,11 @@ class UserRepository {
       // 200이 아니면 catch로 감
 
   // 프로필 상세보기
-  Future<ResponseDTO> fetchProfileDetail() async {
+  Future<ResponseDTO> fetchProfileDetail(int id) async {
     Logger().d("유저 리파지토리 진입");
     try {
       // 서버에 요청
-      Response response = await dio.get("/user/my-profile-detail/2");
+      Response response = await dio.get("/user/my-profile-detail/$id");
       Logger().d("페이지 통신 완료 : ${response.data}");
 
       // 서버에서 받아온 값을 Dart 객체로 변환
@@ -160,6 +168,30 @@ class UserRepository {
       return responseDTO;
     } catch (e) {
 
+      return ResponseDTO(success: false);
+    }
+  }
+
+  // 연락처로 친구 추가
+  Future<ResponseDTO> fetchPhoneNumFriendAdd(PhoneNumFriendAddRequestDTO phoneNumFriendAddRequestDTO) async{
+    try {
+      Response response = await dio.post("/user/phoneNum-friend-add", data: phoneNumFriendAddRequestDTO.toJson());
+      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+      responseDTO.data = PhoneNumFriendAddResponseDTO.fromJson(responseDTO.data);
+      return responseDTO;
+    } catch (e) {
+      return ResponseDTO(success: false);
+    }
+  }
+
+  // 이메일로 친구 추가
+  Future<ResponseDTO> fetchEmailFriendAdd(EmailFrinedAddRequestDTO emailFrinedAddRequestDTO) async {
+    try {
+      Response response = await dio.post("/user/emil-friend-add", data: emailFrinedAddRequestDTO.toJson());
+      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+      responseDTO.data = EmailFriendAddResponseDTO.fromJson(responseDTO.data);
+      return responseDTO;
+    } catch (e) {
       return ResponseDTO(success: false);
     }
   }
