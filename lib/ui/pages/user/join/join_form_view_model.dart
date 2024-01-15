@@ -45,7 +45,6 @@ class JoinFormModel {
 
 // 창고
 class JoinFormViewModel extends StateNotifier<JoinFormModel> {
-
   JoinFormViewModel(JoinFormModel state) : super(state);
 
   void setVerifyNumber(int value) {
