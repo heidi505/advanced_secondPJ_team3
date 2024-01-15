@@ -15,14 +15,18 @@ class ProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      child: Image.network(
-        imagePath,
-        fit: BoxFit.cover,
-        width: imageWidth,
-        height: imageHeight,
-      ),
-      borderRadius: BorderRadius.circular(circular),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return ClipRRect(
+          child: Image.network(
+            imagePath,
+            fit: BoxFit.cover,
+            width: imageWidth,
+            height: imageHeight,
+          ),
+          borderRadius: BorderRadius.circular(circular),
+        );
+      },
     );
   }
 }
