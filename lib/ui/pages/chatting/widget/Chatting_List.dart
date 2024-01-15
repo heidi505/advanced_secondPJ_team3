@@ -17,7 +17,7 @@ class ChattingList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ChattingPageModel? model = ref.watch(chattingPageProvider);
 
-    if(model == null){
+    if (model == null) {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
 
@@ -25,21 +25,22 @@ class ChattingList extends ConsumerWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
-              (context, index) =>
-              ChattingItem(
-                  title: model!.chatRoomDTOList[index].chatName!,
-                  peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                  imagePath: "$baseUrl/images/${index+1}.jpg",
-                  imageWidth: 40,
-                  imageHeight: 40,
-                  ontap: () {
-                    ref.read(paramProvider).addChatRoomDocId(model!.chatRoomDTOList[index].chatDocId!);
-                    Navigator.pushNamed(context, Move.chatRoomPage);
-                  },
-                  circular: 16.0,
-                  subTitle: model!.chatRoomDTOList[index].lastChat,
-                  multiItem: Text(
-                      "${model.chatRoomDTOList[index].lastChatTime}", style: TextStyle(color: Colors.grey))),
+          (context, index) => ChattingItem(
+              title: model!.chatRoomDTOList[index].chatName!,
+              peopleCount: model!.chatRoomDTOList[index].peopleCount!,
+              imagePath: "$baseUrl/images/${index + 1}.jpg",
+              imageWidth: 40,
+              imageHeight: 40,
+              ontap: () {
+                ref
+                    .read(paramProvider)
+                    .addChatRoomDocId(model!.chatRoomDTOList[index].chatDocId!);
+                Navigator.pushNamed(context, Move.chatRoomPage);
+              },
+              circular: 16.0,
+              subTitle: model!.chatRoomDTOList[index].lastChat,
+              multiItem: Text("${model.chatRoomDTOList[index].lastChatTime}",
+                  style: TextStyle(color: Colors.grey))),
           childCount: model!.chatRoomDTOList.length,
         ),
       ),
