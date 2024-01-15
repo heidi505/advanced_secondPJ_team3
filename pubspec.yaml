@@ -54,6 +54,7 @@ dependencies:
   firebase_messaging: ^14.7.10
   flutter_local_notifications: ^16.1.0
   permission_handler: ^11.1.0 # 앱 권한 설정(저장소,주소록,전화)에 관련된 라이브러리입니다.
+
   flutter_launcher_icons: ^0.13.1
 
 flutter_icons:
@@ -68,6 +69,10 @@ flutter_icons:
     generate: true
     image_path: "assets/images/kakao_logo.png"
     icon_size : 52
+
+  fluttertoast: ^8.2.4
+
+
 
 dev_dependencies:
   flutter_test:
