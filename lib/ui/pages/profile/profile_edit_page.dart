@@ -30,6 +30,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -122,6 +123,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                   hintText: '홍길동',
+
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(color: basicColorW),
                                   ),

@@ -23,6 +23,7 @@ import 'package:team3_kakao/ui/pages/user/find/find_password_reset_page.dart';
 import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 
+import 'friends/friends_plus_Id_page.dart';
 import 'main_page.dart';
 import 'my_info/my_info_page.dart';
 import 'profile/profile_edit_page.dart';
@@ -43,8 +44,8 @@ class _SplashScreenState extends State<SplashPage> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfileEditPage(
-            user: friends[0],
+          builder: (context) => LoginPage(
+            // user: friends[1],
           ),
         ),
       ),
