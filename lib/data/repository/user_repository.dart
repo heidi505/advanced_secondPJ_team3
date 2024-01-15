@@ -16,9 +16,12 @@ import '../provider/profile_detail_provider.dart';
 // MVVM패턴 : View -> Provider(전역프로바이더or뷰모델) -> Repository(통신+파싱을 책임)
 // 나중에 싱글톤으로 바꿀것
 class UserRepository {
+
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
       Response response = await dio.post("/sign-in", data: requestDTO.toJson());
+
+      Logger().d("++로그인 요청++");
 
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 

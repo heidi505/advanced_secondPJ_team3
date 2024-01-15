@@ -19,6 +19,7 @@ import 'package:team3_kakao/ui/pages/friends/friends_page.dart';
 import 'package:team3_kakao/ui/pages/notify_write/notify_write_page.dart';
 import 'package:team3_kakao/ui/pages/user/find/find_password_page.dart';
 import 'package:team3_kakao/ui/pages/user/find/find_password_reset_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_welcome_page.dart';
 
 import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
