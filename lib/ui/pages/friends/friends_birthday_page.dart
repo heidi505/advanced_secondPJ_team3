@@ -5,7 +5,9 @@ import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class FriendsBirthDayPage extends StatelessWidget {
-  FriendsBirthDayPage({super.key});
+  final List<FriendsDTO> friendList;
+
+  FriendsBirthDayPage({super.key, required this.friendList});
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +28,13 @@ class FriendsBirthDayPage extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.zero,
                     color: Colors.transparent,
-                    child: ListTile(
+                    child:
+                    ListTile(
                       contentPadding: EdgeInsets.zero,
                       dense: true,
-                      leading:
-                          // ProfileImage(
-                          //   circular: 16.0,
-                          //   imagePath: "images/basic_img.jpeg",
-                          //   imageWidth: 40,
-                          //   imageHeight: 40,
-                          // ),
-                          ClipRRect(
-                        child: Image.asset(
-                          "assets/images/basic_img.jpeg",
+                      leading: ClipRRect(
+                        child: Image.network(
+                          baseUrl + "/images/${friendList[index].userId}.jpg",
                           fit: BoxFit.cover,
                           width: 40,
                           height: 40,
@@ -48,17 +44,17 @@ class FriendsBirthDayPage extends StatelessWidget {
                       title: Container(
                         child: Row(
                           children: [
-                            Text("타이틀! 제목?",
+                            Text("${friendList[index].nickname}",
                                 style: TextStyle(color: Colors.black)),
                           ],
                         ),
                       ),
-                      subtitle: Text("이건 상태메시지"),
-                      // isThreeLine: ,
+                      subtitle: Text("${friendList[index].birthdate}"),
+                      // isThreeLine: ${friendList[0].birthdate} != null,
                     ),
                   ),
                 ),
-                childCount: 1,
+                childCount: friendList.length,
               ),
             ),
           ),
