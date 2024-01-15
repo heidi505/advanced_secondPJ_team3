@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team3_kakao/_core/constants/color.dart';
 
 class CountryCodePicker extends StatelessWidget {
   final String selectedCountryCode;
@@ -11,28 +12,27 @@ class CountryCodePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-            readOnly: true,
-            decoration: InputDecoration(
-              hintText: selectedCountryCode,
-            ),
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return _buildCountryCodeList(context);
-                },
-              );
-            },
-          ),
+    return TextFormField(
+      readOnly: true,
+      decoration: InputDecoration(
+        hintText: selectedCountryCode,
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.black), // 포커스가 있을 때의 선 색상
         ),
-      ],
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: bgAndLineColor), // 포커스가 없을 때의 선 색상
+        ),
+      ),
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return _buildCountryCodeList(context);
+          },
+        );
+      },
     );
   }
-
 
   Widget _buildCountryCodeList(BuildContext context) {
     List<String> countryCodes = [
