@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FriendsPlusIdPage extends StatelessWidget {
-  const FriendsPlusIdPage({Key? key});
+class FriendsPlusAddPage extends StatelessWidget {
+  const FriendsPlusAddPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +24,11 @@ class FriendsPlusIdPage extends StatelessWidget {
                 Text("내 아이디"),
                 Expanded(
                     child: Text(
-                  "yap3",
-                  textAlign: TextAlign.end,
-                ))
+                      "yap3",
+                      textAlign: TextAlign.end,
+                    ))
               ],
-            ),
-            SizedBox(height: 20),
-            TextButton(onPressed: () {}, child: Text("확인")),
+            )
           ],
         ),
       ),
