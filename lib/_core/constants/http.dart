@@ -14,11 +14,6 @@ String baseUrl = "http://192.168.0.71:8080";
 // 민경
 //String baseUrl = "http://192.168.0.62:8080";
 
-//String baseUrl = "http://192.168.0.201:8080";
-//혜림
-// String baseUrl = "http://192.168.0.57:8080";
-
-// String baseUrl = "http://192.168.0.201:8080";
 
 // http 통신
 final dio = Dio(

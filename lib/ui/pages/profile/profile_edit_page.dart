@@ -10,12 +10,14 @@ import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_camera_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_edit_bottom_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
+import 'package:team3_kakao/ui/pages/profile/widgets/profile_modal.dart';
+import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_form_field.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class ProfileEditPage extends StatefulWidget {
   ProfileEditPage({Key? key, required this.user}) : super(key: key);
-  final TextEditingController controller = TextEditingController();
+
   final UserMock user;
 
   @override
@@ -108,6 +110,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
+<<<<<<< HEAD
                 child: InkWell(
                   onTap: () {
                     showDialog(
@@ -174,37 +177,22 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     ),
                   ),
                 ),
+=======
+                child: ProfileTextFormField(
+                    textWidget: Text(
+                  widget.user.name,
+                  style: h4(color: basicColorW),
+                )),
+>>>>>>> main
               ),
               const SizedBox(height: xsmallGap),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: basicColorW.withOpacity(0.4),
-                        width: 0.5,
-                      ),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(widget.user.intro, style: h5(color: basicColorW)),
-                      SizedBox(
-                        width: xsmallGap,
-                      ),
-                      Image.asset(
-                        "assets/icons/profile/profile_icon_02.png",
-                        fit: BoxFit.cover,
-                        width: 20,
-                        height: 20,
-                        color: basicColorW,
-                      )
-                    ],
-                  ),
-                ),
+                child: ProfileTextFormField(
+                    textWidget: Text(
+                  widget.user.intro,
+                  style: h5(color: basicColorW),
+                )),
               ),
               const SizedBox(
                 height: mediumGap,
@@ -230,7 +218,13 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         ProfileEditBottomIcon(
           imagePath: "assets/icons/camera.png",
           ontap: () {
-            ProfileCameraBtn();
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return ProfileModal();
+              },
+              backgroundColor: Colors.transparent,
+            );
           },
         ),
         SizedBox(width: smallGap),

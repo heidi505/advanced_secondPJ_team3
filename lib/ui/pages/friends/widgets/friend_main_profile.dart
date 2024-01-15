@@ -11,17 +11,13 @@ import '../../../../data/model/profile.dart';
 
 class FriendMainProfile extends ConsumerWidget {
   final Profile myProfile;
-  const FriendMainProfile({
-    super.key, required this.myProfile
-  });
-
-
+  const FriendMainProfile({super.key, required this.myProfile});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SessionUser session = ref.read(sessionProvider);
 
-    if(myProfile == null || session == null){
+    if (myProfile == null || session == null) {
       return CircularProgressIndicator();
     }
     return SliverToBoxAdapter(

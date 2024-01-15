@@ -19,13 +19,11 @@ class FriendBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     MainPageModel? model = ref.watch(mainProvider);
 
-    if(model == null){
+    if (model == null) {
       return CircularProgressIndicator();
     }
 
     MainDTO? mainDTO = model!.mainDTO;
-
-
 
     return CustomScrollView(
       slivers: [
