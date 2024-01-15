@@ -10,37 +10,36 @@ import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_area.dart';
 import '../../../../data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
 import '../../../../data/provider/profile_update_provider.dart';
 
-class ProfileTextFormField extends ConsumerStatefulWidget {
-  const ProfileTextFormField({Key? key, required this.textWidget})
+class ProfileSubTextFormField extends ConsumerStatefulWidget {
+  const ProfileSubTextFormField({Key? key, required this.textWidget})
       : super(key: key);
 
   final Widget textWidget;
 
   @override
-  ConsumerState<ProfileTextFormField> createState() => _ProfileTextFormFieldState();
+  ConsumerState<ProfileSubTextFormField> createState() => _ProfileSubTextFormFieldState();
 }
 
-class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
-  final TextEditingController _nicknameController = new TextEditingController();
-  //final TextEditingController _statusMessageContoller = new TextEditingController();
+class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormField> {
+  final TextEditingController _statusMessageContoller = new TextEditingController();
   bool _isTextNotEmpty = false;
 
   @override
   void initState() {
     super.initState();
-    _nicknameController.addListener(_updateTextStatus);
+    _statusMessageContoller.addListener(_updateTextStatus);
   }
 
   void _updateTextStatus() {
     setState(() {
       _isTextNotEmpty =
-          _nicknameController.text.isNotEmpty || _nicknameController.text != widget.textWidget;
+          _statusMessageContoller.text.isNotEmpty || _statusMessageContoller.text != widget.textWidget;
     });
   }
 
   void _onFieldSubmitted(String value) {
-    Logger().d("----- 입력값 확인 ----- : " + _nicknameController.text);
-    ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO(nickname: value);
+    Logger().d("----- 입력값 확인 ----- : " + _statusMessageContoller.text);
+    ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO(statusMessage: value);
     ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
   }
 
@@ -60,7 +59,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                     children: [
                       Expanded(
                         child: TextFormField(
-                          controller: _nicknameController,
+                          controller: _statusMessageContoller,
                           autovalidateMode: AutovalidateMode.always,
                           textAlign: TextAlign.center,
                           onChanged: (text) {
@@ -86,7 +85,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              _nicknameController.clear();
+                              _statusMessageContoller.clear();
                               _isTextNotEmpty = false;
                             });
                           },
@@ -111,7 +110,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
       child: ProfileTextArea(
         textWidget: _isTextNotEmpty
             ? Text(
-          _nicknameController.text,
+          _statusMessageContoller.text,
                 style: TextStyle(color: basicColorW),
               )
             : widget.textWidget,

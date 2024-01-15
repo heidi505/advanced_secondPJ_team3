@@ -13,6 +13,7 @@ import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 import '../../../data/model/profile_detail_model.dart';
 import '../../../data/provider/profile_detail_provider.dart';
 
+
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({Key? key, required this.user}) : super(key: key);
 
