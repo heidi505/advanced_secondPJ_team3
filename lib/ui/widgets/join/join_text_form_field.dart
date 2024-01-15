@@ -119,10 +119,8 @@ class InfoText extends StatelessWidget {
   }
 }
 
-
 class CheckEmail extends StatefulWidget {
   int? funcNum;
-
   @override
   _CheckEmailState createState() => _CheckEmailState();
 
@@ -155,13 +153,7 @@ class _CheckEmailState extends State<CheckEmail> {
                         _emailErrorText = validateEmail()(value);
                         ref.read(joinFormProvider.notifier).setEmail(value);
                         Logger().d(_emailController);
-
-                        Logger().d("+++설마 이거...?+++");
-                      } else if (widget.funcNum == 2) {
-                        Logger().d("++어떤게 실행됐지??++");
-                        ref.read(findPasswordProvider.notifier).notifyInit();
-                      }
-
+                      } else if (widget.funcNum == 2) {}
                     },
                   ),
                 ),
@@ -175,7 +167,7 @@ class _CheckEmailState extends State<CheckEmail> {
                   onPressed: () {
                     if (_emailErrorText == null) {
                       MailSendDTO mailSendDTO =
-                      new MailSendDTO(email: _emailController.text);
+                          new MailSendDTO(email: _emailController.text);
                       SessionUser user = ref.read(sessionProvider);
                       user.mailSend(mailSendDTO);
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -201,8 +193,6 @@ class _CheckEmailState extends State<CheckEmail> {
     super.dispose();
   }
 }
-
-
 
 class InsertText2 extends StatelessWidget {
   String text;
@@ -266,7 +256,6 @@ class _AuthNumState extends State<AuthNum> {
   }
 }
 
-
 class InsertNickName extends ConsumerWidget {
   String text;
   final TextEditingController nickNameController;
@@ -279,7 +268,6 @@ class InsertNickName extends ConsumerWidget {
       controller: nickNameController,
       onChanged: (value) {
         ref.read(joinFormProvider.notifier).setNickName(value);
-        Logger().d(nickNameController.text);
       },
       decoration: InputDecoration(
           hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
@@ -399,8 +387,6 @@ class InsertPassword2 extends StatefulWidget {
 }
 
 class _InsertPassword2State extends State<InsertPassword2> {
-  TextEditingController _controller = TextEditingController();
-
   bool _passwordsMatch = false;
 
   @override
