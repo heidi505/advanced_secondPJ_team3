@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../_core/constants/color.dart';
@@ -28,7 +29,7 @@ class MyInfoText extends StatelessWidget {
   }
 }
 
-class TextMenuCard extends StatelessWidget {
+class TextMenuCard extends ConsumerWidget {
   final String? title;
   final String? text;
   final Widget? linkto;
@@ -40,7 +41,8 @@ class TextMenuCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -130,10 +132,10 @@ class InfoSubText extends StatelessWidget {
   }
 }
 
-class InfoInsertText extends StatelessWidget {
+class PasswordInsertText extends StatelessWidget {
   String text;
 
-  InfoInsertText({required this.text});
+  PasswordInsertText({required this.text});
 
   @override
   Widget build(BuildContext context) {

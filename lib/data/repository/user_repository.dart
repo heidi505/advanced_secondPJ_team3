@@ -11,6 +11,7 @@ import 'package:team3_kakao/data/dto/profile_dto/profile_backImage_delete_respon
 import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_image_delete_response_dto/profile_image_delete_response_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
+import 'package:team3_kakao/data/dto/user_dto/phone_num_response_dto.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
@@ -195,5 +196,27 @@ class UserRepository {
       return ResponseDTO(success: false);
     }
   }
+
+  // 내 정보 전화번호 수정
+  Future<ResponseDTO> fetchPhoneNumUpdate(PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async{
+    Logger().d("여기까진 ???? 됨???"); //ok
+    try{
+      // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
+      Response response = await dio.post("/user/update", data:phoneNumUpdateDTO.toJson(), options: Options(headers: {"Authorization" : jwt}));
+      Logger().d("컨트롤러 때림???????");
+      // response.data의 값을 Dart객체로 변환 작업
+      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+      // 수정한 정보만 추출해서 덮어 씌우기
+      Logger().d(responseDTO);
+      Logger().d(responseDTO.data);
+      PhoneNumResponseDTO dto = PhoneNumResponseDTO.fromJson(responseDTO.data);
+      responseDTO.data = dto;
+      return responseDTO;
+    } catch (e) {
+      return ResponseDTO(success: false);
+    }
+  }
+
+
 
 }

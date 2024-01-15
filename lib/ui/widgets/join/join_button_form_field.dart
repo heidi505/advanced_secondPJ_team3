@@ -10,6 +10,7 @@ import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_password_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_profile_page.dart';
+import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
 
 import '../../../_core/constants/color.dart';
 import '../../../_core/constants/size.dart';
@@ -183,7 +184,7 @@ class MainScreenButton extends StatelessWidget {
               // 버튼 클릭 시 join_agree_page.dart로 이동
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MainPage()),
+                MaterialPageRoute(builder: (context) => LoginPage()),
               );
             },
             child: Text("$text")),

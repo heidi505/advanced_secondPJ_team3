@@ -17,8 +17,10 @@ import 'package:team3_kakao/ui/pages/chat_room/widgets/my_chat.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/friends/friends_page.dart';
 import 'package:team3_kakao/ui/pages/notify_write/notify_write_page.dart';
+import 'package:team3_kakao/ui/pages/user/find/find_account_page.dart';
 import 'package:team3_kakao/ui/pages/user/find/find_password_page.dart';
 import 'package:team3_kakao/ui/pages/user/find/find_password_reset_page.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_check_page.dart';
 import 'package:team3_kakao/ui/pages/user/join/join_welcome_page.dart';
 
 import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
@@ -44,9 +46,7 @@ class _SplashScreenState extends State<SplashPage> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfileEditPage(
-            user: friends[0],
-          ),
+          builder: (context) => LoginPage()
         ),
       ),
     );
