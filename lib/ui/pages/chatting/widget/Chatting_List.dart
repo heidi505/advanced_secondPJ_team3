@@ -7,6 +7,7 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
+import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
@@ -30,90 +31,109 @@ class ChattingList extends ConsumerWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, index) => ChattingItem(
-              onlongPress: () {
-                showDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: ((context) {
-                    return AlertDialog(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
-                      backgroundColor: basicColorW,
-                      title:
-                          Text("가라채팅", style: h3(fontWeight: FontWeight.bold)),
-                      content: Container(
-                        height: 250,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            ChatMenuModal(
-                              ontap: () {
-                                Navigator.pushNamed(
-                                    context, Move.chatNameSetPage);
-                              },
-                              text: Text(
-                                "채팅방 이름 설정",
-                                style: h4(color: basicColorB3),
-                              ),
-                            ),
-                            ChatMenuModal(
-                              ontap: () {
-                                showCustom(context, "즐겨찾기에 추가되었습니다.");
-                              },
-                              text: Text(
-                                "즐겨찾기에 추가",
-                                style: h4(color: basicColorB3),
-                              ),
-                            ),
-                            ChatMenuModal(
-                              ontap: () {},
-                              text: Text(
-                                "채팅방 상단 고정",
-                                style: h4(color: basicColorB3),
-                              ),
-                            ),
-                            ChatMenuModal(
-                              ontap: () {
-                                showCustom(context, "채팅방 알림이 설정되었습니다.");
-                              },
-                              text: Text(
-                                "채팅방 알림 켜기",
-                                style: h4(color: basicColorB3),
-                              ),
-                            ),
-                            ChatMenuModal(
-                              ontap: () {
-                                _showdialog(context);
-                              },
-                              text: Text(
-                                "나가기",
-                                style: h4(color: basicColorB3),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-                );
-              },
-              title: model!.chatRoomDTOList[index].chatName!,
-              peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-              imagePath: "$baseUrl/images/${index + 1}.jpg",
-              imageWidth: 40,
-              imageHeight: 40,
-              ontap: () {
-                ref
-                    .read(paramProvider)
-                    .addChatRoomDocId(model!.chatRoomDTOList[index].chatDocId!);
-                Navigator.pushNamed(context, Move.chatRoomPage);
-              },
-              circular: 16.0,
-              subTitle: model!.chatRoomDTOList[index].lastChat,
-              multiItem: Text("${model.chatRoomDTOList[index].lastChatTime}",
-                  style: TextStyle(color: Colors.grey))),
+          (context, index) => Column(
+            children: [
+              ChattingItem(
+                onlongPress: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: ((context) {
+                      return _ChatMenuModal(context);
+                    }),
+                  );
+                },
+                title: model!.chatRoomDTOList[index].chatName!,
+                peopleCount: model!.chatRoomDTOList[index].peopleCount!,
+                imagePath: "$baseUrl/images/${index + 1}.jpg",
+                imageWidth: 50,
+                imageHeight: 50,
+                ontap: () {
+                  ref.read(paramProvider).addChatRoomDocId(
+                      model!.chatRoomDTOList[index].chatDocId!);
+                  Navigator.pushNamed(context, Move.chatRoomPage);
+                },
+                circular: 20.0,
+                subTitle: model!.chatRoomDTOList[index].lastChat,
+                multiItem: Text(
+                  "${model.chatRoomDTOList[index].lastChatTime}",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              SizedBox(
+                height: smallGap,
+              ),
+              GroupProfile(
+                imagePath: "$baseUrl/images/${index + 1}.jpg",
+                title: model!.chatRoomDTOList[index].chatName!,
+                peopleCount: model!.chatRoomDTOList[index].peopleCount!,
+                multiItem: Text(
+                  "${model.chatRoomDTOList[index].lastChatTime}",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            ],
+          ),
           childCount: model!.chatRoomDTOList.length,
+        ),
+      ),
+    );
+  }
+
+  AlertDialog _ChatMenuModal(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      backgroundColor: basicColorW,
+      title: Text("가라채팅", style: h3(fontWeight: FontWeight.bold)),
+      content: Container(
+        height: 250,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ChatMenuModalBox(
+              ontap: () {
+                Navigator.pushNamed(context, Move.chatNameSetPage);
+              },
+              text: Text(
+                "채팅방 이름 설정",
+                style: h4(color: basicColorB3),
+              ),
+            ),
+            ChatMenuModalBox(
+              ontap: () {
+                showCustom(context, "즐겨찾기에 추가되었습니다.");
+              },
+              text: Text(
+                "즐겨찾기에 추가",
+                style: h4(color: basicColorB3),
+              ),
+            ),
+            ChatMenuModalBox(
+              ontap: () {},
+              text: Text(
+                "채팅방 상단 고정",
+                style: h4(color: basicColorB3),
+              ),
+            ),
+            ChatMenuModalBox(
+              ontap: () {
+                showCustom(context, "채팅방 알림이 설정되었습니다.");
+              },
+              text: Text(
+                "채팅방 알림 켜기",
+                style: h4(color: basicColorB3),
+              ),
+            ),
+            ChatMenuModalBox(
+              ontap: () {
+                _showdialog(context);
+              },
+              text: Text(
+                "나가기",
+                style: h4(color: basicColorB3),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -182,7 +202,7 @@ class ChattingList extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ChatMenuModal(
+              ChatMenuModalBox(
                 ontap: () {
                   Navigator.of(context).pop();
                 },
@@ -191,7 +211,7 @@ class ChattingList extends ConsumerWidget {
                   style: h4(color: pointColor04, fontWeight: FontWeight.bold),
                 ),
               ),
-              ChatMenuModal(
+              ChatMenuModalBox(
                 ontap: () {
                   Navigator.of(context).pop();
                 },

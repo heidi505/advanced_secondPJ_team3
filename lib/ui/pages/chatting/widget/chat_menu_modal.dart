@@ -3,10 +3,10 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 
-class ChatMenuModal extends StatelessWidget {
+class ChatMenuModalBox extends StatelessWidget {
   final void Function()? ontap;
   final Widget text;
-  const ChatMenuModal({
+  const ChatMenuModalBox({
     Key? key, // 수정된 부분
     this.ontap,
     required this.text,
