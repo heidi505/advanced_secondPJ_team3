@@ -98,6 +98,7 @@ class _ProfileTextFormFieldState extends State<ProfileTextFormField> {
           },
         );
       },
+      child: ProfileTextArea(textWidget: textWidget),
       child: ProfileTextArea(
         textWidget: _isTextNotEmpty
             ? Text(
