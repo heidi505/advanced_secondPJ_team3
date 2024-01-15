@@ -43,9 +43,7 @@ class _SplashScreenState extends State<SplashPage> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfileEditPage(
-            user: friends[0],
-          ),
+          builder: (context) => ProfileEditPage(user: friends[0]),
         ),
       ),
     );
