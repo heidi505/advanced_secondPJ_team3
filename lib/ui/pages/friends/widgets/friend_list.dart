@@ -21,6 +21,9 @@ class FriendList extends StatelessWidget {
             imagePath: "$baseUrl/images/${friendsList![index].userId}.jpg",
             title: friendsList![index].nickname!,
             subTitle: friendsList![index].statusMessage,
+            ontap: (){
+              Navigator.pushNamed(context, Move.profilePage);
+            },
           ),
           childCount: friendsList!.length,
         ),

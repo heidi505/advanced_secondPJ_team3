@@ -63,10 +63,10 @@ class ProfilePage extends ConsumerWidget {
                 color: formColor,
               ),
               if (user.name == me.name)
-                //_buildMyProfileIcons()
+                // _buildMyProfileIcons()
                 _buildFriendProfileIcons()
               else
-                //_buildFriendProfileIcons(),
+                // _buildFriendProfileIcons(),
                 _buildMyProfileIcons(),
             ],
           ),
