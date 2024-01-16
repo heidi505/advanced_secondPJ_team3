@@ -144,8 +144,8 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
-                ref.read(chattingPageProvider.notifier).deleteChat(chatroomDTO.chatDocId!);
-                _showdialog(context);
+
+                _showdialog(context, chatroomDTO, session, ref);
               },
               text: Text(
                 "나가기",
@@ -202,7 +202,7 @@ class ChattingList extends ConsumerWidget {
         gravity: ToastGravity.BOTTOM);
   }
 
-  Future<dynamic> _showdialog(BuildContext context) {
+  Future<dynamic> _showdialog(BuildContext context, ChatroomDTO chatroomDTO, SessionUser session, WidgetRef ref) {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -232,6 +232,7 @@ class ChattingList extends ConsumerWidget {
               ),
               ChatMenuModalBox(
                 ontap: () {
+                  ref.read(chattingPageProvider.notifier).deleteChat(chatroomDTO.chatDocId!, session.user!.id!);
                   Navigator.of(context).pop();
                 },
                 text: Text(

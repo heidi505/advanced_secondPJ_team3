@@ -122,7 +122,10 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
   }
 
   //채팅방 나가기
-  Future<void> deleteChat(String chatDocId) async {
+  Future<void> deleteChat(String chatDocId, int userId) async {
+    await ChatRepository().deleteChat(chatDocId, userId);
+    await notifyInit();
+
 
   }
 

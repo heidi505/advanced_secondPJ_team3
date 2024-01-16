@@ -83,6 +83,15 @@ class ChatRepository{
     });
   }
 
+  Future<void> deleteChat(String chatDocId, int userId) async {
+    final db = FirebaseFirestore.instance;
+
+    await db
+        .collection("ChatRoom$userId")
+        .doc(chatDocId)
+        .delete();
+  }
+
 
 
 
