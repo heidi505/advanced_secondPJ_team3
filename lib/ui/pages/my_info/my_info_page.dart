@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 
 import '../../../_core/constants/color.dart';
 import '../../../_core/constants/size.dart';
@@ -9,17 +11,19 @@ import 'my_info_password_page.dart';
 import 'my_info_phone_page.dart';
 
 class MyInfoPage extends StatefulWidget {
-  // const MyInfoPage({super.key});
+  //const MyInfoPage({super.key});
   const MyInfoPage();
 
+
   @override
-  State<MyInfoPage> createState() => _MyInfoScreenState();
+  State<StatefulWidget> createState()=> _MyInfoScreenState();
 }
 
 class _MyInfoScreenState extends State<MyInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    //SessionUser session = ref.read(sessionProvider);
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -50,8 +54,8 @@ class _MyInfoScreenState extends State<MyInfoPage> {
                 MyInfoText(title: "이메일" ,text: "ssar@nate.com",),
                 MyInfoText(title: "닉네임" ,text: "ㅅㅅㅏㄹ",),
                 MyInfoText(title: "생일" ,text: "2023년 11월 20일"),
-                TextMenuCard(title: "전화번호", text: "+82 01-30**-46**",linkto: MyInfoPhonePage()),
-                TextMenuCard(title: "계정 비밀번호 변경", text: "", linkto: MyInfoPasswordPage()),
+                TextMenuCard(title: "전화번호", linkto: MyInfoPhonePage()),
+                TextMenuCard(title: "계정 비밀번호 변경", linkto: MyInfoPasswordPage()),
               ],
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/ui/widgets/find/find_button_form_field.dart';
 import 'package:team3_kakao/ui/widgets/find/find_text_form_field.dart';
@@ -37,7 +38,7 @@ class _FindAccountScreenState extends State<FindAccountPage> {
                 _updateSelectedCountryCode(newCode);
               },
             ),
-            InfoInsertText(text: "전화번호"),
+            InfoAccountInsertText(text: "전화번호"),
             FindButton(text: "카카오계정 찾기")
           ],
         ),
@@ -49,5 +50,22 @@ class _FindAccountScreenState extends State<FindAccountPage> {
     setState(() {
       selectedCountryCode = newCode;
     });
+  }
+}
+
+class InfoAccountInsertText  extends StatelessWidget {
+  final String text;
+  final TextEditingController? textController; //textController 연결
+
+
+  InfoAccountInsertText( {required this.text, this.textController});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: textController,
+      decoration: InputDecoration(
+          hintText: "$text", hintStyle: TextStyle(color: basicColorB9)),
+    );
   }
 }

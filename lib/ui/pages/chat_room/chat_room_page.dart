@@ -6,6 +6,8 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
+import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_main_page.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
@@ -32,6 +34,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     chats = [];
     SessionUser session = ref.read(sessionProvider);
     OtherChatModel? model = ref.watch(otherChatProvider);
+    ParamStore paramStore = ref.read(paramProvider);
 
     if (model == null) {
       return CircularProgressIndicator();
@@ -54,7 +57,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(
-          "김하얀",
+          paramStore.chatroomDTO!.chatName!,
           style: h3(),
         ),
       ),

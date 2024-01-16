@@ -6,6 +6,7 @@ import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
+import 'package:team3_kakao/ui/pages/my_info/my_info_page.dart';
 import 'package:team3_kakao/ui/pages/notify_write/notify_write_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
@@ -43,6 +44,7 @@ class Move {
   static String joinPasswordPage = "/joinPasswordPage";
   static String findPasswordPage = "/findPasswordPage";
   static String findPasswordReset = "/findPasswordResetPage";
+  static String myInfoPage = "/myInfoPage";
 }
 
 Map<String, Widget Function(BuildContext)> getRouters() {
@@ -76,6 +78,9 @@ Map<String, Widget Function(BuildContext)> getRouters() {
 
     Move.findPasswordPage: (context) => FindPasswordPage(),
     Move.findPasswordReset: (context) => FindPasswordReset(),
+
+    Move.myInfoPage: (context) => MyInfoPage(),
+
 
     // main
     Move.mainPage: (context) => const MainPage(),
