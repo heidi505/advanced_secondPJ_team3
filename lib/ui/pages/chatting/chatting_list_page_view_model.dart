@@ -97,7 +97,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     //userId, chatDocId 사용해서 동적으로 처리
-    final chatRoom = await db.collection("chatRoom1").doc(chatDocId);
+    final chatRoom = await db.collection("ChatRoom$userId").doc(chatDocId);
 
     db.runTransaction((transaction) async{
       final snapshot = await transaction.get(chatRoom);
@@ -116,10 +116,17 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
         onError: (e)=> print("변경 에러 $e"));
   }
 
-  Future<String> chatSetting(String chatDocId, String func) async{
-    String result = await ChatRepository().setChatting(chatDocId, func);
+  Future<void> chatSetting(String chatDocId, String func, int userId) async{
+    await ChatRepository().setChatting(chatDocId, func, userId);
 
-    return result;
+  }
+
+  //채팅방 나가기
+  Future<void> deleteChat(String chatDocId, int userId) async {
+    await ChatRepository().deleteChat(chatDocId, userId);
+    await notifyInit();
+
+
   }
 
 
