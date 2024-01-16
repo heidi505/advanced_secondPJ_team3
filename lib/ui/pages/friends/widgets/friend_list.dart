@@ -15,6 +15,9 @@ class FriendList extends StatelessWidget {
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) => ChattingItem(
+            ontap: () {
+              Navigator.pushNamed(context, Move.profilePage);
+            },
             circular: 16.0,
             imageWidth: 40,
             imageHeight: 40,
