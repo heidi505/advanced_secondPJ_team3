@@ -40,7 +40,10 @@ class GroupProfile extends StatelessWidget {
           child: ListTile(
             contentPadding: EdgeInsets.zero,
             dense: true,
-            leading: GroupPeopleCount(imagePath: imagePath),
+            leading: GroupPeopleCount(
+              imagePath: imagePath,
+              count: 4,
+            ),
             title: Container(
               child: Row(
                 children: [
