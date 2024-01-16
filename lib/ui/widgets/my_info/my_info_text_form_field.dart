@@ -12,9 +12,8 @@ class MyInfoText extends StatelessWidget {
   final text;
   final linkto;
 
-  const MyInfoText({
-    Key? key, this.title, this.text, this.linkto
-  }) : super(key: key);
+  const MyInfoText({Key? key, this.title, this.text, this.linkto})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +36,20 @@ class TextMenuCard extends ConsumerWidget {
   final String? icon;
   final Color? iconColor;
 
+<<<<<<< HEAD
   const TextMenuCard({
     Key? key, this.title, this.linkto, this.icon, this.iconColor = Colors.grey
   }) : super(key: key);
+=======
+  const TextMenuCard(
+      {Key? key,
+      this.title,
+      this.text,
+      this.linkto,
+      this.icon,
+      this.iconColor = Colors.grey})
+      : super(key: key);
+>>>>>>> main
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -76,8 +86,9 @@ class TextMenuCard extends ConsumerWidget {
                     width: 30,
                     height: 50,
                     child: IconButton(
-                      icon: Icon(FontAwesomeIcons.angleRight, color: basicColorB9),
-                      onPressed: (){
+                      icon: Icon(FontAwesomeIcons.angleRight,
+                          color: basicColorB9),
+                      onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => linkto!),
@@ -95,8 +106,11 @@ class TextMenuCard extends ConsumerWidget {
   }
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> main
 class InfoTitle extends StatelessWidget {
   String text;
 
