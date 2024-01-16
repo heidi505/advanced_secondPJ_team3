@@ -97,7 +97,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     //userId, chatDocId 사용해서 동적으로 처리
-    final chatRoom = await db.collection("chatRoom1").doc(chatDocId);
+    final chatRoom = await db.collection("ChatRoom$userId").doc(chatDocId);
 
     db.runTransaction((transaction) async{
       final snapshot = await transaction.get(chatRoom);

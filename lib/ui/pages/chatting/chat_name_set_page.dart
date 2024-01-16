@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 
-class ChatNameSetPage extends StatefulWidget {
+import '../../../data/dto/chat_dto/chatting_list_page_dto.dart';
+
+class ChatNameSetPage extends ConsumerStatefulWidget {
   const ChatNameSetPage({Key? key}) : super(key: key);
 
   @override
   _ChatNameSetPageState createState() => _ChatNameSetPageState();
 }
 
-class _ChatNameSetPageState extends State<ChatNameSetPage> {
+class _ChatNameSetPageState extends ConsumerState<ChatNameSetPage> {
   TextEditingController _textEditingController = TextEditingController();
   bool _isTextNotEmpty = false;
 
@@ -25,6 +31,10 @@ class _ChatNameSetPageState extends State<ChatNameSetPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    ParamStore paramStore = ref.read(paramProvider);
+    SessionUser user = ref.read(sessionProvider);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -33,6 +43,7 @@ class _ChatNameSetPageState extends State<ChatNameSetPage> {
         actions: [
           InkWell(
             onTap: () {
+              ref.read(chattingPageProvider.notifier).changeChatName(_textEditingController.text, paramStore.chatroomDTO!.chatDocId!, user.user!.id!);
               Navigator.pop(context);
             },
             child: Text("확인"),
@@ -50,7 +61,7 @@ class _ChatNameSetPageState extends State<ChatNameSetPage> {
               controller: _textEditingController,
               autovalidateMode: AutovalidateMode.always,
               decoration: InputDecoration(
-                hintText: '가라채팅',
+                hintText: paramStore.chatroomDTO!.chatName!,
                 suffixIcon: _isTextNotEmpty
                     ? IconButton(
                         icon: Icon(Icons.clear),

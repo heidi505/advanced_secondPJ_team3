@@ -14,6 +14,7 @@ import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
@@ -45,7 +46,8 @@ class ChattingList extends ConsumerWidget {
                     context: context,
                     barrierDismissible: true,
                     builder: ((context) {
-                      return _ChatMenuModal(context);
+                      ref.read(paramProvider).addChatRoomDTO(model!.chatRoomDTOList[index]);
+                      return _ChatMenuModal(context, model!.chatRoomDTOList[index]);
                     }),
                   );
                 },
@@ -55,6 +57,7 @@ class ChattingList extends ConsumerWidget {
                 imageWidth: 50,
                 imageHeight: 50,
                 ontap: () {
+                  ref.read(paramProvider).addChatRoomDTO(model!.chatRoomDTOList[index]);
                   ref.read(paramProvider).addChatRoomDocId(
                       model!.chatRoomDTOList[index].chatDocId!);
                   Navigator.pushNamed(context, Move.chatRoomPage);
@@ -86,11 +89,11 @@ class ChattingList extends ConsumerWidget {
     );
   }
 
-  AlertDialog _ChatMenuModal(BuildContext context) {
+  AlertDialog _ChatMenuModal(BuildContext context, ChatroomDTO chatroomDTO) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       backgroundColor: basicColorW,
-      title: Text("가라채팅", style: h3(fontWeight: FontWeight.bold)),
+      title: Text(chatroomDTO.chatName!, style: h3(fontWeight: FontWeight.bold)),
       content: Container(
         height: 250,
         child: Column(
