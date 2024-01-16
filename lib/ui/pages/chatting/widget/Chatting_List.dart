@@ -14,7 +14,10 @@ import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_menu_modal.dart';
@@ -45,7 +48,8 @@ class ChattingList extends ConsumerWidget {
                     context: context,
                     barrierDismissible: true,
                     builder: ((context) {
-                      return _ChatMenuModal(context);
+                      ref.read(paramProvider).addChatRoomDTO(model!.chatRoomDTOList[index]);
+                      return _ChatMenuModal(context, model!.chatRoomDTOList[index], ref);
                     }),
                   );
                 },
@@ -55,6 +59,7 @@ class ChattingList extends ConsumerWidget {
                 imageWidth: 50,
                 imageHeight: 50,
                 ontap: () {
+                  ref.read(paramProvider).addChatRoomDTO(model!.chatRoomDTOList[index]);
                   ref.read(paramProvider).addChatRoomDocId(
                       model!.chatRoomDTOList[index].chatDocId!);
                   Navigator.pushNamed(context, Move.chatRoomPage);
@@ -86,11 +91,12 @@ class ChattingList extends ConsumerWidget {
     );
   }
 
-  AlertDialog _ChatMenuModal(BuildContext context) {
+  AlertDialog _ChatMenuModal(BuildContext context, ChatroomDTO chatroomDTO, WidgetRef ref) {
+    SessionUser session = ref.read(sessionProvider);
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       backgroundColor: basicColorW,
-      title: Text("가라채팅", style: h3(fontWeight: FontWeight.bold)),
+      title: Text(chatroomDTO.chatName!, style: h3(fontWeight: FontWeight.bold)),
       content: Container(
         height: 250,
         child: Column(
@@ -107,6 +113,7 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
+                ref.read(chattingPageProvider.notifier).chatSetting(chatroomDTO.chatDocId!, "isBookMarked", session.user!.id!);
                 showCustom(context, "즐겨찾기에 추가되었습니다.");
               },
               text: Text(
@@ -115,7 +122,10 @@ class ChattingList extends ConsumerWidget {
               ),
             ),
             ChatMenuModalBox(
-              ontap: () {},
+              ontap: () {
+                ref.read(chattingPageProvider.notifier).chatSetting(chatroomDTO.chatDocId!, "isFixed", session.user!.id!);
+                showCustom(context, "${chatroomDTO.chatName} 상단 고정");
+              },
               text: Text(
                 "채팅방 상단 고정",
                 style: h4(color: basicColorB3),
@@ -123,6 +133,8 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
+
+                ref.read(chattingPageProvider.notifier).chatSetting(chatroomDTO.chatDocId!, "IsAlarmOn", session.user!.id!);
                 showCustom(context, "채팅방 알림이 설정되었습니다.");
               },
               text: Text(
@@ -132,7 +144,8 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
-                _showdialog(context);
+
+                _showdialog(context, chatroomDTO, session, ref);
               },
               text: Text(
                 "나가기",
@@ -189,7 +202,7 @@ class ChattingList extends ConsumerWidget {
        gravity: ToastGravity.BOTTOM);
   }
 
-  Future<dynamic> _showdialog(BuildContext context) {
+  Future<dynamic> _showdialog(BuildContext context, ChatroomDTO chatroomDTO, SessionUser session, WidgetRef ref) {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -219,6 +232,7 @@ class ChattingList extends ConsumerWidget {
               ),
               ChatMenuModalBox(
                 ontap: () {
+                  ref.read(chattingPageProvider.notifier).deleteChat(chatroomDTO.chatDocId!, session.user!.id!);
                   Navigator.of(context).pop();
                 },
                 text: Text(
