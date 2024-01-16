@@ -6,7 +6,7 @@ import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 class ChatMenuModalBox extends StatelessWidget {
   final void Function()? ontap;
   final Widget text;
-  const ChatMenuModalBox({
+  ChatMenuModalBox({
     Key? key, // 수정된 부분
     this.ontap,
     required this.text,

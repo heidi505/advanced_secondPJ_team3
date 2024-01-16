@@ -5,8 +5,9 @@ import '../dto/chat_dto/chatting_list_page_dto.dart';
 
 class RequestParam {
   String? chatRoomDocId;
+  ChatroomDTO? chatroomDTO;
 
-  RequestParam({this.chatRoomDocId});
+  RequestParam({this.chatRoomDocId, this.chatroomDTO});
 }
 
 class ParamStore extends RequestParam{
@@ -16,6 +17,9 @@ class ParamStore extends RequestParam{
     this.chatRoomDocId = chatRoomDocId;
   }
 
+  void addChatRoomDTO(ChatroomDTO chatroomDTO){
+    this.chatroomDTO = chatroomDTO;
+  }
 
 }
 

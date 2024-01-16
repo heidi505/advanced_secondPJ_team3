@@ -13,8 +13,12 @@ class FriendBirthday extends StatelessWidget {
   final List<FriendsDTO> friendList;
   const FriendBirthday({super.key, required this.friendList});
 
+
   @override
   Widget build(BuildContext context) {
+
+    List<String> parsedBirthdate = friendList.map((e) => e.birthdate?.split("-")).map((i) => i![1]+"-"+i[2]).toList();
+
     return SliverToBoxAdapter(
       child: Container(
         decoration: BoxDecoration(
@@ -51,7 +55,7 @@ class FriendBirthday extends StatelessWidget {
                             imagePath:
                                 baseUrl + "/images/${friendList[0].userId}.jpg",
                             title: "${friendList[0].nickname}",
-                            subTitle: "${friendList[0].birthdate}",
+                            subTitle: parsedBirthdate[0],
                           ),
                           ChattingItem(
                             ontap: () {
@@ -63,7 +67,7 @@ class FriendBirthday extends StatelessWidget {
                             imagePath:
                                 baseUrl + "/images/${friendList[1].userId}.jpg",
                             title: "${friendList[1].nickname}",
-                            subTitle: "${friendList[1].birthdate}",
+                            subTitle: parsedBirthdate[1],
                           ),
                         ],
                       ),

@@ -9,6 +9,7 @@ import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/data/repository/user_repository.dart';
 import 'package:team3_kakao/main.dart';
 
+import '../../ui/pages/my_info/my_info_page.dart';
 import '../model/user_mock.dart';
 
 //1. 창고 데이터
@@ -118,6 +119,24 @@ class SessionUser {
     // 2. 비지니스 로직
     if (responseDTO.success == true) {
       Navigator.pushNamed(mContext!, Move.joinPasswordPage);
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(
+          content: Text(responseDTO.errorType!.message!),
+        ),
+      );
+    }
+  }
+
+  Future<void> newPhoneNum(PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async {
+    Logger().d("+++phoneNum 여기서 통신 시작 +++");
+    // 1. 통신 코드
+    ResponseDTO responseDTO =
+    await UserRepository().fetchPhoneNumUpdate(phoneNumUpdateDTO, jwt);
+
+    // 2. 비지니스 로직
+    if (responseDTO.success == true) {
+      Navigator.pushNamed(mContext!, Move.myInfoPage);
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(
         SnackBar(

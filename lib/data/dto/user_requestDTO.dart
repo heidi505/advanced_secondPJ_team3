@@ -66,3 +66,11 @@ class FindPasswordDTO{
 
   Map<String, dynamic> toJson() => {"email": email};
 }
+
+class PhoneNumUpdateDTO{
+  final String phoneNum;
+
+  PhoneNumUpdateDTO({required this.phoneNum});
+
+  Map<String, dynamic> toJson() => {"phoneNum": phoneNum};
+}
