@@ -14,7 +14,10 @@ class ChattingItem extends StatelessWidget {
       required this.imageWidth,
       required this.imageHeight,
       required this.circular,
-      this.peopleCount, this.ontap, this.chatDocId})
+      this.peopleCount,
+      this.ontap,
+      this.chatDocId,
+      this.onlongPress})
       : super(key: key);
 
   String? chatDocId;
@@ -27,15 +30,16 @@ class ChattingItem extends StatelessWidget {
   final double circular;
   String? peopleCount;
   final void Function()? ontap;
-
+  final void Function()? onlongPress;
 
   @override
   Widget build(BuildContext context) {
-    if(peopleCount == null){
+    if (peopleCount == null) {
       peopleCount = "";
     }
 
-    return InkWell(
+    return GestureDetector(
+      onLongPress: onlongPress,
       onTap: ontap,
       child: Container(
         margin: EdgeInsets.zero,

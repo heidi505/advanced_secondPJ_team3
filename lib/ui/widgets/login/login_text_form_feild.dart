@@ -53,6 +53,7 @@ class LoginButton extends ConsumerWidget {
           onPressed: () {
             Logger().d("버튼 눌러짐");
             if (formKey.currentState!.validate()) {
+
               Logger().d("유효성 통과");
               LoginReqDTO loginReqDTO =
                   new LoginReqDTO(email: email!, password: password!);

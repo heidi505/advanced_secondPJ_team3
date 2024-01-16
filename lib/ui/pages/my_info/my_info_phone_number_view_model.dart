@@ -7,6 +7,7 @@ import 'package:team3_kakao/data/repository/user_repository.dart';
 import 'package:team3_kakao/main.dart';
 
 class PhoneNumModel{
+  //서버랑 화면을 연결시켜주기 위한 필드
   PhoneNumResponseDTO dto;
 
   PhoneNumModel(this.dto);

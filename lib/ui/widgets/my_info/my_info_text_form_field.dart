@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
+import 'package:team3_kakao/ui/pages/my_info/my_info_phone_number_view_model.dart';
 
 import '../../../_core/constants/color.dart';
 import '../../../_core/constants/size.dart';
@@ -31,17 +33,19 @@ class MyInfoText extends StatelessWidget {
 
 class TextMenuCard extends ConsumerWidget {
   final String? title;
-  final String? text;
   final Widget? linkto;
   final String? icon;
   final Color? iconColor;
 
   const TextMenuCard({
-    Key? key, this.title, this.text, this.linkto, this.icon, this.iconColor = Colors.grey
+    Key? key, this.title, this.linkto, this.icon, this.iconColor = Colors.grey
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(phoneNumUpdateProvider);
+    final newState = ref.watch(phoneNumUpdateProvider.notifier).state?.dto.newPhoneNum;
+    Logger().d("++state 값++: $newState");
 
     return InkWell(
       onTap: () {
@@ -66,7 +70,8 @@ class TextMenuCard extends ConsumerWidget {
               Spacer(),
               Row(
                 children: [
-                  Text("$text"),
+                  Text(
+                      "${newState}"),
                   SizedBox(
                     width: 30,
                     height: 50,
@@ -89,6 +94,7 @@ class TextMenuCard extends ConsumerWidget {
     );
   }
 }
+
 
 
 class InfoTitle extends StatelessWidget {

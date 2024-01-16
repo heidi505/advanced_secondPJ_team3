@@ -8,18 +8,13 @@ import '../../widgets/join/contry_code_picker.dart';
 import '../../widgets/my_info/my_info_button_form_field.dart';
 import '../../widgets/my_info/my_info_text_form_field.dart';
 
-class MyInfoPhonePage extends ConsumerWidget {
+class MyInfoPhonePage extends StatefulWidget {
   // const MyInfoPage({super.key});
   const MyInfoPhonePage();
 
-  @override
-  State<MyInfoPhonePage> consumerState() => _MyInfoScreenState();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
+  State<StatefulWidget> createState() => _MyInfoScreenState();
 }
 
 class _MyInfoScreenState extends State<MyInfoPhonePage> {
@@ -66,7 +61,6 @@ class _MyInfoScreenState extends State<MyInfoPhonePage> {
                 InfoPhoneInsertText(
                   text: "전화번호",
                   textController: phoneNumController,
-
                 ),
                 PhoneHintText(text: "-없이 숫자만 입력해 주세요."),
                 MyInfoUpdateButton(

@@ -12,9 +12,7 @@ import '../../../../_core/constants/size.dart';
 class JoinProfilePage extends StatelessWidget {
   JoinProfilePage({Key? key, this.formKey}) : super(key: key);
   final GlobalKey? formKey;
-  // final TextEditingController? authNumController = TextEditingController();
   final _nickNameController = TextEditingController();
-  final _birthDayController = TextEditingController();
   final _phoneNumController = TextEditingController();
 
   @override

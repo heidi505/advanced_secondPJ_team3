@@ -3,6 +3,7 @@ import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
 
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
+import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/my_info/my_info_page.dart';
@@ -28,6 +29,7 @@ class Move {
 
   // chat
   static String chatRoomPage = "/chatRoomPage";
+  static String chatNameSetPage = "/chatNameSetPage";
   static String profilePage = "/profilePage";
   static String profileEditPage = "/profileEditPage";
   static String joinProfilePage = "/joinProfilePage";
@@ -50,9 +52,11 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     // splash
     Move.splashPage: (context) => const SplashPage(),
 
+    // chat
     Move.chatRoomPage: (context) => ChatRoomPage(),
 
     Move.chatNotifyPage: (context) => ChatNotifyPage(),
+    Move.chatNameSetPage: (context) => ChatNameSetPage(),
 
     Move.NotifyWritePage: (context) => NotifyWritePage(),
 

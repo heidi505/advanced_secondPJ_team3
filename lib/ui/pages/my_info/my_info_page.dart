@@ -10,24 +10,20 @@ import '../../widgets/my_info/my_info_text_form_field.dart';
 import 'my_info_password_page.dart';
 import 'my_info_phone_page.dart';
 
-class MyInfoPage extends ConsumerWidget {
-  // const MyInfoPage({super.key});
+class MyInfoPage extends StatefulWidget {
+  //const MyInfoPage({super.key});
   const MyInfoPage();
 
-  @override
-  State<MyInfoPage> consumerState() => _MyInfoScreenState();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
+  State<StatefulWidget> createState()=> _MyInfoScreenState();
 }
 
 class _MyInfoScreenState extends State<MyInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    //SessionUser session = ref.read(sessionProvider);
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -58,8 +54,8 @@ class _MyInfoScreenState extends State<MyInfoPage> {
                 MyInfoText(title: "이메일" ,text: "ssar@nate.com",),
                 MyInfoText(title: "닉네임" ,text: "ㅅㅅㅏㄹ",),
                 MyInfoText(title: "생일" ,text: "2023년 11월 20일"),
-                TextMenuCard(title: "전화번호", text: "",linkto: MyInfoPhonePage()),
-                TextMenuCard(title: "계정 비밀번호 변경",  linkto: MyInfoPasswordPage()),
+                TextMenuCard(title: "전화번호", linkto: MyInfoPhonePage()),
+                TextMenuCard(title: "계정 비밀번호 변경", linkto: MyInfoPasswordPage()),
               ],
             ),
           ),
