@@ -1,43 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
+import 'package:team3_kakao/ui/pages/chatting/widget/group_people_count.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class GroupProfile extends StatelessWidget {
-  const GroupProfile({super.key});
+  GroupProfile(
+      {Key? key,
+      this.title,
+      required this.imagePath,
+      this.subTitle,
+      this.multiItem,
+      this.peopleCount,
+      this.ontap,
+      this.chatDocId,
+      this.onlongPress})
+      : super(key: key);
+
+  String? chatDocId;
+  final String? title;
+  final String imagePath;
+  final String? subTitle;
+  final Widget? multiItem;
+  String? peopleCount;
+  final void Function()? ontap;
+  final void Function()? onlongPress;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Wrap(
-          runAlignment: WrapAlignment.center,
-          verticalDirection: VerticalDirection.down,
-          direction: Axis.horizontal,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: ProfileImage(imagePath:"assets/images/basic_img.jpeg", imageWidth: 20.0, imageHeight: 20.0, circular: 16.0),
+    return GestureDetector(
+      onLongPress: onlongPress,
+      onTap: ontap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Container(
+          margin: EdgeInsets.zero,
+          color: Colors.transparent,
+          child: ListTile(
+            contentPadding: EdgeInsets.zero,
+            dense: true,
+            leading: GroupPeopleCount(imagePath: imagePath),
+            title: Container(
+              child: Row(
+                children: [
+                  Text("$title", style: TextStyle(color: Colors.black)),
+                  SizedBox(width: 7),
+                  Text(
+                    peopleCount!,
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ],
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: ProfileImage(imagePath:"assets/images/basic_img.jpeg", imageWidth: 20.0, imageHeight: 20.0, circular: 16.0),
+            subtitle: subTitle != null
+                ? Text(
+                    subTitle!,
+                    style: subText(color: basicColorB9), // Corrected placement
+                  )
+                : null,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (multiItem != null) multiItem!,
+              ],
             ),
-        ],),
-        Wrap(
-          runAlignment: WrapAlignment.center,
-          verticalDirection: VerticalDirection.down,
-          direction: Axis.horizontal,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: ProfileImage(imagePath:"assets/images/basic_img.jpeg", imageWidth: 20.0, imageHeight: 20.0, circular: 16.0),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: ProfileImage(imagePath:"assets/images/basic_img.jpeg", imageWidth: 20.0, imageHeight: 20.0, circular: 16.0),
-            ),
-
-        ],),
-      ],
+            isThreeLine: subTitle != null,
+          ),
+        ),
+      ),
     );
   }
 }
