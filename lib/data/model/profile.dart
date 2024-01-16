@@ -12,7 +12,7 @@ class Profile{
   Map<String, dynamic> toJson()=>{
     "id":id,
     "profileImage":profileImage,
-    "statusMessage":statusMessage,
+    "sletatusMessage":statusMessage,
     "backImage":backImage,
     "qrCode":qrCode,
     "userId":userId

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
@@ -14,13 +16,19 @@ import '../../../data/model/profile_detail_model.dart';
 import '../../../data/provider/profile_detail_provider.dart';
 
 class ProfilePage extends ConsumerWidget {
-  const ProfilePage({Key? key, required this.user}) : super(key: key);
+
+  ProfilePage({Key? key, required this.user})
+      : super(key: key);
 
   final UserMock user;
-
+  final logger = Logger();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ProfileDetailModel? model = ref.watch(profileDetailProvider);
+
+    logger.d('User name: ${user.name}, My name: ${me.name}');
+    logger.d('User name: ${user.name}, My name: ${me.name}');
+
     if (model == null) {
       return CircularProgressIndicator();
     }
