@@ -22,8 +22,10 @@ import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_menu_modal.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_person_count.dart';
+import 'package:team3_kakao/ui/pages/chatting/widget/chatting_count.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/group_profile.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
+import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class ChattingList extends ConsumerWidget {
   ChattingList({super.key});
@@ -48,8 +50,11 @@ class ChattingList extends ConsumerWidget {
                     context: context,
                     barrierDismissible: true,
                     builder: ((context) {
-                      ref.read(paramProvider).addChatRoomDTO(model!.chatRoomDTOList[index]);
-                      return _ChatMenuModal(context, model!.chatRoomDTOList[index], ref);
+                      ref
+                          .read(paramProvider)
+                          .addChatRoomDTO(model!.chatRoomDTOList[index]);
+                      return _ChatMenuModal(
+                          context, model!.chatRoomDTOList[index], ref);
                     }),
                   );
                 },
@@ -58,13 +63,15 @@ class ChattingList extends ConsumerWidget {
                 imagePath: "$baseUrl/images/${index + 1}.jpg",
                 imageWidth: 50,
                 imageHeight: 50,
+                circular: 20.0,
                 ontap: () {
-                  ref.read(paramProvider).addChatRoomDTO(model!.chatRoomDTOList[index]);
+                  ref
+                      .read(paramProvider)
+                      .addChatRoomDTO(model!.chatRoomDTOList[index]);
                   ref.read(paramProvider).addChatRoomDocId(
                       model!.chatRoomDTOList[index].chatDocId!);
                   Navigator.pushNamed(context, Move.chatRoomPage);
                 },
-                circular: 20.0,
                 subTitle: model!.chatRoomDTOList[index].lastChat,
                 multiItem: Text(
                   "${model.chatRoomDTOList[index].lastChatTime}",
@@ -75,12 +82,30 @@ class ChattingList extends ConsumerWidget {
                 height: smallGap,
               ),
               GroupProfile(
+                ontap: () {
+                  ref
+                      .read(paramProvider)
+                      .addChatRoomDTO(model!.chatRoomDTOList[index]);
+                  ref.read(paramProvider).addChatRoomDocId(
+                      model!.chatRoomDTOList[index].chatDocId!);
+                  Navigator.pushNamed(context, Move.chatRoomPage);
+                },
                 imagePath: "$baseUrl/images/${index + 1}.jpg",
                 title: model!.chatRoomDTOList[index].chatName!,
                 peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                multiItem: Text(
-                  "${model.chatRoomDTOList[index].lastChatTime}",
-                  style: TextStyle(color: Colors.grey),
+                subTitle: model!.chatRoomDTOList[index].lastChat,
+                multiItem: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "${model.chatRoomDTOList[index].lastChatTime}",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    SizedBox(
+                      height: xsmallGap,
+                    ),
+                    ChattingCount(),
+                  ],
                 ),
               ),
             ],
@@ -91,12 +116,14 @@ class ChattingList extends ConsumerWidget {
     );
   }
 
-  AlertDialog _ChatMenuModal(BuildContext context, ChatroomDTO chatroomDTO, WidgetRef ref) {
+  AlertDialog _ChatMenuModal(
+      BuildContext context, ChatroomDTO chatroomDTO, WidgetRef ref) {
     SessionUser session = ref.read(sessionProvider);
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       backgroundColor: basicColorW,
-      title: Text(chatroomDTO.chatName!, style: h3(fontWeight: FontWeight.bold)),
+      title:
+          Text(chatroomDTO.chatName!, style: h3(fontWeight: FontWeight.bold)),
       content: Container(
         height: 250,
         child: Column(
@@ -113,7 +140,8 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
-                ref.read(chattingPageProvider.notifier).chatSetting(chatroomDTO.chatDocId!, "isBookMarked", session.user!.id!);
+                ref.read(chattingPageProvider.notifier).chatSetting(
+                    chatroomDTO.chatDocId!, "isBookMarked", session.user!.id!);
                 showCustom(context, "즐겨찾기에 추가되었습니다.");
               },
               text: Text(
@@ -123,7 +151,8 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
-                ref.read(chattingPageProvider.notifier).chatSetting(chatroomDTO.chatDocId!, "isFixed", session.user!.id!);
+                ref.read(chattingPageProvider.notifier).chatSetting(
+                    chatroomDTO.chatDocId!, "isFixed", session.user!.id!);
                 showCustom(context, "${chatroomDTO.chatName} 상단 고정");
               },
               text: Text(
@@ -133,8 +162,8 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
-
-                ref.read(chattingPageProvider.notifier).chatSetting(chatroomDTO.chatDocId!, "IsAlarmOn", session.user!.id!);
+                ref.read(chattingPageProvider.notifier).chatSetting(
+                    chatroomDTO.chatDocId!, "IsAlarmOn", session.user!.id!);
                 showCustom(context, "채팅방 알림이 설정되었습니다.");
               },
               text: Text(
@@ -144,7 +173,6 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
-
                 _showdialog(context, chatroomDTO, session, ref);
               },
               text: Text(
@@ -199,10 +227,11 @@ class ChattingList extends ConsumerWidget {
     fToast.showToast(
         child: toast,
         toastDuration: const Duration(seconds: 3),
-       gravity: ToastGravity.BOTTOM);
+        gravity: ToastGravity.BOTTOM);
   }
 
-  Future<dynamic> _showdialog(BuildContext context, ChatroomDTO chatroomDTO, SessionUser session, WidgetRef ref) {
+  Future<dynamic> _showdialog(BuildContext context, ChatroomDTO chatroomDTO,
+      SessionUser session, WidgetRef ref) {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -232,7 +261,9 @@ class ChattingList extends ConsumerWidget {
               ),
               ChatMenuModalBox(
                 ontap: () {
-                  ref.read(chattingPageProvider.notifier).deleteChat(chatroomDTO.chatDocId!, session.user!.id!);
+                  ref
+                      .read(chattingPageProvider.notifier)
+                      .deleteChat(chatroomDTO.chatDocId!, session.user!.id!);
                   Navigator.of(context).pop();
                 },
                 text: Text(

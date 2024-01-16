@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:team3_kakao/ui/pages/chatting/widget/chatting_count.dart';
 import 'package:team3_kakao/ui/pages/friends/friends_page.dart';
 import 'package:team3_kakao/ui/pages/my_info/my_info_page.dart';
 import 'package:team3_kakao/ui/pages/open_chatting/open_chatting_page.dart';
@@ -20,6 +21,8 @@ class _MainScreenState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   TabController? _tabController;
+
+  get count => 1;
 
   @override
   void initState() {
@@ -68,25 +71,45 @@ class _MainScreenState extends State<MainPage>
   BottomNavigationBarItem _buildBottomNavigationBarItem(
       {String? icon, String? label, String? imgUrl}) {
     return BottomNavigationBarItem(
-      icon: Padding(
-        padding: EdgeInsets.symmetric(vertical: 5.0),
-        child: SizedBox(
-          child: SvgPicture.asset(
-            "${icon}",
-            width: 24,
-            height: 24,
+      icon: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            child: SizedBox(
+              child: SvgPicture.asset(
+                "${icon}",
+                width: 24,
+                height: 24,
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            right: 0,
+            child: (_currentIndex > 3 || count > 0)
+                ? ChattingCount()
+                : SizedBox.shrink(),
+          ),
+        ],
       ),
-      activeIcon: Padding(
-        padding: EdgeInsets.symmetric(vertical: 5.0),
-        child: SizedBox(
-          child: SvgPicture.asset(
-            "${imgUrl}",
-            width: 24,
-            height: 24,
+      activeIcon: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            child: SizedBox(
+              child: SvgPicture.asset(
+                "${imgUrl}",
+                width: 24,
+                height: 24,
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            right: 0,
+            child: _currentIndex <= 3 && count > 0
+                ? ChattingCount()
+                : SizedBox.shrink(),
+          ),
+        ],
       ),
       label: "${label}",
     );
