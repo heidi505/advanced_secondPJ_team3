@@ -199,7 +199,7 @@ class ChattingList extends ConsumerWidget {
     fToast.showToast(
         child: toast,
         toastDuration: const Duration(seconds: 3),
-        gravity: ToastGravity.BOTTOM);
+       gravity: ToastGravity.BOTTOM);
   }
 
   Future<dynamic> _showdialog(BuildContext context, ChatroomDTO chatroomDTO, SessionUser session, WidgetRef ref) {

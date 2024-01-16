@@ -153,7 +153,10 @@ class _CheckEmailState extends State<CheckEmail> {
                         _emailErrorText = validateEmail()(value);
                         ref.read(joinFormProvider.notifier).setEmail(value);
                         Logger().d(_emailController);
-                      } else if (widget.funcNum == 2) {}
+                      } else if (widget.funcNum == 2) {
+                        _emailErrorText = validateEmail()(value);
+
+                      }
                     },
                   ),
                 ),
