@@ -22,7 +22,6 @@ class ProfileTextFormField extends ConsumerStatefulWidget {
 
 class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
   final TextEditingController _nicknameController = new TextEditingController();
-  //final TextEditingController _statusMessageContoller = new TextEditingController();
   bool _isTextNotEmpty = false;
 
   @override
@@ -39,7 +38,8 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
   }
 
   void _onFieldSubmitted(String value) {
-    Logger().d("----- 입력값 확인 ----- : " + _nicknameController.text);
+    Logger().d("----- 입력값 벨류 확인 ----- : + ${value}");
+    Logger().d("----- 입력값 컨트롤러 확인 ----- : " + _nicknameController.text);
     ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO(nickname: value);
     ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
   }

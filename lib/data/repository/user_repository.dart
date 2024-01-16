@@ -131,9 +131,11 @@ class UserRepository {
 
   // 프로필 수정
   Future<ResponseDTO> fetchProfileUpdate(ProfileUpdateRequestDTO profileUpdateRequestDTO) async{
+    Logger().d("업데이트 레파지토리 진입 확인 : ${profileUpdateRequestDTO.nickname}");
     try{
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
       Response response = await dio.post("/user/my-profile-update", data:profileUpdateRequestDTO.toJson());
+      Logger().d("서버에서 받아온 값 : ${response.data.toString()}");
       // response.data의 값을 Dart객체로 변환 작업
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
       // 수정한 정보만 추출해서 덮어 씌우기

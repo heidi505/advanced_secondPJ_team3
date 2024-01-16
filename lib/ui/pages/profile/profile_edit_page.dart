@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
@@ -18,24 +19,21 @@ import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 import '../../../data/dto/response_dto.dart';
+import '../../../data/provider/profile_update_provider.dart';
 
-class ProfileEditPage extends StatefulWidget {
+class ProfileEditPage extends ConsumerStatefulWidget {
   ProfileEditPage({Key? key, required this.user}) : super(key: key);
 
   final TextEditingController _statusMessageContoller = new TextEditingController();
   final TextEditingController _nicknameController = TextEditingController();
 
-
   final UserMock user;
-  // final _formKey = GlobalKey<FormState>();
-  // final _nickName = TextEditingController();
-  // final _statusMessage = TextEditingController();
 
   @override
-  State<ProfileEditPage> createState() => _ProfileEditPageState();
+  ConsumerState<ProfileEditPage> createState() => _ProfileEditPageState();
 }
 
-class _ProfileEditPageState extends State<ProfileEditPage> {
+class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
   final picker = ImagePicker();
   XFile? image; // 카메라로 촬영한 이미지를 저장할 변수
   List<XFile?> multiImage = []; // 갤러리에서 여러장의 사진을 선택해서 저장할 변수

@@ -38,5 +38,5 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
 final profileUpdateProvider =
   StateNotifierProvider<ProfileUpdateViewModel, ProfileUpdateModel?>((ref){
     ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
-  return ProfileUpdateViewModel(null, ref)..notifyInit(profileUpdateRequestDto);
+  return ProfileUpdateViewModel(null, ref)..updateProfile(profileUpdateRequestDto);
 });

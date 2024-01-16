@@ -38,7 +38,8 @@ class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormFiel
   }
 
   void _onFieldSubmitted(String value) {
-    Logger().d("----- 입력값 확인 ----- : " + _statusMessageContoller.text);
+    Logger().d("----- 입력값 벨류 확인 ----- : + ${value}");
+    Logger().d("----- 입력값 컨트롤러 확인 ----- : " + _statusMessageContoller.text);
     ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO(statusMessage: value);
     ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
   }
