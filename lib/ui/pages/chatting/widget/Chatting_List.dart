@@ -16,6 +16,8 @@ import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_menu_modal.dart';
@@ -47,7 +49,7 @@ class ChattingList extends ConsumerWidget {
                     barrierDismissible: true,
                     builder: ((context) {
                       ref.read(paramProvider).addChatRoomDTO(model!.chatRoomDTOList[index]);
-                      return _ChatMenuModal(context, model!.chatRoomDTOList[index]);
+                      return _ChatMenuModal(context, model!.chatRoomDTOList[index], ref);
                     }),
                   );
                 },
@@ -89,7 +91,8 @@ class ChattingList extends ConsumerWidget {
     );
   }
 
-  AlertDialog _ChatMenuModal(BuildContext context, ChatroomDTO chatroomDTO) {
+  AlertDialog _ChatMenuModal(BuildContext context, ChatroomDTO chatroomDTO, WidgetRef ref) {
+    SessionUser session = ref.read(sessionProvider);
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       backgroundColor: basicColorW,
@@ -110,6 +113,7 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
+                ref.read(chattingPageProvider.notifier).chatSetting(chatroomDTO.chatDocId!, "isBookMarked", session.user!.id!);
                 showCustom(context, "즐겨찾기에 추가되었습니다.");
               },
               text: Text(
@@ -118,7 +122,10 @@ class ChattingList extends ConsumerWidget {
               ),
             ),
             ChatMenuModalBox(
-              ontap: () {},
+              ontap: () {
+                ref.read(chattingPageProvider.notifier).chatSetting(chatroomDTO.chatDocId!, "isFixed", session.user!.id!);
+                showCustom(context, "${chatroomDTO.chatName} 상단 고정");
+              },
               text: Text(
                 "채팅방 상단 고정",
                 style: h4(color: basicColorB3),
@@ -126,6 +133,8 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
+
+                ref.read(chattingPageProvider.notifier).chatSetting(chatroomDTO.chatDocId!, "IsAlarmOn", session.user!.id!);
                 showCustom(context, "채팅방 알림이 설정되었습니다.");
               },
               text: Text(
@@ -135,6 +144,7 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
+                ref.read(chattingPageProvider.notifier).deleteChat(chatroomDTO.chatDocId!);
                 _showdialog(context);
               },
               text: Text(

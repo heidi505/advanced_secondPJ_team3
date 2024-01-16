@@ -116,10 +116,14 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
         onError: (e)=> print("변경 에러 $e"));
   }
 
-  Future<String> chatSetting(String chatDocId, String func) async{
-    String result = await ChatRepository().setChatting(chatDocId, func);
+  Future<void> chatSetting(String chatDocId, String func, int userId) async{
+    await ChatRepository().setChatting(chatDocId, func, userId);
 
-    return result;
+  }
+
+  //채팅방 나가기
+  Future<void> deleteChat(String chatDocId) async {
+
   }
 
 
