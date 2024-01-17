@@ -27,6 +27,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _textController = TextEditingController();
   double bottomInset = 0.0;
   bool isPopupVisible = false;
+  bool isVisible = true;
 
   //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
@@ -84,37 +85,47 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                         ...List.generate(chats.length, (index) => chats[index]),
                       ],
                     ),
-                    Positioned(
-                      top: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.white
-                          ),
-                        ),
-                        width: 360,
-                        child: ExpansionTile(
-                          collapsedShape: RoundedRectangleBorder(
-                            side: BorderSide.none,
+                    Visibility(
+                      visible: isVisible,
+                      child: Positioned(
+                        top: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.white
+                            ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10.0),
+                          width: 360,
+                          child: ExpansionTile(
+                            collapsedShape: RoundedRectangleBorder(
+                              side: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            title: Row(
+                              children:[
+                                Image.asset("assets/icons/speacker_icon.png",
+                                width: 24,
+                                height: 24,),
+                                SizedBox(
+                                  width: smallGap,
+                                ),
+                                Text(
+                                '공지 제목',
+                                style: TextStyle(fontSize: 20),
+                              ),]
+                            ),
+                            children: [
+                              Text("내용"),
+                            ],
+                            trailing: Icon(Icons.expand_more),
+                            backgroundColor: Colors.white,
                           ),
-                          title: Text(
-                            '공지 제목',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          children: [
-                            Text("내용"),
-                          ],
-                          trailing: Icon(Icons.expand_more),
-                          backgroundColor: Colors.white,
-
-
                         ),
                       ),
                     ),

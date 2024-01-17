@@ -93,8 +93,24 @@ class ChatRepository{
   }
 
 
+  Stream<List<ChatNotifyDTO>> fetchChatNotify(String chatRoomDocId, int userId){
+    final db = FirebaseFirestore.instance; // FireStore 객체 생성
+    Stream<QuerySnapshot<Map<String, dynamic>>> stream = db
+        .collection("ChatRoom$userId")
+        .doc(chatRoomDocId)
+        .collection("chatNotify")
+        .orderBy("createdAt", descending: false) //오름차순
+        .snapshots();
 
 
+    return stream.map((snapshot){
+      return snapshot.docs.map((e) {
+        return ChatNotifyDTO.fromJson(e.data(), e.id); //e.id : chatNotify컬렉션id
+        //ChatNotifyDTO 객체로 변환
+      }).toList();
+    });
+
+  }
 
 
 
