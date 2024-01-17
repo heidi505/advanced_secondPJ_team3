@@ -45,8 +45,11 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       if (message.userId == session.user!.id!) {
         chat = MyChat(text: message.content, time: message.time!);
       } else {
-        chat =
-            OtherChat(name: "홍길동", text: message.content, time: message.time!, userId: message.userId!);
+        chat = OtherChat(
+            name: "홍길동",
+            text: message.content,
+            time: message.time!,
+            userId: message.userId!);
       }
       Logger().d(message.content);
       chats.add(chat);
@@ -235,7 +238,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     _textController.clear(); // 1
     ref.read(otherChatProvider.notifier).addMessage(text);
     setState(() {
-
       // 2
     });
   }

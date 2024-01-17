@@ -27,8 +27,8 @@ import 'package:team3_kakao/ui/pages/chatting/widget/group_profile.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
-class ChattingList extends ConsumerWidget {
-  ChattingList({super.key});
+class OpenChattingList extends ConsumerWidget {
+  OpenChattingList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
