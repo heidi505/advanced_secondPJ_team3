@@ -49,20 +49,3 @@ class MessageDTO {
   }
 
 }
-
-class ChatNotifyDTO{
-  int? notifyId;
-  int? userId;
-  late String content;
-  Timestamp? createdAt;
-  int? chatNotifyDocId;
-
-  ChatNotifyDTO({ this.notifyId, this.userId, required this.content,this.createdAt, this.chatNotifyDocId});
-
-  ChatNotifyDTO.fromJson(Map<String, dynamic> json, String id ) //id : chatNotify 컬렉션 id
-  { content = json["content"];
-  createdAt = json["createdAt"];
-  userId = json["userId"];
-  }
-
-}

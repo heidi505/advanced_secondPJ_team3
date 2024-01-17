@@ -116,19 +116,15 @@ class ChatRepository {
     return responseDTO;
   }
 
-
-
   // Stream<List<ChatNotifyDTO>> fetchChatNotify(String chatRoomDocId,
   //     int userId) {
   //   final db = FirebaseFirestore.instance; // FireStore 객체 생성
-  //   Stream<QuerySnapshot<Map<String, dynamic>>> stream = db
+  //   Stream<QuerySnapshot<Map<String, dynamic>>> stream = db //채팅방 목록 조회
   //       .collection("ChatRoom$userId")
   //       .doc(chatRoomDocId)
   //       .collection("chatNotify")
   //       .orderBy("createdAt", descending: false) //오름차순
   //       .snapshots();
-  //
-  //
   //   return stream.map((snapshot) {
   //     return snapshot.docs.map((e) {
   //       return ChatNotifyDTO.fromJson(e.data(), e.id); //e.id : chatNotify컬렉션id
@@ -136,6 +132,8 @@ class ChatRepository {
   //     }).toList();
   //   });
   // }
+
+
   Future<dynamic> insertOneToOneChat(User user, FriendsDTO friend) async {
     Map<String, dynamic> newChatRoom = {
       "chatName": "${user.nickname}, ${friend.nickname}",
