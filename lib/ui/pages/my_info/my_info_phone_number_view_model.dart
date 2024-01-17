@@ -1,12 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/dto/user_dto/phone_num_response_dto.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/user_repository.dart';
 import 'package:team3_kakao/main.dart';
 
-class PhoneNumModel{
+import 'my_info_page.dart';
+
+class PhoneNumModel {
   //서버랑 화면을 연결시켜주기 위한 필드
   PhoneNumResponseDTO dto;
 
@@ -14,25 +18,27 @@ class PhoneNumModel{
 }
 
 //2. 뷰모델
-class PhoneNumModelViewModel extends StateNotifier<PhoneNumModel?>{
+class PhoneNumModelViewModel extends StateNotifier<PhoneNumModel?> {
   Ref ref;
   final mContext = navigatorKey.currentContext;
 
   PhoneNumModelViewModel(this.ref, super._state);
 
+  Future<void> notifyPhoneUpdate(
+      PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async {
+    ResponseDTO responseDTO =
+        await UserRepository().fetchPhoneNumUpdate(phoneNumUpdateDTO, jwt);
 
-
-  Future<void> notifyPhoneUpdate(PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async{
-    //매개변수로 ReqDTO를 레파지토리까지 넘김
-    Logger().d("++레파지토리 넘어감 ??++");
-    ResponseDTO responseDTO = await UserRepository().fetchPhoneNumUpdate(phoneNumUpdateDTO, jwt);
-    state = PhoneNumModel(responseDTO.data);
-    Logger().d(state!.dto.newPhoneNum + "여기");
+    if (responseDTO.success == true) {
+      ref.read(sessionProvider).user!.phoneNum = responseDTO.data.newPhoneNum;
+      Navigator.push(
+          mContext!, MaterialPageRoute(builder: (context) => MyInfoPage()));
+    }
   }
 }
 
 //3. 창고관리자
-final phoneNumUpdateProvider = StateNotifierProvider<PhoneNumModelViewModel, PhoneNumModel?>(
-        (ref) {
-      return PhoneNumModelViewModel(ref,null);
-    });
+final phoneNumUpdateProvider =
+    StateNotifierProvider<PhoneNumModelViewModel, PhoneNumModel?>((ref) {
+  return PhoneNumModelViewModel(ref, null);
+});

@@ -35,15 +35,22 @@ class TextMenuCard extends ConsumerWidget {
   final Widget? linkto;
   final String? icon;
   final Color? iconColor;
+  final String? text;
 
-  const TextMenuCard({
-    Key? key, this.title, this.linkto, this.icon, this.iconColor = Colors.grey
-  }) : super(key: key);
+  const TextMenuCard(
+      {Key? key,
+      this.title,
+      this.linkto,
+      this.icon,
+      this.iconColor = Colors.grey,
+      this.text})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(phoneNumUpdateProvider);
-    final newState = ref.watch(phoneNumUpdateProvider.notifier).state?.dto.newPhoneNum;
+    final newState =
+        ref.watch(phoneNumUpdateProvider.notifier).state?.dto.newPhoneNum;
     Logger().d("++state 값++: $newState");
 
     return InkWell(
@@ -69,8 +76,7 @@ class TextMenuCard extends ConsumerWidget {
               Spacer(),
               Row(
                 children: [
-                  Text(
-                      "${newState}"),
+                  Text(text!),
                   SizedBox(
                     width: 30,
                     height: 50,
@@ -94,7 +100,6 @@ class TextMenuCard extends ConsumerWidget {
     );
   }
 }
-
 
 class InfoTitle extends StatelessWidget {
   String text;
