@@ -101,9 +101,10 @@ class PlusUser extends StatelessWidget {
 
 class MyProfile extends StatelessWidget {
   String text;
-  String profilePic;
+  String? profilePic;
+  int userId;
 
-  MyProfile({required this.text, required this.profilePic});
+  MyProfile({required this.text, this.profilePic, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +114,8 @@ class MyProfile extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(mediumGap),
-            child: Image.asset(
-              "$profilePic",
+            child: Image.network(
+              "$baseUrl/images/$userId.jpg",
               fit: BoxFit.cover,
               height: 50,
               width: 50,

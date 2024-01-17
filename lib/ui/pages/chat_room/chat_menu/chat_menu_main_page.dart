@@ -22,10 +22,11 @@ class ChatRoomHamburger extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref ) {
-    List<MiniDTO> sortedUserDTO = messages!.map((e) => MiniDTO(e)).toList();
-    sortedUserDTO.removeWhere((a) => a != sortedUserDTO.firstWhere((b) => b.userId == a.userId));
-
     SessionUser session = ref.read(sessionProvider);
+    List<MiniDTO> sortedUserDTO = messages!.map((e) => MiniDTO(e)).toList();
+    sortedUserDTO.removeWhere((a) => a.userId == session.user!.id! || a != sortedUserDTO.firstWhere((b) => b.userId == a.userId));
+
+
     return Drawer(
       child: Column(
         children: [
@@ -67,7 +68,7 @@ class ChatRoomHamburger extends ConsumerWidget {
                         svg: "assets/icons/chat_plus_icon.svg"),
                     MyProfile(
                         text: session.user!.nickname!,
-                        profilePic: "assets/images/catdog.jpg"),
+                        userId: session.user!.id!),
                     // 리스트로 쭉 나오게 해야함.
                     Container(
                       height: sortedUserDTO.length * 100,
