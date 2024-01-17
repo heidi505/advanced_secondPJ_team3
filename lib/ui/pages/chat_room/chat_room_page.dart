@@ -7,6 +7,7 @@ import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
+import 'package:team3_kakao/data/model/chat.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_main_page.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
@@ -23,7 +24,6 @@ class ChatRoomPage extends ConsumerStatefulWidget {
 
 //메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
 class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
-  List<dynamic> chats = [];
   final TextEditingController _textController = TextEditingController();
   double bottomInset = 0.0;
   bool isPopupVisible = false;
@@ -32,7 +32,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
-    chats = [];
     SessionUser session = ref.read(sessionProvider);
     OtherChatModel? model = ref.watch(otherChatProvider);
     ParamStore paramStore = ref.read(paramProvider);
@@ -40,6 +39,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     if (model == null) {
       return CircularProgressIndicator();
     }
+
 
     for (var message in model!.messages) {
       dynamic chat;
@@ -56,6 +56,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       chats.add(chat);
     }
 
+
     return Scaffold(
       backgroundColor: primaryColor02,
       appBar: AppBar(
@@ -65,8 +66,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           style: h3(),
         ),
       ),
-      // 여기에 다른 위젯을 추가하려면 Positioned를 사용하세요
-      endDrawer: ChatRoomHamburger(),
+
+      endDrawer: ChatRoomHamburger(messages: model!.messages),
+
       body: Column(
         children: [
           Expanded(
@@ -82,7 +84,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                         SizedBox(
                           height: mediumGap,
                         ),
-                        ...List.generate(chats.length, (index) => chats[index]),
                       ],
                     ),
                     Visibility(
@@ -129,6 +130,24 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                         ),
                       ),
                     ),
+
+                    ...List.generate(model!.messages.length, (index) {
+                        dynamic chat;
+                        print('index : $index');
+
+                        if (model!.messages[index].userId == session.user!.id!) {
+                          // 나
+                          chat = MyChat(text: model!.messages[index].content, time: model!.messages[index].time!);
+                        } else {
+                          // 상대방
+                          Logger().d(model!.messages[index].userNickname ?? "홍길동");
+
+                          chat =
+                              OtherChat(name: model!.messages[index].userNickname ?? "홍길동", text: model!.messages[index].content, time: model!.messages[index].time!, userId: model!.messages[index].userId!);
+                        }
+                        return chat;
+                    }),
+
                   ],
                 ),
 
