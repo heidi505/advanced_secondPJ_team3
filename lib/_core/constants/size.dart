@@ -6,6 +6,7 @@ const double mediumGap = 20.0;
 const double xmediumGap = 30.0;
 const double largeGap = 40.0;
 const double xlargeGap = 60.0;
+const double xxlargeGap = 100.0;
 
 double getScreenWidth(BuildContext context) {
   return MediaQuery.of(context).size.width;
