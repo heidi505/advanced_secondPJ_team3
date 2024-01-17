@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_media_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_notice_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/chat_menu_main.dart';
@@ -46,7 +47,7 @@ class ChatRoomHamburger extends StatelessWidget {
                     BoldText(text: "톡캘린더"),
                     BoldText(text: "톡게시판"),
                     ChatHamIcon(
-                        text: "공지", svg: "assets/icons/chat_notice_icon.svg", linkto: ChatRoomNoticePage()),
+                        text: "공지", svg: "assets/icons/chat_notice_icon.svg", linkto: ChatNotifyPage()),
                     BoldText(text: "대화상대"),
                     // 프로필아이콘으로 추가 수정 해야함
                     PlusUser(

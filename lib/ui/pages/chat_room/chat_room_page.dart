@@ -55,12 +55,13 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     return Scaffold(
       backgroundColor: primaryColor02,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Text(
-          paramStore.chatroomDTO!.chatName!,
-          style: h3(),
-        ),
-      ),
+              backgroundColor: Colors.transparent,
+              title: Text(
+                paramStore.chatroomDTO!.chatName!,
+                style: h3(),
+              ),
+             ),
+            // 여기에 다른 위젯을 추가하려면 Positioned를 사용하세요
       endDrawer: ChatRoomHamburger(),
       body: Column(
         children: [

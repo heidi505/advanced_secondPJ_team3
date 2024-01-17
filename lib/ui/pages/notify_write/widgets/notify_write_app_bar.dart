@@ -14,7 +14,7 @@ class NotifyWirteAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0.0,
       leading: IconButton(
         onPressed: () {
-          Navigator.pushNamed(context, Move.chatNotifyPage);
+          Navigator.pushNamed(context, Move.NotifyWritePage);
         },
         icon: Icon(Icons.close),
       ),
@@ -23,7 +23,7 @@ class NotifyWirteAppBar extends StatelessWidget implements PreferredSizeWidget {
             width: 50,
             child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, Move.chatNotifyPage);
+                  Navigator.pushNamed(context, Move.NotifyWritePage);
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.transparent, // 배경색 투명
