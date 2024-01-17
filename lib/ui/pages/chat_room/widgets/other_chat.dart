@@ -1,43 +1,69 @@
+import 'dart:core';
+import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
+import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class OtherChat extends StatelessWidget {
   final String name;
   final String text;
   final String time;
-  const OtherChat({
-    super.key,
-    required this.name,
-    required this.text,
-    required this.time,
-  });
+  final int userId;
+
+  const OtherChat(
+      {Key? key,
+      required this.name,
+      required this.text,
+      required this.time,
+      required this.userId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CircleAvatar(
-          backgroundImage: NetworkImage(friends[0].backgroundImage),
+        ProfileImage(
+          imagePath: "$baseUrl/images/$userId.jpg",
+          imageHeight: 40,
+          imageWidth: 40,
+          circular: 16,
         ),
         SizedBox(width: 10),
         Flexible(
-          child: Column(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(name),
-              Container(
-                child: Text(text),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(13),
-                  color: Colors.white,
-                ),
-              )
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: h5(color: basicColorB5),
+                  ),
+                  SizedBox(height: 4),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4.0, horizontal: 8.0),
+                      child: Text(text),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 5),
+              Text(
+                time,
+                style: TextStyle(fontSize: 12),
+              ),
             ],
           ),
-        ),
-        SizedBox(width: 5),
-        Text(
-          time,
-          style: TextStyle(fontSize: 12),
         ),
       ],
     );

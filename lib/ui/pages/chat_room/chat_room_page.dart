@@ -1,148 +1,243 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
-import 'package:team3_kakao/ui/pages/chat_room/widgets/chat_icon_button.dart';
+import 'package:team3_kakao/_core/utils/date_format.dart';
+import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_main_page.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
+import 'package:team3_kakao/ui/pages/chat_room/widgets/chat_menu_icon.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/my_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/other_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/time_line.dart';
 
-class ChatRoomPage extends StatefulWidget {
-  const ChatRoomPage();
-
+class ChatRoomPage extends ConsumerStatefulWidget {
   @override
-  State<ChatRoomPage> createState() => _ChatRoomScreenState();
+  _ChatRoomPageState createState() => _ChatRoomPageState();
 }
 
-class _ChatRoomScreenState extends State<ChatRoomPage> {
-  final List<MyChat> chats = [];
+//메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
+class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _textController = TextEditingController();
+  double bottomInset = 0.0;
+  bool isPopupVisible = false;
+
+  //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: primaryColor02,
-      child: Scaffold(
+    SessionUser session = ref.read(sessionProvider);
+    OtherChatModel? model = ref.watch(otherChatProvider);
+    ParamStore paramStore = ref.read(paramProvider);
+
+    if (model == null) {
+      return CircularProgressIndicator();
+    }
+
+
+    return Scaffold(
+      backgroundColor: primaryColor02,
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: Text(
-            "홍길동",
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          actions: [
-            Icon(FontAwesomeIcons.searchengin, size: 30),
-            SizedBox(width: 25),
-            Icon(FontAwesomeIcons.bars, size: 20),
-            SizedBox(width: 25),
-          ],
+        title: Text(
+          paramStore.chatroomDTO!.chatName!,
+          style: h3(),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    children: [
-                      TimeLine(time: "2021년 1월 1일 금요일"),
-                      OtherChat(
-                        name: "홍길동",
-                        text: "새해 복 많이 받으세요",
-                        time: "오전 10:10분",
-                      ),
-                      MyChat(
-                        text: "선생님도 많이 받으십시오",
-                        time: "오후 2:15",
-                      ),
-                      ...List<Widget>.generate(
-                          chats.length, (index) => chats[index])
-                    ],
-                  ),
+      ),
+      endDrawer: ChatRoomHamburger(messages: model!.messages),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    TimeLine(time: getCurrentDay()),
+                    //나중에 동적으로 처리해야함
+                    SizedBox(
+                      height: mediumGap,
+                    ),
+                    ...List.generate(model!.messages.length, (index) {
+                        dynamic chat;
+                        print('index : $index');
+
+                        if (model!.messages[index].userId == session.user!.id!) {
+                          // 나
+                          chat = MyChat(text: model!.messages[index].content, time: model!.messages[index].time!);
+                        } else {
+                          // 상대방
+                          Logger().d(model!.messages[index].userNickname ?? "홍길동");
+
+                          chat =
+                              OtherChat(name: model!.messages[index].userNickname ?? "홍길동", text: model!.messages[index].content, time: model!.messages[index].time!, userId: model!.messages[index].userId!);
+                        }
+                        return chat;
+                    }),
+                  ],
                 ),
               ),
             ),
-            Container(
-              height: 80,
-              color: Colors.white,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: smallGap,
+          ),
+          Container(
+            height: 80,
+            color: Colors.white,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: smallGap,
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isPopupVisible = !isPopupVisible; // 클릭할 때마다 반전
+                    });
+                  },
+                  child: Image.asset(
+                    "assets/icons/plus_icon.png",
+                    fit: BoxFit.cover,
+                    width: 35,
+                    height: 35,
                   ),
-                  InkWell(
-                    onTap: () {
-                      showModalBottomSheet<void>(
-                        context: context,
-                        builder: (context) {
-                          return Container(
-                            color: Colors.transparent,
-                            child: Text("dd"),
-                          );
-                        },
-                      );
-                    },
-                    child: Image.asset(
-                      "assets/icons/plus_icon.png",
-                      fit: BoxFit.cover,
-                      width: 35,
-                      height: 35,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(30), // border-radius 값 조절
-                        border: Border.all(
-                          color: Colors.grey, // 테두리 색상
-                        ),
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(30), // border-radius 값 조절
+                      border: Border.all(
+                        color: Colors.grey, // 테두리 색상
                       ),
-                      child: TextFormField(
-                        controller: _textController,
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 20),
-                        decoration: InputDecoration(
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                          suffix: Container(
-                            width: 70,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image.asset(
-                                  "assets/icons/chat_smile_icon.png",
-                                  fit: BoxFit.cover,
-                                  width: 30,
-                                  height: 30,
-                                  color: basicColorB9,
-                                ),
-                                SizedBox(
-                                  width: smallGap,
-                                ),
-                                Image.asset(
-                                  "assets/icons/hash_icon.png",
-                                  fit: BoxFit.cover,
-                                  width: 30,
-                                  height: 30,
-                                  color: basicColorB9,
-                                ),
-                              ],
-                            ),
+                    ),
+                    child: TextField(
+                      controller: _textController,
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 20),
+                      decoration: InputDecoration(
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                        suffix: Container(
+                          width: 70,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Image.asset(
+                                "assets/icons/chat_smile_icon.png",
+                                fit: BoxFit.cover,
+                                width: 30,
+                                height: 30,
+                                color: basicColorB9,
+                              ),
+                              SizedBox(
+                                width: smallGap,
+                              ),
+                              Image.asset(
+                                "assets/icons/hash_icon.png",
+                                fit: BoxFit.cover,
+                                width: 30,
+                                height: 30,
+                                color: basicColorB9,
+                              ),
+                            ],
                           ),
                         ),
                       ),
+                      onSubmitted: _handleSubmitted,
                     ),
                   ),
-                  SizedBox(
-                    width: smallGap,
-                  ),
-                ],
+                ),
+                SizedBox(
+                  width: smallGap,
+                ),
+              ],
+            ),
+          ),
+          Visibility(
+            visible: isPopupVisible,
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(color: basicColorW),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    Wrap(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ChatMenuIcon(
+                                imagePath: "assets/icons/chat_menu_icon_01.png",
+                                text: "앨범",
+                                onTap: () {},
+                              ),
+                              ChatMenuIcon(
+                                imagePath: "assets/icons/chat_menu_icon_02.png",
+                                text: "카메라",
+                              ),
+                              ChatMenuIcon(
+                                imagePath: "assets/icons/chat_menu_icon_03.png",
+                                text: "일정",
+                              ),
+                              ChatMenuIcon(
+                                imagePath: "assets/icons/chat_menu_icon_04.png",
+                                text: "지도",
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Wrap(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ChatMenuIcon(
+                                imagePath: "assets/icons/chat_menu_icon_05.png",
+                                text: "연락처",
+                              ),
+                              ChatMenuIcon(
+                                imagePath: "assets/icons/chat_menu_icon_06.png",
+                                text: "파일",
+                              ),
+                              ChatMenuIcon(
+                                imagePath: "assets/icons/chat_menu_icon_07.png",
+                                text: "캡쳐",
+                              ),
+                              ChatMenuIcon(
+                                imagePath: "assets/icons/chat_menu_icon_08.png",
+                                text: "송금",
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  void _handleSubmitted(text) {
+    _textController.clear(); // 1
+    ref.read(otherChatProvider.notifier).addMessage(text);
+    setState(() {
+      // 2
+    });
   }
 }

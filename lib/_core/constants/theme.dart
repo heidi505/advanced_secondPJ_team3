@@ -20,19 +20,26 @@ const int _writePrimaryValue = 0xFFFFFFFF;
 
 ThemeData theme() {
   return ThemeData(
+    textSelectionTheme: TextSelectionThemeData(cursorColor: primaryColor01),
     fontFamily: "NotoSansKR",
     scaffoldBackgroundColor: basicColorW,
     primaryColor: basicColorW,
     appBarTheme: appBarTheme(),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: basicColorB),
+      ),
+    ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-          backgroundColor: primaryColor01,
-          foregroundColor: basicColorB1,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-            side: BorderSide(color: primaryColor01), // 테두리 색상 설정
-          ),
-          minimumSize: Size(double.infinity, 46)),
+        backgroundColor: primaryColor01,
+        foregroundColor: basicColorB1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+          side: BorderSide(color: primaryColor01), // 테두리 색상 설정
+        ),
+        minimumSize: Size(double.infinity, 46),
+      ),
     ),
   );
 }

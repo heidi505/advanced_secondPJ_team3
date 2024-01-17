@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
-
+import 'package:team3_kakao/data/dto/user_requestDTO.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 
 import '../../pages/user/join/join_check_page.dart';
 import '../join/join_button_form_field.dart';
 
-class LoginTextFormField extends StatelessWidget {
+class LoginTextFormField extends ConsumerWidget {
+  final TextEditingController controller;
+  final validator;
   String text;
 
-  LoginTextFormField({required this.text});
+  LoginTextFormField(
+      {required this.text, required this.controller, required this.validator});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: xsmallGap, bottom: mediumGap),
           child: TextFormField(
+            controller: controller,
             decoration: InputDecoration(
               hintText: "$text",
             ),
+            validator: validator,
           ),
         ),
       ],
@@ -28,23 +37,36 @@ class LoginTextFormField extends StatelessWidget {
   }
 }
 
-class LoginButton extends StatelessWidget {
+class LoginButton extends ConsumerWidget {
+  dynamic? formKey;
   String text;
-
-  LoginButton({required this.text});
+  String? email;
+  String? password;
+  LoginButton(
+      {super.key, required this.text, this.email, this.password, this.formKey});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
-      child: TextButton(onPressed: () {}, child: Text("$text")),
+      child: TextButton(
+          onPressed: () {
+            Logger().d("버튼 눌러짐");
+            if (formKey.currentState!.validate()) {
+              Logger().d("유효성 통과");
+              LoginReqDTO loginReqDTO =
+                  new LoginReqDTO(email: email!, password: password!);
+              SessionUser user = ref.read(sessionProvider);
+              user.login(loginReqDTO);
+            }
+          },
+          child: Text("$text")),
     );
   }
 }
 
 class JoinButton extends StatelessWidget {
   String text;
-
   JoinButton({required this.text});
 
   @override
