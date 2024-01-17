@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
@@ -8,6 +9,7 @@ import 'package:team3_kakao/data/repository/chat_repository.dart';
 import 'package:team3_kakao/main.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 
+import '../../../_core/constants/move.dart';
 import '../../../data/dto/chat_dto/chatting_list_page_dto.dart';
 import '../../../data/dto/friend_dto/chat_users_dto.dart';
 
@@ -57,6 +59,21 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?>{
     SessionUser session = ref.read(sessionProvider);
     ParamStore paramStore = ref.read(paramProvider);
     await ChatRepository().addMessage(text, session.user!.id!, paramStore.chatRoomDocId!);
+  }
+
+  Future<void> insertOneToOneChat() async{
+    final mContext = navigatorKey.currentContext;
+
+    SessionUser session = ref.read(sessionProvider);
+    ParamStore paramStore = ref.read(paramProvider);
+
+    final newChatDoc = await ChatRepository().insertOneToOneChat(session.user!, paramStore.friendDTO!);
+
+    ChatroomDTO chatroomDTO = ChatroomDTO(chatName: "${session.user!.nickname!}, ${paramStore.friendDTO!.nickname}", chatDocId: newChatDoc.id, peopleCount: "2");
+    paramStore.addChatRoomDTO(chatroomDTO);
+
+    Navigator.pushNamed(mContext!, Move.vacantChatRoomPage);
+
   }
 
   // List<MessageDTO> newMessageList = [];

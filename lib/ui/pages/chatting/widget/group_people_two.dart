@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class GroupPeopleTwo extends StatelessWidget {
+
+
   const GroupPeopleTwo({
     Key? key,
     required this.imagePath,
+    required this.userIdList
   }) : super(key: key);
 
   final String imagePath;
+  final List<int> userIdList;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,7 @@ class GroupPeopleTwo extends StatelessWidget {
               padding: const EdgeInsets.all(2.0),
               child: Container(
                 child: ProfileImage(
-                  imagePath: imagePath,
+                  imagePath: "$baseUrl/images/${userIdList[0]}.jpg",
                   imageWidth: 28.0,
                   imageHeight: 28.0,
                   circular: 13.0,
@@ -46,7 +51,7 @@ class GroupPeopleTwo extends StatelessWidget {
                   borderRadius: BorderRadius.circular(13.0),
                 ),
                 child: ProfileImage(
-                  imagePath: imagePath,
+                  imagePath: "$baseUrl/images/${userIdList[1]}.jpg",
                   imageWidth: 28.0,
                   imageHeight: 28.0,
                   circular: 13.0,
