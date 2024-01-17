@@ -6,6 +6,7 @@ import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/open_profile_image.dart';
 
 class OpenChatArea extends StatelessWidget {
+  final String imagePath;
   final String title;
   final String subTitle;
   final String text;
@@ -17,6 +18,7 @@ class OpenChatArea extends StatelessWidget {
     required this.subTitle,
     required this.text,
     required this.time,
+    required this.imagePath,
   });
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class OpenChatArea extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             OpenProfileImage(
-                imagePath: "assets/images/open_chat_01.png",
+                imagePath: imagePath,
                 imageWidth: 50,
                 imageHeight: 50,
                 circular: 16),
@@ -71,13 +73,22 @@ class OpenChatArea extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 2,
+                      ),
                       Text(
                         title,
                         style: h4(color: basicColorB1),
                       ),
+                      SizedBox(
+                        height: 2,
+                      ),
                       Text(
                         subTitle,
                         style: (h5(color: basicColorB9)),
+                      ),
+                      SizedBox(
+                        height: 2,
                       ),
                       Row(
                         children: [
@@ -89,7 +100,7 @@ class OpenChatArea extends StatelessWidget {
                             width: smallGap,
                           ),
                           Text(
-                            "ddd",
+                            getDifferenceFromNow(30),
                             style: h6(color: pointColor04),
                           )
                         ],
@@ -99,7 +110,7 @@ class OpenChatArea extends StatelessWidget {
                   Spacer(),
                   Container(
                     decoration: BoxDecoration(
-                      color: bgAndLineColor,
+                      color: bgAndLineColor.withOpacity(0.7),
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                     child: Padding(

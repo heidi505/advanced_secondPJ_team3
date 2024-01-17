@@ -54,10 +54,44 @@ class OpenChattingList extends ConsumerWidget {
                 height: smallGap,
               ),
               OpenChatArea(
+                imagePath: "assets/images/open_chat_01.png",
+                title: "오늘 먹은 음식, 먹픈 채팅방",
+                subTitle: "#오픈 토픽 #라이프 토픽 #음식 사진",
+                text: "16명 참여중 ·",
+                time: DateTime.now(),
+              ),
+              SizedBox(
+                height: mediumGap,
+              ),
+              OpenChatArea(
+                imagePath: "assets/images/open_chat_02.png",
+                title: "클래식 음악과 친해지기",
+                subTitle: "클래식, 어렵지 않아요 🎵",
+                text: "16명 참여중 ·",
+                time: DateTime.now(),
+              ),
+              SizedBox(
+                height: mediumGap,
+              ),
+              OpenChatArea(
+                imagePath: "assets/images/open_chat_03.png",
+                title: "오늘 먹은 음식, 먹픈 채팅방",
+                subTitle: "#오픈 토픽 #라이프 토픽 #음식 사진",
+                text: "16명 참여중 ·",
+                time: DateTime.now(),
+              ),
+              SizedBox(
+                height: mediumGap,
+              ),
+              OpenChatArea(
+                imagePath: "assets/images/open_chat_04.png",
                 title: "오늘 먹은 음식, 먹픈 채팅방",
                 subTitle: "#오픈 토픽 #라이프 토픽 #음식 사진",
                 text: "16명 참여중",
                 time: DateTime.now(),
+              ),
+              SizedBox(
+                height: mediumGap,
               ),
             ],
           ),
