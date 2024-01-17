@@ -13,9 +13,8 @@ import '../../../_core/constants/move.dart';
 import '../../../data/dto/chat_dto/chatting_list_page_dto.dart';
 import '../../../data/dto/friend_dto/chat_users_dto.dart';
 
-class OtherChatModel{
+class OtherChatModel {
   List<MessageDTO> messages;
-
 
   OtherChatModel({required this.messages});
 }
@@ -30,13 +29,14 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
     ParamStore paramStore = ref.read(paramProvider);
     SessionUser session = ref.read(sessionProvider);
 
+    Logger().d(paramStore.chatRoomDocId!);
     ChatRepository()
         .fetchMessages(paramStore.chatRoomDocId!, session.user!.id!)
         .listen((event) async {
       List<int?> userIdList = event.map((e) => e.userId).toSet().toList();
 
-      ResponseDTO responseDTO = await ChatRepository().getChatUsers(
-          userIdList, session.user!.jwt!);
+      ResponseDTO responseDTO =
+          await ChatRepository().getChatUsers(userIdList, session.user!.jwt!);
       List<ChatUsersDTO> dtoList = responseDTO.data;
       print('dtoList : ${dtoList.toString()}');
 
@@ -56,12 +56,11 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
     });
   }
 
-
   Future<void> addMessage(String text) async {
     SessionUser session = ref.read(sessionProvider);
     ParamStore paramStore = ref.read(paramProvider);
-    await ChatRepository().addMessage(
-        text, session.user!.id!, paramStore.chatRoomDocId!);
+    await ChatRepository()
+        .addMessage(text, session.user!.id!, paramStore.chatRoomDocId!);
   }
 
   Future<void> getOneToOneChat() async {
@@ -74,8 +73,10 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
     Logger().d(session.user!.id);
 
     final db = FirebaseFirestore.instance;
-    QuerySnapshot<Map<String, dynamic>> oldChatDoc = await db.collection(
-        "ChatRoom1").where("users", isEqualTo: [session.user!.id, paramStore.friendDTO!.userId]).get();
+    QuerySnapshot<Map<String, dynamic>> oldChatDoc = await db
+        .collection("ChatRoom1")
+        .where("users",
+            isEqualTo: [session.user!.id, paramStore.friendDTO!.userId]).get();
 
     Logger().d(oldChatDoc.docs);
 
@@ -83,33 +84,32 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
       SessionUser session = ref.read(sessionProvider);
       ParamStore paramStore = ref.read(paramProvider);
 
-      final newChatDoc =  await ChatRepository().insertOneToOneChat(session.user!, paramStore.friendDTO!);
+      final newChatDoc = await ChatRepository()
+          .insertOneToOneChat(session.user!, paramStore.friendDTO!);
 
       ChatroomDTO chatroomDTO = ChatroomDTO(
-          chatName: "${session.user!.nickname!}, ${paramStore.friendDTO!
-              .nickname}", chatDocId: newChatDoc.id, peopleCount: "2");
+          chatName:
+              "${session.user!.nickname!}, ${paramStore.friendDTO!.nickname}",
+          chatDocId: newChatDoc.id,
+          peopleCount: "2");
 
       ref.read(paramProvider).addChatRoomDocId(chatroomDTO.chatDocId!);
       ref.read(paramProvider).addChatRoomDTO(chatroomDTO);
-      Navigator.pushNamed(mContext!, Move.vacantChatRoomPage);
-
-    }else{
-    for (var chatDoc in oldChatDoc.docs) {
-      ref.read(paramProvider).addChatRoomDocId(chatDoc.id);
       Navigator.pushNamed(mContext!, Move.chatRoomPage);
-
-    }
+    } else {
+      for (var chatDoc in oldChatDoc.docs) {
+        ref.read(paramProvider).addChatRoomDocId(chatDoc.id);
+        Navigator.pushNamed(mContext!, Move.chatRoomPage);
+      }
     }
   }
 
-  Future<void> insertOnetoOneChat(String text) async{
+  Future<void> insertOnetoOneChat(String text) async {
     final mContext = navigatorKey.currentContext;
-
-
-
   }
 }
 
-final otherChatProvider = StateNotifierProvider<OtherChatViewModel, OtherChatModel?>((ref){
+final otherChatProvider =
+    StateNotifierProvider<OtherChatViewModel, OtherChatModel?>((ref) {
   return new OtherChatViewModel(ref, null)..notifyInit();
 });

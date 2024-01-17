@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
@@ -34,7 +35,6 @@ class ChattingList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ChattingPageModel? model = ref.watch(chattingPageProvider);
 
-
     if (model == null) {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
@@ -49,7 +49,7 @@ class ChattingList extends ConsumerWidget {
                 height: smallGap,
               ),
               GroupProfile(
-                userIdList: model!.chatRoomDTOList[index].messageList?.map((e) => e.userId!).toList() ?? model!.chatRoomDTOList[index].userIdList ,
+                userIdList: model!.chatRoomDTOList[index].userIdList,
                 onlongPress: () {
                   showDialog(
                     context: context,
@@ -74,12 +74,12 @@ class ChattingList extends ConsumerWidget {
                 imagePath: "$baseUrl/images/${index + 1}.jpg",
                 title: model!.chatRoomDTOList[index].chatName!,
                 peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                subTitle: model!.chatRoomDTOList[index].lastChat?? "",
+                subTitle: model!.chatRoomDTOList[index].lastChat ?? "",
                 multiItem: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      model.chatRoomDTOList[index].lastChatTime??"",
+                      model.chatRoomDTOList[index].lastChatTime ?? "",
                       style: TextStyle(color: Colors.grey),
                     ),
                     SizedBox(

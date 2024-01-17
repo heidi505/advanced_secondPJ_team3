@@ -67,10 +67,6 @@ Map<String, Widget Function(BuildContext)> getRouters() {
 
     Move.vacantChatRoomPage: (context) => VacantChatRoomPage(),
 
-    // Move.profilePage: (context) => ProfilePage(
-    //
-    //     ),
-
     Move.profilePage: (context) => ProfilePage(),
     Move.profileEditPage: (context) => ProfileEditPage(
           user: friends[0],
@@ -87,7 +83,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.myInfoPage: (context) => MyInfoPage(),
 
     // main
-    Move.mainPage: (context) => const MainPage(),
+    Move.mainPage: (context) => MainPage(),
 
     // auth
 
