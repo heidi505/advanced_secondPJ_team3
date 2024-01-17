@@ -32,8 +32,9 @@ class MessageDTO {
   int? userId;
   String? messageDocId;
   String? time;
+  String? userNickname;
 
-  MessageDTO({required this.content, this.createdAt, this.messageId, this.userId, this.messageDocId, this.time});
+  MessageDTO({required this.content, this.createdAt, this.messageId, this.userId, this.messageDocId, this.time, this.userNickname});
 
   MessageDTO.fromJson(Map<String, dynamic> json, String docId)
   { content = json["content"];

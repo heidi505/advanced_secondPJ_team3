@@ -1,18 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/data/model/message.dart';
+import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_media_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_notice_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/chat_menu_main.dart';
 
 import '../../../../_core/constants/size.dart';
+import '../../../../data/dto/chat_dto/chatting_list_page_dto.dart';
 
-class ChatRoomHamburger extends StatelessWidget {
-  const ChatRoomHamburger({
-    super.key,
+class ChatRoomHamburger extends ConsumerWidget {
+  List<MessageDTO>? messages;
+
+  ChatRoomHamburger({
+    super.key, this.messages
   });
 
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref ) {
+    SessionUser session = ref.read(sessionProvider);
+    List<MiniDTO> sortedUserDTO = messages!.map((e) => MiniDTO(e)).toList();
+    sortedUserDTO.removeWhere((a) => a.userId == session.user!.id! || a != sortedUserDTO.firstWhere((b) => b.userId == a.userId));
+
+
     return Drawer(
       child: Column(
         children: [
@@ -53,13 +67,17 @@ class ChatRoomHamburger extends StatelessWidget {
                         text: "대화상대 초대",
                         svg: "assets/icons/chat_plus_icon.svg"),
                     MyProfile(
-                        text: "고양이 VS 멍멍이",
-                        profilePic: "assets/images/catdog.jpg"),
+                        text: session.user!.nickname!,
+                        userId: session.user!.id!),
                     // 리스트로 쭉 나오게 해야함.
-                    UserList(text: "뽀메", profilePic: "assets/images/dog.jpg"),
-                    UserList(text: "냥", profilePic: "assets/images/cat.jpg"),
-                    UserList(text: "뽀메2", profilePic: "assets/images/dog.jpg"),
-                    UserList(text: "냥2", profilePic: "assets/images/cat.jpg"),
+                    Container(
+                      height: sortedUserDTO.length * 100,
+                      child: ListView.builder(
+                          itemBuilder: (context, index){
+                            return UserList(text: sortedUserDTO![index].userNickname, userId: sortedUserDTO![index].userId);
+                          },
+                          itemCount: sortedUserDTO.length),
+                    )
                   ],
                 ),
               ),
@@ -69,5 +87,15 @@ class ChatRoomHamburger extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class MiniDTO{
+  late String userNickname;
+  late int userId;
+
+  MiniDTO(MessageDTO dto){
+    userId = dto.userId!;
+    userNickname = dto.userNickname!;
   }
 }

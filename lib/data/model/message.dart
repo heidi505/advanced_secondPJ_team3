@@ -5,7 +5,6 @@ class message{
   Timestamp? createdAt;
   int? userId;
 
-
   message({this.content, this.createdAt, this.userId});
 
   Map<String, dynamic> toJson() => {"content":content, "createdAt":createdAt, "userId":userId};
