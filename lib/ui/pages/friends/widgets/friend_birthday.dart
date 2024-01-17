@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_sub_title.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_text_item.dart';
@@ -10,13 +11,14 @@ import '../../../../data/dto/friend_dto/main_dto.dart';
 
 class FriendBirthday extends StatelessWidget {
   final List<FriendsDTO> friendList;
-  const FriendBirthday({
-    super.key, required this.friendList
-  });
+  const FriendBirthday({super.key, required this.friendList});
 
 
   @override
   Widget build(BuildContext context) {
+
+    List<String> parsedBirthdate = friendList.map((e) => e.birthdate?.split("-")).map((i) => i![1]+"-"+i[2]).toList();
+
     return SliverToBoxAdapter(
       child: Container(
         decoration: BoxDecoration(
@@ -44,20 +46,28 @@ class FriendBirthday extends StatelessWidget {
                       child: Column(
                         children: [
                           ChattingItem(
+                            ontap: () {
+                              Navigator.pushNamed(context, Move.profilePage);
+                            },
                             circular: 16.0,
                             imageWidth: 40,
                             imageHeight: 40,
-                            imagePath: baseUrl + "/images/${friendList[0].userId}.jpg",
+                            imagePath:
+                                baseUrl + "/images/${friendList[0].userId}.jpg",
                             title: "${friendList[0].nickname}",
-                            subTitle: "${friendList[0].birthdate}",
+                            subTitle: parsedBirthdate[0],
                           ),
                           ChattingItem(
+                            ontap: () {
+                              Navigator.pushNamed(context, Move.profilePage);
+                            },
                             circular: 16.0,
                             imageWidth: 40,
                             imageHeight: 40,
-                            imagePath:  baseUrl + "/images/${friendList[1].userId}.jpg",
+                            imagePath:
+                                baseUrl + "/images/${friendList[1].userId}.jpg",
                             title: "${friendList[1].nickname}",
-                            subTitle: "${friendList[1].birthdate}",
+                            subTitle: parsedBirthdate[1],
                           ),
                         ],
                       ),

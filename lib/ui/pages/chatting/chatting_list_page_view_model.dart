@@ -32,13 +32,10 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
 
     SessionUser session = ref.read(sessionProvider);
 
-
-    Logger().d("여기 !!!!!!!! ${session.user!.id}");
-
     final FirebaseFirestore db = FirebaseFirestore.instance;
     //나중에 userId 넣든지 동적으로 처리해야함
     //쿼리 스냅샷은 컬렉션, 다큐먼트 스냅샷은 문서
-    QuerySnapshot<Map<String, dynamic>> chatRoomCollection = await db.collection("ChatRoom${session.user!.id}").get();
+    QuerySnapshot<Map<String, dynamic>> chatRoomCollection = await db.collection("ChatRoom1").where("users", arrayContains: session.user!.id).get();
 
     //채팅방 for문 돌리기
     List<ChatroomDTO> dtoList = [];
@@ -55,7 +52,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
 
 
       //채팅방 내부 메시지들을 for문 돌려서 DTO에 담은 후, ChatRoomDTO에 담기
-      QuerySnapshot<Map<String, dynamic>> messages = await db.collection("ChatRoom${session.user!.id}").doc(chatDoc.id).collection("messages").get();
+      QuerySnapshot<Map<String, dynamic>> messages = await db.collection("ChatRoom1").doc(chatDoc.id).collection("messages").get();
       List<MessageDTO> messageDTOList = [];
       for(var message in messages.docs){
         MessageDTO dto = MessageDTO(content: message["content"], createdAt: message["createdAt"], userId: message["userId"], messageDocId: message.id);
@@ -97,7 +94,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     //userId, chatDocId 사용해서 동적으로 처리
-    final chatRoom = await db.collection("chatRoom1").doc(chatDocId);
+    final chatRoom = await db.collection("ChatRoom1").doc(chatDocId);
 
     db.runTransaction((transaction) async{
       final snapshot = await transaction.get(chatRoom);
@@ -116,10 +113,17 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?>{
         onError: (e)=> print("변경 에러 $e"));
   }
 
-  Future<String> chatSetting(String chatDocId, String func) async{
-    String result = await ChatRepository().setChatting(chatDocId, func);
+  Future<void> chatSetting(String chatDocId, String func, int userId) async{
+    await ChatRepository().setChatting(chatDocId, func, userId);
 
-    return result;
+  }
+
+  //채팅방 나가기
+  Future<void> deleteChat(String chatDocId, int userId) async {
+    await ChatRepository().deleteChat(chatDocId, userId);
+    await notifyInit();
+
+
   }
 
 

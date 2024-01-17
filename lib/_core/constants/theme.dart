@@ -25,6 +25,11 @@ ThemeData theme() {
     scaffoldBackgroundColor: basicColorW,
     primaryColor: basicColorW,
     appBarTheme: appBarTheme(),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: basicColorB),
+      ),
+    ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         backgroundColor: primaryColor01,

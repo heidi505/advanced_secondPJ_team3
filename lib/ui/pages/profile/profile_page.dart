@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
@@ -15,16 +19,17 @@ import '../../../data/provider/profile_detail_provider.dart';
 
 
 class ProfilePage extends ConsumerWidget {
-  const ProfilePage({Key? key, required this.user}) : super(key: key);
+  const ProfilePage({Key? key}) : super(key: key);
 
-  final UserMock user;
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ProfileDetailModel? model = ref.watch(profileDetailProvider);
-    if (model == null) {
-      return CircularProgressIndicator();
-    }
+    ParamStore paramStore = ref.read(paramProvider);
+    SessionUser session = ref.read(sessionProvider);
+    FriendsDTO model = paramStore.friendDTO!;
+
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -39,22 +44,18 @@ class ProfilePage extends ConsumerWidget {
             children: [
               const Spacer(),
               ProfileImage(
-                  imagePath: "assets/images/basic_img.jpeg",
+                  imagePath: "$baseUrl/images/${model!.userId}.jpg",
                   imageWidth: 100,
                   imageHeight: 100,
                   circular: 42),
               const SizedBox(
                 height: xsmallGap,
               ),
-              // --------------- 테스트 ----------------
-              Text(model.profileDetailResponseDTO.profileImage),
-              Text(model.profileDetailResponseDTO.backImage),
-              // --------------- 테스트 ----------------
-              Text(model.profileDetailResponseDTO.nickname,
+              Text(model!.nickname!,
                   style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
-                model.profileDetailResponseDTO.statusMessage,
+                model!.statusMessage!,
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
@@ -63,11 +64,9 @@ class ProfilePage extends ConsumerWidget {
               const Divider(
                 color: formColor,
               ),
-              if (user.name == me.name)
-                //_buildMyProfileIcons()
+              if (session.user!.id! != model!.userId!)
                 _buildFriendProfileIcons()
               else
-                //_buildFriendProfileIcons(),
                 _buildMyProfileIcons(),
             ],
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
@@ -48,9 +49,9 @@ class LoginButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
-
       child: TextButton(
           onPressed: () {
+            Logger().d("버튼 눌러짐");
             if (formKey.currentState!.validate()) {
               Logger().d("유효성 통과");
               LoginReqDTO loginReqDTO =
@@ -60,7 +61,6 @@ class LoginButton extends ConsumerWidget {
             }
           },
           child: Text("$text")),
-
     );
   }
 }
