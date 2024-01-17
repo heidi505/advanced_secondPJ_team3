@@ -45,8 +45,11 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       if (message.userId == session.user!.id!) {
         chat = MyChat(text: message.content, time: message.time!);
       } else {
-        chat =
-            OtherChat(name: "홍길동", text: message.content, time: message.time!, userId: message.userId!);
+        chat = OtherChat(
+            name: "홍길동",
+            text: message.content,
+            time: message.time!,
+            userId: message.userId!);
       }
       Logger().d(message.content);
       chats.add(chat);
@@ -55,13 +58,13 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     return Scaffold(
       backgroundColor: primaryColor02,
       appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              title: Text(
-                paramStore.chatroomDTO!.chatName!,
-                style: h3(),
-              ),
-             ),
-            // 여기에 다른 위젯을 추가하려면 Positioned를 사용하세요
+        backgroundColor: Colors.transparent,
+        title: Text(
+          paramStore.chatroomDTO!.chatName!,
+          style: h3(),
+        ),
+      ),
+      // 여기에 다른 위젯을 추가하려면 Positioned를 사용하세요
       endDrawer: ChatRoomHamburger(),
       body: Column(
         children: [
@@ -69,20 +72,60 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
+                child: Stack(
                   children: [
-                    TimeLine(time: getCurrentDay()),
-                    //나중에 동적으로 처리해야함
-                    SizedBox(
-                      height: mediumGap,
+                    Column(
+                      children: [
+                        TimeLine(time: getCurrentDay()),
+                        //나중에 동적으로 처리해야함
+                        SizedBox(
+                          height: mediumGap,
+                        ),
+                        ...List.generate(chats.length, (index) => chats[index]),
+                      ],
                     ),
-                    ...List.generate(chats.length, (index) => chats[index]),
+                    Positioned(
+                      top: 0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.white
+                          ),
+                        ),
+                        width: 360,
+                        child: ExpansionTile(
+                          collapsedShape: RoundedRectangleBorder(
+                            side: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          title: Text(
+                            '공지 제목',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          children: [
+                            Text("내용"),
+                          ],
+                          trailing: Icon(Icons.expand_more),
+                          backgroundColor: Colors.white,
+
+
+                        ),
+                      ),
+                    ),
                   ],
                 ),
+
               ),
             ),
           ),
           Container(
+            //텍스트 입력 상자
             height: 80,
             color: Colors.white,
             child: Row(
@@ -228,7 +271,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
             ),
           ),
         ],
-      ),
+      ), //-->여기까지 스택으로
     );
   }
 
@@ -236,7 +279,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     _textController.clear(); // 1
     ref.read(otherChatProvider.notifier).addMessage(text);
     setState(() {
-
       // 2
     });
   }
