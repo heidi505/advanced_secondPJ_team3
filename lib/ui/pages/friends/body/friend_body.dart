@@ -24,9 +24,10 @@ class FriendBody extends ConsumerWidget {
     }
 
     MainDTO? mainDTO = model!.mainDTO;
+    print("집가기 위해선 여기가 나와야한다!!!");
+    print(mainDTO!.friendList![0].isFavorite);
 
     if(mainDTO!.birthdayFriendList == null || mainDTO!.birthdayFriendList!.isEmpty){
-
       return CustomScrollView(
         slivers: [
           FriendMainProfile(myProfile: mainDTO!.userProfile!),

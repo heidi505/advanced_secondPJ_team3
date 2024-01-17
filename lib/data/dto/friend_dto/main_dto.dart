@@ -42,6 +42,8 @@ class FriendsDTO {
       statusMessage = json["statusMessage"],
       phoneNum = json["phoneNum"],
       isBirthday = json["isBirthday"] == "오늘 생일 친구",
-      isFavorite = json["isFavorite"];
+      isFavorite = json["favorite"]{
+  print('fromJson: $json');
+}
 
 }

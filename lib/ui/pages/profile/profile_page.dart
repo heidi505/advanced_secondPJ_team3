@@ -3,12 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
-import 'package:team3_kakao/data/model/user_mock.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
-import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
@@ -16,21 +17,18 @@ import '../../../data/model/profile_detail_model.dart';
 import '../../../data/provider/profile_detail_provider.dart';
 
 class ProfilePage extends ConsumerWidget {
+  ProfilePage({Key? key}) : super(key: key);
 
-  ProfilePage({Key? key, required this.user})
-      : super(key: key);
-
-  final UserMock user;
   final logger = Logger();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ProfileDetailModel? model = ref.watch(profileDetailProvider);
+    ParamStore paramStore = ref.read(paramProvider);
+    SessionUser session = ref.read(sessionProvider);
+    FriendsDTO model = paramStore.friendDTO!;
 
-    logger.d('User name: ${user.name}, My name: ${me.name}');
+    logger.d('즐찾: ${model!.isFavorite}');
 
-    if (model == null) {
-      return CircularProgressIndicator();
-    }
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -45,22 +43,17 @@ class ProfilePage extends ConsumerWidget {
             children: [
               const Spacer(),
               ProfileImage(
-                  imagePath: "assets/images/basic_img.jpeg",
+                  imagePath: "$baseUrl/images/${model!.userId}.jpg",
                   imageWidth: 100,
                   imageHeight: 100,
                   circular: 42),
               const SizedBox(
                 height: xsmallGap,
               ),
-              // --------------- 테스트 ----------------
-              Text(model.profileDetailResponseDTO.profileImage),
-              Text(model.profileDetailResponseDTO.backImage),
-              // --------------- 테스트 ----------------
-              Text(model.profileDetailResponseDTO.nickname,
-                  style: h4(color: basicColorW)),
+              Text(model!.nickname!, style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
-                model.profileDetailResponseDTO.statusMessage,
+                model!.statusMessage!,
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
@@ -69,11 +62,9 @@ class ProfilePage extends ConsumerWidget {
               const Divider(
                 color: formColor,
               ),
-              if (user.name == me.name)
-                // _buildMyProfileIcons()
+              if (session.user!.id! != model!.userId!)
                 _buildFriendProfileIcons()
               else
-                // _buildFriendProfileIcons(),
                 _buildMyProfileIcons(),
             ],
           ),
@@ -105,8 +96,14 @@ class ProfilePage extends ConsumerWidget {
               SizedBox(
                 width: smallGap,
               ),
-              RoundIconButton(
-                  imagePath: "assets/icons/profile/profile_top_icon_04.png"),
+              // if (session.user!.id! != model!.userId!)
+              // _buildFriendProfileTopIcons()
+              // else
+              if (session.user!.id! != model!.userId!)
+                _buildFriendProfileTopIcons(model)
+              else
+                RoundIconButton(
+                    imagePath: "assets/icons/profile/profile_top_icon_04.png"),
               SizedBox(
                 width: mediumGap,
               ),
@@ -174,6 +171,19 @@ class ProfilePage extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFriendProfileTopIcons(FriendsDTO model) {
+    return Row(
+      children: [
+        if (model.isFavorite!)
+          RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_07.png")
+        else
+          RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_06.png"),
+        SizedBox(width: smallGap),
+        RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_04.png"),
+      ],
     );
   }
 }

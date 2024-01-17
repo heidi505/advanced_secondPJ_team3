@@ -15,9 +15,11 @@ class GroupProfile extends StatelessWidget {
       this.peopleCount,
       this.ontap,
       this.chatDocId,
-      this.onlongPress})
+      this.onlongPress,
+      this.userIdList})
       : super(key: key);
 
+  List<int>? userIdList;
   String? chatDocId;
   final String? title;
   final String imagePath;
@@ -41,8 +43,9 @@ class GroupProfile extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
             dense: true,
             leading: GroupPeopleCount(
+              userIdList: userIdList!,
               imagePath: imagePath,
-              count: 4,
+              count: int.parse(peopleCount!),
             ),
             title: Container(
               child: Row(
