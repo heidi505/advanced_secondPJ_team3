@@ -24,7 +24,8 @@ class BottomIconButton extends ConsumerWidget {
       onTap: () {
         if(text == "1:1 채팅"){
           ref.read(otherChatProvider.notifier).insertOneToOneChat();
-
+        }else{
+          Navigator.pushNamed(context, routeToNavigate!);
         }
       },
       child: Column(
