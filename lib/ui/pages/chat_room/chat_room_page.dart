@@ -7,7 +7,6 @@ import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
-import 'package:team3_kakao/data/model/chat.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_main_page.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
@@ -40,23 +39,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       return CircularProgressIndicator();
     }
 
-
-    for (var message in model!.messages) {
-      dynamic chat;
-      if (message.userId == session.user!.id!) {
-        chat = MyChat(text: message.content, time: message.time!);
-      } else {
-        chat = OtherChat(
-            name: "홍길동",
-            text: message.content,
-            time: message.time!,
-            userId: message.userId!);
-      }
-      Logger().d(message.content);
-      chats.add(chat);
-    }
-
-
     return Scaffold(
       backgroundColor: primaryColor02,
       appBar: AppBar(
@@ -66,26 +48,15 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           style: h3(),
         ),
       ),
-
       endDrawer: ChatRoomHamburger(messages: model!.messages),
-
       body: Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Stack(
+                child: Column(
                   children: [
-                    Column(
-                      children: [
-                        TimeLine(time: getCurrentDay()),
-                        //나중에 동적으로 처리해야함
-                        SizedBox(
-                          height: mediumGap,
-                        ),
-                      ],
-                    ),
                     Visibility(
                       visible: isVisible,
                       child: Positioned(
@@ -94,11 +65,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.white,
-                            border: Border.all(
-                              color: Colors.white
-                            ),
+                            border: Border.all(color: Colors.white),
                           ),
-                          width: 360,
                           child: ExpansionTile(
                             collapsedShape: RoundedRectangleBorder(
                               side: BorderSide.none,
@@ -108,19 +76,20 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                               side: BorderSide.none,
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            title: Row(
-                              children:[
-                                Image.asset("assets/icons/speacker_icon.png",
+                            title: Row(children: [
+                              Image.asset(
+                                "assets/icons/speacker_icon.png",
                                 width: 24,
-                                height: 24,),
-                                SizedBox(
-                                  width: smallGap,
-                                ),
-                                Text(
+                                height: 24,
+                              ),
+                              SizedBox(
+                                width: smallGap,
+                              ),
+                              Text(
                                 '공지 제목',
                                 style: TextStyle(fontSize: 20),
-                              ),]
-                            ),
+                              ),
+                            ]),
                             children: [
                               Text("내용"),
                             ],
@@ -130,32 +99,43 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: mediumGap,
+                    ),
+                    TimeLine(time: getCurrentDay()),
+                    //나중에 동적으로 처리해야함
+                    SizedBox(
+                      height: mediumGap,
+                    ),
 
                     ...List.generate(model!.messages.length, (index) {
-                        dynamic chat;
-                        print('index : $index');
+                      dynamic chat;
+                      print('index : $index');
 
-                        if (model!.messages[index].userId == session.user!.id!) {
-                          // 나
-                          chat = MyChat(text: model!.messages[index].content, time: model!.messages[index].time!);
-                        } else {
-                          // 상대방
-                          Logger().d(model!.messages[index].userNickname ?? "홍길동");
+                      if (model!.messages[index].userId == session.user!.id!) {
+                        // 나
+                        chat = MyChat(
+                            text: model!.messages[index].content,
+                            time: model!.messages[index].time!);
+                      } else {
+                        // 상대방
+                        Logger()
+                            .d(model!.messages[index].userNickname ?? "홍길동");
 
-                          chat =
-                              OtherChat(name: model!.messages[index].userNickname ?? "홍길동", text: model!.messages[index].content, time: model!.messages[index].time!, userId: model!.messages[index].userId!);
-                        }
-                        return chat;
+                        chat = OtherChat(
+                            name: model!.messages[index].userNickname ?? "홍길동",
+                            text: model!.messages[index].content,
+                            time: model!.messages[index].time!,
+                            userId: model!.messages[index].userId!);
+                      }
+                      return chat;
                     }),
-
                   ],
                 ),
-
               ),
             ),
           ),
           Container(
-            //텍스트 입력 상자
             height: 80,
             color: Colors.white,
             child: Row(
@@ -180,7 +160,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius:
-                          BorderRadius.circular(30), // border-radius 값 조절
+                      BorderRadius.circular(30), // border-radius 값 조절
                       border: Border.all(
                         color: Colors.grey, // 테두리 색상
                       ),
@@ -301,7 +281,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
             ),
           ),
         ],
-      ), //-->여기까지 스택으로
+      ),
     );
   }
 

@@ -6,9 +6,9 @@ import '../dto/chat_dto/chatting_list_page_dto.dart';
 class RequestParam {
   String? chatRoomDocId;
   ChatroomDTO? chatroomDTO;
-  ChatNotifyDTO? chatNotifyDTO;
+ // ChatNotifyDTO? chatNotifyDTO;
 
-  RequestParam({this.chatRoomDocId, this.chatroomDTO, this.chatNotifyDTO});
+  RequestParam({this.chatRoomDocId, this.chatroomDTO});
 }
 
 class ParamStore extends RequestParam{
