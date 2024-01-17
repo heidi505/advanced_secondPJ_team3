@@ -20,10 +20,7 @@ class PhoneNumModelViewModel extends StateNotifier<PhoneNumModel?>{
 
   PhoneNumModelViewModel(this.ref, super._state);
 
-  Future<void> notifyInit() async {
-    ResponseDTO responseDTO= new ResponseDTO();
-    state = PhoneNumModel(responseDTO.data);
-  }
+
 
   Future<void> notifyPhoneUpdate(PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async{
     //매개변수로 ReqDTO를 레파지토리까지 넘김
@@ -37,5 +34,5 @@ class PhoneNumModelViewModel extends StateNotifier<PhoneNumModel?>{
 //3. 창고관리자
 final phoneNumUpdateProvider = StateNotifierProvider<PhoneNumModelViewModel, PhoneNumModel?>(
         (ref) {
-      return PhoneNumModelViewModel(ref,null)..notifyInit();
+      return PhoneNumModelViewModel(ref,null);
     });

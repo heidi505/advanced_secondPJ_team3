@@ -34,6 +34,7 @@ class ChattingList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ChattingPageModel? model = ref.watch(chattingPageProvider);
 
+
     if (model == null) {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
@@ -48,7 +49,7 @@ class ChattingList extends ConsumerWidget {
                 height: smallGap,
               ),
               GroupProfile(
-                userIdList: model!.chatRoomDTOList[index].messageList!.map((e) => e.userId!).toList(),
+                userIdList: model!.chatRoomDTOList[index].messageList?.map((e) => e.userId!).toList() ?? model!.chatRoomDTOList[index].userIdList ,
                 onlongPress: () {
                   showDialog(
                     context: context,
@@ -73,12 +74,12 @@ class ChattingList extends ConsumerWidget {
                 imagePath: "$baseUrl/images/${index + 1}.jpg",
                 title: model!.chatRoomDTOList[index].chatName!,
                 peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                subTitle: model!.chatRoomDTOList[index].lastChat,
+                subTitle: model!.chatRoomDTOList[index].lastChat?? "",
                 multiItem: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "${model.chatRoomDTOList[index].lastChatTime}",
+                      model.chatRoomDTOList[index].lastChatTime??"",
                       style: TextStyle(color: Colors.grey),
                     ),
                     SizedBox(
@@ -87,7 +88,7 @@ class ChattingList extends ConsumerWidget {
                     ChattingCount(),
                   ],
                 ),
-              ),
+              )
             ],
           ),
           childCount: model!.chatRoomDTOList.length,

@@ -9,6 +9,7 @@ class ChatroomDTO{
   int? chatId;
   String? chatDocId;
   List<MessageDTO>? messageList;
+  List<int>? userIdList;
 
 
   ChatroomDTO(
@@ -20,6 +21,7 @@ class ChatroomDTO{
     this.chatId,
     this.chatDocId,
     this.messageList,
+    this.userIdList
   });
 
 }

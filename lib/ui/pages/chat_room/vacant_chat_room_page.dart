@@ -29,6 +29,7 @@ class _VacantChatRoomPageState extends ConsumerState<VacantChatRoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    SessionUser user = ref.read(sessionProvider);
     ParamStore paramStore = ref.read(paramProvider);
 
     List<MessageDTO> dto = [];
