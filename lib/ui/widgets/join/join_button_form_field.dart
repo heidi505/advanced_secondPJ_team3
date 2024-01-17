@@ -38,33 +38,6 @@ class CheckPageButton extends StatelessWidget {
   }
 }
 
-// class PasswordPageButton extends StatefulWidget {
-//   String text;
-//
-//   PasswordPageButton({required this.text});
-//
-//   @override
-//   State<PasswordPageButton> createState() => _PasswordPageButtonState();
-// }
-//
-// class _PasswordPageButtonState extends State<PasswordPageButton> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
-//       child: TextButton(
-//           onPressed: () {
-//             // 버튼 클릭 시 join_agree_page.dart로 이동
-//             Navigator.push(
-//               context,
-//               MaterialPageRoute(builder: (context) => JoinPassWordPage()),
-//             );
-//           },
-//           child: Text("${widget.text}")),
-//     );
-//   }
-// }
-
 class PasswordPageButton extends StatefulWidget {
   final String text;
   final TextEditingController authNumController;

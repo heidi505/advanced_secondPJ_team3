@@ -38,8 +38,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       return CircularProgressIndicator();
     }
 
-
-
     return Scaffold(
       backgroundColor: primaryColor02,
       appBar: AppBar(
@@ -238,7 +236,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     _textController.clear(); // 1
     ref.read(otherChatProvider.notifier).addMessage(text);
     setState(() {
-
       // 2
     });
   }
