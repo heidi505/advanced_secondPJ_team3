@@ -52,9 +52,11 @@ class _MainScreenState extends State<MainPage>
         items: List.generate(
           navigationItem.length,
           (index) => _buildBottomNavigationBarItem(
-              icon: navigationItem[index].icon,
-              label: navigationItem[index].label,
-              imgUrl: navigationItem[index].imgUrl),
+            id: navigationItem[index].id,
+            icon: navigationItem[index].icon,
+            label: navigationItem[index].label,
+            imgUrl: navigationItem[index].imgUrl,
+          ),
         ),
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
@@ -68,8 +70,12 @@ class _MainScreenState extends State<MainPage>
     );
   }
 
-  BottomNavigationBarItem _buildBottomNavigationBarItem(
-      {String? icon, String? label, String? imgUrl}) {
+  BottomNavigationBarItem _buildBottomNavigationBarItem({
+    int? id,
+    String? icon,
+    String? label,
+    String? imgUrl,
+  }) {
     return BottomNavigationBarItem(
       icon: Stack(
         children: [
@@ -85,9 +91,7 @@ class _MainScreenState extends State<MainPage>
           ),
           Positioned(
             right: 0,
-            child: (_currentIndex > 3 || count > 0)
-                ? ChattingCount()
-                : SizedBox.shrink(),
+            child: (id != 3 && id != 0) ? ChattingCount() : SizedBox.shrink(),
           ),
         ],
       ),
@@ -105,9 +109,7 @@ class _MainScreenState extends State<MainPage>
           ),
           Positioned(
             right: 0,
-            child: _currentIndex <= 3 && count > 0
-                ? ChattingCount()
-                : SizedBox.shrink(),
+            child: (id != 3 && id != 0) ? ChattingCount() : SizedBox.shrink(),
           ),
         ],
       ),
