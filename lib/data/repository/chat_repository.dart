@@ -4,8 +4,10 @@ import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/chat_users_dto.dart';
+import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/model/message.dart';
+import 'package:team3_kakao/data/model/user.dart';
 
 import '../../_core/constants/http.dart';
 
@@ -115,6 +117,7 @@ class ChatRepository {
   }
 
 
+
   // Stream<List<ChatNotifyDTO>> fetchChatNotify(String chatRoomDocId,
   //     int userId) {
   //   final db = FirebaseFirestore.instance; // FireStore 객체 생성
@@ -133,5 +136,24 @@ class ChatRepository {
   //     }).toList();
   //   });
   // }
+  Future<dynamic> insertOneToOneChat(User user, FriendsDTO friend) async {
+    Map<String, dynamic> newChatRoom = {
+      "chatName": "${user.nickname}, ${friend.nickname}",
+      "isAlarmOn": true,
+      "isBookMarked": false,
+      "isFixed" : false,
+      "users" : [user.id, friend.userId]
+    };
+
+    final db = FirebaseFirestore.instance;
+
+    final newChatDoc = await db.collection("ChatRoom1").add(newChatRoom);
+
+    return newChatDoc;
+  }
+
 }
+
+
+
 
