@@ -40,3 +40,22 @@ String getCurrentTime() {
       .replaceAll("AM", "오전")
       .replaceAll("PM", "오후");
 }
+
+// String getDifferenceFromNow(int minutes) {
+//   DateTime currentTime = DateTime.now();
+//   DateTime timeAgo = currentTime.subtract(Duration(minutes: minutes));
+//
+//   String differenceText = "";
+//
+//   if (currentTime.difference(timeAgo).inDays > 0) {
+//     differenceText = "${currentTime.difference(timeAgo).inDays}일 전";
+//   } else if (currentTime.difference(timeAgo).inHours > 0) {
+//     differenceText = "${currentTime.difference(timeAgo).inHours}시간 전";
+//   } else if (currentTime.difference(timeAgo).inMinutes > 0) {
+//     differenceText = "${currentTime.difference(timeAgo).inMinutes}분 전";
+//   } else {
+//     differenceText = "방금 전";
+//   }
+//
+//   return differenceText;
+// }

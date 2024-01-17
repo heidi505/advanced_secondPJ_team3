@@ -15,10 +15,12 @@ import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_menu_modal.dart';
+import 'package:team3_kakao/ui/pages/open_chatting/widgets/open_chat_area.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/open_profile_image.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
@@ -38,48 +40,25 @@ class OpenChattingList extends ConsumerWidget {
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  child: Text("라이프 채팅방",
-                      style: h3(
-                        fontWeight: FontWeight.w400,
-                      ))),
-              Container(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Move.chatRoomPage);
-                  },
-                  child: Row(
-                    children: [
-                      OpenProfileImage(
-                          imagePath: "assets/images/open_chat_01.png",
-                          imageWidth: 50,
-                          imageHeight: 50,
-                          circular: 16),
-                      SizedBox(
-                        width: smallGap,
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            child: Text("Topic"),
-                          ),
-                          Text("오늘 먹은 음식, 먹픈채팅방"),
-                          Text("#오픈 토픽 #라이프 토픽 #음식사진"),
-                          Row(
-                            children: [
-                              Text(
-                                "16명 참여중 ·",
-                                style: h6(color: basicColorB7),
-                              )
-                            ],
-                          )
-                        ],
-                      )
-                    ],
+                child: Text(
+                  "라이프 채팅방",
+                  style: h3(
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: smallGap,
+              ),
+              OpenChatArea(
+                title: "오늘 먹은 음식, 먹픈 채팅방",
+                subTitle: "#오픈 토픽 #라이프 토픽 #음식 사진",
+                text: "16명 참여중",
+                time: DateTime.now(),
+              ),
             ],
           ),
           childCount: model!.chatRoomDTOList.length,
