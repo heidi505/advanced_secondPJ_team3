@@ -23,7 +23,6 @@ class ChatRoomPage extends ConsumerStatefulWidget {
 
 //메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
 class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
-  List<dynamic> chats = [];
   final TextEditingController _textController = TextEditingController();
   double bottomInset = 0.0;
   bool isPopupVisible = false;
@@ -31,7 +30,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
-    chats = [];
     SessionUser session = ref.read(sessionProvider);
     OtherChatModel? model = ref.watch(otherChatProvider);
     ParamStore paramStore = ref.read(paramProvider);
@@ -40,17 +38,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       return CircularProgressIndicator();
     }
 
-    for (var message in model!.messages) {
-      dynamic chat;
-      if (message.userId == session.user!.id!) {
-        chat = MyChat(text: message.content, time: message.time!);
-      } else {
-        chat =
-            OtherChat(name: "홍길동", text: message.content, time: message.time!, userId: message.userId!);
-      }
-      Logger().d(message.content);
-      chats.add(chat);
-    }
+
 
     return Scaffold(
       backgroundColor: primaryColor02,
@@ -61,7 +49,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
           style: h3(),
         ),
       ),
-      endDrawer: ChatRoomHamburger(),
+      endDrawer: ChatRoomHamburger(messages: model!.messages),
       body: Column(
         children: [
           Expanded(
@@ -75,7 +63,22 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                     SizedBox(
                       height: mediumGap,
                     ),
-                    ...List.generate(chats.length, (index) => chats[index]),
+                    ...List.generate(model!.messages.length, (index) {
+                        dynamic chat;
+                        print('index : $index');
+
+                        if (model!.messages[index].userId == session.user!.id!) {
+                          // 나
+                          chat = MyChat(text: model!.messages[index].content, time: model!.messages[index].time!);
+                        } else {
+                          // 상대방
+                          Logger().d(model!.messages[index].userNickname ?? "홍길동");
+
+                          chat =
+                              OtherChat(name: model!.messages[index].userNickname ?? "홍길동", text: model!.messages[index].content, time: model!.messages[index].time!, userId: model!.messages[index].userId!);
+                        }
+                        return chat;
+                    }),
                   ],
                 ),
               ),

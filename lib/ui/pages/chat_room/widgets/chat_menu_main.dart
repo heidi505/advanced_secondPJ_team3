@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_media_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_settings_page.dart';
 
@@ -148,9 +149,10 @@ class MyProfile extends StatelessWidget {
 
 class UserList extends StatelessWidget {
   String text;
-  String profilePic;
+  String? profilePic;
+  int? userId;
 
-  UserList({required this.text, required this.profilePic});
+  UserList({required this.text, this.profilePic, this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -160,8 +162,8 @@ class UserList extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(mediumGap),
-            child: Image.asset(
-              "$profilePic",
+            child: Image.network(
+              "$baseUrl/images/$userId.jpg",
               fit: BoxFit.cover,
               height: 50,
               width: 50,
