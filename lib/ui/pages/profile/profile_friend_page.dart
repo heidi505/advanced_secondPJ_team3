@@ -15,18 +15,20 @@ import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 import '../../../data/model/profile_detail_model.dart';
 import '../../../data/provider/profile_detail_provider.dart';
 
-class ProfilePage extends ConsumerWidget {
+class ProfileFriendPage extends ConsumerWidget {
+  // ProfileFriendPage({Key? key, required this.user}) : super(key: key);
+  ProfileFriendPage({Key? key, required this.friendsDTO}) : super(key: key);
 
-  ProfilePage({Key? key, required this.user})
-      : super(key: key);
+  FriendsDTO friendsDTO;
 
-  final UserMock user;
+  // final UserMock user;
   final logger = Logger();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ProfileDetailModel? model = ref.watch(profileDetailProvider);
 
-    logger.d('User name: ${user.name}, My name: ${me.name}');
+    logger.d('즐찾: ${friendsDTO.isFavorite}');
 
     if (model == null) {
       return CircularProgressIndicator();
@@ -53,14 +55,16 @@ class ProfilePage extends ConsumerWidget {
                 height: xsmallGap,
               ),
               // --------------- 테스트 ----------------
-              Text(model.profileDetailResponseDTO.profileImage),
-              Text(model.profileDetailResponseDTO.backImage),
+              // Text(model.profileDetailResponseDTO.profileImage),
+              // Text(model.profileDetailResponseDTO.backImage),
               // --------------- 테스트 ----------------
-              Text(model.profileDetailResponseDTO.nickname,
+              // Text(model.profileDetailResponseDTO.nickname,
+              //     style: h4(color: basicColorW)),
+              Text("${friendsDTO.nickname}",
                   style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
-                model.profileDetailResponseDTO.statusMessage,
+                "${friendsDTO.statusMessage}",
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
@@ -69,12 +73,7 @@ class ProfilePage extends ConsumerWidget {
               const Divider(
                 color: formColor,
               ),
-              if (user.name == me.name)
-                // _buildMyProfileIcons()
-                _buildFriendProfileIcons()
-              else
-                // _buildFriendProfileIcons(),
-                _buildMyProfileIcons(),
+              _buildFriendProfileIcons(),
             ],
           ),
           appBar: AppBar(
@@ -106,6 +105,11 @@ class ProfilePage extends ConsumerWidget {
                 width: smallGap,
               ),
               RoundIconButton(
+                  imagePath: "assets/icons/profile/profile_top_icon_05.png"),
+              SizedBox(
+                width: smallGap,
+              ),
+              RoundIconButton(
                   imagePath: "assets/icons/profile/profile_top_icon_04.png"),
               SizedBox(
                 width: mediumGap,
@@ -113,37 +117,6 @@ class ProfilePage extends ConsumerWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildMyProfileIcons() {
-    return Padding(
-      padding: EdgeInsets.only(top: 20, bottom: 35),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BottomIconButton(
-            imagePath: "assets/icons/profile/profile_icon_01.png",
-            text: "나와의 채팅",
-            routeToNavigate: Move.chatRoomPage,
-          ),
-          SizedBox(
-            width: 50,
-          ),
-          BottomIconButton(
-            imagePath: "assets/icons/profile/profile_icon_02.png",
-            text: "프로필 편집",
-            routeToNavigate: Move.profileEditPage,
-          ),
-          SizedBox(
-            width: 50,
-          ),
-          BottomIconButton(
-            imagePath: "assets/icons/profile/profile_icon_03.png",
-            text: "펑 만들기",
-          ),
-        ],
       ),
     );
   }
