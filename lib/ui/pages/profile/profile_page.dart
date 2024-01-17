@@ -174,6 +174,7 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 
+  // 친구 즐찾 상태에 따라 뜨는 아이콘
   Widget _buildFriendProfileTopIcons(FriendsDTO model) {
     return Row(
       children: [
