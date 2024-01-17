@@ -1,8 +1,11 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
 
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
+import 'package:team3_kakao/ui/pages/chat_room/vacant_chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
@@ -36,6 +39,7 @@ class Move {
   static String joinWelcomePage = "/joinWelcomePage";
   static String chatNotifyPage = "/chatNotifyPage";
   static String NotifyWritePage = "/NotifyWritePage";
+  static String vacantChatRoomPage = "/vacantChatRoomPage";
 
   // auth
   static String loginPage = "/login";
@@ -48,6 +52,7 @@ class Move {
 }
 
 Map<String, Widget Function(BuildContext)> getRouters() {
+
   return {
     // splash
     Move.splashPage: (context) => const SplashPage(),
@@ -59,6 +64,8 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.chatNameSetPage: (context) => ChatNameSetPage(),
 
     Move.NotifyWritePage: (context) => NotifyWritePage(),
+
+    Move.vacantChatRoomPage: (context) => VacantChatRoomPage(),
 
     // Move.profilePage: (context) => ProfilePage(
     //

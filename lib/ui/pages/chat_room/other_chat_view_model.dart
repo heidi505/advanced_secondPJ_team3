@@ -69,8 +69,10 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?>{
 
     final newChatDoc = await ChatRepository().insertOneToOneChat(session.user!, paramStore.friendDTO!);
 
-    paramStore.addChatRoomDocId(newChatDoc.id);
-    Navigator.pushNamed(mContext!, Move.chatRoomPage);
+    ChatroomDTO chatroomDTO = ChatroomDTO(chatName: "${session.user!.nickname!}, ${paramStore.friendDTO!.nickname}", chatDocId: newChatDoc.id, peopleCount: "2");
+    paramStore.addChatRoomDTO(chatroomDTO);
+
+    Navigator.pushNamed(mContext!, Move.vacantChatRoomPage);
 
   }
 
