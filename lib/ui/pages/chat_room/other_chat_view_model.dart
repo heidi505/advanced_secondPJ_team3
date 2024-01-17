@@ -59,6 +59,16 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?>{
     await ChatRepository().addMessage(text, session.user!.id!, paramStore.chatRoomDocId!);
   }
 
+  Future<void> insertOneToOneChat() async{
+    SessionUser session = ref.read(sessionProvider);
+    ParamStore paramStore = ref.read(paramProvider);
+
+    final newChatDoc = await ChatRepository().insertOneToOneChat(session.user!, paramStore.friendDTO!);
+
+    paramStore.addChatRoomDocId(newChatDoc.id);
+
+  }
+
   // List<MessageDTO> newMessageList = [];
   // state = OtherChatModel(messages: newMessageList);
   // ChatRepository().fetchMessages().listen((event) {

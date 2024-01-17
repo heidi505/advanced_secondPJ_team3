@@ -44,7 +44,11 @@ class ChattingList extends ConsumerWidget {
         delegate: SliverChildBuilderDelegate(
           (context, index) => Column(
             children: [
-              ChattingItem(
+              SizedBox(
+                height: smallGap,
+              ),
+              GroupProfile(
+                userIdList: model!.chatRoomDTOList[index].messageList!.map((e) => e.userId!).toList(),
                 onlongPress: () {
                   showDialog(
                     context: context,
@@ -58,30 +62,6 @@ class ChattingList extends ConsumerWidget {
                     }),
                   );
                 },
-                title: model!.chatRoomDTOList[index].chatName!,
-                peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                imagePath: "$baseUrl/images/${index + 1}.jpg",
-                imageWidth: 50,
-                imageHeight: 50,
-                circular: 20.0,
-                ontap: () {
-                  ref
-                      .read(paramProvider)
-                      .addChatRoomDTO(model!.chatRoomDTOList[index]);
-                  ref.read(paramProvider).addChatRoomDocId(
-                      model!.chatRoomDTOList[index].chatDocId!);
-                  Navigator.pushNamed(context, Move.chatRoomPage);
-                },
-                subTitle: model!.chatRoomDTOList[index].lastChat,
-                multiItem: Text(
-                  "${model.chatRoomDTOList[index].lastChatTime}",
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-              SizedBox(
-                height: smallGap,
-              ),
-              GroupProfile(
                 ontap: () {
                   ref
                       .read(paramProvider)
