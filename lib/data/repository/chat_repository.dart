@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
+import 'package:team3_kakao/data/dto/friend_dto/chat_users_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/model/message.dart';
+
+import '../../_core/constants/http.dart';
 
 class ChatRepository{
 
@@ -12,7 +16,7 @@ class ChatRepository{
     final db = FirebaseFirestore.instance;
 
     QuerySnapshot<Map<String, dynamic>> initMessages = await db
-        .collection("ChatRoom$userId")
+        .collection("ChatRoom1")
         .doc(chatRoomDocId)
         .collection("messages")
         .orderBy("createdAt", descending: false)
@@ -21,7 +25,7 @@ class ChatRepository{
     List<MessageDTO> dtoList = [];
 
     for(var message in initMessages.docs){
-      MessageDTO dto = new MessageDTO.fromJson(message.data(), message.id);
+      MessageDTO dto = MessageDTO.fromJson(message.data(), message.id);
 
       dtoList.add(dto);
     }
@@ -34,7 +38,7 @@ class ChatRepository{
     final db = FirebaseFirestore.instance;
 
     Stream<QuerySnapshot<Map<String, dynamic>>> stream = db
-        .collection("ChatRoom$userId")
+        .collection("ChatRoom1")
         .doc(chatRoomDocId)
         .collection("messages")
         .orderBy("createdAt", descending: false)
@@ -55,7 +59,7 @@ class ChatRepository{
     message msg = message(content: text,userId: userId, createdAt: Timestamp.now());
 
     final docRef = await db
-        .collection("ChatRoom$userId")
+        .collection("ChatRoom1")
         .doc(chatRoomDocId)
         .collection("messages")
         .add(msg.toJson());
@@ -66,7 +70,7 @@ class ChatRepository{
     final db = FirebaseFirestore.instance;
 
     final chatDoc = await db
-        .collection("ChatRoom$userId")
+        .collection("ChatRoom1")
         .doc(chatDocId);
 
     //alarm이면 기본값 true로 하는 로직 세팅해야함
@@ -87,19 +91,26 @@ class ChatRepository{
     final db = FirebaseFirestore.instance;
 
     await db
-        .collection("ChatRoom$userId")
+        .collection("ChatRoom1")
         .doc(chatDocId)
         .delete();
   }
 
+  Future<ResponseDTO> getChatUsers(List<int?> userIdList, String jwt) async {
+    Map<String, dynamic> userIdListToMap = {
+      "userIdList" : userIdList
+    };
+
+    Response response = await dio.post("/user/get-chat-users", data: userIdListToMap, options: Options(headers: {"Authorization":"$jwt"}));
+
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
 
+    List<ChatUsersDTO> dtoList = (responseDTO.data as List).map((e) => ChatUsersDTO.fromJson(e)).toList();
 
+    responseDTO.data = dtoList;
 
+    return responseDTO;
 
-
-
-
-
-
+  }
 }
