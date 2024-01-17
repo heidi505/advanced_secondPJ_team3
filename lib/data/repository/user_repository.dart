@@ -139,7 +139,7 @@ class UserRepository {
     Logger().d("업데이트 레파지토리 진입 확인 : ${profileUpdateRequestDTO.statusMessage}");
     try{
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
-      Response response = await dio.post("/user/my-profile-update", data:profileUpdateRequestDTO.toJson());
+      Response response = await dio.put("/user/my-profile-update", data:profileUpdateRequestDTO.toJson());
       Logger().d("서버에서 받아온 값 : ${response.data.toString()}");
       // response.data의 값을 Dart객체로 변환 작업
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
