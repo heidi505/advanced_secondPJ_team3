@@ -78,10 +78,6 @@ class ChatRoomHamburger extends ConsumerWidget {
                           },
                           itemCount: sortedUserDTO.length),
                     )
-                    // UserList(text: "뽀메", profilePic: "assets/images/dog.jpg"),
-                    // UserList(text: "냥", profilePic: "assets/images/cat.jpg"),
-                    // UserList(text: "뽀메2", profilePic: "assets/images/dog.jpg"),
-                    // UserList(text: "냥2", profilePic: "assets/images/cat.jpg"),
                   ],
                 ),
               ),
