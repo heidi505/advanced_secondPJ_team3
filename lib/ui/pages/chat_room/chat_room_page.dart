@@ -27,15 +27,20 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _textController = TextEditingController();
   double bottomInset = 0.0;
   bool isPopupVisible = false;
+  bool isFirst = true;
 
   //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
-    Logger().d("${paramStore.chatRoomDocId} 여기는 챗룸페이지 화면");
     SessionUser session = ref.read(sessionProvider);
-    OtherChatModel? model = ref.watch(otherChatProvider);
 
+    if(isFirst) {
+      ref.read(otherChatProvider.notifier).notifyInit();
+      isFirst = false;
+    }
+
+    OtherChatModel? model = ref.watch(otherChatProvider);
     if (model == null) {
       return CircularProgressIndicator();
     }

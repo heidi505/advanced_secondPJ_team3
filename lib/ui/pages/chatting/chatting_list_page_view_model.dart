@@ -18,11 +18,12 @@ class ChattingPageModel {
 }
 
 class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
+  ChattingPageViewModel(this.ref, super._state);
   //유저 id는 세션에서 가져오면 됨
   Ref ref;
   final mContext = navigatorKey.currentContext;
 
-  ChattingPageViewModel(this.ref, super._state);
+
 
   Future<void> notifyInit() async {
     SessionUser session = ref.read(sessionProvider);

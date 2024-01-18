@@ -20,10 +20,10 @@ class OtherChatModel {
 }
 
 class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
-  final mContext = navigatorKey.currentContext;
-  Ref ref;
 
   OtherChatViewModel(this.ref, super._state);
+  final mContext = navigatorKey.currentContext;
+  Ref ref;
 
 
 

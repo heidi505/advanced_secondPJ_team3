@@ -30,11 +30,16 @@ import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class ChattingList extends ConsumerWidget {
   ChattingList({super.key});
+  bool isFirst = true;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ChattingPageModel? model = ref.watch(chattingPageProvider);
+    if(isFirst) {
+      ref.read(chattingPageProvider.notifier).notifyInit();
+      isFirst = false;
+    }
 
+    ChattingPageModel? model = ref.watch(chattingPageProvider);
     if (model == null) {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
