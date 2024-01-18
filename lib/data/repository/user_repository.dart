@@ -26,7 +26,7 @@ class UserRepository {
 
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
-      Response response = await dio.post("/sign-in", data: requestDTO.toJson());
+      Response response = await dio.post("/sign-in", data: requestDTO.toJson(), );
       Logger().d(response.data);
 
       Logger().d("++로그인 요청++");
