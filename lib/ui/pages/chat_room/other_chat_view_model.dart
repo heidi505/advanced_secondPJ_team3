@@ -24,37 +24,37 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
   final mContext = navigatorKey.currentContext;
   Ref ref;
 
-  Future<void> notifyInit() async {
-    Logger().d("여기 뷰모델은 되나?");
-    ParamStore paramStore = ref.read(paramProvider);
-    SessionUser session = ref.read(sessionProvider);
-
-    Logger().d(paramStore.chatRoomDocId ?? "없음");
-
-    List<MessageDTO> messageList = await ChatRepository()
-        .getInitMessages(paramStore.chatRoomDocId!, session.user!.id!);
-
-    List<int?> userIdList = messageList.map((e) => e.userId).toSet().toList();
-
-    ResponseDTO responseDTO =
-        await ChatRepository().getChatUsers(userIdList, session.user!.jwt!);
-    List<ChatUsersDTO> dtoList = responseDTO.data;
-    print('dtoList : ${dtoList.toString()}');
-
-    for (MessageDTO message in messageList) {
-      for (ChatUsersDTO dto in dtoList) {
-        Logger().d("로그1");
-        if (message.userId == dto.userId) {
-          Logger().d("로그2");
-          //
-          message.userNickname = dto.userNickname;
-          print("message.userNickname :  ${message.userNickname}");
-          Logger().d(message.userNickname);
-        }
-      }
-    }
-    state = OtherChatModel(messages: messageList);
-  }
+  // Future<void> notifyInit() async {
+  //   Logger().d("여기 뷰모델은 되나?");
+  //   ParamStore paramStore = ref.read(paramProvider);
+  //   SessionUser session = ref.read(sessionProvider);
+  //
+  //   Logger().d(paramStore.chatRoomDocId ?? "없음");
+  //
+  //   List<MessageDTO> messageList = await ChatRepository()
+  //       .getInitMessages(paramStore.chatRoomDocId!, session.user!.id!);
+  //
+  //   List<int?> userIdList = messageList.map((e) => e.userId).toSet().toList();
+  //
+  //   ResponseDTO responseDTO =
+  //       await ChatRepository().getChatUsers(userIdList, session.user!.jwt!);
+  //   List<ChatUsersDTO> dtoList = responseDTO.data;
+  //   print('dtoList : ${dtoList.toString()}');
+  //
+  //   for (MessageDTO message in messageList) {
+  //     for (ChatUsersDTO dto in dtoList) {
+  //       Logger().d("로그1");
+  //       if (message.userId == dto.userId) {
+  //         Logger().d("로그2");
+  //         //
+  //         message.userNickname = dto.userNickname;
+  //         print("message.userNickname :  ${message.userNickname}");
+  //         Logger().d(message.userNickname);
+  //       }
+  //     }
+  //   }
+  //   state = OtherChatModel(messages: messageList);
+  // }
 
   //addmessage 하면 fetchMessages를 발동시켜야하나... 근데 그러면 ListGenerate때메 또 추가되는거 아닌가...ㅜ ㅜㅜㅜㅜㅜㅜㅜㅜ
   //점점 연산자 하나 더 가능한듯?

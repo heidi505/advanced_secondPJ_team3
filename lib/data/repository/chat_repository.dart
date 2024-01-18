@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
@@ -9,35 +10,70 @@ import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/model/message.dart';
 import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/main.dart';
 
 import '../../_core/constants/http.dart';
+import '../../_core/constants/move.dart';
 
 class ChatRepository {
-  Future<List<MessageDTO>> getInitMessages(
-      String chatRoomDocId, int userId) async {
-    final db = FirebaseFirestore.instance;
+  // Future<List<MessageDTO>> getInitMessages(
+  //     String chatRoomDocId, int userId) async {
+  //   final db = FirebaseFirestore.instance;
+  //
+  //   QuerySnapshot<Map<String, dynamic>> initMessages = await db
+  //       .collection("ChatRoom1")
+  //       .doc(chatRoomDocId)
+  //       .collection("messages")
+  //       .orderBy("createdAt", descending: false)
+  //       .get();
+  //
+  //   List<MessageDTO> dtoList = [];
+  //
+  //   if (initMessages.size == 0) {
+  //     return dtoList;
+  //   }
+  //
+  //   for (var message in initMessages.docs) {
+  //     MessageDTO dto = MessageDTO.fromJson(message.data(), message.id);
+  //     dtoList.add(dto);
+  //   }
+  //
+  //   return dtoList;
+  // }
 
-    QuerySnapshot<Map<String, dynamic>> initMessages = await db
+
+  Stream<dynamic> fetchChatLists(int userId){
+    final mContext = navigatorKey.currentContext;
+    final FirebaseFirestore db = FirebaseFirestore.instance;
+    //나중에 userId 넣든지 동적으로 처리해야함
+    //쿼리 스냅샷은 컬렉션, 다큐먼트 스냅샷은 문서
+    Stream<QuerySnapshot<Map<String, dynamic>>> stream = db
         .collection("ChatRoom1")
-        .doc(chatRoomDocId)
-        .collection("messages")
-        .orderBy("createdAt", descending: false)
-        .get();
+        .where("users", arrayContains: userId)
+        .snapshots();
 
-    List<MessageDTO> dtoList = [];
+    List<ChatroomDTO> dtoList = [];
 
-    if (initMessages.size == 0) {
-      return dtoList;
-    }
+    return stream.map((snapshot) {
+      if(snapshot.size == 0){
+        Navigator.pushNamed(mContext!, Move.vacantChatListPage);
+      }
+      return snapshot.docs.map((e){
+          dynamic data = e.data();
+          // if (data["chatName"] == "나와의 채팅") {
+          //
+          // }
+          String chatName = data["chatName"];
+          List<int> users = List<int>.from(data["users"]);
 
-    for (var message in initMessages.docs) {
-      MessageDTO dto = MessageDTO.fromJson(message.data(), message.id);
-      dtoList.add(dto);
-    }
 
-    return dtoList;
+
+
+
+      })
+    });
+
   }
-
   //통신
   Stream<List<MessageDTO>> fetchMessages(String chatRoomDocId, int userId) {
     final db = FirebaseFirestore.instance;
@@ -154,4 +190,6 @@ class ChatRepository {
 
     return newChatDoc;
   }
+
+  Future<void>
 }
