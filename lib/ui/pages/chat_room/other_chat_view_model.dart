@@ -20,13 +20,9 @@ class OtherChatModel {
 }
 
 class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
-
   OtherChatViewModel(this.ref, super._state);
   final mContext = navigatorKey.currentContext;
   Ref ref;
-
-
-
 
   Future<void> notifyInit() async {
     Logger().d("여기 뷰모델은 되나?");
@@ -35,12 +31,13 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
 
     Logger().d(paramStore.chatRoomDocId ?? "없음");
 
-    List<MessageDTO> messageList = await ChatRepository().getInitMessages(paramStore.chatRoomDocId!, session.user!.id!);
+    List<MessageDTO> messageList = await ChatRepository()
+        .getInitMessages(paramStore.chatRoomDocId!, session.user!.id!);
 
     List<int?> userIdList = messageList.map((e) => e.userId).toSet().toList();
 
     ResponseDTO responseDTO =
-    await ChatRepository().getChatUsers(userIdList, session.user!.jwt!);
+        await ChatRepository().getChatUsers(userIdList, session.user!.jwt!);
     List<ChatUsersDTO> dtoList = responseDTO.data;
     print('dtoList : ${dtoList.toString()}');
 
@@ -99,6 +96,13 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
         .addMessage(text, session.user!.id!, paramStore.chatRoomDocId!);
   }
 
+  Future<void> addPhoto(String text) async {
+    SessionUser session = ref.read(sessionProvider);
+    ParamStore paramStore = ref.read(paramProvider);
+    await ChatRepository()
+        .addPhoto(text, session.user!.id!, paramStore.chatRoomDocId!, true);
+  }
+
   Future<void> getOneToOneChat() async {
     final mContext = navigatorKey.currentContext;
 
@@ -112,11 +116,10 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
         .where("users",
             isEqualTo: [session.user!.id, paramStore.friendDTO!.userId]).get();
 
-
     if (oldChatDoc.size == 0) {
-      DocumentReference<Map<String, dynamic>> newChatDoc = await ChatRepository()
-          .insertOneToOneChat(session.user!, paramStore.friendDTO!);
-
+      DocumentReference<Map<String, dynamic>> newChatDoc =
+          await ChatRepository()
+              .insertOneToOneChat(session.user!, paramStore.friendDTO!);
 
       ChatroomDTO chatroomDTO = ChatroomDTO(
           chatName:
@@ -124,19 +127,18 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
           chatDocId: newChatDoc.id,
           peopleCount: "2");
 
-
       paramStore.addChatRoomDocId(newChatDoc.id);
       paramStore.addChatRoomDTO(chatroomDTO);
 
       Logger().d(paramStore.chatRoomDocId);
 
-
-
-      Navigator.push(mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
+      Navigator.push(
+          mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
     } else {
       for (var chatDoc in oldChatDoc.docs) {
         ref.read(paramProvider).addChatRoomDocId(chatDoc.id);
-        Navigator.push(mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
+        Navigator.push(
+            mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
       }
     }
   }

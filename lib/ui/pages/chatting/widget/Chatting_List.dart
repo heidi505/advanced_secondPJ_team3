@@ -48,7 +48,11 @@ class ChattingList extends ConsumerWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
+<<<<<<< HEAD
               (context, index) => Column(
+=======
+          (context, index) => Column(
+>>>>>>> bdf5107908d4fdc2b491b629154abcce1792f5dc
             children: [
               SizedBox(
                 height: smallGap,
