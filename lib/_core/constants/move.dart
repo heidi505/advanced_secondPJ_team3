@@ -7,7 +7,7 @@ import 'package:team3_kakao/ui/pages/chat_room/friend_invite_page.dart';
 
 import 'package:team3_kakao/ui/pages/chatting/chatting_page.dart';
 
-import 'package:team3_kakao/ui/pages/chat_room/vacant_chat_room_page.dart';
+import 'package:team3_kakao/ui/pages/chatting/vacant_chat_list_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
@@ -43,6 +43,7 @@ class Move {
   static String NotifyWritePage = "/NotifyWritePage";
   static String vacantChatRoomPage = "/vacantChatRoomPage";
   static String friendInvitePage = "/friendInvitePage";
+  static String vacantChatListPage = "/vacantChatListPage";
 
   // auth
   static String loginPage = "/login";
@@ -67,8 +68,6 @@ Map<String, Widget Function(BuildContext)> getRouters() {
 
     Move.NotifyWritePage: (context) => NotifyWritePage(),
 
-    Move.vacantChatRoomPage: (context) => VacantChatRoomPage(),
-
     Move.profilePage: (context) => ProfilePage(),
     Move.profileEditPage: (context) => ProfileEditPage(
           user: friends[0],
@@ -92,5 +91,6 @@ Map<String, Widget Function(BuildContext)> getRouters() {
 
     Move.loginPage: (context) => LoginPage(),
     Move.joinPage: (context) => JoinWelcomePage(),
+    Move.vacantChatListPage: (context) => VacantChatListPage()
   };
 }
