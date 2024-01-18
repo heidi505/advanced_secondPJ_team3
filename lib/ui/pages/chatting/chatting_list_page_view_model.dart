@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:js_interop_unsafe';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,120 +22,53 @@ class ChattingPageModel {
 
 class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
   ChattingPageViewModel(this.ref, super._state);
+
   //유저 id는 세션에서 가져오면 됨
   Ref ref;
   final mContext = navigatorKey.currentContext;
 
-
-
-  Stream<void> notifyInit() {
+  //채팅 리스트 페이지 노티파이이닛
+  Future<void> notifyInit() async {
     SessionUser session = ref.read(sessionProvider);
+    final db = FirebaseFirestore.instance;
 
-    final FirebaseFirestore db = FirebaseFirestore.instance;
-    //나중에 userId 넣든지 동적으로 처리해야함
-    //쿼리 스냅샷은 컬렉션, 다큐먼트 스냅샷은 문서
-    Stream<QuerySnapshot<Map<String, dynamic>>> stream = db
-        .collection("ChatRoom1")
-        .where("users", arrayContains: session.user!.id)
-        .snapshots();
+    ChatRepository().fetchChatLists(session.user!.id!).listen((event) async {
+      event.map((e) async {
+        QuerySnapshot<Map<String, dynamic>> messages = await db
+            .collection("ChatRoom1")
+            .doc(e.chatDocId)
+            .collection("messages")
+            .orderBy("createdAt", descending: true)
+            .limit(1)
+            .get();
 
-    List<ChatroomDTO> dtoList = [];
+        if (messages.docs.isNotEmpty) {
+          Map<String, dynamic> lastMessage = messages.docs.first.data();
 
-    return stream.map((snapshot) {
-      if(snapshot.size == 0){
-        Navigator.pushNamed(mContext!, Move.vacantChatListPage);
-      }
-      return snapshot.docs.map((e){
+          MessageDTO lastMessageDTO = MessageDTO(
+              content: lastMessage["content"],
+              createdAt: lastMessage["createdAt"],
+              userId: lastMessage["userId"]);
 
+          e.lastChat = lastMessageDTO.content;
 
-      })
+          int lastHour = lastMessageDTO.createdAt!.toDate().hour;
+          int lastMinute = lastMessageDTO.createdAt!.toDate().minute;
+
+          if (lastHour >= 12) {
+            e.lastChatTime = "오후 " +
+                (lastHour - 12).toString() +
+                ":" +
+                lastMinute.toString();
+          } else {
+            e.lastChatTime =
+                "오전 " + lastHour.toString() + ":" + lastMinute.toString();
+          }
+        }
+      }).toList();
+
+      state = ChattingPageModel(chatRoomDTOList: event);
     });
-
-
-    //컬렉션 내의 문서 for문 돌면서 하나하나 list에 넣어줌
-    for (var chatDoc in chatRoomCollection.docs) {
-      dynamic data = chatDoc.data();
-
-      if (data["chatName"] == "나와의 채팅") {
-        chatRoomCollection.docs.remove(chatDoc);
-      }
-
-      String chatName = data["chatName"];
-      List<int> users = List<int>.from(data["users"]);
-
-      //채팅방 내부 메시지들을 for문 돌려서 DTO에 담은 후, ChatRoomDTO에 담기
-      QuerySnapshot<Map<String, dynamic>> messages = await db
-          .collection("ChatRoom1")
-          .doc(chatDoc.id)
-          .collection("messages")
-          .get();
-      List<MessageDTO> messageDTOList = [];
-
-      if (messages.docs.isNotEmpty) {
-        for (var message in messages.docs) {
-          MessageDTO dto = MessageDTO(
-              content: message["content"],
-              createdAt: message["createdAt"],
-              userId: message["userId"],
-              messageDocId: message.id);
-          messageDTOList.add(dto);
-        }
-
-        //lastchat 세팅
-        int messageLength = messageDTOList.length;
-        String? lastChat = messageDTOList[messageLength - 1].content;
-
-        Logger().d(lastChat);
-        //시간 파싱
-        int lastHour =
-            messageDTOList[messageLength - 1].createdAt!.toDate().hour;
-        Logger().d(messageDTOList[messageLength - 1].createdAt!.toDate());
-        String? lastchatTime = "";
-        if (lastHour >= 12) {
-          lastchatTime = "오후 " +
-              (lastHour - 12).toString() +
-              ":" +
-              messageDTOList[messageLength - 1]
-                  .createdAt!
-                  .toDate()
-                  .minute
-                  .toString();
-        } else {
-          lastchatTime = "오전 " +
-              lastHour.toString() +
-              ":" +
-              messageDTOList[messageLength - 1]
-                  .createdAt!
-                  .toDate()
-                  .minute
-                  .toString();
-        }
-
-        ChatroomDTO dto = ChatroomDTO(
-            chatName: chatName,
-            peopleCount: users.length.toString(),
-            messageList: messageDTOList,
-            lastChat: lastChat,
-            lastChatTime: lastchatTime,
-            chatDocId: chatDoc.id,
-            userIdList: users);
-
-        dtoList.add(dto);
-      } else {
-        ChatroomDTO dto = ChatroomDTO(
-            chatName: chatName,
-            peopleCount: users.length.toString(),
-            messageList: messageDTOList,
-            lastChat: null,
-            lastChatTime: null,
-            chatDocId: chatDoc.id,
-            userIdList: users);
-
-        dtoList.add(dto);
-      }
-
-      state = ChattingPageModel(chatRoomDTOList: dtoList);
-    }
   }
 
   Future<void> changeChatName(
