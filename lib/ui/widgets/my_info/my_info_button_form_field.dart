@@ -23,14 +23,13 @@ class MyInfoUpdateButton extends ConsumerWidget {
       child: TextButton(
         onPressed: () {
           SessionUser sessionUser = ref.read(sessionProvider);
-          PhoneNumUpdateDTO phoneNumUpdateRequestDTO = new PhoneNumUpdateDTO(phoneNum: '${phoneNumController?.text}');
+          PhoneNumUpdateDTO phoneNumUpdateRequestDTO =
+              new PhoneNumUpdateDTO(phoneNum: '${phoneNumController?.text}');
           Logger().d("전화번호 제출 준비 : ${phoneNumController?.text}");
-          ref.read(phoneNumUpdateProvider.notifier).notifyPhoneUpdate(PhoneNumUpdateDTO(phoneNum: '${phoneNumController?.text}'), sessionUser.jwt!);
+          ref.read(phoneNumUpdateProvider.notifier).notifyPhoneUpdate(
+              PhoneNumUpdateDTO(phoneNum: '${phoneNumController?.text}'),
+              sessionUser.jwt!);
           // 버튼 클릭 시 join_agree_page.dart로 이동
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyInfoPage()),
-          );
         },
         child: Text("$text"),
       ),

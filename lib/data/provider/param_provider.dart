@@ -9,6 +9,8 @@ class RequestParam {
   ChatroomDTO? chatroomDTO;
   FriendsDTO? friendDTO;
 
+  bool? isChattingLisPage = false;
+
   RequestParam({this.chatRoomDocId, this.chatroomDTO, this.friendDTO});
 }
 

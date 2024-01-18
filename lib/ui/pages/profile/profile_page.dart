@@ -131,7 +131,6 @@ class ProfilePage extends ConsumerWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_01.png",
             text: "나와의 채팅",
-            routeToNavigate: Move.chatRoomPage,
           ),
           SizedBox(
             width: 50,
@@ -139,7 +138,6 @@ class ProfilePage extends ConsumerWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_02.png",
             text: "프로필 편집",
-            routeToNavigate: Move.profileEditPage,
           ),
           SizedBox(
             width: 50,
