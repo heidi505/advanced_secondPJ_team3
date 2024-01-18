@@ -7,6 +7,7 @@ import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/chat_repository.dart';
 import 'package:team3_kakao/main.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 
 import '../../../_core/constants/move.dart';
@@ -126,11 +127,11 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
 
       ref.read(paramProvider).addChatRoomDocId(newChatDoc.id);
       ref.read(paramProvider).addChatRoomDTO(chatroomDTO);
-      Navigator.pushNamedAndRemoveUntil(mContext!, Move.chatRoomPage, (route) => false);
+      Navigator.push(mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
     } else {
       for (var chatDoc in oldChatDoc.docs) {
         ref.read(paramProvider).addChatRoomDocId(chatDoc.id);
-        Navigator.pushNamed(mContext!, Move.chatRoomPage);
+        Navigator.push(mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
       }
     }
   }
