@@ -53,7 +53,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     SessionUser session = ref.read(sessionProvider);
 
     if (isFirst) {
-      ref.read(otherChatProvider.notifier).notifyInit();
+      ref.read(otherChatProvider.notifier).fetchMessages();
       isFirst = false;
     }
 
@@ -169,17 +169,15 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                   SizedBox(
                     width: smallGap,
                   ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        isPopupVisible = !isPopupVisible; // 클릭할 때마다 반전
-                      });
-                    },
-                    child: Image.asset(
-                      "assets/icons/plus_icon.png",
-                      fit: BoxFit.cover,
-                      width: 35,
-                      height: 35,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.circular(30), // border-radius 값 조절
+                      border: Border.all(
+                        color: Colors.grey, // 테두리 색상
+                      ),
                     ),
                   ),
                   Expanded(
@@ -334,6 +332,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       // 2
     });
   }
+
 
   void _pickImageFromGallery() async {
     XFile? pickedImage =

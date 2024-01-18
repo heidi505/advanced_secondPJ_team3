@@ -39,7 +39,7 @@ class Move {
   static String profileEditPage = "/profileEditPage";
   static String joinProfilePage = "/joinProfilePage";
   static String joinWelcomePage = "/joinWelcomePage";
-  static String chatNotifyPage = "/chatNotifyPage";
+  static String ChatNotifyPage = "/chatNotifyPage";
   static String NotifyWritePage = "/NotifyWritePage";
   static String vacantChatRoomPage = "/vacantChatRoomPage";
   static String friendInvitePage = "/friendInvitePage";
@@ -63,7 +63,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     // chat
     Move.chatRoomPage: (context) => ChatRoomPage(),
 
-    Move.chatNotifyPage: (context) => ChatNotifyPage(),
+    Move.ChatNotifyPage: (context) => ChatNotifyPage(),
     Move.chatNameSetPage: (context) => ChatNameSetPage(),
 
     Move.NotifyWritePage: (context) => NotifyWritePage(),

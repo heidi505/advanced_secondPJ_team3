@@ -552,8 +552,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
-<<<<<<< HEAD
-=======
   json_annotation:
     dependency: transitive
     description:
@@ -562,7 +560,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
->>>>>>> main
   lints:
     dependency: transitive
     description:
