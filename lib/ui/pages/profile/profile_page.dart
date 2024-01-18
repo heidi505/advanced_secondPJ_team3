@@ -27,7 +27,6 @@ class ProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     ParamStore paramStore = ref.read(paramProvider);
     // ParamStore paramStore = ref.watch(paramProvider);
     SessionUser session = ref.read(sessionProvider);
@@ -36,7 +35,7 @@ class ProfilePage extends ConsumerWidget {
     FriendsDTO model = paramStore.friendDTO!;
 
     logger.d('즐찾: ${model!.isFavorite}');
-    ref.watch(profileUpdateProvider);
+    // ref.watch(profileUpdateProvider);
 
     return Scaffold(
       body: Container(
@@ -140,6 +139,7 @@ class ProfilePage extends ConsumerWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_02.png",
             text: "프로필 편집",
+            routeToNavigate: Move.profileEditPage,
           ),
           SizedBox(
             width: 50,
@@ -231,11 +231,12 @@ class ProfilePage extends ConsumerWidget {
 
   void _abcd(FriendsDTO model, WidgetRef ref) {
     SessionUser sessionUser = ref.read(sessionProvider);
-    FavoriteFriendDTO favoriteFriendDTO = FavoriteFriendDTO.fromFriendsDTO(model);
+    FavoriteFriendDTO favoriteFriendDTO =
+        FavoriteFriendDTO.fromFriendsDTO(model);
     logger.d('에비씨디 메숴드');
     logger.d(favoriteFriendDTO.isFavorite);
-    ref.read(favoriteUpdateProvider.notifier).updateFavoriteStatus(favoriteFriendDTO, sessionUser.user!.jwt!);
-
-
+    ref
+        .read(favoriteUpdateProvider.notifier)
+        .updateFavoriteStatus(favoriteFriendDTO, sessionUser.user!.jwt!);
   }
 }

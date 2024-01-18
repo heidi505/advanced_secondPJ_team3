@@ -69,9 +69,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.NotifyWritePage: (context) => NotifyWritePage(),
 
     Move.profilePage: (context) => ProfilePage(),
-    Move.profileEditPage: (context) => ProfileEditPage(
-          user: friends[0],
-        ),
+    Move.profileEditPage: (context) => ProfileEditPage(),
 
     Move.friendInvitePage: (context) => FriendInvitePage(),
     Move.joinProfilePage: (context) => JoinProfilePage(),

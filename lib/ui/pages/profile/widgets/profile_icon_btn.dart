@@ -22,9 +22,10 @@ class BottomIconButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () {
-        if(text == "1:1 채팅"){
+        if (text == "1:1 채팅") {
           ref.read(otherChatProvider.notifier).getOneToOneChat();
-
+        } else {
+          Navigator.pushNamed(context, routeToNavigate!);
         }
       },
       child: Column(
