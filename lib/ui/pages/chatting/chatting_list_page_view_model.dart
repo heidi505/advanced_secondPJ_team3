@@ -11,6 +11,8 @@ import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/chat_repository.dart';
 import 'package:team3_kakao/main.dart';
 
+import '../../../_core/constants/move.dart';
+
 class ChattingPageModel {
   List<ChatroomDTO> chatRoomDTOList;
 
@@ -36,8 +38,12 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
         .where("users", arrayContains: session.user!.id)
         .get();
 
+    if(chatRoomCollection.size == 0){
+      Navigator.pushNamed(mContext!, Move.vacantChatListPage);
+    }
     //채팅방 for문 돌리기
     List<ChatroomDTO> dtoList = [];
+
     //컬렉션 내의 문서 for문 돌면서 하나하나 list에 넣어줌
     for (var chatDoc in chatRoomCollection.docs) {
       dynamic data = chatDoc.data();
