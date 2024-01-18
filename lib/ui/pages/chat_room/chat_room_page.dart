@@ -43,15 +43,21 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
   double bottomInset = 0.0;
   bool isPopupVisible = false;
+  bool isFirst = true;
   bool isVisible = true;
 
   //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
-    SessionUser session = ref.read(sessionProvider);
-    OtherChatModel? model = ref.watch(otherChatProvider);
     ParamStore paramStore = ref.read(paramProvider);
+    SessionUser session = ref.read(sessionProvider);
 
+    if (isFirst) {
+      ref.read(otherChatProvider.notifier).notifyInit();
+      isFirst = false;
+    }
+
+    OtherChatModel? model = ref.watch(otherChatProvider);
     if (model == null) {
       return CircularProgressIndicator();
     }

@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
@@ -29,11 +30,16 @@ import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class ChattingList extends ConsumerWidget {
   ChattingList({super.key});
+  bool isFirst = true;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ChattingPageModel? model = ref.watch(chattingPageProvider);
+    if (isFirst) {
+      ref.read(chattingPageProvider.notifier).notifyInit();
+      isFirst = false;
+    }
 
+    ChattingPageModel? model = ref.watch(chattingPageProvider);
     if (model == null) {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
@@ -44,7 +50,24 @@ class ChattingList extends ConsumerWidget {
         delegate: SliverChildBuilderDelegate(
           (context, index) => Column(
             children: [
+              SizedBox(
+                height: smallGap,
+              ),
               GroupProfile(
+                userIdList: model!.chatRoomDTOList[index].userIdList,
+                onlongPress: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: ((context) {
+                      ref
+                          .read(paramProvider)
+                          .addChatRoomDTO(model!.chatRoomDTOList[index]);
+                      return _ChatMenuModal(
+                          context, model!.chatRoomDTOList[index], ref);
+                    }),
+                  );
+                },
                 ontap: () {
                   ref
                       .read(paramProvider)
@@ -56,12 +79,12 @@ class ChattingList extends ConsumerWidget {
                 imagePath: "$baseUrl/images/${index + 1}.jpg",
                 title: model!.chatRoomDTOList[index].chatName!,
                 peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                subTitle: model!.chatRoomDTOList[index].lastChat,
+                subTitle: model!.chatRoomDTOList[index].lastChat ?? "",
                 multiItem: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "${model.chatRoomDTOList[index].lastChatTime}",
+                      model.chatRoomDTOList[index].lastChatTime ?? "",
                       style: TextStyle(color: Colors.grey),
                     ),
                     SizedBox(
@@ -70,7 +93,7 @@ class ChattingList extends ConsumerWidget {
                     ChattingCount(),
                   ],
                 ),
-              ),
+              )
             ],
           ),
           childCount: model!.chatRoomDTOList.length,

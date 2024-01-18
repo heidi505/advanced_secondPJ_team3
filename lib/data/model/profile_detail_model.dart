@@ -1,10 +1,10 @@
 // // 모델
 // class ProfileDetailModel {
-//   final int id;
-//   final String nickname;
-//   final String profileImage;
-//   final String backImage;
-//   final String statusMessage;
+//   final int? id;
+//   final String? nickname;
+//   final String? profileImage;
+//   final String? backImage;
+//   final String? statusMessage;
 //
 //   ProfileDetailModel({
 //     required this.id,
