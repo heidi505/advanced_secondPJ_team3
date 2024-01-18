@@ -29,11 +29,16 @@ class ChatHamIcon extends StatelessWidget {
         margin: EdgeInsets.only(top: smallGap, bottom: smallGap),
         child: Row(
           children: [
-            SvgPicture.asset(
-              "$svg",
-              height: mediumGap,
-              width: mediumGap,
-              color: basicColorB5,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: SvgPicture.asset(
+                "$svg",
+                height: mediumGap,
+                width: mediumGap,
+                color: basicColorB5,
+              ),
             ),
             Text(" $text",
                 style: TextStyle(
