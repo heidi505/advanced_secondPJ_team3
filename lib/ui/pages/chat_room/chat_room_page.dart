@@ -33,6 +33,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     SessionUser session = ref.read(sessionProvider);
     OtherChatModel? model = ref.watch(otherChatProvider);
     ParamStore paramStore = ref.read(paramProvider);
+    Logger().d(paramStore.chatRoomDocId);
+
+    Logger().d(paramStore.chatRoomDocId);
 
     if (model == null) {
       return CircularProgressIndicator();

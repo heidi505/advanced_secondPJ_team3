@@ -26,7 +26,7 @@ class ChatRepository{
 
     List<MessageDTO> dtoList = [];
 
-    if(initMessages.docs.isEmpty){
+    if(initMessages.size == 0){
       return dtoList;
     }
 

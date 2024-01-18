@@ -123,10 +123,14 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
           chatDocId: newChatDoc.id,
           peopleCount: "2");
 
-      Logger().d(newChatDoc.id);
 
-      ref.read(paramProvider).addChatRoomDocId(newChatDoc.id);
-      ref.read(paramProvider).addChatRoomDTO(chatroomDTO);
+      paramStore.addChatRoomDocId(newChatDoc.id);
+      paramStore.addChatRoomDTO(chatroomDTO);
+
+      Logger().d(paramStore.chatRoomDocId);
+
+
+
       Navigator.push(mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
     } else {
       for (var chatDoc in oldChatDoc.docs) {
