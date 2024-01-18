@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
@@ -68,6 +69,8 @@ class ChatRepository {
   Future<void> addPhoto(
       String text, int userId, String chatRoomDocId, bool isPhoto) async {
     final db = FirebaseFirestore.instance;
+    final storage = FirebaseStorage.instance;
+
     Photo msg = Photo(
         content: text,
         userId: userId,
