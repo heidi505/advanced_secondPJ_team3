@@ -21,6 +21,7 @@ class RequestParam {
 }
 
 class ParamStore extends RequestParam{
+
   final mContext = navigatorKey.currentContext;
 
   void addChatRoomDocId(String chatRoomDocId){
@@ -38,6 +39,7 @@ class ParamStore extends RequestParam{
   void addProfileUpdate(ProfileUpdateResponseDTO profileUpdateResponseDto){
     this.profileUpdateResponseDto = profileUpdateResponseDto;
   }
+
 
 }
 
