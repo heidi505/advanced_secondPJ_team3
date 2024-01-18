@@ -10,6 +10,7 @@ import 'package:team3_kakao/data/dto/friend_add_dto/phoneNum_friend_add_response
 import 'package:team3_kakao/data/dto/profile_dto/profile_backImage_delete_response_dto/profile_backimage_delete_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_image_delete_response_dto/profile_image_delete_response_dto.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_response_dto/profile_update_response_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/dto/user_dto/phone_num_response_dto.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
@@ -111,7 +112,7 @@ class UserRepository {
       // 200이 아니면 catch로 감
 
   // 프로필 상세보기
-  Future<ResponseDTO> fetchProfileDetail(int id) async {
+  Future<ResponseDTO> fetchProfileDetail(int id, String jwt) async {
     Logger().d("유저 리파지토리 진입");
     try {
       // 서버에 요청
@@ -134,19 +135,24 @@ class UserRepository {
   }
 
   // 프로필 수정
-  Future<ResponseDTO> fetchProfileUpdate(ProfileUpdateRequestDTO profileUpdateRequestDTO) async{
-    Logger().d("업데이트 레파지토리 진입 확인 : ${profileUpdateRequestDTO.nickname}");
-    Logger().d("업데이트 레파지토리 진입 확인 : ${profileUpdateRequestDTO.statusMessage}");
+  Future<ResponseDTO> fetchProfileUpdate(ProfileUpdateRequestDTO profileUpdateRequestDTO, String jwt) async{
+    Logger().d("업데이트 레파지토리 진입 확인(닉네임) : ${profileUpdateRequestDTO.nickname}");
+    Logger().d("업데이트 레파지토리 진입 확인(상태메세지) : ${profileUpdateRequestDTO.statusMessage}");
     try{
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
-      Response response = await dio.put("/user/my-profile-update", data:profileUpdateRequestDTO.toJson());
+      Response response = await dio.post("/user/my-profile-update",
+          options: Options(headers: {"Authorization":jwt}),
+          data: profileUpdateRequestDTO.toJson());
       Logger().d("서버에서 받아온 값 : ${response.data.toString()}");
       // response.data의 값을 Dart객체로 변환 작업
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+      Logger().d("${responseDTO.data} 1번 파싱 안됨");
       // 수정한 정보만 추출해서 덮어 씌우기
-      responseDTO.data = new ProfileDetailResponseDTO.fromJson(responseDTO.data);
+      responseDTO.data = new ProfileUpdateResponseDTO.fromJson(responseDTO.data);
+      Logger().d("${responseDTO.data} 2번 파싱 안됨");
       return responseDTO;
     } catch (e) {
+      Logger().d("캐치 탐 ${e.toString()}");
       return ResponseDTO(success: false);
     }
   }
@@ -219,7 +225,5 @@ class UserRepository {
       return ResponseDTO(success: false);
     }
   }
-
-
 
 }

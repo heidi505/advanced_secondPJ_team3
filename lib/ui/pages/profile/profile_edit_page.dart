@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/user_repository.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_camera_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_edit_bottom_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_modal.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_sub_text_form_field.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_form_field.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
@@ -24,8 +28,8 @@ import '../../../data/provider/profile_update_provider.dart';
 class ProfileEditPage extends ConsumerStatefulWidget {
   ProfileEditPage({Key? key, required this.user}) : super(key: key);
 
+  final TextEditingController _nicknameController = new TextEditingController();
   final TextEditingController _statusMessageContoller = new TextEditingController();
-  final TextEditingController _nicknameController = TextEditingController();
 
   final UserMock user;
 
@@ -41,7 +45,10 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
+    print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
     return Scaffold(
+
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
@@ -71,25 +78,34 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
               ),
             ),
             actions: [
-              Container(
-                width: 60,
-                height: 40,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Move.profilePage); // 이 버튼을 눌렀을때 리퀘스트에 값이 담기고 통신 해야함
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    side: BorderSide(
-                      color: Colors.transparent,
-                      width: 2,
+              Consumer(
+                builder: (context, ref, child) {
+                  SessionUser seeeionUser = ref.read(sessionProvider);
+                  return Container(
+                    width: 60,
+                    height: 40,
+                    child: TextButton(
+                      onPressed: () {
+                        ProfileUpdateRequestDTO dto = ProfileUpdateRequestDTO(nickname: widget._nicknameController.text, statusMessage: widget._statusMessageContoller.text);
+                        Logger().d("DTO 값 잘 받니?  ${dto.statusMessage}");
+                        Logger().d("DTO 값 잘 받니?  ${dto.nickname}");
+                        ref.read(profileUpdateProvider.notifier).updateProfile(dto);
+                        Navigator.pushNamed(context, Move.profilePage); // 이 버튼을 눌렀을때 리퀘스트에 값이 담기고 통신 해야함
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        side: BorderSide(
+                          color: Colors.transparent,
+                          width: 2,
+                        ),
+                      ),
+                      child: Text(
+                        "완료",
+                        style: h4(color: basicColorW),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    "완료",
-                    style: h4(color: basicColorW),
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           ),
@@ -119,15 +135,18 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: ProfileTextFormField(
+                  nicknameController: widget._nicknameController,
                     textWidget: Text(
                   widget.user.name,
                   style: h4(color: basicColorW),
                 )),
+
               ),
               const SizedBox(height: xsmallGap),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: ProfileSubTextFormField(
+                  statusMessageContoller: widget._statusMessageContoller,
                     textWidget: Text(
                   widget.user.intro,
                   style: h5(color: basicColorW),

@@ -7,6 +7,7 @@ import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/profile_update_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 
 import '../../../../data/model/profile.dart';
@@ -20,7 +21,9 @@ class FriendMainProfile extends ConsumerWidget {
     SessionUser session = ref.read(sessionProvider);
     ParamStore paramStore = ref.read(paramProvider);
 
-    FriendsDTO myProfileDTO = FriendsDTO(userId: session.user!.id!,nickname: session.user!.nickname!,phoneNum:session.user!.phoneNum, statusMessage: myProfile.statusMessage);
+    ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+
+    FriendsDTO myProfileDTO = FriendsDTO(userId: session.user!.id!,nickname: model!.profileUpdateResponseDTO.nickname,phoneNum:session.user!.phoneNum, statusMessage: model!.profileUpdateResponseDTO.statusMessage);
 
     return SliverToBoxAdapter(
         child: InkWell(

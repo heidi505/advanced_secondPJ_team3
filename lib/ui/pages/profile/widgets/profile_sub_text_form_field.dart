@@ -11,37 +11,39 @@ import '../../../../data/dto/profile_dto/profile_update_request_dto/profile_upda
 import '../../../../data/provider/profile_update_provider.dart';
 
 class ProfileSubTextFormField extends ConsumerStatefulWidget {
-  const ProfileSubTextFormField({Key? key, required this.textWidget})
-      : super(key: key);
 
+  final statusMessageContoller;
   final Widget textWidget;
+
+  const ProfileSubTextFormField({Key? key, required this.textWidget,required this.statusMessageContoller})
+      : super(key: key);
 
   @override
   ConsumerState<ProfileSubTextFormField> createState() => _ProfileSubTextFormFieldState();
 }
 
+
 class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormField> {
-  final TextEditingController _statusMessageContoller = new TextEditingController();
   bool _isTextNotEmpty = false;
 
   @override
   void initState() {
     super.initState();
-    _statusMessageContoller.addListener(_updateTextStatus);
+    widget.statusMessageContoller.addListener(_updateTextStatus);
   }
 
   void _updateTextStatus() {
     setState(() {
       _isTextNotEmpty =
-          _statusMessageContoller.text.isNotEmpty || _statusMessageContoller.text != widget.textWidget;
+          widget.statusMessageContoller.text.isNotEmpty ||widget.statusMessageContoller.text != widget.textWidget;
     });
   }
 
-  void _onFieldSubmitted(String value) {
-    Logger().d("----- 입력값 벨류 확인 ----- : + ${value}");
-    Logger().d("----- 입력값 컨트롤러 확인 ----- : " + _statusMessageContoller.text);
-    ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO(statusMessage: value);
-    ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
+  void _messageOnFieldSubmitted(String value) {
+    Logger().d("----- 메세지 벨류 확인 ----- : + ${value}");
+    Logger().d("----- 메세지 컨트롤러 확인 ----- : " + widget.statusMessageContoller.text);
+    // ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
+    // ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
   }
 
   @override
@@ -60,7 +62,7 @@ class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormFiel
                     children: [
                       Expanded(
                         child: TextFormField(
-                          controller: _statusMessageContoller,
+                          controller: widget.statusMessageContoller,
                           autovalidateMode: AutovalidateMode.always,
                           textAlign: TextAlign.center,
                           onChanged: (text) {
@@ -78,7 +80,7 @@ class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormFiel
                               ),
                             ),
                           ),
-                          onFieldSubmitted: _onFieldSubmitted,
+                          onFieldSubmitted: _messageOnFieldSubmitted,
                           style: TextStyle(color: basicColorW),
                         ),
                       ),
@@ -86,7 +88,7 @@ class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormFiel
                         InkWell(
                           onTap: () {
                             setState(() {
-                              _statusMessageContoller.clear();
+                              widget.statusMessageContoller.clear();
                               _isTextNotEmpty = false;
                             });
                           },
@@ -111,7 +113,7 @@ class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormFiel
       child: ProfileTextArea(
         textWidget: _isTextNotEmpty
             ? Text(
-          _statusMessageContoller.text,
+          widget.statusMessageContoller.text,
                 style: TextStyle(color: basicColorW),
               )
             : widget.textWidget,

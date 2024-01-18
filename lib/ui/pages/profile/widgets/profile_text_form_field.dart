@@ -11,37 +11,40 @@ import '../../../../data/dto/profile_dto/profile_update_request_dto/profile_upda
 import '../../../../data/provider/profile_update_provider.dart';
 
 class ProfileTextFormField extends ConsumerStatefulWidget {
-  const ProfileTextFormField({Key? key, required this.textWidget})
+
+  final nicknameController;
+  final Widget textWidget;
+
+  const ProfileTextFormField({Key? key, required this.textWidget, required this.nicknameController})
       : super(key: key);
 
-  final Widget textWidget;
 
   @override
   ConsumerState<ProfileTextFormField> createState() => _ProfileTextFormFieldState();
 }
 
 class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
-  final TextEditingController _nicknameController = new TextEditingController();
+  // 닉네임 입력값
   bool _isTextNotEmpty = false;
 
   @override
   void initState() {
     super.initState();
-    _nicknameController.addListener(_updateTextStatus);
+    widget.nicknameController.addListener(_updateTextStatus);
   }
 
   void _updateTextStatus() {
     setState(() {
       _isTextNotEmpty =
-          _nicknameController.text.isNotEmpty || _nicknameController.text != widget.textWidget;
+          widget.nicknameController.text.isNotEmpty || widget.nicknameController.text != widget.textWidget;
     });
   }
 
-  void _onFieldSubmitted(String value) {
-    Logger().d("----- 입력값 벨류 확인 ----- : + ${value}");
-    Logger().d("----- 입력값 컨트롤러 확인 ----- : " + _nicknameController.text);
-    ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO(nickname: value);
-    ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
+  void _nicknameOnFieldSubmitted(String value) {
+    Logger().d("----- 닉네임 벨류 확인 ----- : + ${value}");
+    Logger().d("----- 닉네임 컨트롤러 확인 ----- : " + widget.nicknameController.text);
+    // ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
+    // ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
   }
 
   @override
@@ -60,7 +63,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                     children: [
                       Expanded(
                         child: TextFormField(
-                          controller: _nicknameController,
+                          controller: widget.nicknameController,
                           autovalidateMode: AutovalidateMode.always,
                           textAlign: TextAlign.center,
                           onChanged: (text) {
@@ -78,7 +81,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                               ),
                             ),
                           ),
-                          onFieldSubmitted: _onFieldSubmitted,
+                          onFieldSubmitted: _nicknameOnFieldSubmitted,
                           style: TextStyle(color: basicColorW),
                         ),
                       ),
@@ -86,7 +89,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              _nicknameController.clear();
+                              widget.nicknameController.clear();
                               _isTextNotEmpty = false;
                             });
                           },
@@ -111,7 +114,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
       child: ProfileTextArea(
         textWidget: _isTextNotEmpty
             ? Text(
-          _nicknameController.text,
+          widget.nicknameController.text,
                 style: TextStyle(color: basicColorW),
               )
             : widget.textWidget,

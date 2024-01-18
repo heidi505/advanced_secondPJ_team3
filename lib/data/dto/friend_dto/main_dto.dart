@@ -28,9 +28,10 @@ class FriendsDTO {
   String? statusMessage;
   String? phoneNum;
   bool? isBirthday;
+  bool? isFavorite;
 
   FriendsDTO({this.userId, this.nickname, this.birthdate, this.profileImage,
-      this.backImage, this.statusMessage, this.phoneNum, this.isBirthday});
+      this.backImage, this.statusMessage, this.phoneNum, this.isBirthday, this.isFavorite});
 
   FriendsDTO.fromJson(Map<String, dynamic> json)
     : userId = json["userId"],
@@ -40,6 +41,9 @@ class FriendsDTO {
       backImage = json["backImage"],
       statusMessage = json["statusMessage"],
       phoneNum = json["phoneNum"],
-      isBirthday = json["isBirthday"] == "오늘 생일 친구";
+      isBirthday = json["isBirthday"] == "오늘 생일 친구",
+      isFavorite = json["favorite"]{
+  print('fromJson: $json');
+}
 
 }
