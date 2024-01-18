@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
@@ -17,6 +22,13 @@ import 'package:team3_kakao/ui/pages/chat_room/widgets/other_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/time_line.dart';
 
 class VacantChatRoomPage extends ConsumerStatefulWidget {
+  final ValueNotifier<List<String>>? photoList;
+
+  VacantChatRoomPage({
+    this.photoList,
+    Key? key,
+  }) : super(key: key);
+
   @override
   _VacantChatRoomPageState createState() => _VacantChatRoomPageState();
 }
@@ -26,13 +38,17 @@ class _VacantChatRoomPageState extends ConsumerState<VacantChatRoomPage> {
   double bottomInset = 0.0;
   bool isPopupVisible = false;
 
+  File? _selectedImage;
+  List<File> allImage = [];
+  List<String> encodedAllImage = [];
 
   @override
   Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
 
     List<MessageDTO> dto = [];
-    MessageDTO user1 = MessageDTO(content: "", userId: paramStore.friendDTO!.userId!);
+    MessageDTO user1 =
+        MessageDTO(content: "", userId: paramStore.friendDTO!.userId!);
     dto.add(user1);
 
     return Scaffold(
@@ -156,11 +172,16 @@ class _VacantChatRoomPageState extends ConsumerState<VacantChatRoomPage> {
                               ChatMenuIcon(
                                 imagePath: "assets/icons/chat_menu_icon_01.png",
                                 text: "앨범",
-                                onTap: () {},
+                                onTap: () {
+                                  _pickImageFromGallery();
+                                },
                               ),
                               ChatMenuIcon(
                                 imagePath: "assets/icons/chat_menu_icon_02.png",
                                 text: "카메라",
+                                onTap: () {
+                                  _pickImageFromCamera();
+                                },
                               ),
                               ChatMenuIcon(
                                 imagePath: "assets/icons/chat_menu_icon_03.png",
@@ -219,5 +240,58 @@ class _VacantChatRoomPageState extends ConsumerState<VacantChatRoomPage> {
     setState(() {
       // 2
     });
+  }
+
+  void _pickImageFromGallery() async {
+    XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      Uint8List temp = await pickedImage.readAsBytes();
+      List<int> real = temp.toList();
+      String completeEncoded = base64Encode(real);
+
+      // Firestore에 이미지 업로드
+      await ref.read(otherChatProvider.notifier).addPhoto(completeEncoded);
+
+      // 이미지 목록 및 photoList 업데이트
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+
+        List<File> temp = allImage;
+        temp.add(_selectedImage!);
+
+        encodedAllImage.add(completeEncoded);
+        Logger().d("룰루 ${encodedAllImage} 랄라");
+        allImage = temp;
+      });
+
+      widget.photoList!.value = encodedAllImage;
+      Logger().d("${widget.photoList!.value.length}  룰루");
+    }
+  }
+
+  void _pickImageFromCamera() async {
+    XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      Uint8List temp = await pickedImage.readAsBytes();
+      List<int> real = temp.toList();
+      String completeEncoded = base64Encode(real);
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+
+        List<File> temp = allImage;
+        temp.add(_selectedImage!);
+
+        encodedAllImage.add(completeEncoded);
+        Logger().d(encodedAllImage);
+        allImage = temp;
+      });
+
+      widget.photoList!.value = encodedAllImage;
+      Logger().d(widget.photoList!.value.length);
+    }
   }
 }

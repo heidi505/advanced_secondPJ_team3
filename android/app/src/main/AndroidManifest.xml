@@ -6,10 +6,13 @@
 <!--    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />-->
 <!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
 <!--    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />-->
-        연락처(주소록) 권한
+<!--        연락처(주소록) 권한-->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-       전화 권한
+<!--       전화 권한-->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+<!--    지도 권한-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-feature
             android:name="android.hardware.telephony"
             android:required="false" />

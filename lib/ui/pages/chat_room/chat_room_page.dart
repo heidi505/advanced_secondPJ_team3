@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
@@ -17,6 +22,13 @@ import 'package:team3_kakao/ui/pages/chat_room/widgets/other_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/time_line.dart';
 
 class ChatRoomPage extends ConsumerStatefulWidget {
+  final ValueNotifier<List<String>>? photoList;
+
+  ChatRoomPage({
+    this.photoList,
+    Key? key,
+  }) : super(key: key);
+
   @override
   _ChatRoomPageState createState() => _ChatRoomPageState();
 }
@@ -24,6 +36,11 @@ class ChatRoomPage extends ConsumerStatefulWidget {
 //메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
 class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _textController = TextEditingController();
+
+  File? _selectedImage;
+  List<File> allImage = [];
+  List<String> encodedAllImage = [];
+
   double bottomInset = 0.0;
   bool isPopupVisible = false;
   bool isVisible = true;
@@ -228,11 +245,18 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                               ChatMenuIcon(
                                 imagePath: "assets/icons/chat_menu_icon_01.png",
                                 text: "앨범",
-                                onTap: () {},
+                                onTap: () {
+                                  Logger().d("앨범");
+                                  _pickImageFromGallery();
+                                },
                               ),
                               ChatMenuIcon(
                                 imagePath: "assets/icons/chat_menu_icon_02.png",
                                 text: "카메라",
+                                onTap: () {
+                                  Logger().d("카메라");
+                                  _pickImageFromCamera();
+                                },
                               ),
                               ChatMenuIcon(
                                 imagePath: "assets/icons/chat_menu_icon_03.png",
@@ -291,5 +315,58 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     setState(() {
       // 2
     });
+  }
+
+  void _pickImageFromGallery() async {
+    XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      Uint8List temp = await pickedImage.readAsBytes();
+      List<int> real = temp.toList();
+      String completeEncoded = base64Encode(real);
+
+      // // Firestore에 이미지 업로드
+      // await ref.read(otherChatProvider.notifier).addPhoto(completeEncoded);
+
+      // 이미지 목록 및 photoList 업데이트
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+
+        List<File> temp = allImage;
+        temp.add(_selectedImage!);
+
+        encodedAllImage.add(completeEncoded);
+        Logger().d(encodedAllImage);
+        allImage = temp;
+      });
+
+      widget.photoList!.value = encodedAllImage;
+      Logger().d(widget.photoList!.value.length);
+    }
+  }
+
+  void _pickImageFromCamera() async {
+    XFile? pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      Uint8List temp = await pickedImage.readAsBytes();
+      List<int> real = temp.toList();
+      String completeEncoded = base64Encode(real);
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+
+        List<File> temp = allImage;
+        temp.add(_selectedImage!);
+
+        encodedAllImage.add(completeEncoded);
+        Logger().d(encodedAllImage);
+        allImage = temp;
+      });
+
+      widget.photoList!.value = encodedAllImage;
+      Logger().d(widget.photoList!.value.length);
+    }
   }
 }

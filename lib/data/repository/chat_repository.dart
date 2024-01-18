@@ -11,10 +11,9 @@ import 'package:team3_kakao/data/model/user.dart';
 
 import '../../_core/constants/http.dart';
 
-class ChatRepository{
-
-
-  Future<List<MessageDTO>> getInitMessages(String chatRoomDocId, int userId) async {
+class ChatRepository {
+  Future<List<MessageDTO>> getInitMessages(
+      String chatRoomDocId, int userId) async {
     final db = FirebaseFirestore.instance;
 
     QuerySnapshot<Map<String, dynamic>> initMessages = await db
@@ -26,7 +25,7 @@ class ChatRepository{
 
     List<MessageDTO> dtoList = [];
 
-    for(var message in initMessages.docs){
+    for (var message in initMessages.docs) {
       MessageDTO dto = MessageDTO.fromJson(message.data(), message.id);
 
       dtoList.add(dto);
@@ -36,7 +35,7 @@ class ChatRepository{
   }
 
   //통신
-  Stream<List<MessageDTO>> fetchMessages(String chatRoomDocId, int userId){
+  Stream<List<MessageDTO>> fetchMessages(String chatRoomDocId, int userId) {
     final db = FirebaseFirestore.instance;
 
     Stream<QuerySnapshot<Map<String, dynamic>>> stream = db
@@ -46,74 +45,81 @@ class ChatRepository{
         .orderBy("createdAt", descending: false)
         .snapshots();
 
-
-    return stream.map((snapshot){
+    return stream.map((snapshot) {
       return snapshot.docs.map((e) {
         return MessageDTO.fromJson(e.data(), e.id);
       }).toList();
     });
-
   }
 
   //userId 받아야함!!
   Future<void> addMessage(String text, int userId, String chatRoomDocId) async {
     final db = FirebaseFirestore.instance;
-    message msg = message(content: text,userId: userId, createdAt: Timestamp.now());
+    message msg =
+        message(content: text, userId: userId, createdAt: Timestamp.now());
 
     final docRef = await db
         .collection("ChatRoom1")
         .doc(chatRoomDocId)
         .collection("messages")
         .add(msg.toJson());
-
   }
 
-  Future<void> setChatting(String chatDocId, String func, int userId) async{
+  Future<void> addPhoto(
+      String text, int userId, String chatRoomDocId, bool isPhoto) async {
+    final db = FirebaseFirestore.instance;
+    Photo msg = Photo(
+        content: text,
+        userId: userId,
+        createdAt: Timestamp.now(),
+        isPhoto: isPhoto);
+
+    final docRef = await db
+        .collection("ChatRoom1")
+        .doc(chatRoomDocId)
+        .collection("messages")
+        .add(msg.toJson());
+  }
+
+  Future<void> setChatting(String chatDocId, String func, int userId) async {
     final db = FirebaseFirestore.instance;
 
-    final chatDoc = await db
-        .collection("ChatRoom1")
-        .doc(chatDocId);
+    final chatDoc = await db.collection("ChatRoom1").doc(chatDocId);
 
     //alarm이면 기본값 true로 하는 로직 세팅해야함
 
-
-
-    db.runTransaction((transaction)async{
+    db.runTransaction((transaction) async {
       final snapshot = await transaction.get(chatDoc);
 
-     bool currentState = snapshot.data()![func];
-     bool newFunc = !currentState;
+      bool currentState = snapshot.data()![func];
+      bool newFunc = !currentState;
 
-      transaction.update(chatDoc, {func : newFunc});
+      transaction.update(chatDoc, {func: newFunc});
     });
   }
 
   Future<void> deleteChat(String chatDocId, int userId) async {
     final db = FirebaseFirestore.instance;
 
-    await db
-        .collection("ChatRoom1")
-        .doc(chatDocId)
-        .delete();
+    await db.collection("ChatRoom1").doc(chatDocId).delete();
   }
 
   Future<ResponseDTO> getChatUsers(List<int?> userIdList, String jwt) async {
-    Map<String, dynamic> userIdListToMap = {
-      "userIdList" : userIdList
-    };
+    Map<String, dynamic> userIdListToMap = {"userIdList": userIdList};
 
-    Response response = await dio.post("/user/get-chat-users", data: userIdListToMap, options: Options(headers: {"Authorization":"$jwt"}));
+    Response response = await dio.post("/user/get-chat-users",
+        data: userIdListToMap,
+        options: Options(headers: {"Authorization": "$jwt"}));
 
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
-
-    List<ChatUsersDTO> dtoList = (responseDTO.data as List).map((e) => ChatUsersDTO.fromJson(e)).toList();
+    List<ChatUsersDTO> dtoList = (responseDTO.data as List)
+        .map((e) => ChatUsersDTO.fromJson(e))
+        .toList();
 
     responseDTO.data = dtoList;
 
     return responseDTO;
-
   }
 
   Future<dynamic> insertOneToOneChat(User user, FriendsDTO friend) async {
@@ -121,8 +127,8 @@ class ChatRepository{
       "chatName": "${user.nickname}, ${friend.nickname}",
       "isAlarmOn": true,
       "isBookMarked": false,
-      "isFixed" : false,
-      "users" : [user.id, friend.userId]
+      "isFixed": false,
+      "users": [user.id, friend.userId]
     };
 
     final db = FirebaseFirestore.instance;
@@ -131,5 +137,4 @@ class ChatRepository{
 
     return newChatDoc;
   }
-
 }
