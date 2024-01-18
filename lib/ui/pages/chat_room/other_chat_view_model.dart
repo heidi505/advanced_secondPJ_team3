@@ -104,13 +104,14 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
     ParamStore paramStore = ref.read(paramProvider);
 
     final db = FirebaseFirestore.instance;
+
     QuerySnapshot<Map<String, dynamic>> oldChatDoc = await db
         .collection("ChatRoom1")
         .where("users",
             isEqualTo: [session.user!.id, paramStore.friendDTO!.userId]).get();
 
 
-    if (oldChatDoc.docs.isEmpty) {
+    if (oldChatDoc.size == 0) {
       DocumentReference<Map<String, dynamic>> newChatDoc = await ChatRepository()
           .insertOneToOneChat(session.user!, paramStore.friendDTO!);
 
