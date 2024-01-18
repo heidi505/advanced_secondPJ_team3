@@ -11,9 +11,11 @@ class RequestParam {
   ChatNotifyDTO? chatNotifyDTO;
 
   FriendsDTO? friendDTO;
+  String? notifyText;
 
 
-  RequestParam({this.chatRoomDocId, this.chatroomDTO, this.chatNotifyDTO,  this.friendDTO});
+
+  RequestParam({this.chatRoomDocId, this.chatroomDTO, this.chatNotifyDTO,  this.friendDTO, this.notifyText});
 }
 
 class ParamStore extends RequestParam{
@@ -30,6 +32,11 @@ class ParamStore extends RequestParam{
   void addProfileDetail(FriendsDTO friendDTO){
     this.friendDTO = friendDTO;
   }
+
+  void addNotifyText(String submitText){
+    this.notifyText = submitText;
+  }
+
 
 }
 

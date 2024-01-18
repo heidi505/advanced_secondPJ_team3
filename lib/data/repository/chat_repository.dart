@@ -6,6 +6,7 @@ import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/chat_users_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
+import 'package:team3_kakao/data/model/chat_notify_item.dart';
 import 'package:team3_kakao/data/model/message.dart';
 import 'package:team3_kakao/data/model/user.dart';
 
@@ -148,6 +149,17 @@ class ChatRepository {
     final newChatDoc = await db.collection("ChatRoom1").add(newChatRoom);
 
     return newChatDoc;
+  }
+
+  Future<void> addNotify(String content, int userId,String chatRoomDocId) async {
+    final db = FirebaseFirestore.instance;
+    NotifyItem notifyItem = NotifyItem(
+        content: content, userId: userId, createdAt: Timestamp.now());
+    final docRef = await db
+        .collection("ChatRoom1")
+        .doc(chatRoomDocId)
+        .collection("chatNotify")
+        .add(notifyItem.toJson());
   }
 
 }

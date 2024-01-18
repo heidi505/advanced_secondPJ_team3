@@ -15,7 +15,6 @@ class NotifyTabBar extends StatefulWidget {
 class _NotifyTabBarState extends State<NotifyTabBar>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  List<String> mainList = ['공지등록', '어쩌라고'];
 
   TextEditingController _textEditingController = TextEditingController();
 
@@ -72,16 +71,17 @@ class _NotifyTabBarState extends State<NotifyTabBar>
                     ),
                     // 두 번째 탭의 내용
                     ListView.separated(
-                      itemCount: mainList.length, // 예시로 10개의 아이템을 표시
+                      itemCount: notifyModel.chatNotifyDTOList!.length, // 예시로 10개의 아이템을 표시
                       separatorBuilder: (BuildContext context, int index) {
                         return Divider(); // 각 아이템 사이에 구분선을 추가
                       },
                       itemBuilder: (BuildContext context, int index) {
+                        Logger().d("+++ListTile Title: ${notifyModel!.chatNotifyDTOList![index].content}");
                         return ListTile(
-                          title: Text(
-                            mainList[index],
-                            textAlign: TextAlign.start,
-                          ),
+                          title:
+                            Text(
+                                "${notifyModel!.chatNotifyDTOList![index].content}"),
+                            //textAlign: TextAlign.start,
                           subtitle: Text('TimeStamp'),
                         );
                       },
