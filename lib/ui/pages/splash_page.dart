@@ -26,6 +26,7 @@ import 'package:team3_kakao/ui/pages/user/join/join_welcome_page.dart';
 import 'package:team3_kakao/ui/pages/user/login/login_page.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_page.dart';
 
+import 'friends/friends_plus_Id_page.dart';
 import 'main_page.dart';
 import 'my_info/my_info_page.dart';
 import 'profile/profile_edit_page.dart';

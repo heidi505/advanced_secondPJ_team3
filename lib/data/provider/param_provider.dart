@@ -3,15 +3,21 @@ import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/main.dart';
 
 import '../dto/chat_dto/chatting_list_page_dto.dart';
+import '../dto/profile_dto/profile_update_response_dto/profile_update_response_dto.dart';
 
 class RequestParam {
   String? chatRoomDocId;
   ChatroomDTO? chatroomDTO;
   FriendsDTO? friendDTO;
+  ProfileUpdateResponseDTO? profileUpdateResponseDto;
+
+
+  RequestParam({this.chatRoomDocId, this.chatroomDTO, this.friendDTO, this.profileUpdateResponseDto});
 
   bool? isChattingLisPage = false;
 
   RequestParam({this.chatRoomDocId, this.chatroomDTO, this.friendDTO});
+
 }
 
 class ParamStore extends RequestParam{
@@ -30,6 +36,9 @@ class ParamStore extends RequestParam{
     this.friendDTO = friendDTO;
   }
 
+  void addProfileUpdate(ProfileUpdateResponseDTO profileUpdateResponseDto){
+    this.profileUpdateResponseDto = profileUpdateResponseDto;
+  }
 
 
 }

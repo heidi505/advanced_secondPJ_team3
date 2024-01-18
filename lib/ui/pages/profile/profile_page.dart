@@ -18,6 +18,7 @@ import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 import '../../../data/model/profile_detail_model.dart';
 import '../../../data/provider/profile_detail_provider.dart';
+import '../../../data/provider/profile_update_provider.dart';
 
 class ProfilePage extends ConsumerWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -35,6 +36,7 @@ class ProfilePage extends ConsumerWidget {
     FriendsDTO model = paramStore.friendDTO!;
 
     logger.d('즐찾: ${model!.isFavorite}');
+    ref.watch(profileUpdateProvider);
 
     return Scaffold(
       body: Container(
