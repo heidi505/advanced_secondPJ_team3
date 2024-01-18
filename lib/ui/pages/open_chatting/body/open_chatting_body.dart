@@ -29,7 +29,7 @@ class OnenChattingBody extends StatelessWidget {
         ),
         SliverToBoxAdapter(
           child: SizedBox(
-            height: smallGap,
+            height: mediumGap,
           ),
         ),
         OpenChattingList(),

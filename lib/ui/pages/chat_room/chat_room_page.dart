@@ -28,6 +28,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   double bottomInset = 0.0;
   bool isPopupVisible = false;
   bool isFirst = true;
+  bool isVisible = true;
+
 
   //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
@@ -63,26 +65,78 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   children: [
+                    Visibility(
+                      visible: isVisible,
+                      child: Positioned(
+                        top: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.white,
+                            border: Border.all(color: Colors.white),
+                          ),
+                          child: ExpansionTile(
+                            collapsedShape: RoundedRectangleBorder(
+                              side: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            title: Row(children: [
+                              Image.asset(
+                                "assets/icons/speacker_icon.png",
+                                width: 24,
+                                height: 24,
+                              ),
+                              SizedBox(
+                                width: smallGap,
+                              ),
+                              Text(
+                                '공지 제목',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ]),
+                            children: [
+                              Text("내용"),
+                            ],
+                            trailing: Icon(Icons.expand_more),
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: mediumGap,
+                    ),
                     TimeLine(time: getCurrentDay()),
                     //나중에 동적으로 처리해야함
                     SizedBox(
                       height: mediumGap,
                     ),
+
                     ...List.generate(model!.messages.length, (index) {
-                        dynamic chat;
-                        print('index : $index');
+                      dynamic chat;
+                      print('index : $index');
 
-                        if (model!.messages[index].userId == session.user!.id!) {
-                          // 나
-                          chat = MyChat(text: model!.messages[index].content, time: model!.messages[index].time!);
-                        } else {
-                          // 상대방
-                          Logger().d(model!.messages[index].userNickname ?? "홍길동");
+                      if (model!.messages[index].userId == session.user!.id!) {
+                        // 나
+                        chat = MyChat(
+                            text: model!.messages[index].content,
+                            time: model!.messages[index].time!);
+                      } else {
+                        // 상대방
+                        Logger()
+                            .d(model!.messages[index].userNickname ?? "홍길동");
 
-                          chat =
-                              OtherChat(name: model!.messages[index].userNickname ?? "홍길동", text: model!.messages[index].content, time: model!.messages[index].time!, userId: model!.messages[index].userId!);
-                        }
-                        return chat;
+                        chat = OtherChat(
+                            name: model!.messages[index].userNickname ?? "홍길동",
+                            text: model!.messages[index].content,
+                            time: model!.messages[index].time!,
+                            userId: model!.messages[index].userId!);
+                      }
+                      return chat;
                     }),
                   ],
                 ),

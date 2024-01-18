@@ -10,6 +10,10 @@ class UserMock {
   });
 }
 
+// 가져와야하는 것들?
+
+
+
 final int imageNum = 0;
 final String _img = "https://picsum.photos/id/${imageNum + 1}/200/300";
 

@@ -3,32 +3,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
-import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
-import 'package:team3_kakao/data/provider/param_provider.dart';
-import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
+import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 import '../../../data/model/profile_detail_model.dart';
 import '../../../data/provider/profile_detail_provider.dart';
 
-class ProfilePage extends ConsumerWidget {
-  ProfilePage({Key? key}) : super(key: key);
+class ProfileFriendPage extends ConsumerWidget {
+  // ProfileFriendPage({Key? key, required this.user}) : super(key: key);
+  ProfileFriendPage({Key? key, required this.friendsDTO}) : super(key: key);
 
+  FriendsDTO friendsDTO;
+
+  // final UserMock user;
   final logger = Logger();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ParamStore paramStore = ref.read(paramProvider);
-    SessionUser session = ref.read(sessionProvider);
-    FriendsDTO model = paramStore.friendDTO!;
+    ProfileDetailModel? model = ref.watch(profileDetailProvider);
 
-    logger.d('즐찾: ${model!.isFavorite}');
+    logger.d('즐찾: ${friendsDTO.isFavorite}');
 
+    if (model == null) {
+      return CircularProgressIndicator();
+    }
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -43,17 +47,24 @@ class ProfilePage extends ConsumerWidget {
             children: [
               const Spacer(),
               ProfileImage(
-                  imagePath: "$baseUrl/images/${model!.userId}.jpg",
+                  imagePath: "assets/images/basic_img.jpeg",
                   imageWidth: 100,
                   imageHeight: 100,
                   circular: 42),
               const SizedBox(
                 height: xsmallGap,
               ),
-              Text(model!.nickname!, style: h4(color: basicColorW)),
+              // --------------- 테스트 ----------------
+              // Text(model.profileDetailResponseDTO.profileImage),
+              // Text(model.profileDetailResponseDTO.backImage),
+              // --------------- 테스트 ----------------
+              // Text(model.profileDetailResponseDTO.nickname,
+              //     style: h4(color: basicColorW)),
+              Text("${friendsDTO.nickname}",
+                  style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
-                model!.statusMessage!,
+                "${friendsDTO.statusMessage}",
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
@@ -62,10 +73,7 @@ class ProfilePage extends ConsumerWidget {
               const Divider(
                 color: formColor,
               ),
-              if (session.user!.id! != model!.userId!)
-                _buildFriendProfileIcons()
-              else
-                _buildMyProfileIcons(),
+              _buildFriendProfileIcons(),
             ],
           ),
           appBar: AppBar(
@@ -96,49 +104,19 @@ class ProfilePage extends ConsumerWidget {
               SizedBox(
                 width: smallGap,
               ),
-              // if (session.user!.id! != model!.userId!)
-              // _buildFriendProfileTopIcons()
-              // else
-              if (session.user!.id! != model!.userId!)
-                _buildFriendProfileTopIcons(model)
-              else
-                RoundIconButton(
-                    imagePath: "assets/icons/profile/profile_top_icon_04.png"),
+              RoundIconButton(
+                  imagePath: "assets/icons/profile/profile_top_icon_05.png"),
+              SizedBox(
+                width: smallGap,
+              ),
+              RoundIconButton(
+                  imagePath: "assets/icons/profile/profile_top_icon_04.png"),
               SizedBox(
                 width: mediumGap,
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildMyProfileIcons() {
-    return Padding(
-      padding: EdgeInsets.only(top: 20, bottom: 35),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BottomIconButton(
-            imagePath: "assets/icons/profile/profile_icon_01.png",
-            text: "나와의 채팅",
-          ),
-          SizedBox(
-            width: 50,
-          ),
-          BottomIconButton(
-            imagePath: "assets/icons/profile/profile_icon_02.png",
-            text: "프로필 편집",
-          ),
-          SizedBox(
-            width: 50,
-          ),
-          BottomIconButton(
-            imagePath: "assets/icons/profile/profile_icon_03.png",
-            text: "펑 만들기",
-          ),
-        ],
       ),
     );
   }
@@ -169,20 +147,6 @@ class ProfilePage extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-
-  // 친구 즐찾 상태에 따라 뜨는 아이콘
-  Widget _buildFriendProfileTopIcons(FriendsDTO model) {
-    return Row(
-      children: [
-        if (model.isFavorite!)
-          RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_07.png")
-        else
-          RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_06.png"),
-        SizedBox(width: smallGap),
-        RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_04.png"),
-      ],
     );
   }
 }
