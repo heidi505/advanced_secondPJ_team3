@@ -34,7 +34,7 @@ class ChattingList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if(isFirst) {
+    if (isFirst) {
       ref.read(chattingPageProvider.notifier).notifyInit();
       isFirst = false;
     }
@@ -46,88 +46,10 @@ class ChattingList extends ConsumerWidget {
 
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
-      // sliver: SliverList(
-      //   delegate: SliverChildBuilderDelegate(
-      //     (context, index) => Column(
-      //       children: [
-      //         ChattingItem(
-      //           onlongPress: () {
-      //             showDialog(
-      //               context: context,
-      //               barrierDismissible: true,
-      //               builder: ((context) {
-      //                 ref
-      //                     .read(paramProvider)
-      //                     .addChatRoomDTO(model!.chatRoomDTOList[index]);
-      //                 return _ChatMenuModal(
-      //                     context, model!.chatRoomDTOList[index], ref);
-      //               }),
-      //             );
-      //           },
-      //           title: model!.chatRoomDTOList[index].chatName!,
-      //           peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-      //           imagePath: "$baseUrl/images/${index + 1}.jpg",
-      //           imageWidth: 50,
-      //           imageHeight: 50,
-      //           circular: 20.0,
-      //           ontap: () {
-      //             ref
-      //                 .read(paramProvider)
-      //                 .addChatRoomDTO(model!.chatRoomDTOList[index]);
-      //             ref.read(paramProvider).addChatRoomDocId(
-      //                 model!.chatRoomDTOList[index].chatDocId!);
-      //             Navigator.pushNamed(context, Move.chatRoomPage);
-      //           },
-      //           subTitle: model!.chatRoomDTOList[index].lastChat,
-      //           multiItem: Text(
-      //             "${model.chatRoomDTOList[index].lastChatTime}",
-      //             style: TextStyle(color: Colors.grey),
-      //           ),
-      //         ),
-      //         SizedBox(
-      //           height: smallGap,
-      //         ),
-      //         GroupProfile(
-      //           ontap: () {
-      //             ref
-      //                 .read(paramProvider)
-      //                 .addChatRoomDTO(model!.chatRoomDTOList[index]);
-      //             ref.read(paramProvider).addChatRoomDocId(
-      //                 model!.chatRoomDTOList[index].chatDocId!);
-      //             Navigator.pushNamed(context, Move.chatRoomPage);
-      //           },
-      //           imagePath: "$baseUrl/images/${index + 1}.jpg",
-      //           title: model!.chatRoomDTOList[index].chatName!,
-      //           peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-      //           subTitle: model!.chatRoomDTOList[index].lastChat,
-      //           multiItem: Column(
-      //             crossAxisAlignment: CrossAxisAlignment.end,
-      //             children: [
-      //               Text(
-      //                 "${model.chatRoomDTOList[index].lastChatTime}",
-      //                 style: TextStyle(color: Colors.grey),
-      //               ),
-      //               SizedBox(
-      //                 height: xsmallGap,
-      //               ),
-      //               ChattingCount(),
-      //             ],
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //     childCount: model!.chatRoomDTOList.length,
-      //   ),
-      // ),
-
-      sliver: SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.only(top: xxlargeGap),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => Column(
             children: [
-
               SizedBox(
                 height: smallGap,
               ),
@@ -167,39 +89,55 @@ class ChattingList extends ConsumerWidget {
                     ),
                     SizedBox(
                       height: xsmallGap,
-
-//               Center(
-//                 child: Container(
-//                   decoration: BoxDecoration(
-//                     color: pointColor03.withOpacity(0.1),
-//                     borderRadius: BorderRadius.circular(12.0),
-//                   ),
-//                   child: Padding(
-//                     padding: const EdgeInsets.all(16.0),
-//                     child: Column(
-//                       children: [
-//                         Image.asset(
-//                           "assets/images/chat_empty_icon.png",
-//                           fit: BoxFit.cover,
-//                           height: 150,
-//                         ),
-//                         SizedBox(
-//                           height: smallGap,
-//                         ),
-//                         Text(
-//                           "개설된 채팅방이 없습니다",
-//                           style: h4(fontWeight: FontWeight.w500),
-//                         ),
-//                       ],
-
                     ),
-                  ),
+                    ChattingCount(),
+                  ],
                 ),
               )
             ],
           ),
+          childCount: model!.chatRoomDTOList.length,
         ),
       ),
+
+      // sliver: SliverToBoxAdapter(
+      //   child: Padding(
+      //     padding: const EdgeInsets.only(top: xxlargeGap),
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       crossAxisAlignment: CrossAxisAlignment.center,
+      //       children: [
+      //         Center(
+      //           child: Container(
+      //             decoration: BoxDecoration(
+      //               color: pointColor03.withOpacity(0.1),
+      //               borderRadius: BorderRadius.circular(12.0),
+      //             ),
+      //             child: Padding(
+      //               padding: const EdgeInsets.all(16.0),
+      //               child: Column(
+      //                 children: [
+      //                   Image.asset(
+      //                     "assets/images/chat_empty_icon.png",
+      //                     fit: BoxFit.cover,
+      //                     height: 150,
+      //                   ),
+      //                   SizedBox(
+      //                     height: smallGap,
+      //                   ),
+      //                   Text(
+      //                     "개설된 채팅방이 없습니다",
+      //                     style: h4(fontWeight: FontWeight.w500),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 
