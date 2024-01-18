@@ -29,7 +29,41 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
     ParamStore paramStore = ref.read(paramProvider);
     SessionUser session = ref.read(sessionProvider);
 
-    Logger().d(paramStore.chatRoomDocId!);
+    Logger().d(paramStore.chatRoomDocId ?? "없음");
+
+    List<MessageDTO> messageList = await ChatRepository().getInitMessages(paramStore.chatRoomDocId!, session.user!.id!);
+
+    List<int?> userIdList = messageList.map((e) => e.userId).toSet().toList();
+
+    ResponseDTO responseDTO =
+    await ChatRepository().getChatUsers(userIdList, session.user!.jwt!);
+    List<ChatUsersDTO> dtoList = responseDTO.data;
+    print('dtoList : ${dtoList.toString()}');
+
+    for (MessageDTO message in messageList) {
+      for (ChatUsersDTO dto in dtoList) {
+        Logger().d("로그1");
+        if (message.userId == dto.userId) {
+          Logger().d("로그2");
+          //
+          message.userNickname = dto.userNickname;
+          print("message.userNickname :  ${message.userNickname}");
+          Logger().d(message.userNickname);
+        }
+      }
+    }
+
+    state = OtherChatModel(messages: messageList);
+
+  }
+
+  //addmessage 하면 fetchMessages를 발동시켜야하나... 근데 그러면 ListGenerate때메 또 추가되는거 아닌가...ㅜ ㅜㅜㅜㅜㅜㅜㅜㅜ
+  //점점 연산자 하나 더 가능한듯?
+  //새로운 메세지만 추가시켜야하는건가...
+  Future<void> fetchMessages() async {
+    ParamStore paramStore = ref.read(paramProvider);
+    SessionUser session = ref.read(sessionProvider);
+
     ChatRepository()
         .fetchMessages(paramStore.chatRoomDocId!, session.user!.id!)
         .listen((event) async {
@@ -69,23 +103,17 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
     SessionUser session = ref.read(sessionProvider);
     ParamStore paramStore = ref.read(paramProvider);
 
-    Logger().d(paramStore.friendDTO!.userId);
-    Logger().d(session.user!.id);
-
     final db = FirebaseFirestore.instance;
     QuerySnapshot<Map<String, dynamic>> oldChatDoc = await db
         .collection("ChatRoom1")
         .where("users",
             isEqualTo: [session.user!.id, paramStore.friendDTO!.userId]).get();
 
-    Logger().d(oldChatDoc.docs);
 
     if (oldChatDoc.docs.isEmpty) {
-      SessionUser session = ref.read(sessionProvider);
-      ParamStore paramStore = ref.read(paramProvider);
-
-      final newChatDoc = await ChatRepository()
+      DocumentReference<Map<String, dynamic>> newChatDoc = await ChatRepository()
           .insertOneToOneChat(session.user!, paramStore.friendDTO!);
+
 
       ChatroomDTO chatroomDTO = ChatroomDTO(
           chatName:
@@ -93,19 +121,17 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
           chatDocId: newChatDoc.id,
           peopleCount: "2");
 
-      ref.read(paramProvider).addChatRoomDocId(chatroomDTO.chatDocId!);
+      Logger().d(newChatDoc.id);
+
+      ref.read(paramProvider).addChatRoomDocId(newChatDoc.id);
       ref.read(paramProvider).addChatRoomDTO(chatroomDTO);
-      Navigator.pushNamed(mContext!, Move.chatRoomPage);
+      Navigator.pushNamedAndRemoveUntil(mContext!, Move.chatRoomPage, (route) => false);
     } else {
       for (var chatDoc in oldChatDoc.docs) {
         ref.read(paramProvider).addChatRoomDocId(chatDoc.id);
         Navigator.pushNamed(mContext!, Move.chatRoomPage);
       }
     }
-  }
-
-  Future<void> insertOnetoOneChat(String text) async {
-    final mContext = navigatorKey.currentContext;
   }
 }
 

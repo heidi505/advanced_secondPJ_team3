@@ -26,9 +26,12 @@ class ChatRepository{
 
     List<MessageDTO> dtoList = [];
 
+    if(initMessages.docs.isEmpty){
+      return dtoList;
+    }
+
     for(var message in initMessages.docs){
       MessageDTO dto = MessageDTO.fromJson(message.data(), message.id);
-
       dtoList.add(dto);
     }
 
@@ -125,10 +128,13 @@ class ChatRepository{
         "isAlarmOn": true,
         "isBookMarked": false,
         "isFixed": false,
-        "users": [user.id, friend.userId]
+        "users": [user.id, friend.userId],
       };
 
-      final newChatDoc = await db.collection("ChatRoom1").add(newChatRoom);
+
+      DocumentReference<Map<String, dynamic>> newChatDoc = await db.collection("ChatRoom1")
+          .add(newChatRoom)
+          .then((value) async { return value;});
 
       // Map<String, dynamic> newMessage = {
       //   "content": text,
@@ -138,7 +144,8 @@ class ChatRepository{
       //
       // await db.collection("ChatRoom1").doc(newChatDoc.id).collection("messages").add(newMessage);
 
-      return newChatDoc;
+    return newChatDoc;
+
 
   }
 

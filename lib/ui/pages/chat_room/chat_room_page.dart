@@ -38,7 +38,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       return CircularProgressIndicator();
     }
 
-
     return Scaffold(
       backgroundColor: primaryColor02,
       appBar: AppBar(
