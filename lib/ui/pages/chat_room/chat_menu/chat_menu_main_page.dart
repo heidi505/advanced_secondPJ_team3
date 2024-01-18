@@ -17,32 +17,36 @@ import '../../../../data/dto/chat_dto/chatting_list_page_dto.dart';
 class ChatRoomHamburger extends ConsumerWidget {
   List<MessageDTO>? messages;
 
-  ChatRoomHamburger({
-    super.key, this.messages
-  });
-
-
+  ChatRoomHamburger({super.key, this.messages});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref ) {
+  Widget build(BuildContext context, WidgetRef ref) {
     SessionUser session = ref.read(sessionProvider);
     List<MiniDTO> sortedUserDTO = messages!.map((e) => MiniDTO(e)).toList();
-    sortedUserDTO.removeWhere((a) => a.userId == session.user!.id! || a != sortedUserDTO.firstWhere((b) => b.userId == a.userId));
-
+    sortedUserDTO.removeWhere((a) =>
+        a.userId == session.user!.id! ||
+        a != sortedUserDTO.firstWhere((b) => b.userId == a.userId));
 
     return Drawer(
       child: Column(
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: mediumGap, left: smallGap),
+              padding: const EdgeInsets.all(12.0),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BoldTtitle(text: "채팅방 서랍"),
+                    BoldTtitle(
+                      text: "채팅방 서랍",
+                    ),
+                    SizedBox(
+                      height: xsmallGap,
+                    ),
                     ChatHamIcon(
-                        text: "사진/동영상", svg: "assets/icons/chat_pic_icon.svg", linkto: ChatRoomMediaPage()),
+                        text: "사진/동영상",
+                        svg: "assets/icons/chat_pic_icon.svg",
+                        linkto: ChatRoomMediaPage()),
                     // 실제 보유 이미지들 + 리스트로(?) 가져오게 수정해야함!
                     Container(
                       height: 90,
@@ -57,9 +61,13 @@ class ChatRoomHamburger extends ConsumerWidget {
                       ),
                     ),
                     ChatHamIcon(
-                        text: "파일", svg: "assets/icons/chat_folder_icon.svg", linkto: ChatRoomMediaPage()),
+                        text: "파일",
+                        svg: "assets/icons/chat_folder_icon.svg",
+                        linkto: ChatRoomMediaPage()),
                     ChatHamIcon(
-                        text: "링크", svg: "assets/icons/chat_link_icon.svg", linkto: ChatRoomMediaPage()),
+                        text: "링크",
+                        svg: "assets/icons/chat_link_icon.svg",
+                        linkto: ChatRoomMediaPage()),
                     BoldText(text: "톡캘린더"),
                     BoldText(text: "톡게시판"),
                     ChatHamIcon(
@@ -67,8 +75,7 @@ class ChatRoomHamburger extends ConsumerWidget {
                     BoldText(text: "대화상대"),
                     // 프로필아이콘으로 추가 수정 해야함
                     PlusUser(
-                        text: "대화상대 초대",
-                        svg: "assets/icons/chat_plus_icon.svg"),
+                        text: "대화상대 초대", svg: "assets/icons/invite_icon.svg"),
                     MyProfile(
                         text: session.user!.nickname!,
                         userId: session.user!.id!),
@@ -76,8 +83,10 @@ class ChatRoomHamburger extends ConsumerWidget {
                     Container(
                       height: sortedUserDTO.length * 100,
                       child: ListView.builder(
-                          itemBuilder: (context, index){
-                            return UserList(text: sortedUserDTO![index].userNickname, userId: sortedUserDTO![index].userId);
+                          itemBuilder: (context, index) {
+                            return UserList(
+                                text: sortedUserDTO![index].userNickname,
+                                userId: sortedUserDTO![index].userId);
                           },
                           itemCount: sortedUserDTO.length),
                     )
@@ -93,11 +102,11 @@ class ChatRoomHamburger extends ConsumerWidget {
   }
 }
 
-class MiniDTO{
+class MiniDTO {
   late String userNickname;
   late int userId;
 
-  MiniDTO(MessageDTO dto){
+  MiniDTO(MessageDTO dto) {
     userId = dto.userId!;
     userNickname = dto.userNickname!;
   }
