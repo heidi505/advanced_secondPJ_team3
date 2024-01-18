@@ -87,7 +87,7 @@ class ChattingList extends ConsumerWidget {
                   children: [
                     Text(
                       model.chatRoomDTOList[index].lastChatTime ?? "",
-                      style: TextStyle(color: Colors.grey),
+                      style: h6(color: basicColorB9),
                     ),
                     SizedBox(
                       height: xsmallGap,
