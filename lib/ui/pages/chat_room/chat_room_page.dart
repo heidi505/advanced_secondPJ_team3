@@ -343,7 +343,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         temp.add(_selectedImage!);
 
         encodedAllImage.add(completeEncoded);
-        Logger().d(encodedAllImage);
+        Logger().d("${encodedAllImage} + 챗");
         allImage = temp;
       });
 
