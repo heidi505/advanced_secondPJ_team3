@@ -16,17 +16,20 @@ import '../../../data/dto/friend_dto/chat_users_dto.dart';
 
 class OtherChatModel {
   List<MessageDTO> messages;
-
   OtherChatModel({required this.messages});
 }
 
 class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
-  Ref ref;
   final mContext = navigatorKey.currentContext;
+  Ref ref;
 
   OtherChatViewModel(this.ref, super._state);
 
+
+
+
   Future<void> notifyInit() async {
+    Logger().d("여기 뷰모델은 되나?");
     ParamStore paramStore = ref.read(paramProvider);
     SessionUser session = ref.read(sessionProvider);
 
@@ -53,9 +56,7 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
         }
       }
     }
-
     state = OtherChatModel(messages: messageList);
-
   }
 
   //addmessage 하면 fetchMessages를 발동시켜야하나... 근데 그러면 ListGenerate때메 또 추가되는거 아닌가...ㅜ ㅜㅜㅜㅜㅜㅜㅜㅜ
@@ -143,5 +144,5 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
 
 final otherChatProvider =
     StateNotifierProvider<OtherChatViewModel, OtherChatModel?>((ref) {
-  return new OtherChatViewModel(ref, null)..notifyInit();
+  return OtherChatViewModel(ref, null)..notifyInit();
 });

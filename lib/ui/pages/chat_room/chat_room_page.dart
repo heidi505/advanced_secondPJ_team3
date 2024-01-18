@@ -17,6 +17,7 @@ import 'package:team3_kakao/ui/pages/chat_room/widgets/other_chat.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/time_line.dart';
 
 class ChatRoomPage extends ConsumerStatefulWidget {
+
   @override
   _ChatRoomPageState createState() => _ChatRoomPageState();
 }
@@ -30,12 +31,10 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
+    ParamStore paramStore = ref.read(paramProvider);
+    Logger().d("${paramStore.chatRoomDocId} 여기는 챗룸페이지 화면");
     SessionUser session = ref.read(sessionProvider);
     OtherChatModel? model = ref.watch(otherChatProvider);
-    ParamStore paramStore = ref.read(paramProvider);
-    Logger().d(paramStore.chatRoomDocId);
-
-    Logger().d(paramStore.chatRoomDocId);
 
     if (model == null) {
       return CircularProgressIndicator();
