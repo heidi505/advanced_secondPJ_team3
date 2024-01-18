@@ -27,22 +27,29 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
 
 
 
-  Future<void> notifyInit() async {
+  Stream<void> notifyInit() {
     SessionUser session = ref.read(sessionProvider);
 
     final FirebaseFirestore db = FirebaseFirestore.instance;
     //나중에 userId 넣든지 동적으로 처리해야함
     //쿼리 스냅샷은 컬렉션, 다큐먼트 스냅샷은 문서
-    QuerySnapshot<Map<String, dynamic>> chatRoomCollection = await db
+    Stream<QuerySnapshot<Map<String, dynamic>>> stream = db
         .collection("ChatRoom1")
         .where("users", arrayContains: session.user!.id)
-        .get();
+        .snapshots();
 
-    if(chatRoomCollection.size == 0){
-      Navigator.pushNamed(mContext!, Move.vacantChatListPage);
-    }
-    //채팅방 for문 돌리기
     List<ChatroomDTO> dtoList = [];
+
+    return stream.map((snapshot) {
+      if(snapshot.size == 0){
+        Navigator.pushNamed(mContext!, Move.vacantChatListPage);
+      }
+      return snapshot.docs.map((e){
+
+
+      })
+    });
+
 
     //컬렉션 내의 문서 for문 돌면서 하나하나 list에 넣어줌
     for (var chatDoc in chatRoomCollection.docs) {
