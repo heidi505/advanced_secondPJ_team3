@@ -38,7 +38,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     SessionUser session = ref.read(sessionProvider);
 
     if(isFirst) {
-      ref.read(otherChatProvider.notifier).notifyInit();
+      ref.read(otherChatProvider.notifier).fetchMessages();
       isFirst = false;
     }
 
