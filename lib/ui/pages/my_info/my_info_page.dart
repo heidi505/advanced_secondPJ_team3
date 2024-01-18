@@ -10,20 +10,18 @@ import '../../widgets/my_info/my_info_text_form_field.dart';
 import 'my_info_password_page.dart';
 import 'my_info_phone_page.dart';
 
-class MyInfoPage extends StatefulWidget {
+class MyInfoPage extends ConsumerStatefulWidget {
   //const MyInfoPage({super.key});
   const MyInfoPage();
 
-
   @override
-  State<StatefulWidget> createState()=> _MyInfoScreenState();
+  _MyInfoScreenState createState() => _MyInfoScreenState();
 }
 
-class _MyInfoScreenState extends State<MyInfoPage> {
-
+class _MyInfoScreenState extends ConsumerState<MyInfoPage> {
   @override
   Widget build(BuildContext context) {
-    //SessionUser session = ref.read(sessionProvider);
+    SessionUser session = ref.read(sessionProvider);
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -43,19 +41,26 @@ class _MyInfoScreenState extends State<MyInfoPage> {
           elevation: 0,
           color: Colors.white,
           margin: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: mediumGap, horizontal: 16),
+            padding:
+                const EdgeInsets.symmetric(vertical: mediumGap, horizontal: 16),
             child: Column(
               children: [
                 _buildProfilePicRow(),
                 const SizedBox(height: 50),
                 // _buildProfileTextRow(),
-                MyInfoText(title: "이메일" ,text: "ssar@nate.com",),
-                MyInfoText(title: "닉네임" ,text: "ㅅㅅㅏㄹ",),
-                MyInfoText(title: "생일" ,text: "2023년 11월 20일"),
-                TextMenuCard(title: "전화번호", linkto: MyInfoPhonePage()),
-                TextMenuCard(title: "계정 비밀번호 변경", linkto: MyInfoPasswordPage()),
+                MyInfoText(title: "이메일", text: session.user!.email),
+                MyInfoText(title: "닉네임", text: session.user!.nickname),
+                TextMenuCard(
+                    title: "전화번호",
+                    text: session.user!.phoneNum,
+                    linkto: MyInfoPhonePage()),
+                TextMenuCard(
+                    title: "계정 비밀번호 변경",
+                    text: "",
+                    linkto: MyInfoPasswordPage()),
               ],
             ),
           ),
@@ -75,9 +80,7 @@ class _MyInfoScreenState extends State<MyInfoPage> {
               height: 100,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(xmediumGap),
-                child: Image.asset(
-                    "assets/images/basic_img.jpeg"
-                ),
+                child: Image.asset("assets/images/basic_img.jpeg"),
               ),
             ),
             Positioned(
@@ -101,6 +104,4 @@ class _MyInfoScreenState extends State<MyInfoPage> {
       ],
     );
   }
-
 }
-

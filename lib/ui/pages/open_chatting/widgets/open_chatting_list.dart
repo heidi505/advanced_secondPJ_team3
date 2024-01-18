@@ -10,16 +10,13 @@ import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
-import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
-import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page_view_model.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_menu_modal.dart';
-import 'package:team3_kakao/ui/pages/chatting/widget/chat_person_count.dart';
-import 'package:team3_kakao/ui/pages/chatting/widget/chatting_count.dart';
-import 'package:team3_kakao/ui/pages/chatting/widget/group_profile.dart';
-import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
+import 'package:team3_kakao/ui/pages/open_chatting/widgets/open_chat_area.dart';
+import 'package:team3_kakao/ui/widgets/chatting_items/open_profile_image.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 class OpenChattingList extends ConsumerWidget {
@@ -38,70 +35,58 @@ class OpenChattingList extends ConsumerWidget {
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ChattingItem(
-                onlongPress: () {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: ((context) {
-                      ref
-                          .read(paramProvider)
-                          .addChatRoomDTO(model!.chatRoomDTOList[index]);
-                      return _ChatMenuModal(
-                          context, model!.chatRoomDTOList[index], ref);
-                    }),
-                  );
-                },
-                title: model!.chatRoomDTOList[index].chatName!,
-                peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                imagePath: "$baseUrl/images/${index + 1}.jpg",
-                imageWidth: 50,
-                imageHeight: 50,
-                circular: 20.0,
-                ontap: () {
-                  ref
-                      .read(paramProvider)
-                      .addChatRoomDTO(model!.chatRoomDTOList[index]);
-                  ref.read(paramProvider).addChatRoomDocId(
-                      model!.chatRoomDTOList[index].chatDocId!);
-                  Navigator.pushNamed(context, Move.chatRoomPage);
-                },
-                subTitle: model!.chatRoomDTOList[index].lastChat,
-                multiItem: Text(
-                  "${model.chatRoomDTOList[index].lastChatTime}",
-                  style: TextStyle(color: Colors.grey),
+              Container(
+                child: Text(
+                  "라이프 채팅방",
+                  style: h3(
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
               SizedBox(
                 height: smallGap,
               ),
-              GroupProfile(
-                ontap: () {
-                  ref
-                      .read(paramProvider)
-                      .addChatRoomDTO(model!.chatRoomDTOList[index]);
-                  ref.read(paramProvider).addChatRoomDocId(
-                      model!.chatRoomDTOList[index].chatDocId!);
-                  Navigator.pushNamed(context, Move.chatRoomPage);
-                },
-                imagePath: "$baseUrl/images/${index + 1}.jpg",
-                title: model!.chatRoomDTOList[index].chatName!,
-                peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                subTitle: model!.chatRoomDTOList[index].lastChat,
-                multiItem: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      "${model.chatRoomDTOList[index].lastChatTime}",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    SizedBox(
-                      height: xsmallGap,
-                    ),
-                    ChattingCount(),
-                  ],
-                ),
+              OpenChatArea(
+                imagePath: "assets/images/open_chat_01.png",
+                title: "오늘 먹은 음식, 먹픈 채팅방",
+                subTitle: "#오픈 토픽 #라이프 토픽 #음식 사진",
+                text: "16명 참여중 ·",
+                time: DateTime.now(),
+              ),
+              SizedBox(
+                height: mediumGap,
+              ),
+              OpenChatArea(
+                imagePath: "assets/images/open_chat_02.png",
+                title: "클래식 음악과 친해지기",
+                subTitle: "클래식, 어렵지 않아요 🎵",
+                text: "16명 참여중 ·",
+                time: DateTime.now(),
+              ),
+              SizedBox(
+                height: mediumGap,
+              ),
+              OpenChatArea(
+                imagePath: "assets/images/open_chat_03.png",
+                title: "오늘 먹은 음식, 먹픈 채팅방",
+                subTitle: "#오픈 토픽 #라이프 토픽 #음식 사진",
+                text: "16명 참여중 ·",
+                time: DateTime.now(),
+              ),
+              SizedBox(
+                height: mediumGap,
+              ),
+              OpenChatArea(
+                imagePath: "assets/images/open_chat_04.png",
+                title: "오늘 먹은 음식, 먹픈 채팅방",
+                subTitle: "#오픈 토픽 #라이프 토픽 #음식 사진",
+                text: "16명 참여중",
+                time: DateTime.now(),
+              ),
+              SizedBox(
+                height: mediumGap,
               ),
             ],
           ),

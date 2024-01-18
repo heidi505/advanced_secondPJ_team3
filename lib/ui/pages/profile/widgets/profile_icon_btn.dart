@@ -23,8 +23,7 @@ class BottomIconButton extends ConsumerWidget {
     return InkWell(
       onTap: () {
         if(text == "1:1 채팅"){
-          ref.read(otherChatProvider.notifier).insertOneToOneChat();
-
+          ref.read(otherChatProvider.notifier).getOneToOneChat();
         }
       },
       child: Column(

@@ -10,12 +10,16 @@ class RequestParam {
   ChatroomDTO? chatroomDTO;
   ChatNotifyDTO? chatNotifyDTO;
 
+
   FriendsDTO? friendDTO;
   String? notifyText;
-
-
+  bool? isChattingLisPage = false;
 
   RequestParam({this.chatRoomDocId, this.chatroomDTO, this.chatNotifyDTO,  this.friendDTO, this.notifyText});
+
+
+
+
 }
 
 class ParamStore extends RequestParam{
