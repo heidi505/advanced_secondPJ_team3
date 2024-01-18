@@ -169,6 +169,19 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                   SizedBox(
                     width: smallGap,
                   ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isPopupVisible = !isPopupVisible; // 클릭할 때마다 반전
+                      });
+                    },
+                    child: Image.asset(
+                      "assets/icons/plus_icon.png",
+                      fit: BoxFit.cover,
+                      width: 35,
+                      height: 35,
+                    ),
+                  ),
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
