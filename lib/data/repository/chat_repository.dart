@@ -26,9 +26,12 @@ class ChatRepository{
 
     List<MessageDTO> dtoList = [];
 
+    if(initMessages.size == 0){
+      return dtoList;
+    }
+
     for(var message in initMessages.docs){
       MessageDTO dto = MessageDTO.fromJson(message.data(), message.id);
-
       dtoList.add(dto);
     }
 
@@ -117,19 +120,33 @@ class ChatRepository{
   }
 
   Future<dynamic> insertOneToOneChat(User user, FriendsDTO friend) async {
-    Map<String, dynamic> newChatRoom = {
-      "chatName": "${user.nickname}, ${friend.nickname}",
-      "isAlarmOn": true,
-      "isBookMarked": false,
-      "isFixed" : false,
-      "users" : [user.id, friend.userId]
-    };
 
     final db = FirebaseFirestore.instance;
 
-    final newChatDoc = await db.collection("ChatRoom1").add(newChatRoom);
+      Map<String, dynamic> newChatRoom = {
+        "chatName": "${user.nickname}, ${friend.nickname}",
+        "isAlarmOn": true,
+        "isBookMarked": false,
+        "isFixed": false,
+        "users": [user.id, friend.userId],
+      };
+
+
+      DocumentReference<Map<String, dynamic>> newChatDoc = await db.collection("ChatRoom1")
+          .add(newChatRoom)
+          .then((value) async { return value;});
+
+      // Map<String, dynamic> newMessage = {
+      //   "content": text,
+      //   "createdAt": Timestamp.now(),
+      //   "userId":user.id
+      // };
+      //
+      // await db.collection("ChatRoom1").doc(newChatDoc.id).collection("messages").add(newMessage);
 
     return newChatDoc;
+
+
   }
 
 }
