@@ -17,35 +17,6 @@ import '../../_core/constants/http.dart';
 import '../../_core/constants/move.dart';
 
 class ChatRepository {
-<<<<<<< HEAD
-
-
-=======
-  // Future<List<MessageDTO>> getInitMessages(
-  //     String chatRoomDocId, int userId) async {
-  //   final db = FirebaseFirestore.instance;
-  //
-  //   QuerySnapshot<Map<String, dynamic>> initMessages = await db
-  //       .collection("ChatRoom1")
-  //       .doc(chatRoomDocId)
-  //       .collection("messages")
-  //       .orderBy("createdAt", descending: false)
-  //       .get();
-  //
-  //   List<MessageDTO> dtoList = [];
-  //
-  //   if (initMessages.size == 0) {
-  //     return dtoList;
-  //   }
-  //
-  //   for (var message in initMessages.docs) {
-  //     MessageDTO dto = MessageDTO.fromJson(message.data(), message.id);
-  //     dtoList.add(dto);
-  //   }
-  //
-  //   return dtoList;
-  // }
-
 
   Stream<dynamic> fetchChatLists(int userId){
     final mContext = navigatorKey.currentContext;

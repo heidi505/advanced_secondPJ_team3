@@ -27,7 +27,10 @@ import '../provider/profile_detail_provider.dart';
 class UserRepository {
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
-      Response response = await dio.post("/sign-in", data: requestDTO.toJson(), );
+      Response response = await dio.post(
+        "/sign-in",
+        data: requestDTO.toJson(),
+      );
       Logger().d(response.data);
 
       Logger().d("++로그인 요청++");
@@ -110,6 +113,7 @@ class UserRepository {
       return ResponseDTO(success: false);
     }
   }
+
   // 200이 아니면 catch로 감
 
   // 프로필 상세보기
@@ -137,18 +141,8 @@ class UserRepository {
 
   // 프로필 수정
 
-  Future<ResponseDTO> fetchProfileUpdate(ProfileUpdateRequestDTO profileUpdateRequestDTO, String jwt) async{
-    Logger().d("업데이트 레파지토리 진입 확인(닉네임) : ${profileUpdateRequestDTO.nickname}");
-    Logger().d("업데이트 레파지토리 진입 확인(상태메세지) : ${profileUpdateRequestDTO.statusMessage}");
-    try{
-      // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
-      Response response = await dio.post("/user/my-profile-update",
-          options: Options(headers: {"Authorization":jwt}),
-          data: profileUpdateRequestDTO.toJson());
-      Logger().d("서버에서 받아온 값 : ${response.data.toString()}");
-
   Future<ResponseDTO> fetchProfileUpdate(
-      ProfileUpdateRequestDTO profileUpdateRequestDTO) async {
+      ProfileUpdateRequestDTO profileUpdateRequestDTO, String jwt) async {
     try {
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
       Response response = await dio.post("/user/my-profile-update",
@@ -158,7 +152,8 @@ class UserRepository {
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
       Logger().d("${responseDTO.data} 1번 파싱 안됨");
       // 수정한 정보만 추출해서 덮어 씌우기
-      responseDTO.data = new ProfileUpdateResponseDTO.fromJson(responseDTO.data);
+      responseDTO.data =
+          new ProfileUpdateResponseDTO.fromJson(responseDTO.data);
       Logger().d("${responseDTO.data} 2번 파싱 안됨");
 
       responseDTO.data =
@@ -170,81 +165,79 @@ class UserRepository {
       return ResponseDTO(success: false);
     }
   }
+}
 
-  // 프로필 삭제(프로필 이미지)
-  Future<ResponseDTO> fetchProfileImageDelete() async {
-    try {
-      Response response = await dio.get("/user/my-profileImage-delete/{id}");
-      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
-      responseDTO.data =
-          new ProfileImageDeleteResponseDTO.fromJson(responseDTO.data);
-      return responseDTO;
-    } catch (e) {
-      return ResponseDTO(success: false);
-    }
+// 프로필 삭제(프로필 이미지)
+Future<ResponseDTO> fetchProfileImageDelete() async {
+  try {
+    Response response = await dio.get("/user/my-profileImage-delete/{id}");
+    ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+    responseDTO.data =
+        new ProfileImageDeleteResponseDTO.fromJson(responseDTO.data);
+    return responseDTO;
+  } catch (e) {
+    return ResponseDTO(success: false);
   }
+}
 
-  // 프로필 삭제(배경 이미지)
-  Future<ResponseDTO> fetchProfileBackImageDelete() async {
-    try {
-      Response response =
-          await dio.get("/user/my-profileBackImage-delete/{id}");
-      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
-      responseDTO.data =
-          new ProfileBackImageDeleteResponseDTO.fromJson(responseDTO.data);
-      return responseDTO;
-    } catch (e) {
-      return ResponseDTO(success: false);
-    }
+// 프로필 삭제(배경 이미지)
+Future<ResponseDTO> fetchProfileBackImageDelete() async {
+  try {
+    Response response = await dio.get("/user/my-profileBackImage-delete/{id}");
+    ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+    responseDTO.data =
+        new ProfileBackImageDeleteResponseDTO.fromJson(responseDTO.data);
+    return responseDTO;
+  } catch (e) {
+    return ResponseDTO(success: false);
   }
+}
 
-  // 연락처로 친구 추가
-  Future<ResponseDTO> fetchPhoneNumFriendAdd(
-      PhoneNumFriendAddRequestDTO phoneNumFriendAddRequestDTO) async {
-    try {
-      Response response = await dio.post("/user/phoneNum-friend-add",
-          data: phoneNumFriendAddRequestDTO.toJson());
-      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
-      responseDTO.data =
-          PhoneNumFriendAddResponseDTO.fromJson(responseDTO.data);
-      return responseDTO;
-    } catch (e) {
-      return ResponseDTO(success: false);
-    }
+// 연락처로 친구 추가
+Future<ResponseDTO> fetchPhoneNumFriendAdd(
+    PhoneNumFriendAddRequestDTO phoneNumFriendAddRequestDTO) async {
+  try {
+    Response response = await dio.post("/user/phoneNum-friend-add",
+        data: phoneNumFriendAddRequestDTO.toJson());
+    ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+    responseDTO.data = PhoneNumFriendAddResponseDTO.fromJson(responseDTO.data);
+    return responseDTO;
+  } catch (e) {
+    return ResponseDTO(success: false);
   }
+}
 
-  // 이메일로 친구 추가
-  Future<ResponseDTO> fetchEmailFriendAdd(
-      EmailFrinedAddRequestDTO emailFrinedAddRequestDTO) async {
-    try {
-      Response response = await dio.post("/user/emil-friend-add",
-          data: emailFrinedAddRequestDTO.toJson());
-      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
-      responseDTO.data = EmailFriendAddResponseDTO.fromJson(responseDTO.data);
-      return responseDTO;
-    } catch (e) {
-      return ResponseDTO(success: false);
-    }
+// 이메일로 친구 추가
+Future<ResponseDTO> fetchEmailFriendAdd(
+    EmailFrinedAddRequestDTO emailFrinedAddRequestDTO) async {
+  try {
+    Response response = await dio.post("/user/emil-friend-add",
+        data: emailFrinedAddRequestDTO.toJson());
+    ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+    responseDTO.data = EmailFriendAddResponseDTO.fromJson(responseDTO.data);
+    return responseDTO;
+  } catch (e) {
+    return ResponseDTO(success: false);
   }
+}
 
-  // 내 정보 전화번호 수정
-  Future<ResponseDTO> fetchPhoneNumUpdate(
-      PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async {
-    try {
-      // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
-      Response response = await dio.post("/user/update",
-          data: phoneNumUpdateDTO.toJson(),
-          options: Options(headers: {"Authorization": jwt}));
-      // response.data의 값을 Dart객체로 변환 작업
-      ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
-      // 수정한 정보만 추출해서 덮어 씌우기
-      Logger().d(responseDTO);
-      Logger().d(responseDTO.data);
-      PhoneNumResponseDTO dto = PhoneNumResponseDTO.fromJson(responseDTO.data);
-      responseDTO.data = dto;
-      return responseDTO;
-    } catch (e) {
-      return ResponseDTO(success: false);
-    }
+// 내 정보 전화번호 수정
+Future<ResponseDTO> fetchPhoneNumUpdate(
+    PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async {
+  try {
+    // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
+    Response response = await dio.post("/user/update",
+        data: phoneNumUpdateDTO.toJson(),
+        options: Options(headers: {"Authorization": jwt}));
+    // response.data의 값을 Dart객체로 변환 작업
+    ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
+    // 수정한 정보만 추출해서 덮어 씌우기
+    Logger().d(responseDTO);
+    Logger().d(responseDTO.data);
+    PhoneNumResponseDTO dto = PhoneNumResponseDTO.fromJson(responseDTO.data);
+    responseDTO.data = dto;
+    return responseDTO;
+  } catch (e) {
+    return ResponseDTO(success: false);
   }
-
+}
