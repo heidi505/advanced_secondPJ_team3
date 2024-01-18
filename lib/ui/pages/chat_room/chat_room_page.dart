@@ -169,17 +169,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                   SizedBox(
                     width: smallGap,
                   ),
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.circular(30), // border-radius 값 조절
-                      border: Border.all(
-                        color: Colors.grey, // 테두리 색상
-                      ),
-                    ),
-                  ),
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
@@ -332,7 +321,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       // 2
     });
   }
-
 
   void _pickImageFromGallery() async {
     XFile? pickedImage =

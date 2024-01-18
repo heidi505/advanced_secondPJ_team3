@@ -13,37 +13,40 @@ class RequestParam {
   FriendsDTO? friendDTO;
   String? notifyText;
   bool? isChattingLisPage = false;
+  ProfileUpdateResponseDTO? profileUpdateResponseDTO;
 
-  RequestParam({this.chatRoomDocId, this.chatroomDTO, this.chatNotifyDTO,  this.friendDTO, this.notifyText});
+  RequestParam(
+      {this.chatRoomDocId,
+      this.chatroomDTO,
+      this.chatNotifyDTO,
+      this.friendDTO,
+      this.notifyText});
 }
 
-class ParamStore extends RequestParam{
-
+class ParamStore extends RequestParam {
   final mContext = navigatorKey.currentContext;
 
-  void addChatRoomDocId(String chatRoomDocId){
+  void addChatRoomDocId(String chatRoomDocId) {
     this.chatRoomDocId = chatRoomDocId;
   }
 
-  void addChatRoomDTO(ChatroomDTO chatroomDTO){
+  void addChatRoomDTO(ChatroomDTO chatroomDTO) {
     this.chatroomDTO = chatroomDTO;
   }
 
-  void addProfileDetail(FriendsDTO friendDTO){
+  void addProfileDetail(FriendsDTO friendDTO) {
     this.friendDTO = friendDTO;
   }
 
-
-  void addNotifyText(String submitText){
-    this.notifyText = submitText;}
-
-  void addProfileUpdate(ProfileUpdateResponseDTO profileUpdateResponseDto){
-    this.profileUpdateResponseDto = profileUpdateResponseDto;
+  void addNotifyText(String submitText) {
+    this.notifyText = submitText;
   }
 
-
+  void addProfileUpdate(ProfileUpdateResponseDTO profileUpdateResponseDto) {
+    this.profileUpdateResponseDTO = profileUpdateResponseDto;
+  }
 }
 
-final paramProvider = Provider<ParamStore>((ref){
+final paramProvider = Provider<ParamStore>((ref) {
   return new ParamStore();
 });
