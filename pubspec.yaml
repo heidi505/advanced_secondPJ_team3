@@ -54,7 +54,8 @@ dependencies:
   firebase_messaging: ^14.7.10
   flutter_local_notifications: ^16.1.0
   permission_handler: ^11.1.0 # 앱 권한 설정(저장소,주소록,전화)에 관련된 라이브러리입니다.
-  fluttertoast: ^8.2.4
+  fluttertoast: ^8.2.4 #토스트 라이브러리
+  firebase_storage: ^11.6.0 #
 
 
 dev_dependencies:

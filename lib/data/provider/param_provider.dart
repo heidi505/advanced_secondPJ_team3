@@ -11,7 +11,13 @@ class RequestParam {
   FriendsDTO? friendDTO;
   ProfileUpdateResponseDTO? profileUpdateResponseDto;
 
+
   RequestParam({this.chatRoomDocId, this.chatroomDTO, this.friendDTO, this.profileUpdateResponseDto});
+
+  bool? isChattingLisPage = false;
+
+  RequestParam({this.chatRoomDocId, this.chatroomDTO, this.friendDTO});
+
 }
 
 class ParamStore extends RequestParam{
