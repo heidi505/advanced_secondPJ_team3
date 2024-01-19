@@ -35,6 +35,7 @@ class ProfileEditPage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ProfileEditPage> createState() => _ProfileEditPageState();
+
 }
 
 class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
@@ -47,6 +48,9 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
   Widget build(BuildContext context) {
     print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
     print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
+
+    ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+
     return Scaffold(
 
       resizeToAvoidBottomInset: false,
@@ -137,7 +141,8 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileTextFormField(
                   nicknameController: widget._nicknameController,
                     textWidget: Text(
-                  widget.user.name,
+                      model!.profileUpdateResponseDTO!.nickname!,
+                  //widget.user.name,
                   style: h4(color: basicColorW),
                 )),
 
@@ -148,7 +153,8 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileSubTextFormField(
                   statusMessageContoller: widget._statusMessageContoller,
                     textWidget: Text(
-                  widget.user.intro,
+                      model!.profileUpdateResponseDTO!.statusMessage!,
+                  //widget.user.intro,
                   style: h5(color: basicColorW),
                 )),
               ),
