@@ -71,7 +71,6 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
       ResponseDTO responseDTO =
           await ChatRepository().getChatUsers(userIdList, session.user!.jwt!);
       List<ChatUsersDTO> dtoList = responseDTO.data;
-      print('dtoList : ${dtoList.toString()}');
 
       for (MessageDTO message in event) {
         for (ChatUsersDTO dto in dtoList) {
@@ -130,13 +129,17 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
       paramStore.addChatRoomDocId(newChatDoc.id);
       paramStore.addChatRoomDTO(chatroomDTO);
 
-      Logger().d(paramStore.chatRoomDocId);
 
       Navigator.push(
           mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
     } else {
       for (var chatDoc in oldChatDoc.docs) {
         ref.read(paramProvider).addChatRoomDocId(chatDoc.id);
+        List<dynamic> users = chatDoc["users"];
+        ChatroomDTO chatroomDTO = ChatroomDTO(
+            chatName: chatDoc["chatName"],
+            chatDocId: chatDoc.id,
+            peopleCount: users.length.toString());
         Navigator.push(
             mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
       }

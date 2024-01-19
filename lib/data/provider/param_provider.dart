@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chat_notify_list_dto.dart';
+import 'package:team3_kakao/data/dto/friend_dto/chat_users_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/main.dart';
 
@@ -14,13 +15,15 @@ class RequestParam {
   String? notifyText;
   bool? isChattingLisPage = false;
   ProfileUpdateResponseDTO? profileUpdateResponseDTO;
+  List<ChatUsersDTO>? chatUsers;
 
   RequestParam(
       {this.chatRoomDocId,
       this.chatroomDTO,
       this.chatNotifyDTO,
       this.friendDTO,
-      this.notifyText});
+      this.notifyText,
+      this.chatUsers});
 }
 
 class ParamStore extends RequestParam {
@@ -44,6 +47,10 @@ class ParamStore extends RequestParam {
 
   void addProfileUpdate(ProfileUpdateResponseDTO profileUpdateResponseDto) {
     this.profileUpdateResponseDTO = profileUpdateResponseDto;
+  }
+
+  void addChatUsersList(List<ChatUsersDTO> dtoList) {
+    this.chatUsers = dtoList;
   }
 }
 

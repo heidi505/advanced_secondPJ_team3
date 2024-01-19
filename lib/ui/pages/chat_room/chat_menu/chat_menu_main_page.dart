@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/dto/friend_dto/chat_users_dto.dart';
 import 'package:team3_kakao/data/model/message.dart';
 import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
 
@@ -22,10 +25,21 @@ class ChatRoomHamburger extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SessionUser session = ref.read(sessionProvider);
-    List<MiniDTO> sortedUserDTO = messages!.map((e) => MiniDTO(e)).toList();
-    sortedUserDTO.removeWhere((a) =>
-        a.userId == session.user!.id! ||
-        a != sortedUserDTO.firstWhere((b) => b.userId == a.userId));
+    ParamStore paramStore = ref.read(paramProvider);
+
+    List<ChatUsersDTO> users = paramStore.chatUsers!;
+
+    List<int?> userIdList = users.map((e) => e.userId).toSet().toList()..removeWhere((a) => a == session.user!.id!);
+    List<String?> userNickname= users.map((e) => e.userNickname).toSet().toList()..removeWhere((a) => a == session.user!.nickname);
+
+    Logger().d(userIdList.length);
+
+    Map<String, dynamic> chatUsers = {
+      "userIdList" : userIdList,
+      "userNicknameList" : userNickname
+    };
+
+
 
     return Drawer(
       child: Column(
@@ -81,14 +95,14 @@ class ChatRoomHamburger extends ConsumerWidget {
                         userId: session.user!.id!),
                     // 리스트로 쭉 나오게 해야함.
                     Container(
-                      height: sortedUserDTO.length * 100,
+                      height: userIdList.length * 100,
                       child: ListView.builder(
                           itemBuilder: (context, index) {
                             return UserList(
-                                text: sortedUserDTO![index].userNickname,
-                                userId: sortedUserDTO![index].userId);
+                                text: chatUsers["userNicknameList"][index],
+                                userId: chatUsers["userIdList"][index]);
                           },
-                          itemCount: sortedUserDTO.length),
+                          itemCount: userIdList.length),
                     )
                   ],
                 ),
@@ -103,8 +117,8 @@ class ChatRoomHamburger extends ConsumerWidget {
 }
 
 class MiniDTO {
-  late String userNickname;
-  late int userId;
+  String? userNickname;
+  int? userId;
 
   MiniDTO(MessageDTO dto) {
     userId = dto.userId!;

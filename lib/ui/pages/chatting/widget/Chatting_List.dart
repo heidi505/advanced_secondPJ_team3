@@ -45,7 +45,7 @@ class ChattingList extends ConsumerWidget {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
 
-    Logger().d(model!.chatRoomDTOList[0].lastChat);
+
 
 
     return SliverPadding(

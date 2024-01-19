@@ -33,7 +33,6 @@ class ChatRoomPage extends ConsumerStatefulWidget {
   _ChatRoomPageState createState() => _ChatRoomPageState();
 }
 
-//메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
 class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _textController = TextEditingController();
 
@@ -46,7 +45,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   bool isFirst = true;
   bool isVisible = true;
 
-  //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
@@ -61,6 +59,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     if (model == null) {
       return CircularProgressIndicator();
     }
+
 
     return Scaffold(
       backgroundColor: primaryColor02,
