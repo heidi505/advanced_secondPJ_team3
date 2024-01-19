@@ -19,6 +19,7 @@
             android:required="false" />
         <uses-permission android:name="android.permission.CALL_PHONE" />
     <application
+        android:usesCleartextTraffic="true"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"

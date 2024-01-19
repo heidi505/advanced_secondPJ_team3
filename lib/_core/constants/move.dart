@@ -11,6 +11,7 @@ import 'package:team3_kakao/ui/pages/chatting/chatting_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/vacant_chat_list_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
+import 'package:team3_kakao/ui/pages/friends/friends_search_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/my_info/my_info_page.dart';
 import 'package:team3_kakao/ui/pages/notify_write/notify_write_page.dart';
@@ -45,6 +46,7 @@ class Move {
   static String NotifyWritePage = "/NotifyWritePage";
   static String vacantChatRoomPage = "/vacantChatRoomPage";
   static String friendInvitePage = "/friendInvitePage";
+  static String friendSearchPage = "/friendSearchPage";
   static String vacantChatListPage = "/vacantChatListPage";
 
   // auth
@@ -75,6 +77,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.profileEditPage: (context) => ProfileEditPage(),
 
     Move.friendInvitePage: (context) => FriendInvitePage(),
+    Move.friendSearchPage: (context) => FriendSearchPage(),
     Move.joinProfilePage: (context) => JoinProfilePage(),
     Move.joinWelcomePage: (context) => JoinWelcomePage(),
 
