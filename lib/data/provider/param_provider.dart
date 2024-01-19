@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/data/dto/chat_dto/chat_notify_list_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/main.dart';
 
@@ -8,33 +9,44 @@ import '../dto/profile_dto/profile_update_response_dto/profile_update_response_d
 class RequestParam {
   String? chatRoomDocId;
   ChatroomDTO? chatroomDTO;
+  ChatNotifyDTO? chatNotifyDTO;
   FriendsDTO? friendDTO;
-  ProfileUpdateResponseDTO? profileUpdateResponseDto;
+  String? notifyText;
+  bool? isChattingLisPage = false;
+  ProfileUpdateResponseDTO? profileUpdateResponseDTO;
 
-  RequestParam({this.chatRoomDocId, this.chatroomDTO, this.friendDTO, this.profileUpdateResponseDto});
+  RequestParam(
+      {this.chatRoomDocId,
+      this.chatroomDTO,
+      this.chatNotifyDTO,
+      this.friendDTO,
+      this.notifyText});
 }
 
-class ParamStore extends RequestParam{
+class ParamStore extends RequestParam {
   final mContext = navigatorKey.currentContext;
 
-  void addChatRoomDocId(String chatRoomDocId){
+  void addChatRoomDocId(String chatRoomDocId) {
     this.chatRoomDocId = chatRoomDocId;
   }
 
-  void addChatRoomDTO(ChatroomDTO chatroomDTO){
+  void addChatRoomDTO(ChatroomDTO chatroomDTO) {
     this.chatroomDTO = chatroomDTO;
   }
 
-  void addProfileDetail(FriendsDTO friendDTO){
+  void addProfileDetail(FriendsDTO friendDTO) {
     this.friendDTO = friendDTO;
   }
 
-  void addProfileUpdate(ProfileUpdateResponseDTO profileUpdateResponseDto){
-    this.profileUpdateResponseDto = profileUpdateResponseDto;
+  void addNotifyText(String submitText) {
+    this.notifyText = submitText;
   }
 
+  void addProfileUpdate(ProfileUpdateResponseDTO profileUpdateResponseDto) {
+    this.profileUpdateResponseDTO = profileUpdateResponseDto;
+  }
 }
 
-final paramProvider = Provider<ParamStore>((ref){
+final paramProvider = Provider<ParamStore>((ref) {
   return new ParamStore();
 });

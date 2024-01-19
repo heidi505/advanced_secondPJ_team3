@@ -62,7 +62,9 @@ class GroupProfile extends StatelessWidget {
             subtitle: subTitle != null
                 ? Text(
                     subTitle!,
-                    style: subText(color: basicColorB9), // Corrected placement
+                    style: subText(color: basicColorB7),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   )
                 : null,
             trailing: Row(

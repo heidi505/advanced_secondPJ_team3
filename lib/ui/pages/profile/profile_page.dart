@@ -6,9 +6,12 @@ import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/friend_dto/favorite_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
+import 'package:team3_kakao/data/provider/favorite_friend_provider.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/friends/widgets/friend_favorites.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
@@ -24,8 +27,12 @@ class ProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     ParamStore paramStore = ref.read(paramProvider);
+    // ParamStore paramStore = ref.watch(paramProvider);
     SessionUser session = ref.read(sessionProvider);
+    // FriendsDTO model = paramStore.friendDTO!;
+
     FriendsDTO model = paramStore.friendDTO!;
 
     logger.d('즐찾: ${model!.isFavorite}');
@@ -84,28 +91,29 @@ class ProfilePage extends ConsumerWidget {
             ),
             actions: [
               const RoundIconButton(
-                  imagePath: "assets/icons/profile/profile_top_icon_01.png"),
+                imagePath: "assets/icons/profile/profile_top_icon_01.png",
+              ),
               SizedBox(
                 width: smallGap,
               ),
               RoundIconButton(
-                  imagePath: "assets/icons/profile/profile_top_icon_02.png"),
+                imagePath: "assets/icons/profile/profile_top_icon_02.png",
+              ),
               SizedBox(
                 width: smallGap,
               ),
               RoundIconButton(
-                  imagePath: "assets/icons/profile/profile_top_icon_03.png"),
+                imagePath: "assets/icons/profile/profile_top_icon_03.png",
+              ),
               SizedBox(
                 width: smallGap,
               ),
-              // if (session.user!.id! != model!.userId!)
-              // _buildFriendProfileTopIcons()
-              // else
               if (session.user!.id! != model!.userId!)
-                _buildFriendProfileTopIcons(model)
+                _buildFriendProfileTopIcons(model, ref)
               else
                 RoundIconButton(
-                    imagePath: "assets/icons/profile/profile_top_icon_04.png"),
+                  imagePath: "assets/icons/profile/profile_top_icon_04.png",
+                ),
               SizedBox(
                 width: mediumGap,
               ),
@@ -125,7 +133,6 @@ class ProfilePage extends ConsumerWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_01.png",
             text: "나와의 채팅",
-            routeToNavigate: Move.chatRoomPage,
           ),
           SizedBox(
             width: 50,
@@ -133,7 +140,6 @@ class ProfilePage extends ConsumerWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_02.png",
             text: "프로필 편집",
-            routeToNavigate: Move.profileEditPage,
           ),
           SizedBox(
             width: 50,
@@ -177,16 +183,59 @@ class ProfilePage extends ConsumerWidget {
   }
 
   // 친구 즐찾 상태에 따라 뜨는 아이콘
-  Widget _buildFriendProfileTopIcons(FriendsDTO model) {
+//   Widget _buildFriendProfileTopIcons(FriendsDTO model) {
+//     return Row(
+//       children: [
+//         if (model.isFavorite!)
+//           RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_07.png")
+//         else
+//           RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_06.png"),
+//         SizedBox(width: smallGap),
+//         RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_04.png"),
+//       ],
+//     );
+//   }
+// }
+  Widget _buildFriendProfileTopIcons(FriendsDTO model, WidgetRef ref) {
     return Row(
       children: [
+        // 즐찾 되어 있는 상태일 때
         if (model.isFavorite!)
-          RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_07.png")
+          RoundIconButton2(
+            imagePath: "assets/icons/profile/profile_top_icon_07.png",
+            onPressed: () {
+              print("Button Clicked!");
+              _abcd(model, ref);
+              logger.d("버튼클릭!! 즐찾 상태!!");
+              logger.d(model.isFavorite);
+            },
+          )
         else
-          RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_06.png"),
+          // 즐찾 안된 상태일때
+          RoundIconButton2(
+            imagePath: "assets/icons/profile/profile_top_icon_06.png",
+            onPressed: () {
+              _abcd(model, ref);
+              logger.d("버튼클릭!! 즐찾 상태!!");
+              logger.d(model.isFavorite);
+            },
+          ),
         SizedBox(width: smallGap),
-        RoundIconButton(imagePath: "assets/icons/profile/profile_top_icon_04.png"),
+        RoundIconButton2(
+          imagePath: "assets/icons/profile/profile_top_icon_04.png",
+          onPressed: () {},
+        ),
       ],
     );
+  }
+
+  void _abcd(FriendsDTO model, WidgetRef ref) {
+    SessionUser sessionUser = ref.read(sessionProvider);
+    FavoriteFriendDTO favoriteFriendDTO = FavoriteFriendDTO.fromFriendsDTO(model);
+    logger.d('에비씨디 메숴드');
+    logger.d(favoriteFriendDTO.isFavorite);
+    ref.read(favoriteUpdateProvider.notifier).updateFavoriteStatus(favoriteFriendDTO, sessionUser.user!.jwt!);
+
+
   }
 }

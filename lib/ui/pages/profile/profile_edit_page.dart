@@ -5,11 +5,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/user_repository.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_camera_btn.dart';
@@ -22,16 +24,16 @@ import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_form_field.dar
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
+import '../../../data/dto/friend_dto/main_dto.dart';
 import '../../../data/dto/response_dto.dart';
 import '../../../data/provider/profile_update_provider.dart';
 
 class ProfileEditPage extends ConsumerStatefulWidget {
-  ProfileEditPage({Key? key, required this.user}) : super(key: key);
+  ProfileEditPage({Key? key}) : super(key: key);
 
   final TextEditingController _nicknameController = new TextEditingController();
-  final TextEditingController _statusMessageContoller = new TextEditingController();
-
-  final UserMock user;
+  final TextEditingController _statusMessageContoller =
+      new TextEditingController();
 
   @override
   ConsumerState<ProfileEditPage> createState() => _ProfileEditPageState();
@@ -46,13 +48,14 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    User session = ref.read(sessionProvider).user!;
+    FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
     print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
     print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
 
     //ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
 
     return Scaffold(
-
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
@@ -90,11 +93,16 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                     height: 40,
                     child: TextButton(
                       onPressed: () {
-                        ProfileUpdateRequestDTO dto = ProfileUpdateRequestDTO(nickname: widget._nicknameController.text, statusMessage: widget._statusMessageContoller.text);
+                        ProfileUpdateRequestDTO dto = ProfileUpdateRequestDTO(
+                            nickname: widget._nicknameController.text,
+                            statusMessage: widget._statusMessageContoller.text);
                         Logger().d("DTO 값 잘 받니?  ${dto.statusMessage}");
                         Logger().d("DTO 값 잘 받니?  ${dto.nickname}");
-                        ref.read(profileUpdateProvider.notifier).updateProfile(dto);
-                        Navigator.pushNamed(context, Move.profilePage); // 이 버튼을 눌렀을때 리퀘스트에 값이 담기고 통신 해야함
+                        ref
+                            .read(profileUpdateProvider.notifier)
+                            .updateProfile(dto);
+                        Navigator.pushNamed(context,
+                            Move.profilePage); // 이 버튼을 눌렀을때 리퀘스트에 값이 담기고 통신 해야함
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.transparent,
@@ -119,9 +127,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
               Stack(
                 children: [
                   ProfileImage(
-                    imagePath: images.isNotEmpty
-                        ? images.first!.path
-                        : "assets/images/basic_img.jpeg",
+                    imagePath: "$baseUrl/images/${session.id}.jpg",
                     imageWidth: 100,
                     imageHeight: 100,
                     circular: 42,
@@ -139,24 +145,36 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: ProfileTextFormField(
-                  nicknameController: widget._nicknameController,
+                    nicknameController: widget._nicknameController,
                     textWidget: Text(
-                      //model!.profileUpdateResponseDTO!.nickname!,
-                  widget.user.name,
-                  style: h4(color: basicColorW),
-                )),
+// <<<<<<< HEAD
+//                       //model!.profileUpdateResponseDTO!.nickname!,
+//                   widget.user.name,
+//                   style: h4(color: basicColorW),
+//                 )),
+//
+// =======
+                      session.nickname!,
+                      style: h4(color: basicColorW),
+                    )),
 
               ),
               const SizedBox(height: xsmallGap),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: ProfileSubTextFormField(
-                  statusMessageContoller: widget._statusMessageContoller,
+                    statusMessageContoller: widget._statusMessageContoller,
                     textWidget: Text(
-                      //model!.profileUpdateResponseDTO!.statusMessage!,
-                  widget.user.intro,
-                  style: h5(color: basicColorW),
-                )),
+// <<<<<<< HEAD
+//                       //model!.profileUpdateResponseDTO!.statusMessage!,
+//                   widget.user.intro,
+//                   style: h5(color: basicColorW),
+//                 )),
+// =======
+                      myProfile.statusMessage!,
+                      style: h5(color: basicColorW),
+                    )),
+
               ),
               const SizedBox(
                 height: mediumGap,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_media_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_settings_page.dart';
 
@@ -27,11 +29,16 @@ class ChatHamIcon extends StatelessWidget {
         margin: EdgeInsets.only(top: smallGap, bottom: smallGap),
         child: Row(
           children: [
-            SvgPicture.asset(
-              "$svg",
-              height: mediumGap,
-              width: mediumGap,
-              color: basicColorB5,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: SvgPicture.asset(
+                "$svg",
+                height: mediumGap,
+                width: mediumGap,
+                color: basicColorB5,
+              ),
             ),
             Text(" $text",
                 style: TextStyle(
@@ -50,8 +57,10 @@ class BoldTtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("$text",
-        style: TextStyle(fontSize: mediumGap, fontWeight: FontWeight.bold));
+    return Text(
+      "$text",
+      style: h4(fontWeight: FontWeight.w500),
+    );
   }
 }
 
@@ -63,11 +72,14 @@ class BoldText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
           border: Border(top: BorderSide(width: 1.0, color: formColor))),
-      child: Text("$text",
-          style: TextStyle(fontSize: mediumGap, fontWeight: FontWeight.bold)),
+      child: Text(
+        "$text",
+        style: h5(fontWeight: FontWeight.w600),
+      ),
     );
   }
 }
@@ -82,18 +94,23 @@ class PlusUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: smallGap),
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            "$svg",
-            height: 50,
-            width: 50,
-            color: pointColor04,
-          ),
-          Text(" $text",
-              style:
-                  TextStyle(color: pointColor04, fontWeight: FontWeight.bold)),
-        ],
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, Move.friendInvitePage);
+        },
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              "$svg",
+              height: 50,
+              width: 50,
+            ),
+            SizedBox(
+              width: smallGap,
+            ),
+            Text(" $text", style: h5(color: pointColor04)),
+          ],
+        ),
       ),
     );
   }
@@ -241,4 +258,3 @@ class HamBotMenuIcon extends StatelessWidget {
     );
   }
 }
-

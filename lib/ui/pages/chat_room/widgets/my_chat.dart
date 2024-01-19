@@ -24,8 +24,8 @@ class MyChat extends StatelessWidget {
               const SizedBox(width: 5),
               Flexible(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 4.0, horizontal: 8.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: primaryColor01,
@@ -36,7 +36,6 @@ class MyChat extends StatelessWidget {
             ],
           ),
         ],
-
       ),
     );
   }
