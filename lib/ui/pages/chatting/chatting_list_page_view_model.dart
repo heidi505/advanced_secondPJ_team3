@@ -33,6 +33,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
     final db = FirebaseFirestore.instance;
 
     ChatRepository().fetchChatLists(session.user!.id!).listen((event) async {
+
       event.map((e) async {
         QuerySnapshot<Map<String, dynamic>> messages = await db
             .collection("ChatRoom1")
