@@ -143,6 +143,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                           chat = MyChat(
                               text: model!.messages[index].content,
                               time: model!.messages[index].time!);
+                          SizedBox(
+                            height: smallGap,
+                          );
                         } else {
                           // 상대방
                           Logger()
@@ -154,6 +157,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                               text: model!.messages[index].content,
                               time: model!.messages[index].time!,
                               userId: model!.messages[index].userId!);
+                          SizedBox(
+                            height: smallGap,
+                          );
                         }
                         return chat;
                       }),
