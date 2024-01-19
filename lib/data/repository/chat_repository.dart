@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
@@ -10,11 +11,34 @@ import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/model/chat_notify_item.dart';
 import 'package:team3_kakao/data/model/message.dart';
 import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/main.dart';
 
 import '../../_core/constants/http.dart';
+import '../../_core/constants/move.dart';
 
 class ChatRepository {
+  Stream<List<ChatroomDTO>> fetchChatLists(int userId) {
+    final mContext = navigatorKey.currentContext;
+    final FirebaseFirestore db = FirebaseFirestore.instance;
+    //나중에 userId 넣든지 동적으로 처리해야함
+    //쿼리 스냅샷은 컬렉션, 다큐먼트 스냅샷은 문서
+    Stream<QuerySnapshot<Map<String, dynamic>>> stream = db
+        .collection("ChatRoom1")
+        .where("users", arrayContains: userId)
+        .snapshots();
 
+    List<ChatroomDTO> dtoList = [];
+
+    return stream.map((snapshot) {
+      if (snapshot.size == 0) {
+        Navigator.pushNamed(mContext!, Move.vacantChatListPage);
+      }
+
+      return snapshot.docs.map((chatDoc) {
+        return ChatroomDTO.fromJson(chatDoc.data(), chatDoc.id);
+      }).toList();
+    });
+  }
 
   //통신
   Stream<List<MessageDTO>> fetchMessages(String chatRoomDocId, int userId) {
@@ -27,7 +51,6 @@ class ChatRepository {
         .orderBy("createdAt", descending: false)
         .snapshots();
 
-
     return stream.map((snapshot) {
       return snapshot.docs.map((e) {
         return MessageDTO.fromJson(e.data(), e.id);
@@ -38,9 +61,8 @@ class ChatRepository {
   //userId 받아야함!!
   Future<void> addMessage(String text, int userId, String chatRoomDocId) async {
     final db = FirebaseFirestore.instance;
-    message msg = message(
-        content: text, userId: userId, createdAt: Timestamp.now());
-
+    message msg =
+        message(content: text, userId: userId, createdAt: Timestamp.now());
 
     final docRef = await db
         .collection("ChatRoom1")
@@ -48,7 +70,6 @@ class ChatRepository {
         .collection("messages")
         .add(msg.toJson());
   }
-
 
   Future<void> addPhoto(
       String text, int userId, String chatRoomDocId, bool isPhoto) async {
@@ -92,7 +113,6 @@ class ChatRepository {
   }
 
   Future<ResponseDTO> getChatUsers(List<int?> userIdList, String jwt) async {
-
     Map<String, dynamic> userIdListToMap = {"userIdList": userIdList};
 
     Response response = await dio.post("/user/get-chat-users",
@@ -127,7 +147,6 @@ class ChatRepository {
   //   });
   // }
 
-
   Future<dynamic> insertOneToOneChat(User user, FriendsDTO friend) async {
     final db = FirebaseFirestore.instance;
 
@@ -155,8 +174,8 @@ class ChatRepository {
     return newChatDoc;
   }
 
-
-  Future<void> addNotify(String content, int userId,String chatRoomDocId) async {
+  Future<void> addNotify(
+      String content, int userId, String chatRoomDocId) async {
     final db = FirebaseFirestore.instance;
     NotifyItem notifyItem = NotifyItem(
         content: content, userId: userId, createdAt: Timestamp.now());
@@ -166,9 +185,4 @@ class ChatRepository {
         .collection("chatNotify")
         .add(notifyItem.toJson());
   }
-
 }
-
-
-
-

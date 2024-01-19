@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/model/user_mock.dart';
 
 class ChatroomDTO {
   String? peopleCount;
@@ -10,18 +12,26 @@ class ChatroomDTO {
   String? chatDocId;
   List<MessageDTO>? messageList;
   List<int>? userIdList;
+  CollectionReference? messageCollection;
 
-  ChatroomDTO({
-    this.peopleCount,
-    this.messageCount,
-    this.lastChat,
-    this.lastChatTime,
-    this.chatName,
-    this.chatId,
-    this.chatDocId,
-    this.messageList,
-    this.userIdList
-  });
+  ChatroomDTO(
+      {this.peopleCount,
+      this.messageCount,
+      this.lastChat,
+      this.lastChatTime,
+      this.chatName,
+      this.chatId,
+      this.chatDocId,
+      this.messageList,
+      this.userIdList,
+      this.messageCollection});
+
+  ChatroomDTO.fromJson(Map<String, dynamic> json, String docId) {
+    chatName = json["chatName"];
+    userIdList = List<int>.from(json["users"]);
+    peopleCount = userIdList!.length.toString();
+    chatDocId = docId;
+  }
 }
 
 class MessageDTO {
@@ -62,5 +72,4 @@ class MessageDTO {
           createdAt!.toDate().minute.toString();
     }
   }
-
 }
