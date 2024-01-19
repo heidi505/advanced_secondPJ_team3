@@ -40,13 +40,11 @@ class ChattingList extends ConsumerWidget {
     // }
 
     ChattingPageModel? model = ref.watch(chattingPageProvider);
-    
+
     if (model == null) {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
-
     Logger().d(model!.chatRoomDTOList[0].lastChat);
-
 
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -54,9 +52,6 @@ class ChattingList extends ConsumerWidget {
         delegate: SliverChildBuilderDelegate(
           (context, index) => Column(
             children: [
-              SizedBox(
-                height: smallGap,
-              ),
               GroupProfile(
                 userIdList: model!.chatRoomDTOList[index].userIdList,
                 onlongPress: () {
@@ -152,7 +147,7 @@ class ChattingList extends ConsumerWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       backgroundColor: basicColorW,
       title:
-      Text(chatroomDTO.chatName!, style: h3(fontWeight: FontWeight.bold)),
+          Text(chatroomDTO.chatName!, style: h3(fontWeight: FontWeight.bold)),
       content: Container(
         height: 250,
         child: Column(
