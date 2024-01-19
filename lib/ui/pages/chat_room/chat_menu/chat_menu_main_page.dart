@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/model/message.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
@@ -25,7 +26,7 @@ class ChatRoomHamburger extends ConsumerWidget {
     List<MiniDTO> sortedUserDTO = messages!.map((e) => MiniDTO(e)).toList();
     sortedUserDTO.removeWhere((a) =>
         a.userId == session.user!.id! ||
-        a != sortedUserDTO.firstWhere((b) => b.userId == a.userId));
+        a == sortedUserDTO.firstWhere((b) => b.userId == a.userId));
 
     return Drawer(
       child: Column(
@@ -85,7 +86,7 @@ class ChatRoomHamburger extends ConsumerWidget {
                       child: ListView.builder(
                           itemBuilder: (context, index) {
                             return UserList(
-                                text: sortedUserDTO![index].userNickname,
+                                text: sortedUserDTO![index].userNickname!,
                                 userId: sortedUserDTO![index].userId);
                           },
                           itemCount: sortedUserDTO.length),
@@ -103,8 +104,8 @@ class ChatRoomHamburger extends ConsumerWidget {
 }
 
 class MiniDTO {
-  late String userNickname;
-  late int userId;
+  String? userNickname;
+  int? userId;
 
   MiniDTO(MessageDTO dto) {
     userId = dto.userId!;

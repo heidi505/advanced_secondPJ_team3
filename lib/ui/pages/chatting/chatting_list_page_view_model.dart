@@ -13,6 +13,7 @@ import 'package:team3_kakao/data/repository/chat_repository.dart';
 import 'package:team3_kakao/main.dart';
 
 import '../../../_core/constants/move.dart';
+import '../../../data/dto/response_dto.dart';
 
 class ChattingPageModel {
   List<ChatroomDTO> chatRoomDTOList;
@@ -33,7 +34,6 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
     final db = FirebaseFirestore.instance;
 
     ChatRepository().fetchChatLists(session.user!.id!).listen((event) async {
-
       event.map((e) async {
         QuerySnapshot<Map<String, dynamic>> messages = await db
             .collection("ChatRoom1")
@@ -67,9 +67,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
           }
         }
       }).toList();
-
       state = ChattingPageModel(chatRoomDTOList: event);
-
     }
     );
 
