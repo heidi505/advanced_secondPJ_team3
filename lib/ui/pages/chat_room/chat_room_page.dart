@@ -34,7 +34,6 @@ class ChatRoomPage extends ConsumerStatefulWidget {
   _ChatRoomPageState createState() => _ChatRoomPageState();
 }
 
-//메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
 class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _textController = TextEditingController();
 
@@ -47,7 +46,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   bool isFirst = true;
   bool isVisible = true;
 
-  //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
@@ -62,6 +60,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     if (model == null) {
       return CircularProgressIndicator();
     }
+
 
     return Scaffold(
       backgroundColor: primaryColor02,
@@ -142,21 +141,17 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                           // 나
                           chat = MyChat(
                               text: model!.messages[index].content,
-                              time: model!.messages[index].time!);
-                          SizedBox(
-                            height: smallGap,
-                          );
+                              time: model!.messages[index].time!,
+                              isPhoto: model!.messages[index].isPhoto ?? false);
                         } else {
                           // 상대방
-                          Logger()
-                              .d(model!.messages[index].userNickname ?? "홍길동");
-
                           chat = OtherChat(
                               name:
-                                  model!.messages[index].userNickname ?? "홍길동",
+                                  model!.messages[index].userNickname!,
                               text: model!.messages[index].content,
                               time: model!.messages[index].time!,
-                              userId: model!.messages[index].userId!);
+                              userId: model!.messages[index].userId!,
+                              isPhoto: model!.messages[index].isPhoto ?? false);
                           SizedBox(
                             height: smallGap,
                           );
@@ -348,7 +343,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
   void _pickImageFromGallery() async {
     XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       Uint8List temp = await pickedImage.readAsBytes();
