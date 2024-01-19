@@ -44,7 +44,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
             .get();
 
         if (messages.docs.isNotEmpty) {
-          Map<String, dynamic> lastMessage = messages.docs.first.data();
+          Map<String, dynamic> lastMessage = messages.docs.last.data();
 
           MessageDTO lastMessageDTO = MessageDTO(
               content: lastMessage["content"],
@@ -69,7 +69,11 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
       }).toList();
 
       state = ChattingPageModel(chatRoomDTOList: event);
-    });
+
+    }
+    );
+
+
   }
 
   Future<void> changeChatName(
