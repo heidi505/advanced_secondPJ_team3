@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/_core/constants/font.dart';
 
-class SearchTextFormField extends StatefulWidget {
-  const SearchTextFormField({super.key});
+class FriendSearchTextFormField extends StatefulWidget {
+  const FriendSearchTextFormField({super.key});
 
   @override
-  State<SearchTextFormField> createState() => _SearchTextFormFieldState();
+  State<FriendSearchTextFormField> createState() =>
+      _FriendSearchTextFormFieldState();
 }
 
-class _SearchTextFormFieldState extends State<SearchTextFormField> {
+class _FriendSearchTextFormFieldState extends State<FriendSearchTextFormField> {
   TextEditingController _textEditingController = TextEditingController();
   bool _isTextNotEmpty = false;
 
@@ -25,9 +27,9 @@ class _SearchTextFormFieldState extends State<SearchTextFormField> {
       autovalidateMode: AutovalidateMode.always,
       decoration: InputDecoration(
         hintText: '이름으로 검색',
-        hintStyle: TextStyle(color: formColor),
+        hintStyle: h5(color: basicColorB9),
         filled: true,
-        fillColor: formColor.withOpacity(0.2),
+        fillColor: formColor.withOpacity(0.5),
         suffixIcon: _isTextNotEmpty
             ? IconButton(
                 icon: Icon(Icons.clear),
