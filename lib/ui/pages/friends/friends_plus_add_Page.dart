@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/ui/pages/friends/friends_add_view_model.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friends_plus_add.dart';
+import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 import 'package:team3_kakao/ui/widgets/join/contry_code_picker.dart';
 
-class FriendsPlusAddPage extends StatefulWidget {
+class FriendsPlusAddPage extends ConsumerStatefulWidget {
   const FriendsPlusAddPage();
 
   @override
-  State<FriendsPlusAddPage> createState() => _FriendsPlusAddState();
+  _FriendsPlusAddState createState() => _FriendsPlusAddState();
 }
 
-class _FriendsPlusAddState extends State<FriendsPlusAddPage> {
+class _FriendsPlusAddState extends ConsumerState<FriendsPlusAddPage> {
   // const FindAccountPage({super.key});
   String selectedCountryCode = '+82';
 
@@ -24,8 +27,7 @@ class _FriendsPlusAddState extends State<FriendsPlusAddPage> {
           IconButton(
             icon: Icon(Icons.check), // 확인 아이콘 사용 (다른 아이콘을 사용하려면 변경 가능)
             onPressed: () {
-              // 확인 버튼이 눌렸을 때 수행할 동작 추가
-              // 친구 추가?
+              ref.read(friendAddProvier.notifier).fetchSearchingFriend();
             },
           ),
         ],
@@ -35,7 +37,6 @@ class _FriendsPlusAddState extends State<FriendsPlusAddPage> {
         child: ListView(
           children: [
             // 등록할 친구 이름
-            InsertAddName(text: "친구이름"),
             Row(
               children: [
                 // 전화번호 국가 코드
@@ -56,6 +57,7 @@ class _FriendsPlusAddState extends State<FriendsPlusAddPage> {
               ],
             ),
             AddHintText(text: "-없이 숫자만 입력해 주세요"),
+
           ],
         ),
       ),

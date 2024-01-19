@@ -17,13 +17,15 @@ class RequestParam {
   ProfileUpdateResponseDTO? profileUpdateResponseDTO;
   List<ChatUsersDTO>? chatUsers;
   FavoriteFriendDTO? favoriteFriendDTO;
+  String? phoneNumForSearch;
 
   RequestParam({this.chatRoomDocId,
     this.chatroomDTO,
     this.chatNotifyDTO,
     this.friendDTO,
     this.notifyText,
-    this.favoriteFriendDTO,});
+    this.favoriteFriendDTO,
+    this.phoneNumForSearch});
 }
 
 class ParamStore extends RequestParam {
@@ -56,6 +58,10 @@ class ParamStore extends RequestParam {
 
   void addFavoriteStatus(FriendsDTO friendDTO) {
     this.friendDTO = friendDTO;
+  }
+
+  void addPhoneNumForSearch(String value) {
+    this.phoneNumForSearch = value;
   }
 }
 
