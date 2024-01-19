@@ -146,7 +146,7 @@ class PlusMainIcon extends StatelessWidget {
               svg: "assets/icons/contact_icon.svg",
             ),
             FriendsPlusIcon(
-              text: "ID로 추가",
+              text: "이메일로 추가",
               linkto: FriendsPlusIdPage(),
               svg: "assets/icons/id_add_icon.svg",
             ),

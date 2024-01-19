@@ -6,6 +6,7 @@ import 'package:team3_kakao/data/dto/friend_dto/favorite_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/favorite_request_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/favorite_response_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 
 import '../../_core/constants/http.dart';
 import '../dto/response_dto.dart';
@@ -50,5 +51,17 @@ class FriendRepository {
     //           ErrorType(message: "Error in fetchFavoriteStatus", status: 500));
     //   return ResponseDTO(success: false);
     // }
+  }
+
+  Future<ResponseDTO> fetchSearchingFriend(String phoneNumForSearch, String jwt) async {
+    Response response = await dio.get("/user/search-user/$phoneNumForSearch", options: Options(headers: {"Authorization" : jwt}));
+
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+    Logger().d(responseDTO.data);
+    responseDTO.data = ProfileDetailResponseDTO.fromJson(responseDTO.data);
+    Logger().d(responseDTO.data);
+
+    return responseDTO;
+
   }
 }
