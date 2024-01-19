@@ -140,18 +140,17 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                           // 나
                           chat = MyChat(
                               text: model!.messages[index].content,
-                              time: model!.messages[index].time!);
+                              time: model!.messages[index].time!,
+                              isPhoto: model!.messages[index].isPhoto ?? false);
                         } else {
                           // 상대방
-                          Logger()
-                              .d(model!.messages[index].userNickname ?? "홍길동");
-
                           chat = OtherChat(
                               name:
-                                  model!.messages[index].userNickname ?? "홍길동",
+                                  model!.messages[index].userNickname!,
                               text: model!.messages[index].content,
                               time: model!.messages[index].time!,
-                              userId: model!.messages[index].userId!);
+                              userId: model!.messages[index].userId!,
+                              isPhoto: model!.messages[index].isPhoto ?? false);
                         }
                         return chat;
                       }),
@@ -336,18 +335,15 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
   void _pickImageFromGallery() async {
     XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       Uint8List temp = await pickedImage.readAsBytes();
       List<int> real = temp.toList();
       String completeEncoded = base64Encode(real);
 
-      // // Firestore에 이미지 업로드
-      // await ref.read(otherChatProvider.notifier).addPhoto(completeEncoded);
-
       // 이미지 목록 및 photoList 업데이트
-      setState(() {
+      setState(() async {
         _selectedImage = File(pickedImage.path);
 
         List<File> temp = allImage;
@@ -356,6 +352,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         encodedAllImage.add(completeEncoded);
         Logger().d("${encodedAllImage} + 챗");
         allImage = temp;
+        await ref
+            .read(otherChatProvider.notifier)
+            .addPhoto(allImage.toString());
       });
 
       widget.photoList!.value = encodedAllImage;

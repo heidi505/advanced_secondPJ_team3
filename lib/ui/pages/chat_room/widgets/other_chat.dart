@@ -11,13 +11,15 @@ class OtherChat extends StatelessWidget {
   final String text;
   final String time;
   final int userId;
+  bool isPhoto;
 
-  const OtherChat(
+  OtherChat(
       {Key? key,
       required this.name,
       required this.text,
       required this.time,
-      required this.userId})
+      required this.userId,
+      this.isPhoto = false})
       : super(key: key);
 
   @override
