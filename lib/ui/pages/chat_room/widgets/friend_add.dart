@@ -3,8 +3,8 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/open_profile_image.dart';
 
-class friend_add extends StatelessWidget {
-  const friend_add({
+class FriendAdd extends StatelessWidget {
+  const FriendAdd({
     super.key,
   });
 
@@ -28,7 +28,6 @@ class friend_add extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   // 엑스 표시를 눌렀을 때 수행할 동작 추가
-                  print('X icon tapped!');
                 },
                 child: Container(
                   child: Image.asset(

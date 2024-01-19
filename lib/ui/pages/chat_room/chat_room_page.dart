@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
@@ -33,7 +34,6 @@ class ChatRoomPage extends ConsumerStatefulWidget {
   _ChatRoomPageState createState() => _ChatRoomPageState();
 }
 
-//메세지를 불러오는 거는 chatListPage에서 messageDTO를 넘겨주면 됨
 class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _textController = TextEditingController();
 
@@ -46,7 +46,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   bool isFirst = true;
   bool isVisible = true;
 
-  //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
   Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
@@ -61,6 +60,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
     if (model == null) {
       return CircularProgressIndicator();
     }
+
 
     return Scaffold(
       backgroundColor: primaryColor02,
@@ -141,18 +141,20 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                           // 나
                           chat = MyChat(
                               text: model!.messages[index].content,
-                              time: model!.messages[index].time!);
+                              time: model!.messages[index].time!,
+                              isPhoto: model!.messages[index].isPhoto ?? false);
                         } else {
                           // 상대방
-                          Logger()
-                              .d(model!.messages[index].userNickname ?? "홍길동");
-
                           chat = OtherChat(
                               name:
-                                  model!.messages[index].userNickname ?? "홍길동",
+                                  model!.messages[index].userNickname!,
                               text: model!.messages[index].content,
                               time: model!.messages[index].time!,
-                              userId: model!.messages[index].userId!);
+                              userId: model!.messages[index].userId!,
+                              isPhoto: model!.messages[index].isPhoto ?? false);
+                          SizedBox(
+                            height: smallGap,
+                          );
                         }
                         return chat;
                       }),
@@ -168,6 +170,19 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                 children: [
                   SizedBox(
                     width: smallGap,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isPopupVisible = !isPopupVisible; // 클릭할 때마다 반전
+                      });
+                    },
+                    child: Image.asset(
+                      "assets/icons/plus_icon.png",
+                      fit: BoxFit.cover,
+                      width: 35,
+                      height: 35,
+                    ),
                   ),
                   Expanded(
                     child: Container(
@@ -265,6 +280,10 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                                   imagePath:
                                       "assets/icons/chat_menu_icon_04.png",
                                   text: "지도",
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Move.chatMapPage);
+                                  },
                                 ),
                               ],
                             ),
@@ -324,18 +343,15 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
   void _pickImageFromGallery() async {
     XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       Uint8List temp = await pickedImage.readAsBytes();
       List<int> real = temp.toList();
       String completeEncoded = base64Encode(real);
 
-      // // Firestore에 이미지 업로드
-      // await ref.read(otherChatProvider.notifier).addPhoto(completeEncoded);
-
       // 이미지 목록 및 photoList 업데이트
-      setState(() {
+      setState(() async {
         _selectedImage = File(pickedImage.path);
 
         List<File> temp = allImage;
@@ -344,6 +360,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         encodedAllImage.add(completeEncoded);
         Logger().d("${encodedAllImage} + 챗");
         allImage = temp;
+        await ref
+            .read(otherChatProvider.notifier)
+            .addPhoto(allImage.toString());
       });
 
       widget.photoList!.value = encodedAllImage;

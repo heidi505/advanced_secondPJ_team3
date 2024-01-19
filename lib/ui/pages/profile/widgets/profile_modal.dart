@@ -1,24 +1,41 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 
 class ProfileModal extends StatefulWidget {
-  const ProfileModal({
-    super.key,
-  });
+  final void Function(File)? updateImageCallback;
+
+  const ProfileModal({Key? key, this.updateImageCallback}) : super(key: key);
 
   @override
   State<ProfileModal> createState() => _ProfileModalState();
 }
 
 class _ProfileModalState extends State<ProfileModal> {
+  File? _image; //이미지를 담을 변수 선언
+
+  final ImagePicker picker = ImagePicker(); //ImagePicker 초기화
+
+  //이미지를 가져오는 함수
+  Future getImage(ImageSource imageSource) async {
+    //pickedFile에 ImagePicker로 가져온 이미지가 담긴다.
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path); //가져온 이미지를 _image에 저장
+        Logger().d('$_image + 가져온 이미지샴');
+        widget.updateImageCallback!(_image!);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final picker = ImagePicker();
-    XFile? image; // 카메라로 촬영한 이미지를 저장할 변수
-    List<XFile?> multiImage = []; // 갤러리에서 여러장의 사진을 선택해서 저장할 변수
-    List<XFile?> images = []; // 가져온 사진들을 보여주기 위한 변수
     return Container(
       width: double.infinity,
       height: 146, // 모달 높이 크기
@@ -59,10 +76,7 @@ class _ProfileModalState extends State<ProfileModal> {
             width: double.infinity,
             child: InkWell(
               onTap: () async {
-                multiImage = await picker.pickMultiImage();
-                setState(() {
-                  images.addAll(multiImage);
-                });
+                getImage(ImageSource.gallery);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
