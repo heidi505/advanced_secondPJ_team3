@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
@@ -278,6 +279,10 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                                   imagePath:
                                       "assets/icons/chat_menu_icon_04.png",
                                   text: "지도",
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Move.chatMapPage);
+                                  },
                                 ),
                               ],
                             ),
@@ -344,11 +349,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       List<int> real = temp.toList();
       String completeEncoded = base64Encode(real);
 
-      // // Firestore에 이미지 업로드
-      // await ref.read(otherChatProvider.notifier).addPhoto(completeEncoded);
-
       // 이미지 목록 및 photoList 업데이트
-      setState(() {
+      setState(() async {
         _selectedImage = File(pickedImage.path);
 
         List<File> temp = allImage;
@@ -357,6 +359,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
         encodedAllImage.add(completeEncoded);
         Logger().d("${encodedAllImage} + 챗");
         allImage = temp;
+        await ref
+            .read(otherChatProvider.notifier)
+            .addPhoto(allImage.toString());
       });
 
       widget.photoList!.value = encodedAllImage;

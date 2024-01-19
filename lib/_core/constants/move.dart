@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_map_page.dart';
 
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/friend_invite_page.dart';
@@ -34,6 +35,7 @@ class Move {
 
   // chat
   static String chatRoomPage = "/chatRoomPage";
+  static String chatMapPage = "/chatMapPage";
   static String chatNameSetPage = "/chatNameSetPage";
   static String profilePage = "/profilePage";
   static String profileEditPage = "/profileEditPage";
@@ -62,6 +64,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
 
     // chat
     Move.chatRoomPage: (context) => ChatRoomPage(),
+    Move.chatMapPage: (context) => ChatMapPage(),
 
     Move.ChatNotifyPage: (context) => ChatNotifyPage(),
     Move.chatNameSetPage: (context) => ChatNameSetPage(),
