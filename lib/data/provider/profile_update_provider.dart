@@ -27,7 +27,7 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
     int? sessionId = ref.read(sessionProvider).user?.id;
     String sessionJwt = ref.read(sessionProvider).user!.jwt!;
     ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
-    ResponseDTO responseDTO = await UserRepository().fetchProfileUpdate(profileUpdateRequestDto, sessionJwt);
+    ResponseDTO responseDTO = await UserRepository().fetchProfileDetail(sessionId, sessionJwt);
     state = ProfileUpdateModel(responseDTO.data);
   }
 

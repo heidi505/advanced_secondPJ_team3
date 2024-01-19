@@ -31,8 +31,6 @@ class ProfileFriendPage extends ConsumerWidget {
     ProfileDetailModel? model = ref.watch(profileDetailProvider);
     ProfileUpdateModel? updateModel = ref.watch(profileUpdateProvider);
 
-    friendsDTO.nickname = updateModel?.profileUpdateResponseDTO.nickname;
-    friendsDTO.statusMessage = updateModel?.profileUpdateResponseDTO.statusMessage;
 
     logger.d('즐찾: ${friendsDTO.isFavorite}');
 

@@ -21,8 +21,8 @@ class ProfileDetailViewModel extends StateNotifier<ProfileDetailModel?>{
   ProfileDetailViewModel(super._state, this.ref);
   // 화면이 그려지기 전에 값을 가져오거나 초기화하는 역할
   Future<void> notifyInit() async {
-    int sessionId = ref.read(sessionProvider).user?.id ?? 1;
-    String sessionJwt = ref.read(sessionProvider).user!.jwt!;
+    int? sessionId = ref.read(sessionProvider).user?.id ?? 1;
+    String? sessionJwt = ref.read(sessionProvider).user!.jwt!;
     // 통신을 통해 가져온 값 담기
     ResponseDTO responseDTO = await UserRepository().fetchProfileDetail(sessionId, sessionJwt);
     state = ProfileDetailModel(responseDTO.data);
