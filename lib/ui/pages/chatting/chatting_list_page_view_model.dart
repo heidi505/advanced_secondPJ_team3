@@ -50,10 +50,11 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
               createdAt: lastMessage["createdAt"],
               userId: lastMessage["userId"]);
 
-          lastMessage["isPhoto"] ?? false;
           lastMessage["isPhoto"]
               ? e.lastChat = "사진"
               : e.lastChat = lastMessage["content"];
+
+          Logger().d("마지막 메세지 확인 중 ${lastMessage["content"]}");
 
           int lastHour = lastMessageDTO.createdAt!.toDate().hour;
           int lastMinute = lastMessageDTO.createdAt!.toDate().minute;
