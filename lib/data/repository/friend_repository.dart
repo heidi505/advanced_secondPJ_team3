@@ -3,6 +3,8 @@ import 'dart:core';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/dto/friend_dto/favorite_dto.dart';
+import 'package:team3_kakao/data/dto/friend_dto/favorite_request_dto.dart';
+import 'package:team3_kakao/data/dto/friend_dto/favorite_response_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 
 import '../../_core/constants/http.dart';
@@ -27,32 +29,26 @@ class FriendRepository {
   }
 
   Future<ResponseDTO> fetchFavoriteStatus(
-      FavoriteFriendDTO favoriteFriendDTO, String jwt) async {
-    print("유저아이디 스트링? 숫자?");
-    print(favoriteFriendDTO.userId);
-    print(favoriteFriendDTO.isFavorite);
-    print("기마얀을 찾아라!!");
-    print(favoriteFriendDTO.toJson());
-    print("isFavorite 타입: ${favoriteFriendDTO.isFavorite.runtimeType}");
+      FavoriteFriendRequestDTO favoriteFriendRequestDTO, String jwt) async {
+    print("isFavorite 타입: ${favoriteFriendRequestDTO.isFavorite.runtimeType}");
 
-    try {
+    // try {
       Response<dynamic> response = await dio.put(
-          "/friends/favorite/${favoriteFriendDTO.userId}",
+          "/friends/favorite/${favoriteFriendRequestDTO.userId}",
           options: Options(headers: {"Authorization": jwt}),
-          data: favoriteFriendDTO.toJson(),
+          data: favoriteFriendRequestDTO.toJson(),
           );
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
-      logger.d("패치페이브릿스테이터스");
-      logger.d(responseDTO.data);
+      responseDTO.data = new FavoriteFriendResponseDTO.fromJson(responseDTO.data);
 
       return responseDTO;
-    } catch (e) {
-      logger.e("Error in fetchFavoriteStatus: $e");
-      return ResponseDTO(
-          success: false,
-          errorType:
-              ErrorType(message: "Error in fetchFavoriteStatus", status: 500));
-      // return ResponseDTO(success: false);
-    }
+    // } catch (e) {
+    //   logger.e("Error in fetchFavoriteStatus: $e");
+    //   return ResponseDTO(
+    //       success: false,
+    //       errorType:
+    //           ErrorType(message: "Error in fetchFavoriteStatus", status: 500));
+    //   return ResponseDTO(success: false);
+    // }
   }
 }
