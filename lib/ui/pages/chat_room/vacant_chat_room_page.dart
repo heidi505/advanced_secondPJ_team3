@@ -253,7 +253,7 @@ class _VacantChatRoomPageState extends ConsumerState<VacantChatRoomPage> {
       String completeEncoded = base64Encode(real);
 
       // Firestore에 이미지 업로드
-      await ref.read(otherChatProvider.notifier).addPhoto(completeEncoded);
+      // await ref.read(otherChatProvider.notifier).addPhoto(completeEncoded);
 
       // 이미지 목록 및 photoList 업데이트
       setState(() {
@@ -263,7 +263,7 @@ class _VacantChatRoomPageState extends ConsumerState<VacantChatRoomPage> {
         temp.add(_selectedImage!);
 
         encodedAllImage.add(completeEncoded);
-        Logger().d("룰루 ${encodedAllImage} 랄라");
+        Logger().d("${encodedAllImage} + 빈 챗");
         allImage = temp;
       });
 

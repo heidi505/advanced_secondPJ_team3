@@ -20,7 +20,13 @@ class FriendMainProfile extends ConsumerWidget {
     SessionUser session = ref.read(sessionProvider);
     ParamStore paramStore = ref.read(paramProvider);
 
-    FriendsDTO myProfileDTO = FriendsDTO(userId: session.user!.id!,nickname: session.user!.nickname!,phoneNum:session.user!.phoneNum, statusMessage: myProfile.statusMessage);
+    // ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+
+    FriendsDTO myProfileDTO = FriendsDTO(
+        userId: session.user!.id!,
+        nickname: session.user!.nickname,
+        phoneNum: session.user!.phoneNum,
+        statusMessage: myProfile.statusMessage);
 
     return SliverToBoxAdapter(
         child: InkWell(

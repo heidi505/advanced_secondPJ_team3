@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
-import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
-import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
 
 class BottomIconButton extends ConsumerWidget {
@@ -22,8 +20,10 @@ class BottomIconButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () {
-        if(text == "1:1 채팅"){
+        if (text == "1:1 채팅") {
           ref.read(otherChatProvider.notifier).getOneToOneChat();
+        } else {
+          Navigator.pushNamed(context, routeToNavigate!);
         }
       },
       child: Column(

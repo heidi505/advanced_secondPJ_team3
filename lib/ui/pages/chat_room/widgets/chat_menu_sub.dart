@@ -175,7 +175,7 @@ class ChatSettingsProfile extends StatelessWidget {
                                       text: "앨범에서 사진 선택", action: ''),
                                   SetChatProfileImg(text: "사진 촬영", action: ''),
                                   SetChatProfileImg(
-                                      text: "커스텀 프로필 만들기", action: ''),
+                                      text: "기본 이미지 설정", action: ''),
                                 ],
                               ),
                             ),

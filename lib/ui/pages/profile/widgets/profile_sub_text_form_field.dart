@@ -10,39 +10,38 @@ import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_area.dart';
 import '../../../../data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
 import '../../../../data/provider/profile_update_provider.dart';
 
-class ProfileTextFormField extends ConsumerStatefulWidget {
+class ProfileSubTextFormField extends ConsumerStatefulWidget {
 
-  final nicknameController;
+  final statusMessageContoller;
   final Widget textWidget;
 
-  const ProfileTextFormField({Key? key, required this.textWidget, required this.nicknameController})
+  const ProfileSubTextFormField({Key? key, required this.textWidget,required this.statusMessageContoller})
       : super(key: key);
 
-
   @override
-  ConsumerState<ProfileTextFormField> createState() => _ProfileTextFormFieldState();
+  ConsumerState<ProfileSubTextFormField> createState() => _ProfileSubTextFormFieldState();
 }
 
-class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
-  // 닉네임 입력값
+
+class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormField> {
   bool _isTextNotEmpty = false;
 
   @override
   void initState() {
     super.initState();
-    widget.nicknameController.addListener(_updateTextStatus);
+    widget.statusMessageContoller.addListener(_updateTextStatus);
   }
 
   void _updateTextStatus() {
     setState(() {
       _isTextNotEmpty =
-          widget.nicknameController.text.isNotEmpty || widget.nicknameController.text != widget.textWidget;
+          widget.statusMessageContoller.text.isNotEmpty ||widget.statusMessageContoller.text != widget.textWidget;
     });
   }
 
-  void _nicknameOnFieldSubmitted(String value) {
-    Logger().d("----- 닉네임 벨류 확인 ----- : + ${value}");
-    Logger().d("----- 닉네임 컨트롤러 확인 ----- : " + widget.nicknameController.text);
+  void _messageOnFieldSubmitted(String value) {
+    Logger().d("----- 메세지 벨류 확인 ----- : + ${value}");
+    Logger().d("----- 메세지 컨트롤러 확인 ----- : " + widget.statusMessageContoller.text);
     // ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
     // ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
   }
@@ -63,7 +62,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                     children: [
                       Expanded(
                         child: TextFormField(
-                          controller: widget.nicknameController,
+                          controller: widget.statusMessageContoller,
                           autovalidateMode: AutovalidateMode.always,
                           textAlign: TextAlign.center,
                           onChanged: (text) {
@@ -81,7 +80,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                               ),
                             ),
                           ),
-                          onFieldSubmitted: _nicknameOnFieldSubmitted,
+                          onFieldSubmitted: _messageOnFieldSubmitted,
                           style: TextStyle(color: basicColorW),
                         ),
                       ),
@@ -89,7 +88,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              widget.nicknameController.clear();
+                              widget.statusMessageContoller.clear();
                               _isTextNotEmpty = false;
                             });
                           },
@@ -114,7 +113,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
       child: ProfileTextArea(
         textWidget: _isTextNotEmpty
             ? Text(
-          widget.nicknameController.text,
+          widget.statusMessageContoller.text,
                 style: TextStyle(color: basicColorW),
               )
             : widget.textWidget,

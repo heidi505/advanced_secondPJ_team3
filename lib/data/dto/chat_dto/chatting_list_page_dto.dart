@@ -62,4 +62,5 @@ class MessageDTO {
           createdAt!.toDate().minute.toString();
     }
   }
+
 }
