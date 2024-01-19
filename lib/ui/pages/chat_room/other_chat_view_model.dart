@@ -140,6 +140,7 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
             chatName: chatDoc["chatName"],
             chatDocId: chatDoc.id,
             peopleCount: users.length.toString());
+        ref.read(paramProvider).addChatRoomDTO(chatroomDTO);
         Navigator.push(
             mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
       }
