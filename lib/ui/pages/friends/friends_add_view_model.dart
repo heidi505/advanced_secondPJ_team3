@@ -6,27 +6,32 @@ import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/friend_repository.dart';
 import 'package:team3_kakao/main.dart';
 
-class FriendAddModel{
+class FriendAddModel {
   ProfileDetailResponseDTO? profileDetailResponseDTO;
 
   FriendAddModel({this.profileDetailResponseDTO});
 }
 
-class FriendAddViewModel extends StateNotifier<FriendAddModel?>{
+class FriendAddViewModel extends StateNotifier<FriendAddModel?> {
   Ref ref;
   final mContext = navigatorKey.currentContext;
   FriendAddViewModel(this.ref, super._state);
 
-  Future<void> fetchSearchingFriend() async{
+  Future<void> fetchSearchingFriend() async {
     ParamStore paramStore = ref.read(paramProvider);
     SessionUser user = ref.read(sessionProvider);
 
-    ResponseDTO responseDTO = await FriendRepository().fetchSearchingFriend(paramStore.phoneNumForSearch!, user.user!.jwt!);
+    ResponseDTO responseDTO = await FriendRepository()
+        .fetchSearchingFriend(paramStore.phoneNumForSearch!, user.user!.jwt!);
+    ProfileDetailResponseDTO dto = responseDTO.data;
 
-    state = FriendAddModel(profileDetailResponseDTO: responseDTO.data);
+    dto.isSuccess = responseDTO.success;
+
+    state = FriendAddModel(profileDetailResponseDTO: dto);
   }
 }
 
-final friendAddProvier = StateNotifierProvider<FriendAddViewModel, FriendAddModel?>((ref) {
+final friendAddProvier =
+    StateNotifierProvider<FriendAddViewModel, FriendAddModel?>((ref) {
   return FriendAddViewModel(ref, null);
 });
