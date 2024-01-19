@@ -8,7 +8,7 @@ class ChattingItem extends StatelessWidget {
   ChattingItem(
       {Key? key,
       required this.title,
-      required this.imagePath,
+      this.imagePath,
       this.subTitle,
       this.multiItem,
       required this.imageWidth,
@@ -22,7 +22,7 @@ class ChattingItem extends StatelessWidget {
 
   String? chatDocId;
   final String title;
-  final String imagePath;
+  final String? imagePath;
   final String? subTitle;
   final Widget? multiItem;
   final double imageWidth;
@@ -49,7 +49,7 @@ class ChattingItem extends StatelessWidget {
           dense: true,
           leading: ProfileImage(
             circular: circular,
-            imagePath: imagePath,
+            imagePath: imagePath!,
             imageWidth: imageWidth,
             imageHeight: imageHeight,
           ),
