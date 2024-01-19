@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NotifyItem{
+  int? chatId;
   String? content;
   Timestamp? createdAt;
-  int? notifyId;
   int? userId;
 
-  NotifyItem({this.content, this.createdAt, this.notifyId, this.userId});
+  NotifyItem({ this.chatId,this.content, this.createdAt, this.userId});
 
-  Map<String, dynamic> toJson() => {"content":content, "createdAt":createdAt, "notifyId" : notifyId ,"userId":userId};
+  Map<String, dynamic> toJson() => {"chatId" : chatId ,"content":content, "createdAt":createdAt, "userId":userId};
 }
 

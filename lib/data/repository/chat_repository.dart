@@ -155,11 +155,12 @@ class ChatRepository {
     return newChatDoc;
   }
 
-
-  Future<void> addNotify(String content, int userId,String chatRoomDocId) async {
+//int chatId,
+//  chatId: chatId,
+  Future<void> addNotify( String content, int userId, String chatRoomDocId) async {
     final db = FirebaseFirestore.instance;
     NotifyItem notifyItem = NotifyItem(
-        content: content, userId: userId, createdAt: Timestamp.now());
+         content: content,  userId: userId, createdAt: Timestamp.now());
     final docRef = await db
         .collection("ChatRoom1")
         .doc(chatRoomDocId)

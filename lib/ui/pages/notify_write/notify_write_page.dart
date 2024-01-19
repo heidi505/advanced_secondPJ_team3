@@ -9,6 +9,7 @@ import 'package:team3_kakao/ui/pages/notify_write/notify_write_view_model.dart';
 import 'package:team3_kakao/ui/pages/notify_write/widgets/notify_text_field.dart';
 import 'package:team3_kakao/ui/pages/notify_write/widgets/notify_write_app_bar.dart';
 
+
 class NotifyWritePage extends ConsumerStatefulWidget {
 
   @override
@@ -17,7 +18,7 @@ class NotifyWritePage extends ConsumerStatefulWidget {
 
 class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
   final _formKey = GlobalKey<FormState>();
-  bool? _isNotify = false; //체크 박스 변수 선언
+  bool? _isNotify = false; //체크 박스 변수 선언 -- > false 초기화
   TextEditingController _textEditingController = TextEditingController();
 
 //1. textField --> 컨트롤러 연결 ok
@@ -49,10 +50,13 @@ class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    value: _isNotify,
-                    onChanged: (value) {
-                      setState(() {//setState -> 컴포넌트로 안빠짐
+                    value: _isNotify, //여기에 값을 받네
+                    onChanged: (value) {//색깔 변함 함수
+                      setState(() {//setState (컴포넌트로 안빠짐)
+                        //위젯 상태를 변경하고 변경된 상태를 화면에 반영
                         _isNotify = value ?? false;
+                        //value ==null이면 false
+                        //여기의 true 값을 넘기려면 ??
                       });
                     },
                     activeColor: primaryColor01,

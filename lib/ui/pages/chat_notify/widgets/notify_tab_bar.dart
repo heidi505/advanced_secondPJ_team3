@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_view_model.dart';
 
 class NotifyTabBar extends StatefulWidget {
@@ -15,7 +16,6 @@ class NotifyTabBar extends StatefulWidget {
 class _NotifyTabBarState extends State<NotifyTabBar>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
   TextEditingController _textEditingController = TextEditingController();
 
   @override
@@ -30,6 +30,8 @@ class _NotifyTabBarState extends State<NotifyTabBar>
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
+       ref.read(paramProvider).chatNotifyDTO?.chatId;
+       // Logger().d("-----${ref.read(paramProvider).chatNotifyDTO?.chatId}");
         ChatNotifyModel? notifyModel = ref.watch(chatNotifyProvider);
         if (notifyModel == null) {
           return Center(child: CircularProgressIndicator());

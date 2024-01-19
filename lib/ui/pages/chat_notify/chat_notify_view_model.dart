@@ -30,13 +30,23 @@ class ChatNotifyViewModel extends StateNotifier<ChatNotifyModel?> {
     //1. chatRoom1 컬렉션의 , users 일치하는 문서 찾기
     //2. 문서의, chatNotify 일치하는 컬렉션 찾기
     final FirebaseFirestore db = FirebaseFirestore.instance;
+
     //채팅방 목록 조회
+
     QuerySnapshot<Map<String, dynamic>> chatRoomCollection = await db
         .collection("ChatRoom1")
         .where("users", arrayContains: session.user!.id) //userId 포함된 users 조회
         .get();
+
+    // DocumentSnapshot<Map<String, dynamic>> chatRoomCollection = await db
+    //     .collection("ChatRoom1")
+    //     .doc(paramStore.chatRoomDocId) //userId 포함된 users 조회
+    //     .get();
+
     Logger().d("여기를가긴가나");
     Logger().d("쿼리 결과 길이: ${chatRoomCollection.docs.length}");
+    Logger().d("하 진짜 그만해라 : ${ paramStore.chatroomDTO?.chatId}");
+    Logger().d("하 진짜 그만해라 : ${ paramStore.chatNotifyDTO?.chatId}");
 
     List<ChatNotifyDTO> dtoList = [];
 
