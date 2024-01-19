@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'dart:core';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
@@ -24,50 +25,101 @@ class OtherChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ProfileImage(
-          imagePath: "$baseUrl/images/$userId.jpg",
-          imageHeight: 40,
-          imageWidth: 40,
-          circular: 16,
-        ),
-        SizedBox(width: 10),
-        Flexible(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: h5(color: basicColorB5),
-                  ),
-                  SizedBox(height: 4),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4.0, horizontal: 8.0),
-                      child: Text(text),
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(width: 5),
-              Text(
-                time,
-                style: TextStyle(fontSize: 12),
-              ),
-            ],
+    if(!isPhoto){
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProfileImage(
+            imagePath: "$baseUrl/images/$userId.jpg",
+            imageHeight: 40,
+            imageWidth: 40,
+            circular: 16,
           ),
-        ),
-      ],
-    );
+          SizedBox(width: 10),
+          Flexible(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: h5(color: basicColorB5),
+                    ),
+                    SizedBox(height: 4),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 8.0),
+                        child: Text(text),
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 5),
+                Text(
+                  time,
+                  style: TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }else{
+      String filePath = text.split("'")[1];
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProfileImage(
+            imagePath: "$baseUrl/images/$userId.jpg",
+            imageHeight: 40,
+            imageWidth: 40,
+            circular: 16,
+          ),
+          SizedBox(width: 10),
+          Flexible(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: h5(color: basicColorB5),
+                    ),
+                    SizedBox(height: 4),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 50.0, horizontal: 50.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                                image: FileImage(File(filePath)),
+                                fit: BoxFit.contain),
+                        ),
+                      ),
+                  ],
+                ),
+                SizedBox(width: 5),
+                Text(
+                  time,
+                  style: TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+
+    }
+
   }
 }

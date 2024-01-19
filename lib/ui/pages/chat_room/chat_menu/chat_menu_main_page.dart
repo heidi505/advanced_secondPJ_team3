@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:team3_kakao/data/dto/friend_dto/chat_users_dto.dart';
 import 'package:team3_kakao/data/model/message.dart';
 import 'package:team3_kakao/data/model/user.dart';
-import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
 
@@ -25,21 +23,10 @@ class ChatRoomHamburger extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SessionUser session = ref.read(sessionProvider);
-    ParamStore paramStore = ref.read(paramProvider);
-
-    List<ChatUsersDTO> users = paramStore.chatUsers!;
-
-    List<int?> userIdList = users.map((e) => e.userId).toSet().toList()..removeWhere((a) => a == session.user!.id!);
-    List<String?> userNickname= users.map((e) => e.userNickname).toSet().toList()..removeWhere((a) => a == session.user!.nickname);
-
-    Logger().d(userIdList.length);
-
-    Map<String, dynamic> chatUsers = {
-      "userIdList" : userIdList,
-      "userNicknameList" : userNickname
-    };
-
-
+    List<MiniDTO> sortedUserDTO = messages!.map((e) => MiniDTO(e)).toList();
+    sortedUserDTO.removeWhere((a) =>
+        a.userId == session.user!.id! ||
+        a == sortedUserDTO.firstWhere((b) => b.userId == a.userId));
 
     return Drawer(
       child: Column(
@@ -95,14 +82,14 @@ class ChatRoomHamburger extends ConsumerWidget {
                         userId: session.user!.id!),
                     // 리스트로 쭉 나오게 해야함.
                     Container(
-                      height: userIdList.length * 100,
+                      height: sortedUserDTO.length * 100,
                       child: ListView.builder(
                           itemBuilder: (context, index) {
                             return UserList(
-                                text: chatUsers["userNicknameList"][index],
-                                userId: chatUsers["userIdList"][index]);
+                                text: sortedUserDTO![index].userNickname!,
+                                userId: sortedUserDTO![index].userId);
                           },
-                          itemCount: userIdList.length),
+                          itemCount: sortedUserDTO.length),
                     )
                   ],
                 ),
