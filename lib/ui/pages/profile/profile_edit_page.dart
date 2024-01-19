@@ -31,13 +31,11 @@ import '../../../data/provider/profile_update_provider.dart';
 class ProfileEditPage extends ConsumerStatefulWidget {
   ProfileEditPage({Key? key}) : super(key: key);
 
-  final TextEditingController _nicknameController = new TextEditingController();
-  final TextEditingController _statusMessageContoller =
-      new TextEditingController();
+  TextEditingController _nicknameController = new TextEditingController();
+  TextEditingController _statusMessageContoller = new TextEditingController();
 
   @override
   ConsumerState<ProfileEditPage> createState() => _ProfileEditPageState();
-
 }
 
 class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
@@ -53,7 +51,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
     print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
     print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
 
-    //ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+    ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -93,6 +91,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                     height: 40,
                     child: TextButton(
                       onPressed: () {
+                        // 입력값 dto에 저장
                         ProfileUpdateRequestDTO dto = ProfileUpdateRequestDTO(
                             nickname: widget._nicknameController.text,
                             statusMessage: widget._statusMessageContoller.text);

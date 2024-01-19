@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 //은지
 
-String baseUrl = "http://192.168.45.208:8080";
+//String baseUrl = "http://192.168.45.208:8080";
 
 //하얀
 
@@ -23,7 +23,7 @@ String baseUrl = "http://192.168.45.208:8080";
 //누군가의 baseUrl
 // String baseUrl = "http://192.168.45.50:8080";
 // 박남규
-// String baseUrl = "http://192.168.0.71:8080";
+String baseUrl = "http://192.168.0.71:8080";
 // 민경
 //String baseUrl = "http://192.168.0.62:8080";
 

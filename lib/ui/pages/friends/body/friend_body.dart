@@ -36,7 +36,6 @@ class FriendBody extends ConsumerWidget {
           FriendList(friendsList: mainDTO!.friendList),
         ],
       );
-
     }
 
     return CustomScrollView(

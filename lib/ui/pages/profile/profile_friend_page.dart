@@ -6,7 +6,9 @@ import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
+import 'package:team3_kakao/data/provider/profile_update_provider.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
@@ -27,6 +29,10 @@ class ProfileFriendPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ProfileDetailModel? model = ref.watch(profileDetailProvider);
+    ProfileUpdateModel? updateModel = ref.watch(profileUpdateProvider);
+
+    friendsDTO.nickname = updateModel?.profileUpdateResponseDTO.nickname;
+    friendsDTO.statusMessage = updateModel?.profileUpdateResponseDTO.statusMessage;
 
     logger.d('즐찾: ${friendsDTO.isFavorite}');
 

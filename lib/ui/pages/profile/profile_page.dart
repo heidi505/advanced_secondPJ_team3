@@ -29,14 +29,20 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     ParamStore paramStore = ref.read(paramProvider);
-    // ParamStore paramStore = ref.watch(paramProvider);
     SessionUser session = ref.read(sessionProvider);
-    // FriendsDTO model = paramStore.friendDTO!;
-
     FriendsDTO model = paramStore.friendDTO!;
 
+    ProfileUpdateModel? profileModel = ref.watch(profileUpdateProvider);
+
+    FriendsDTO friendsDto = FriendsDTO(
+      userId: profileModel?.profileUpdateResponseDTO.id,
+      nickname: profileModel?.profileUpdateResponseDTO.nickname,
+      statusMessage: profileModel?.profileUpdateResponseDTO.statusMessage,
+    );
+
     logger.d('즐찾: ${model!.isFavorite}');
-    ref.watch(profileUpdateProvider);
+
+    logger.d('값 나옴? : ${profileModel?.profileUpdateResponseDTO.nickname}');
 
     return Scaffold(
       body: Container(
@@ -61,9 +67,7 @@ class ProfilePage extends ConsumerWidget {
               ),
               Text(model!.nickname!, style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
-              Text(
-                model!.statusMessage!,
-                style: h5(color: basicColorW),
+              Text(model!.statusMessage!, style: h5(color: basicColorW),
               ),
               const SizedBox(
                 height: mediumGap,
@@ -140,6 +144,7 @@ class ProfilePage extends ConsumerWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_02.png",
             text: "프로필 편집",
+            routeToNavigate: Move.profileEditPage,
           ),
           SizedBox(
             width: 50,
