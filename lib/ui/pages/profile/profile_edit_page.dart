@@ -1,7 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
@@ -10,27 +11,22 @@ import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
 import 'package:team3_kakao/data/model/user.dart';
-import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
-import 'package:team3_kakao/data/repository/user_repository.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_camera_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_edit_bottom_btn.dart';
-import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_modal.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_sub_text_form_field.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_form_field.dart';
-import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 import '../../../data/dto/friend_dto/main_dto.dart';
-import '../../../data/dto/response_dto.dart';
 import '../../../data/provider/profile_update_provider.dart';
 
 class ProfileEditPage extends ConsumerStatefulWidget {
   ProfileEditPage({Key? key}) : super(key: key);
 
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _nicknameController = new TextEditingController();
   final TextEditingController _statusMessageContoller =
       new TextEditingController();
@@ -40,15 +36,40 @@ class ProfileEditPage extends ConsumerStatefulWidget {
 }
 
 class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
-  final picker = ImagePicker();
-  XFile? image; // 카메라로 촬영한 이미지를 저장할 변수
-  List<XFile?> multiImage = []; // 갤러리에서 여러장의 사진을 선택해서 저장할 변수
-  List<XFile?> images = []; // 가져온 사진들을 보여주기 위한 변수
+  File? selectedProfileImagePath;
+  File? selectedBackImagePath;
+
+  // 콜백 함수 - profile 이미지
+  void updateProfileImage(File imagePath) {
+    Logger().d("선택된 이미지 경로 : $imagePath");
+    if (imagePath == null) {
+      selectedProfileImagePath = null;
+    }
+    selectedProfileImagePath = imagePath;
+    String base64ImageProfile = "";
+    final bytes = File(selectedProfileImagePath!.path).readAsBytesSync();
+    base64ImageProfile = base64Encode(bytes);
+    Logger().d("base64 - profile - 이미지 = $base64ImageProfile");
+  }
+
+  // 콜백 함수 - back 이미지
+  void updateBackImage(File imagePath) {
+    Logger().d("선택된 이미지 경로 : $imagePath");
+    if (imagePath == null) {
+      selectedBackImagePath = null;
+    }
+    selectedBackImagePath = imagePath;
+    String base64ImageBack = "";
+    final bytes = File(selectedBackImagePath!.path).readAsBytesSync();
+    base64ImageBack = base64Encode(bytes);
+    Logger().d("base64 - back -  이미지 = $base64ImageBack");
+  }
 
   @override
   Widget build(BuildContext context) {
     User session = ref.read(sessionProvider).user!;
     FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
+
     print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
     print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
     return Scaffold(
@@ -88,13 +109,38 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                     width: 60,
                     height: 40,
                     child: TextButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        String base64ImageProfile = "";
+                        String base64ImageBack = "";
+                        if (selectedProfileImagePath != null) {
+                          final bytes = File(selectedProfileImagePath!.path)
+                              .readAsBytesSync();
+                          base64ImageProfile = base64Encode(bytes);
+                        }
+                        if (selectedBackImagePath != null) {
+                          final bytes = File(selectedBackImagePath!.path)
+                              .readAsBytesSync();
+                          base64ImageBack = base64Encode(bytes);
+                        }
+
                         ProfileUpdateRequestDTO dto = ProfileUpdateRequestDTO(
                             nickname: widget._nicknameController.text,
-                            statusMessage: widget._statusMessageContoller.text);
-                        Logger().d("DTO 값 잘 받니?  ${dto.statusMessage}");
-                        Logger().d("DTO 값 잘 받니?  ${dto.nickname}");
-                        ref
+                            statusMessage: widget._statusMessageContoller.text,
+                            profileImage: base64ImageProfile.isEmpty
+                                ? myProfile.profileImage
+                                : base64ImageProfile,
+                            backImage: base64ImageBack.isEmpty
+                                ? myProfile.backImage
+                                : base64ImageBack);
+                        Logger().d("전부다 !!!!!" +
+                            widget._nicknameController.text +
+                            "||||||" +
+                            widget._statusMessageContoller.text +
+                            "||||||" +
+                            base64ImageProfile +
+                            "||||||" +
+                            base64ImageBack);
+                        await ref
                             .read(profileUpdateProvider.notifier)
                             .updateProfile(dto);
                         Navigator.pushNamed(context,
@@ -131,7 +177,9 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                   Positioned(
                     bottom: 0, // Adjust this value as needed
                     right: 0, // Adjust this value as needed
-                    child: ProfileCameraBtn(),
+                    child: ProfileCameraBtn(
+                      updateImageCallback: updateProfileImage,
+                    ),
                   ),
                 ],
               ),
@@ -184,7 +232,9 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
             showModalBottomSheet(
               context: context,
               builder: (BuildContext context) {
-                return ProfileModal();
+                return ProfileModal(
+                  updateImageCallback: updateBackImage,
+                );
               },
               backgroundColor: Colors.transparent,
             );

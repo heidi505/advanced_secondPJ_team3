@@ -1,12 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:team3_kakao/_core/constants/color.dart';
-import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_edit_bottom_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_modal.dart';
 
 class ProfileCameraBtn extends StatefulWidget {
+  final void Function(File)? updateImageCallback;
   ProfileCameraBtn({
+    this.updateImageCallback,
     super.key,
   });
 
@@ -23,7 +24,9 @@ class _ProfileCameraBtnState extends State<ProfileCameraBtn> {
         showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-            return ProfileModal();
+            return ProfileModal(
+              updateImageCallback: widget.updateImageCallback,
+            );
           },
           backgroundColor: Colors.transparent,
         );

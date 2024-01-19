@@ -56,7 +56,9 @@ dependencies:
   permission_handler: ^11.1.0 # 앱 권한 설정(저장소,주소록,전화)에 관련된 라이브러리입니다.
   fluttertoast: ^8.2.4 #토스트 라이브러리
   firebase_storage: ^11.6.0 #
-
+  qr_flutter: ^4.1.0
+  kakao_map_plugin: ^0.2.4
+  webview_flutter: ^4.4.4
 
 dev_dependencies:
   flutter_test:

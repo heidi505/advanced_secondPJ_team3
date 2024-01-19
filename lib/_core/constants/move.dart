@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
 import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
+import 'package:team3_kakao/ui/pages/chat_room/chat_map_page.dart';
 
 import 'package:team3_kakao/ui/pages/chat_room/chat_room_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/friend_invite_page.dart';
@@ -10,6 +11,7 @@ import 'package:team3_kakao/ui/pages/chatting/chatting_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/vacant_chat_list_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chat_name_set_page.dart';
 import 'package:team3_kakao/ui/pages/chatting/chatting_list_page.dart';
+import 'package:team3_kakao/ui/pages/friends/friends_search_page.dart';
 import 'package:team3_kakao/ui/pages/main_page.dart';
 import 'package:team3_kakao/ui/pages/my_info/my_info_page.dart';
 import 'package:team3_kakao/ui/pages/notify_write/notify_write_page.dart';
@@ -34,6 +36,7 @@ class Move {
 
   // chat
   static String chatRoomPage = "/chatRoomPage";
+  static String chatMapPage = "/chatMapPage";
   static String chatNameSetPage = "/chatNameSetPage";
   static String profilePage = "/profilePage";
   static String profileEditPage = "/profileEditPage";
@@ -43,6 +46,7 @@ class Move {
   static String NotifyWritePage = "/NotifyWritePage";
   static String vacantChatRoomPage = "/vacantChatRoomPage";
   static String friendInvitePage = "/friendInvitePage";
+  static String friendSearchPage = "/friendSearchPage";
   static String vacantChatListPage = "/vacantChatListPage";
 
   // auth
@@ -62,6 +66,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
 
     // chat
     Move.chatRoomPage: (context) => ChatRoomPage(),
+    Move.chatMapPage: (context) => ChatMapPage(),
 
     Move.ChatNotifyPage: (context) => ChatNotifyPage(),
     Move.chatNameSetPage: (context) => ChatNameSetPage(),
@@ -72,6 +77,7 @@ Map<String, Widget Function(BuildContext)> getRouters() {
     Move.profileEditPage: (context) => ProfileEditPage(),
 
     Move.friendInvitePage: (context) => FriendInvitePage(),
+    Move.friendSearchPage: (context) => FriendSearchPage(),
     Move.joinProfilePage: (context) => JoinProfilePage(),
     Move.joinWelcomePage: (context) => JoinWelcomePage(),
 

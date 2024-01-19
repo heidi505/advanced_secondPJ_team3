@@ -9,7 +9,7 @@ import 'package:team3_kakao/ui/pages/friends/widgets/friend_title.dart';
 import 'package:team3_kakao/ui/pages/main_view_model.dart';
 import 'package:team3_kakao/ui/widgets/appbar/sliver_app_bar_delegate.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/open_profile_image.dart';
-import 'package:team3_kakao/ui/widgets/text_form/search_text_form_field.dart';
+import 'package:team3_kakao/ui/widgets/text_form/add_search_text_form_field.dart';
 
 class FriendInvitePage extends ConsumerStatefulWidget {
   const FriendInvitePage({Key? key}) : super(key: key);
@@ -84,7 +84,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
             child: Column(
               children: [
                 _buildFriendAdd(),
-                SearchTextFormField(),
+                AddSearchTextFormField(),
               ],
             ),
           ),

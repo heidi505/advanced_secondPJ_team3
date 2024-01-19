@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
@@ -151,6 +152,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                               time: model!.messages[index].time!,
                               userId: model!.messages[index].userId!,
                               isPhoto: model!.messages[index].isPhoto ?? false);
+                          SizedBox(
+                            height: smallGap,
+                          );
                         }
                         return chat;
                       }),
@@ -276,6 +280,10 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                                   imagePath:
                                       "assets/icons/chat_menu_icon_04.png",
                                   text: "지도",
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Move.chatMapPage);
+                                  },
                                 ),
                               ],
                             ),

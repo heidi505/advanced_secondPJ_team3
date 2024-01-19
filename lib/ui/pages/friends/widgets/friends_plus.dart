@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/model/profile.dart';
@@ -39,16 +40,25 @@ class FriendsPlusIcon extends StatelessWidget {
 }
 
 // QR코드 나오는 영역
-class PlusMainBody extends ConsumerWidget {
-  // const PlusMainBody({
-  //   super.key,
-  // });
+class PlusMainBody extends ConsumerStatefulWidget {
   final Profile myProfile;
 
-  const PlusMainBody({super.key, required this.myProfile});
+  const PlusMainBody({Key? key, required this.myProfile}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PlusMainBody> createState() => _PlusMainBodyState();
+}
+
+class _PlusMainBodyState extends ConsumerState<PlusMainBody> {
+  bool _qrGenerated = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     SessionUser session = ref.read(sessionProvider);
     return Center(
       child: Container(
@@ -64,7 +74,11 @@ class PlusMainBody extends ConsumerWidget {
             children: [
               // qr코드하면 qr코드로 대체
               Container(
-                  color: Color(0xFFfbebc9),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: pointColor07,
+                  ),
+                  height: 180,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -82,7 +96,14 @@ class PlusMainBody extends ConsumerWidget {
                             bottom: smallGap,
                             right: mediumGap,
                             left: mediumGap),
-                        child: Image.asset("assets/images/basic_img.jpeg"),
+                        child: Container(
+                          child: QrImageView(
+                            backgroundColor: basicColorW,
+                            data: 'This is a simple QR code',
+                            version: QrVersions.auto,
+                            gapless: false,
+                          ),
+                        ),
                       ),
                     ],
                   )),
