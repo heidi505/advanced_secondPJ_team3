@@ -6,6 +6,9 @@ import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_view_model.dart';
+
+import '../notify_write_view_model.dart';
 
 class NotifyWirteAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TextEditingController _textEditingController;
@@ -40,9 +43,10 @@ class NotifyWirteAppBar extends StatelessWidget implements PreferredSizeWidget {
                 return TextButton(
                   onPressed: () {
                     String submitText = _textEditingController.text;
+                    _notifySubmit(_textEditingController);
                     ref.read(paramProvider).addNotifyText(submitText);
-                    Logger().d("+++++");
-                    Logger().d("'+++++Submitted Text++++++: $submitText'");
+                    ref.read(chatNotifyWriteProvider.notifier).addChatNotify(submitText);
+                    Logger().d("'+++++Submitted Text++++++: $submitText'"); //ok
                     Navigator.pushNamed(context, Move.ChatNotifyPage);
                   },
                   style: TextButton.styleFrom(
@@ -68,4 +72,12 @@ class NotifyWirteAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+void _notifySubmit(TextEditingController textController) {
+  Logger().d("뭔데이거 호출안되는거가");
+
+  // ref.read(chatNotifyWriteProvider.notifier).addChatNotify(textController);
+  //setState(() {
+  //ㄴㄴㅁ});
 }

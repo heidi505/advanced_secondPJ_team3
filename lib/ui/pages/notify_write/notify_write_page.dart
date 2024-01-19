@@ -66,8 +66,6 @@ class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
               ),
               NotifyTextField(
                   textEditingController: _textEditingController,
-                onSubmitted: _notifySubmit,
-
 
               ),
             ],
@@ -77,13 +75,7 @@ class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
     );
   }
 
-  void _notifySubmit(String textController) {
-    Logger().d("뭔데이거 호출안되는거가");
-    _textEditingController.clear();
-    ref.read(chatNotifyWriteProvider.notifier).addChatNotify(textController);
-    setState(() {
-    });
-  }
+
 }
 
 

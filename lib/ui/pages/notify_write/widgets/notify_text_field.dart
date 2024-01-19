@@ -8,13 +8,13 @@ class NotifyTextField extends ConsumerStatefulWidget {
   const NotifyTextField({
     Key? key,
     required TextEditingController textEditingController,
-    required Function(String) onSubmitted,
+    //required Function(String) onSubmitted,
   })  : _textEditingController = textEditingController,
-        _onSubmitted = onSubmitted,
+      //  _onSubmitted = onSubmitted,
         super(key: key);
 
   final TextEditingController _textEditingController;
-  final Function(String) _onSubmitted;
+  //final Function(String) _onSubmitted;
 
   @override
   _NotifyTextFieldState createState() => _NotifyTextFieldState();
@@ -28,7 +28,7 @@ class _NotifyTextFieldState extends ConsumerState<NotifyTextField> {
       child: Container(
         child: TextField(
          controller: widget._textEditingController,
-          onSubmitted: widget._onSubmitted,
+         // onSubmitted: widget._onSubmitted,
           decoration: InputDecoration(
             hintText: "멤버들과 공유하고 싶은 소식을 남겨보세요.",
             border: InputBorder.none,

@@ -8,7 +8,6 @@ import 'package:team3_kakao/main.dart';
 
 class NotifyChatWriteModel {
   NotifyItem? notifyItem;
-
   NotifyChatWriteModel({this.notifyItem});
 }
 
