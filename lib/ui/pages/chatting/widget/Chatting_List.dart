@@ -34,16 +34,18 @@ class ChattingList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (isFirst) {
-      ref.read(chattingPageProvider.notifier).notifyInit();
-      isFirst = false;
-    }
+    // if (isFirst) {
+    //   ref.read(chattingPageProvider.notifier).notifyInit();
+    //   isFirst = false;
+    // }
 
     ChattingPageModel? model = ref.watch(chattingPageProvider);
+    
     if (model == null) {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
 
+    Logger().d(model!.chatRoomDTOList[0].lastChat);
 
 
     return SliverPadding(
