@@ -9,6 +9,7 @@ import 'package:team3_kakao/ui/pages/notify_write/notify_write_view_model.dart';
 import 'package:team3_kakao/ui/pages/notify_write/widgets/notify_text_field.dart';
 import 'package:team3_kakao/ui/pages/notify_write/widgets/notify_write_app_bar.dart';
 
+
 class NotifyWritePage extends ConsumerStatefulWidget {
 
   @override
@@ -17,8 +18,10 @@ class NotifyWritePage extends ConsumerStatefulWidget {
 
 class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
   final _formKey = GlobalKey<FormState>();
-  bool? _isNotify = false; //체크 박스 변수 선언
+  bool? _isNotify = false; //체크 박스 변수 선언 -- > false 초기화
+  bool isVisible = false; //공지 컨테이너 변수 선언
   TextEditingController _textEditingController = TextEditingController();
+ // final isVisibleProvider = StateProvider<bool, bool>((ref) => false);
 
 //1. textField --> 컨트롤러 연결 ok
   //2. 완료 버튼 --> 제출
@@ -50,9 +53,18 @@ class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     value: _isNotify,
-                    onChanged: (value) {
-                      setState(() {//setState -> 컴포넌트로 안빠짐
+                     //여기에 값을 받네
+                    onChanged: (value) {//색깔 변함 함수
+                      setState(() {//setState (컴포넌트로 안빠짐)
+                        //위젯 상태를 변경하고 변경된 상태를 화면에 반영
                         _isNotify = value ?? false;
+                        isVisible = _isNotify!;
+                        ref.read(paramProvider).isVisible = isVisible;
+                        Logger().d("이게 무슨값이요???$isVisible"); //true
+                        Logger().d("이게 무슨값이요???$isVisible"); //true
+                        Logger().d("이게 무슨값이요???${paramStore.isVisible}"); //true
+                        //value ==null이면 false
+                        //여기의 true 값을 넘기려면 ??
                       });
                     },
                     activeColor: primaryColor01,
@@ -66,8 +78,6 @@ class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
               ),
               NotifyTextField(
                   textEditingController: _textEditingController,
-                onSubmitted: _notifySubmit,
-
 
               ),
             ],
@@ -77,13 +87,7 @@ class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
     );
   }
 
-  void _notifySubmit(String textController) {
-    Logger().d("뭔데이거 호출안되는거가");
-    _textEditingController.clear();
-    ref.read(chatNotifyWriteProvider.notifier).addChatNotify(textController);
-    setState(() {
-    });
-  }
+
 }
 
 

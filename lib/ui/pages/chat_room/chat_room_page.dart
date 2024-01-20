@@ -44,7 +44,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   double bottomInset = 0.0;
   bool isPopupVisible = false;
   bool isFirst = true;
-  bool isVisible = true;
+
+  //bool? isvisible;
+//bool? visible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                   child: Column(
                     children: [
                       Visibility(
-                        visible: isVisible,
+                        visible: ref.read(paramProvider).isVisible?? false,
+                        //null-->false
                         child: Positioned(
                           top: 0,
                           child: Container(

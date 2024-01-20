@@ -14,5 +14,8 @@ class ChatNotifyDTO{
   { content = json["content"];
   createdAt = json["createdAt"];
   userId = json["userId"];
+  chatId = json["chatId"];
+  //파이어베이스에서 들고오는 값이라
+    //채팅방마다 각 공지를 뿌리려면 필요할듯..?
   }
 }
