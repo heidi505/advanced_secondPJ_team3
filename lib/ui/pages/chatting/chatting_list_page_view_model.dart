@@ -46,12 +46,16 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
         if (messages.docs.isNotEmpty) {
           Map<String, dynamic> lastMessage = messages.docs.last.data();
 
+
+
           MessageDTO lastMessageDTO = MessageDTO(
               content: lastMessage["content"],
               createdAt: lastMessage["createdAt"],
               userId: lastMessage["userId"]);
 
-          e.lastChat = lastMessageDTO.content;
+          lastMessage["isPhoto"] ?
+          e.lastChat = "사진"
+              : e.lastChat = lastMessage["content"];
 
           int lastHour = lastMessageDTO.createdAt!.toDate().hour;
           int lastMinute = lastMessageDTO.createdAt!.toDate().minute;
