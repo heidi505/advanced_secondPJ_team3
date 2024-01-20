@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/model/message.dart';
 import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/provider/profile_detail_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_notify/chat_notify_page.dart';
 
@@ -22,6 +24,14 @@ class ChatRoomHamburger extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ProfileDetailModel? profileDetailModel = ref.watch(profileDetailProvider);
+
+    if (profileDetailModel == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+    ProfileDetailResponseDTO profile =
+        profileDetailModel.profileDetailResponseDTO!;
+
     SessionUser session = ref.read(sessionProvider);
     List<MiniDTO> sortedUserDTO = messages!.map((e) => MiniDTO(e)).toList();
     sortedUserDTO.removeWhere((a) =>
@@ -72,14 +82,14 @@ class ChatRoomHamburger extends ConsumerWidget {
                     BoldText(text: "톡캘린더"),
                     BoldText(text: "톡게시판"),
                     ChatHamIcon(
-                        text: "공지", svg: "assets/icons/chat_notice_icon.svg", linkto: ChatNotifyPage()),
+                        text: "공지",
+                        svg: "assets/icons/chat_notice_icon.svg",
+                        linkto: ChatNotifyPage()),
                     BoldText(text: "대화상대"),
                     // 프로필아이콘으로 추가 수정 해야함
                     PlusUser(
                         text: "대화상대 초대", svg: "assets/icons/invite_icon.svg"),
-                    MyProfile(
-                        text: session.user!.nickname!,
-                        userId: session.user!.id!),
+                    MyProfile(text: profile.nickname!, userId: profile.id),
                     // 리스트로 쭉 나오게 해야함.
                     Container(
                       height: sortedUserDTO.length * 100,

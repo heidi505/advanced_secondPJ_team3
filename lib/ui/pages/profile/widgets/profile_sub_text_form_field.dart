@@ -30,34 +30,35 @@ class _ProfileSubTextFormFieldState
     extends ConsumerState<ProfileSubTextFormField> {
   bool _isTextNotEmpty = false;
 
-  @override
-  void initState() {
-    super.initState();
-    widget.statusMessageContoller.addListener(_updateTextStatus);
-  }
-
   void _updateTextStatus() {
     setState(() {
-      _isTextNotEmpty = widget.statusMessageContoller.text.isNotEmpty ||
-          widget.statusMessageContoller.text != widget.textWidget;
+      widget.statusMessageContoller.text != widget.textWidget;
     });
   }
 
-  void _messageOnFieldSubmitted(String value) {
-    Logger().d("----- 메세지 벨류 확인 ----- : + ${value}");
-    Logger()
-        .d("----- 메세지 컨트롤러 확인 ----- : " + widget.statusMessageContoller.text);
-    // ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
-    // ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   widget.statusMessageContoller.addListener(_updateTextStatus);
+  // }
+
+  // void _updateTextStatus() {
+  //   setState(() {
+  //     _isTextNotEmpty = widget.statusMessageContoller.text.isNotEmpty ||
+  //         widget.statusMessageContoller.text != widget.textWidget;
+  //   });
+  // }
+
+  // void _messageOnFieldSubmitted(String value) {
+  //   Logger().d("----- 메세지 벨류 확인 ----- : + ${value}");
+  //   Logger()
+  //       .d("----- 메세지 컨트롤러 확인 ----- : " + widget.statusMessageContoller.text);
+  //   // ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
+  //   // ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    ProfileUpdateResponseDTO? profile =
-        ref.watch(profileUpdateProvider)?.profileUpdateResponseDTO;
-    if (profile == null) {
-      return Center(child: CircularProgressIndicator());
-    }
     return InkWell(
       onTap: () {
         showDialog(
@@ -79,7 +80,7 @@ class _ProfileSubTextFormFieldState
                             _updateTextStatus();
                           },
                           decoration: InputDecoration(
-                            hintText: '${profile.statusMessage}',
+                            // hintText: hint,
                             hintStyle: TextStyle(color: basicColorW),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: basicColorW),
@@ -90,7 +91,7 @@ class _ProfileSubTextFormFieldState
                               ),
                             ),
                           ),
-                          onFieldSubmitted: _messageOnFieldSubmitted,
+                          // onFieldSubmitted: _messageOnFieldSubmitted,
                           style: TextStyle(color: basicColorW),
                         ),
                       ),
@@ -98,7 +99,7 @@ class _ProfileSubTextFormFieldState
                         InkWell(
                           onTap: () {
                             setState(() {
-                              widget.statusMessageContoller.clear();
+                              widget.statusMessageContoller!.clear();
                               _isTextNotEmpty = false;
                             });
                           },
@@ -121,13 +122,12 @@ class _ProfileSubTextFormFieldState
         );
       },
       child: ProfileTextArea(
-        textWidget: _isTextNotEmpty
-            ? Text(
-                widget.statusMessageContoller.text,
-                style: TextStyle(color: basicColorW),
-              )
-            : widget.textWidget,
-      ),
+          textWidget: Text(
+        widget.statusMessageContoller.text,
+        style: TextStyle(color: basicColorW),
+      )
+          // : widget.textWidget,
+          ),
     );
   }
 }

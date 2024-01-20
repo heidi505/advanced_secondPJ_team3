@@ -78,11 +78,13 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
     }
     ProfileDetailResponseDTO profile =
         profileDetailModel.profileDetailResponseDTO!;
-    FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
+    // FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
     // ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
     // ProfileUpdateResponseDTO? profile = model?.profileUpdateResponseDTO;
     Logger().d("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
     Logger().d("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
+    widget._nicknameController.text = profile!.nickname;
+    widget._statusMessageContoller.text = profile!.statusMessage;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -135,17 +137,17 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                         }
                         ProfileUpdateRequestDTO dto = ProfileUpdateRequestDTO(
                           nickname: widget._nicknameController.text == null
-                              ? "${myProfile.nickname}"
+                              ? "${profile.nickname}"
                               : widget._nicknameController.text,
                           statusMessage:
                               widget._statusMessageContoller.text == null
-                                  ? "${myProfile.statusMessage}"
+                                  ? "${profile.statusMessage}"
                                   : widget._statusMessageContoller.text,
                           profileImage: base64ImageProfile.isEmpty
                               ? profile.profileImage ?? ""
                               : base64ImageProfile,
                           backImage: base64ImageBack.isEmpty
-                              ? myProfile.backImage ?? ""
+                              ? profile.backImage ?? ""
                               : base64ImageBack,
                         );
 
@@ -239,14 +241,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileSubTextFormField(
                     statusMessageContoller: widget._statusMessageContoller,
                     textWidget: Text(
-                      profile?.statusMessage ?? "",
-// <<<<<<< HEAD
-//                       //model!.profileUpdateResponseDTO!.statusMessage!,
-//                   widget.user.intro,
-//                   style: h5(color: basicColorW),
-//                 )),
-// =======
-                      style: h5(color: basicColorW),
+                      profile?.nickname ?? "",
                     )),
               ),
               const SizedBox(

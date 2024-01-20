@@ -24,26 +24,26 @@ class FriendBody extends ConsumerWidget {
     }
 
     MainDTO mainDTO = model!.mainDTO!;
-    if (mainDTO!.birthdayFriendList == null ||
-        mainDTO!.birthdayFriendList!.isEmpty) {
-      return CustomScrollView(
-        slivers: [
-          FriendMainProfile(myProfile: mainDTO!.userProfile!),
-          FriendMakePop(),
-          FriendTItle(count: mainDTO.friendList!.length),
-          FriendList(friendsList: mainDTO!.friendList),
-        ],
-      );
-    } else {
-      return CustomScrollView(
-        slivers: [
-          FriendMainProfile(myProfile: mainDTO!.userProfile!),
-          FriendMakePop(),
-          FriendBirthday(friendList: mainDTO!.birthdayFriendList!),
-          FriendTItle(count: mainDTO.friendList!.length),
-          FriendList(friendsList: mainDTO!.friendList),
-        ],
-      );
-    }
-  }
+    // if (mainDTO!.birthdayFriendList == null ||
+    //     mainDTO!.birthdayFriendList!.isEmpty) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FriendMainProfile(myProfile: mainDTO!.userProfile!),
+        FriendMakePop(),
+        FriendTItle(count: mainDTO.friendList!.length),
+        FriendList(friendsList: mainDTO!.friendList),
+      ],
+    );
+  } // else {
+  //   return CustomScrollView(
+  //     slivers: [
+  //       FriendMainProfile(myProfile: mainDTO!.userProfile!),
+  //       FriendMakePop(),
+  //       FriendBirthday(friendList: mainDTO!.birthdayFriendList!),
+  //       FriendTItle(count: mainDTO.friendList!.length),
+  //       FriendList(friendsList: mainDTO!.friendList),
+  //     ],
+  //   );
+  // }
 }

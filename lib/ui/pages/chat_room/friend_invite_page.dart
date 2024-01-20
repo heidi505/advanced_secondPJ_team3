@@ -95,18 +95,20 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
 
   Widget _buildSliverList() {
     return SliverFillRemaining(
-      child: CustomScrollView(
-        slivers: [
-          FriendTItle(count: mainDTO!.friendList!.length),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return FriendAddList(isChecked: isChecked);
-              },
-              childCount: 15,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            FriendTItle(count: mainDTO!.friendList!.length),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return FriendAddList(isChecked: isChecked);
+                },
+                childCount: 15,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

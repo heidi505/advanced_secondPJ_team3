@@ -43,7 +43,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
-    // SessionUser session = ref.read(sessionProvider);
+    SessionUser session = ref.read(sessionProvider);
     //FriendsDTO model = paramStore.friendDTO!;
     ProfileDetailModel? profileDetailModel = ref.watch(profileDetailProvider);
 
@@ -92,17 +92,28 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             children: [
               const Spacer(),
               ProfileImage(
-                  imagePath: "$baseUrl/images/${profile.profileImage}",
-                  imageWidth: 100,
-                  imageHeight: 100,
-                  circular: 42),
+                imagePath: session.user!.id != model!.userId
+                    ? "$baseUrl/images/${paramStore.friendDTO!.profileImage}"
+                    : "$baseUrl/images/${profile.profileImage}",
+                imageWidth: 100,
+                imageHeight: 100,
+                circular: 42,
+              ),
               const SizedBox(
                 height: xsmallGap,
               ),
-              Text(profile!.nickname!, style: h4(color: basicColorW)),
+              Text(
+                session.user!.id != model!.userId
+                    ? paramStore.friendDTO!.nickname ?? 'DefaultNickname'
+                    : profile.nickname ?? 'DefaultNickname',
+                style: h4(color: basicColorW),
+              ),
               const SizedBox(height: xsmallGap),
               Text(
-                profile!.statusMessage!,
+                session.user!.id != model!.userId
+                    ? paramStore.friendDTO!.statusMessage ??
+                        'DefaultStatusMessage'
+                    : profile.statusMessage ?? 'DefaultStatusMessage',
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
@@ -111,7 +122,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               const Divider(
                 color: formColor,
               ),
-              if (profile.id! != model!.userId!)
+              if (session.user!.id! != model!.userId!)
                 _buildFriendProfileIcons()
               else
                 _buildMyProfileIcons(),
@@ -148,7 +159,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               SizedBox(
                 width: smallGap,
               ),
-              if (profile.id! != model!.userId!)
+              if (session.user!.id! != model!.userId!)
                 _buildFriendProfileTopIcons(model, ref)
               else
                 RoundIconButton(
@@ -173,6 +184,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_01.png",
             text: "나와의 채팅",
+            routeToNavigate: Move.chatRoomPage,
           ),
           SizedBox(
             width: 50,
