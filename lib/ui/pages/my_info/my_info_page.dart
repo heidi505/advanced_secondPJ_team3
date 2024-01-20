@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 
 import '../../../_core/constants/color.dart';
@@ -48,7 +49,7 @@ class _MyInfoScreenState extends ConsumerState<MyInfoPage> {
                 const EdgeInsets.symmetric(vertical: mediumGap, horizontal: 16),
             child: Column(
               children: [
-                _buildProfilePicRow(),
+                _buildProfilePicRow(session.user!.id!),
                 const SizedBox(height: 50),
                 // _buildProfileTextRow(),
                 MyInfoText(title: "이메일", text: session.user!.email),
@@ -69,7 +70,7 @@ class _MyInfoScreenState extends ConsumerState<MyInfoPage> {
     );
   }
 
-  Widget _buildProfilePicRow() {
+  Widget _buildProfilePicRow(int userId) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -80,7 +81,7 @@ class _MyInfoScreenState extends ConsumerState<MyInfoPage> {
               height: 100,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(xmediumGap),
-                child: Image.asset("assets/images/basic_img.jpeg"),
+                child: Image.network("$baseUrl/images/$userId.jpg"),
               ),
             ),
             Positioned(

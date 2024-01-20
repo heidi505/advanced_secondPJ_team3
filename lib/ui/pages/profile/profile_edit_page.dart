@@ -21,6 +21,7 @@ import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_form_field.dar
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 import '../../../data/dto/friend_dto/main_dto.dart';
+import '../../../data/dto/response_dto.dart';
 import '../../../data/provider/profile_update_provider.dart';
 
 class ProfileEditPage extends ConsumerStatefulWidget {
@@ -68,7 +69,6 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
   Widget build(BuildContext context) {
     User session = ref.read(sessionProvider).user!;
     FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
-
     print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
     print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
 

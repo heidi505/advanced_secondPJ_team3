@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,16 +45,14 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
         if (messages.docs.isNotEmpty) {
           Map<String, dynamic> lastMessage = messages.docs.last.data();
 
-
-
           MessageDTO lastMessageDTO = MessageDTO(
               content: lastMessage["content"],
               createdAt: lastMessage["createdAt"],
               userId: lastMessage["userId"]);
 
-          lastMessage["isPhoto"] ?
-          e.lastChat = "사진"
-              : e.lastChat = lastMessage["content"];
+          lastMessageDTO.content.startsWith("[File:")
+              ? e.lastChat = "사진"
+              : e.lastChat = lastMessageDTO.content;
 
           int lastHour = lastMessageDTO.createdAt!.toDate().hour;
           int lastMinute = lastMessageDTO.createdAt!.toDate().minute;
@@ -72,10 +69,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
         }
       }).toList();
       state = ChattingPageModel(chatRoomDTOList: event);
-    }
-    );
-
-
+    });
   }
 
   Future<void> changeChatName(

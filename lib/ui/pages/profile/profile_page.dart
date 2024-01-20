@@ -21,9 +21,6 @@ import '../../../data/provider/profile_update_provider.dart';
 class ProfilePage extends ConsumerStatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
 
-
-
-
   @override
   ConsumerState<ProfilePage> createState() => _ProfilePageState();
 }
@@ -47,9 +44,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     SessionUser session = ref.read(sessionProvider);
     //FriendsDTO model = paramStore.friendDTO!;
 
-
     FriendsDTO model = FriendsDTO(
-      userId: paramStore.friendDTO!.userId,
+        userId: paramStore.friendDTO!.userId,
         backImage: paramStore.friendDTO!.backImage,
         birthdate: paramStore.friendDTO!.backImage,
         isBirthday: paramStore.friendDTO!.isBirthday,
@@ -57,21 +53,16 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         phoneNum: paramStore.friendDTO!.phoneNum,
         profileImage: paramStore.friendDTO!.profileImage,
         statusMessage: paramStore.friendDTO!.statusMessage,
-        isFavorite: paramStore.friendDTO!.isFavorite
-    );
-
+        isFavorite: paramStore.friendDTO!.isFavorite);
 
     ProfileUpdateModel? profileModel = ref.watch(profileUpdateProvider);
 
     FriendsDTO friendsDto = FriendsDTO(
-      userId: model.userId,
-      nickname: model.nickname,
-      statusMessage: model.statusMessage
-    );
+        userId: model.userId,
+        nickname: model.nickname,
+        statusMessage: model.statusMessage);
 
     logger.d('즐찾: ${model!.isFavorite}');
-
-    logger.d('값 나옴? : ${profileModel?.profileUpdateResponseDTO.nickname}');
 
     return Scaffold(
       body: Container(
@@ -96,7 +87,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               ),
               Text(model!.nickname!, style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
-              Text(model!.statusMessage!, style: h5(color: basicColorW),
+              Text(
+                model!.statusMessage!,
+                style: h5(color: basicColorW),
               ),
               const SizedBox(
                 height: mediumGap,
@@ -226,7 +219,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         // 즐찾 되어 있는 상태일 때
         // if (model.isFavorite!)
         RoundIconButton2(
-          imagePath: isFavorite ? "assets/icons/profile/profile_top_icon_07.png" : "assets/icons/profile/profile_top_icon_06.png",
+          imagePath: isFavorite
+              ? "assets/icons/profile/profile_top_icon_07.png"
+              : "assets/icons/profile/profile_top_icon_06.png",
           onPressed: () {
             changeFavorite(model, ref);
             logger.d("버튼클릭!! 즐찾 상태111111!!");
@@ -266,6 +261,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 //     );
 //   }
 // }
+
 //   Widget _buildFriendProfileTopIcons(FriendsDTO model, WidgetRef ref) {
 //     return Row(
 //       children: [
@@ -302,7 +298,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 //         ),
 //       ],
 //     );
-
 
 // void _abcd(FriendsDTO model, WidgetRef ref) {
 //   // SessionUser sessionUser = ref.read(sessionProvider);

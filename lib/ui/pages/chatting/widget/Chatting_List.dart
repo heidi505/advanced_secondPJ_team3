@@ -45,65 +45,64 @@ class ChattingList extends ConsumerWidget {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
 
-    if(model!.chatRoomDTOList.isNotEmpty){
+    if (model!.chatRoomDTOList.isNotEmpty) {
       return SliverPadding(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
-                (context, index) =>
-                Column(
-                  children: [
-                    SizedBox(
-                      height: smallGap,
-                    ),
-                    GroupProfile(
-                      userIdList: model!.chatRoomDTOList[index].userIdList,
-                      onlongPress: () {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: ((context) {
-                            ref
-                                .read(paramProvider)
-                                .addChatRoomDTO(model!.chatRoomDTOList[index]);
-                            return _ChatMenuModal(
-                                context, model!.chatRoomDTOList[index], ref);
-                          }),
-                        );
-                      },
-                      ontap: () {
+            (context, index) => Column(
+              children: [
+                SizedBox(
+                  height: smallGap,
+                ),
+                GroupProfile(
+                  userIdList: model!.chatRoomDTOList[index].userIdList,
+                  onlongPress: () {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: ((context) {
                         ref
                             .read(paramProvider)
                             .addChatRoomDTO(model!.chatRoomDTOList[index]);
-                        ref.read(paramProvider).addChatRoomDocId(
-                            model!.chatRoomDTOList[index].chatDocId!);
-                        Navigator.pushNamed(context, Move.chatRoomPage);
-                      },
-                      imagePath: "$baseUrl/images/${index + 1}.jpg",
-                      title: model!.chatRoomDTOList[index].chatName!,
-                      peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                      subTitle: model!.chatRoomDTOList[index].lastChat ?? "",
-                      multiItem: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            model.chatRoomDTOList[index].lastChatTime ?? "",
-                            style: h6(color: basicColorB9),
-                          ),
-                          SizedBox(
-                            height: xsmallGap,
-                          ),
-                          ChattingCount(),
-                        ],
+                        return _ChatMenuModal(
+                            context, model!.chatRoomDTOList[index], ref);
+                      }),
+                    );
+                  },
+                  ontap: () {
+                    ref
+                        .read(paramProvider)
+                        .addChatRoomDTO(model!.chatRoomDTOList[index]);
+                    ref.read(paramProvider).addChatRoomDocId(
+                        model!.chatRoomDTOList[index].chatDocId!);
+                    Navigator.pushNamed(context, Move.chatRoomPage);
+                  },
+                  imagePath: "$baseUrl/images/${index + 1}.jpg",
+                  title: model!.chatRoomDTOList[index].chatName!,
+                  peopleCount: model!.chatRoomDTOList[index].peopleCount!,
+                  subTitle: model!.chatRoomDTOList[index].lastChat ?? "",
+                  multiItem: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        model.chatRoomDTOList[index].lastChatTime ?? "",
+                        style: h6(color: basicColorB9),
                       ),
-                    )
-                  ],
-                ),
+                      SizedBox(
+                        height: xsmallGap,
+                      ),
+                      // ChattingCount(),
+                    ],
+                  ),
+                )
+              ],
+            ),
             childCount: model!.chatRoomDTOList.length,
           ),
         ),
       );
-    }else{
+    } else {
       return SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.only(top: xxlargeGap),
@@ -214,7 +213,6 @@ class ChattingList extends ConsumerWidget {
       ),
     );
   }
-
 
   showCustom(BuildContext context, String text) {
     FToast fToast = FToast();
