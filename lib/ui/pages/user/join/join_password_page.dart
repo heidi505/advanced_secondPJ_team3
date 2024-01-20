@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 import 'package:team3_kakao/ui/widgets/join/join_button_form_field.dart';
 import 'package:team3_kakao/ui/widgets/join/join_text_form_field.dart';
 
@@ -22,7 +23,7 @@ class _JoinPassWordPageState extends ConsumerState<JoinPassWordPage> {
 
   @override
   Widget build(BuildContext context) {
-    User user = ref.read(sessionProvider).user!;
+    JoinFormModel model = ref.read(joinFormProvider);
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -32,7 +33,7 @@ class _JoinPassWordPageState extends ConsumerState<JoinPassWordPage> {
             children: [
               JoinTitle(text: "카카오계정 로그인에 사용할 \n비밀번호를 등록해 주세요."),
               TextFormHint(text: "카카오계정"),
-              InfoText(text: user.email!),
+              InfoText(text: model!.email),
               TextFormHint(text: "비밀번호"),
               InsertPassword(
                 authNumController: authNumController,

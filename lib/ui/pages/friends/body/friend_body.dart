@@ -24,7 +24,8 @@ class FriendBody extends ConsumerWidget {
     }
 
     MainDTO? mainDTO = model!.mainDTO;
-    if(mainDTO!.birthdayFriendList == null || mainDTO!.birthdayFriendList!.isEmpty){
+    if (mainDTO!.birthdayFriendList == null ||
+        mainDTO!.birthdayFriendList!.isEmpty) {
       return CustomScrollView(
         slivers: [
           FriendMainProfile(myProfile: mainDTO!.userProfile!),
