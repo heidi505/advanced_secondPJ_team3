@@ -92,7 +92,7 @@ class ChattingList extends ConsumerWidget {
                       SizedBox(
                         height: xsmallGap,
                       ),
-                      ChattingCount(),
+                      // ChattingCount(),
                     ],
                   ),
                 )
