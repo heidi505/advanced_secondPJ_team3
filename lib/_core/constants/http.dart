@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 //은지
-String baseUrl = "http://192.168.33.4:8080";
+String baseUrl = "http://192.168.219.143:8080";
+
 //하얀
 // String baseUrl = "http://192.168.0.165:8080";
 // String baseUrl = "http://172.30.1.98:8080";
@@ -15,6 +16,8 @@ String baseUrl = "http://192.168.33.4:8080";
 // 박남규
 // String baseUrl = "http://192.168.0.71:8080";
 // 민경
+
+//String baseUrl = "http://192.168.0.62:8080";
 //   String baseUrl = "http://192.168.0.62:8080";
 
 // http 통신

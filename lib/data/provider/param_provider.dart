@@ -19,13 +19,14 @@ class RequestParam {
   FavoriteFriendDTO? favoriteFriendDTO;
   String? phoneNumForSearch;
 
-  RequestParam({this.chatRoomDocId,
-    this.chatroomDTO,
-    this.chatNotifyDTO,
-    this.friendDTO,
-    this.notifyText,
-    this.favoriteFriendDTO,
-    this.phoneNumForSearch});
+  RequestParam(
+      {this.chatRoomDocId,
+      this.chatroomDTO,
+      this.chatNotifyDTO,
+      this.friendDTO,
+      this.notifyText,
+      this.favoriteFriendDTO,
+      this.phoneNumForSearch});
 }
 
 class ParamStore extends RequestParam {
@@ -51,7 +52,6 @@ class ParamStore extends RequestParam {
     this.profileUpdateResponseDTO = profileUpdateResponseDto;
   }
 
-
   void addChatUsersList(List<ChatUsersDTO> dtoList) {
     this.chatUsers = dtoList;
   }
@@ -66,5 +66,6 @@ class ParamStore extends RequestParam {
 }
 
 final paramProvider = Provider<ParamStore>((ref) {
+  print('파람 프로바이더 진입함?');
   return new ParamStore();
 });

@@ -41,9 +41,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
-    // ParamStore paramStore = ref.watch(paramProvider);
     SessionUser session = ref.read(sessionProvider);
-    // FriendsDTO model = paramStore.friendDTO!;
+    //FriendsDTO model = paramStore.friendDTO!;
 
     FriendsDTO model = FriendsDTO(
         userId: paramStore.friendDTO!.userId,
@@ -56,8 +55,16 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         statusMessage: paramStore.friendDTO!.statusMessage,
         isFavorite: paramStore.friendDTO!.isFavorite);
 
-    logger.d('즐찾: ${model!.isFavorite}');
-    ref.watch(profileUpdateProvider);
+    ProfileUpdateModel? profileModel = ref.watch(profileUpdateProvider);
+
+    FriendsDTO friendsDto = FriendsDTO(
+        userId: model.userId,
+        nickname: model.nickname,
+        statusMessage: model.statusMessage);
+
+    // logger.d('즐찾: ${model!.isFavorite}');
+
+    //  logger.d('값 나옴? : ${profileModel?.profileUpdateResponseDTO?.nickname}');
 
     return Scaffold(
       body: Container(
@@ -73,7 +80,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             children: [
               const Spacer(),
               ProfileImage(
-                  imagePath: "$baseUrl/images/${model!.userId}.jpg",
+                  imagePath: "$baseUrl/images/${session?.user?.profileImage}",
                   imageWidth: 100,
                   imageHeight: 100,
                   circular: 42),

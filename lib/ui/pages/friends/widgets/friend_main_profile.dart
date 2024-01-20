@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
@@ -10,6 +11,10 @@ import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 
 import '../../../../data/model/profile.dart';
+import '../../../../data/model/user.dart';
+import '../../../../data/provider/profile_update_provider.dart';
+
+final logger = Logger();
 
 class FriendMainProfile extends ConsumerWidget {
   final Profile myProfile;
@@ -20,13 +25,19 @@ class FriendMainProfile extends ConsumerWidget {
     SessionUser session = ref.read(sessionProvider);
     ParamStore paramStore = ref.read(paramProvider);
 
-    // ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+    ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
 
     FriendsDTO myProfileDTO = FriendsDTO(
         userId: session.user!.id!,
         nickname: session.user!.nickname,
         phoneNum: session.user!.phoneNum,
         statusMessage: myProfile.statusMessage);
+
+    // FriendsDTO myProfileDTO = FriendsDTO(
+    //     userId: session.user!.id!,
+    //     nickname: model?.profileUpdateResponseDTO.nickname,
+    //     phoneNum:session.user!.phoneNum,
+    //     statusMessage: model?.profileUpdateResponseDTO.statusMessage);
 
     return SliverToBoxAdapter(
         child: InkWell(

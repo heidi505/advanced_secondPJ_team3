@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
@@ -9,7 +10,7 @@ import '../dto/profile_dto/profile_update_response_dto/profile_update_response_d
 
 // 모델 (상태)
 class ProfileUpdateModel {
-  ProfileUpdateResponseDTO profileUpdateResponseDTO;
+  ProfileUpdateResponseDTO? profileUpdateResponseDTO;
   ProfileUpdateModel(this.profileUpdateResponseDTO);
 }
 
@@ -22,11 +23,14 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
 
   // 화면이 그려지기 전에 값을 가져오거나 초기화하는 역할
   Future<void> notifyInit() async {
+    Logger().d("프로필 수정 페이지 접근");
     int? sessionId = ref.read(sessionProvider).user?.id;
     String sessionJwt = ref.read(sessionProvider).user!.jwt!;
     ResponseDTO responseDTO =
         await UserRepository().fetchProfileDetail(sessionId, sessionJwt);
+    Logger().d("정보수정페이지 응답 ${responseDTO.data}");
     state = ProfileUpdateModel(responseDTO.data);
+    Logger().d("정보수정페이지 응답 ${state}");
   }
 
   Future<void> updateProfile(
@@ -42,6 +46,7 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
 }
 
 // 프로바이더
+
 final profileUpdateProvider =
     StateNotifierProvider<ProfileUpdateViewModel, ProfileUpdateModel?>((ref) {
   return ProfileUpdateViewModel(null, ref)..notifyInit();

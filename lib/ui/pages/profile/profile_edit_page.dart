@@ -70,10 +70,11 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
   Widget build(BuildContext context) {
     User session = ref.read(sessionProvider).user!;
     FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
-    ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
-    ProfileUpdateResponseDTO? profile = model?.profileUpdateResponseDTO;
-    print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
-    print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
+    // ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+    // ProfileUpdateResponseDTO? profile = model?.profileUpdateResponseDTO;
+    Logger().d("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
+    Logger().d("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -106,7 +107,6 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
             actions: [
               Consumer(
                 builder: (context, ref, child) {
-                  SessionUser seeeionUser = ref.read(sessionProvider);
                   return Container(
                     width: 60,
                     height: 40,
@@ -124,16 +124,16 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                               .readAsBytesSync();
                           base64ImageBack = base64Encode(bytes);
                         }
-
                         ProfileUpdateRequestDTO dto = ProfileUpdateRequestDTO(
-                            nickname: widget._nicknameController.text,
-                            statusMessage: widget._statusMessageContoller.text,
-                            profileImage: base64ImageProfile.isEmpty
-                                ? myProfile.profileImage
-                                : base64ImageProfile,
-                            backImage: base64ImageBack.isEmpty
-                                ? myProfile.backImage
-                                : base64ImageBack);
+                          nickname: widget._nicknameController.text,
+                          statusMessage: widget._statusMessageContoller.text,
+                          profileImage: base64ImageProfile.isEmpty
+                              ? myProfile.profileImage ?? ""
+                              : base64ImageProfile,
+                          backImage: base64ImageBack.isEmpty
+                              ? myProfile.backImage ?? ""
+                              : base64ImageBack,
+                        );
 
                         Logger().d("전부다 !!!!!" +
                             widget._nicknameController.text +
@@ -184,8 +184,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                           ),
                         )
                       : ProfileImage(
-                          imagePath:
-                              "$baseUrl/images/${profile?.profileImage}.jpg",
+                          imagePath: "$baseUrl/images/${session?.profileImage}",
                           imageWidth: 100,
                           imageHeight: 100,
                           circular: 42,
@@ -207,7 +206,15 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileTextFormField(
                     nicknameController: widget._nicknameController,
                     textWidget: Text(
-                      profile!.nickname!,
+                      session?.nickname ?? "",
+
+// <<<<<<< HEAD
+//                       //model!.profileUpdateResponseDTO!.nickname!,
+//                   widget.user.name,
+//                   style: h4(color: basicColorW),
+//                 )),
+//
+// =======
                       style: h4(color: basicColorW),
                     )),
               ),
@@ -217,7 +224,13 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileSubTextFormField(
                     statusMessageContoller: widget._statusMessageContoller,
                     textWidget: Text(
-                      profile!.statusMessage!,
+                      session?.statusMessage ?? "",
+// <<<<<<< HEAD
+//                       //model!.profileUpdateResponseDTO!.statusMessage!,
+//                   widget.user.intro,
+//                   style: h5(color: basicColorW),
+//                 )),
+// =======
                       style: h5(color: basicColorW),
                     )),
               ),

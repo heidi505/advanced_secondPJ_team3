@@ -6,40 +6,37 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
+import 'package:team3_kakao/data/dto/friend_dto/friend_search_response_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
+import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/provider/Friend_search_provider.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 import 'package:team3_kakao/ui/widgets/text_form/friend_search_text_form_field.dart';
 import 'package:team3_kakao/ui/widgets/text_form/add_search_text_form_field.dart';
 
-class FriendSearchPage extends ConsumerStatefulWidget {
-  List<FriendsDTO>? friendsList;
+class FriendSearchPage extends ConsumerWidget {
 
-  FriendSearchPage({super.key, this.friendsList});
-
-  @override
-  _FriendSearchPageState createState() => _FriendSearchPageState();
-}
-
-class _FriendSearchPageState extends ConsumerState<FriendSearchPage> {
   final logger = Logger();
 
   @override
-  void initState() {
-    super.initState();
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    FriendSearchModel? model = ref.watch(searchProvider);
+    logger.d("모델에 값 잘 담김? ${model?.friendSerchResponseDTO.toString()}");
+    List<FriendSearchResponseDTO>? userList = [];
+    logger.d("모델에 값 잘 담김2? ${userList.toString()}");
 
-  TextEditingController _textEditingController = TextEditingController();
-  bool _isTextNotEmpty = false;
+    if (model == null) {
+      return const SliverToBoxAdapter(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    userList = model.friendSerchResponseDTO;
+    logger.d("모델에 값 잘 담김3? ${userList.toString()}");
 
-  void _updateTextStatus() {
-    setState(() {
-      _isTextNotEmpty = _textEditingController.text.isNotEmpty;
-    });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgAndLineColor,
       appBar: AppBar(
@@ -64,7 +61,7 @@ class _FriendSearchPageState extends ConsumerState<FriendSearchPage> {
           SliverToBoxAdapter(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -97,20 +94,20 @@ class _FriendSearchPageState extends ConsumerState<FriendSearchPage> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => Container(
-                  child: ChattingItem(
-                    ontap: () {
-                      Navigator.pushNamed(context, Move.profilePage);
-                    },
-                    circular: 16.0,
-                    imageWidth: 40,
-                    imageHeight: 40,
-                    imagePath: "assets/images/basic_img.jpeg",
-                    title: "그노",
-                    subTitle: "룰루",
-                  ),
-                ),
-                childCount: 2,
+                    (context, index) =>
+                    Container(
+                      child: ChattingItem(
+                        ontap: () {
+                          Navigator.pushNamed(context, Move.profilePage);
+                        },
+                        circular: 16.0,
+                        imageWidth: 40,
+                        imageHeight: 40,
+                        imagePath: "${dio.options.baseUrl}${userList?[index].profileImage}",
+                        title: "${userList?[index].nickname}",
+                      ),
+                    ),
+                childCount: userList?.length,
               ),
             ),
           ),
