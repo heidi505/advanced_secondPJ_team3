@@ -41,9 +41,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
-    // ParamStore paramStore = ref.watch(paramProvider);
     SessionUser session = ref.read(sessionProvider);
-    // FriendsDTO model = paramStore.friendDTO!;
+    //FriendsDTO model = paramStore.friendDTO!;
 
     FriendsDTO model = FriendsDTO(
         userId: paramStore.friendDTO!.userId,
@@ -56,8 +55,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         statusMessage: paramStore.friendDTO!.statusMessage,
         isFavorite: paramStore.friendDTO!.isFavorite);
 
+    ProfileUpdateModel? profileModel = ref.watch(profileUpdateProvider);
+
+    FriendsDTO friendsDto = FriendsDTO(
+        userId: model.userId,
+        nickname: model.nickname,
+        statusMessage: model.statusMessage);
+
     logger.d('즐찾: ${model!.isFavorite}');
-    // ref.watch(profileUpdateProvider);
 
     return Scaffold(
       body: Container(

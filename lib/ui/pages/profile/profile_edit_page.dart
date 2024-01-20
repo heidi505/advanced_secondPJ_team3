@@ -29,8 +29,7 @@ class ProfileEditPage extends ConsumerStatefulWidget {
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nicknameController = new TextEditingController();
-  final TextEditingController _statusMessageContoller =
-      new TextEditingController();
+  final TextEditingController _statusMessageContoller = new TextEditingController();
 
   @override
   ConsumerState<ProfileEditPage> createState() => _ProfileEditPageState();
@@ -72,6 +71,9 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
     FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
     print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
     print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
+
+    ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -122,7 +124,6 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                               .readAsBytesSync();
                           base64ImageBack = base64Encode(bytes);
                         }
-
                         ProfileUpdateRequestDTO dto = ProfileUpdateRequestDTO(
                             nickname: widget._nicknameController.text,
                             statusMessage: widget._statusMessageContoller.text,
@@ -191,9 +192,17 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileTextFormField(
                     nicknameController: widget._nicknameController,
                     textWidget: Text(
+// <<<<<<< HEAD
+//                       //model!.profileUpdateResponseDTO!.nickname!,
+//                   widget.user.name,
+//                   style: h4(color: basicColorW),
+//                 )),
+//
+// =======
                       session.nickname!,
                       style: h4(color: basicColorW),
                     )),
+
               ),
               const SizedBox(height: xsmallGap),
               Padding(
@@ -201,9 +210,16 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileSubTextFormField(
                     statusMessageContoller: widget._statusMessageContoller,
                     textWidget: Text(
+// <<<<<<< HEAD
+//                       //model!.profileUpdateResponseDTO!.statusMessage!,
+//                   widget.user.intro,
+//                   style: h5(color: basicColorW),
+//                 )),
+// =======
                       myProfile.statusMessage!,
                       style: h5(color: basicColorW),
                     )),
+
               ),
               const SizedBox(
                 height: mediumGap,
