@@ -112,7 +112,7 @@ class _FriendsPlusAddState extends ConsumerState<FriendsPlusAddPage> {
               SizedBox(
                 height: 40,
               ),
-              model!.profileDetailResponseDTO!.isSuccess!
+              model!.profileDetailResponseDTO!.id != 0
                   ? Container(
                       child: Column(
                         children: [
@@ -129,7 +129,9 @@ class _FriendsPlusAddState extends ConsumerState<FriendsPlusAddPage> {
                         ],
                       ),
                     )
-                  : Center(child: Text("해당하는 유저가 없습니다"))
+                  : Center(
+                      child: Text("해당하는 유저가 없습니다",
+                          style: TextStyle(fontSize: 18.0)))
             ],
           ),
         ),

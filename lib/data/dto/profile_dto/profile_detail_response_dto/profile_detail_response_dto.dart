@@ -4,10 +4,9 @@ class ProfileDetailResponseDTO {
   String statusMessage;
   String profileImage;
   String backImage;
-  bool? isSuccess;
 
   ProfileDetailResponseDTO(this.id, this.nickname, this.statusMessage,
-      this.profileImage, this.backImage, this.isSuccess);
+      this.profileImage, this.backImage);
 
   ProfileDetailResponseDTO.fromJson(Map<String, dynamic> json)
       : id = json["id"],

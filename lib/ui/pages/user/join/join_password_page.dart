@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/widgets/join/join_button_form_field.dart';
 import 'package:team3_kakao/ui/widgets/join/join_text_form_field.dart';
 
 import '../../../../_core/constants/size.dart';
+import '../../../../data/model/user.dart';
 
-class JoinPassWordPage extends StatefulWidget {
+class JoinPassWordPage extends ConsumerStatefulWidget {
   const JoinPassWordPage({super.key});
 
   @override
-  State<JoinPassWordPage> createState() => _JoinPassWordPageState();
+  _JoinPassWordPageState createState() => _JoinPassWordPageState();
 }
 
-class _JoinPassWordPageState extends State<JoinPassWordPage> {
+class _JoinPassWordPageState extends ConsumerState<JoinPassWordPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController authNumController = TextEditingController();
   bool _passwordsMatch = false;
 
   @override
   Widget build(BuildContext context) {
+    User user = ref.read(sessionProvider).user!;
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -27,7 +32,7 @@ class _JoinPassWordPageState extends State<JoinPassWordPage> {
             children: [
               JoinTitle(text: "카카오계정 로그인에 사용할 \n비밀번호를 등록해 주세요."),
               TextFormHint(text: "카카오계정"),
-              InfoText(text: "wildlegion@naver.com\n"),
+              InfoText(text: user.email!),
               TextFormHint(text: "비밀번호"),
               InsertPassword(
                 authNumController: authNumController,
