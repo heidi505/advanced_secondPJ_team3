@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:team3_kakao/ui/pages/friends/friends_add_view_model.dart';
+import 'package:team3_kakao/ui/pages/main_view_model.dart';
 import 'package:team3_kakao/ui/pages/user/find/find_account_page.dart';
 import 'package:team3_kakao/ui/pages/user/find/find_password_page.dart';
 
@@ -80,18 +83,22 @@ class FindButton extends StatelessWidget {
   }
 }
 
-
-
-class FindAccountButton extends StatelessWidget {
+class FindAccountButton extends ConsumerWidget {
   String text;
 
   FindAccountButton({required this.text});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
-      child: TextButton(onPressed: () {}, child: Text("$text")),
+      child: TextButton(
+          onPressed: () {
+            if (text == "친구 추가") {
+              ref.read(mainProvider.notifier).addFriend();
+            }
+          },
+          child: Text("$text")),
     );
   }
 }

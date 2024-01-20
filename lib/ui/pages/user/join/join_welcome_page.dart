@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:team3_kakao/data/provider/session_provider.dart';
+import 'package:team3_kakao/ui/pages/user/join/join_form_view_model.dart';
 import 'package:team3_kakao/ui/widgets/join/join_text_form_field.dart';
 
 import '../../../../_core/constants/size.dart';
+import '../../../../data/model/user.dart';
 import '../../../widgets/join/join_button_form_field.dart';
 
-class JoinWelcomePage extends StatelessWidget {
+class JoinWelcomePage extends ConsumerWidget {
   JoinWelcomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(mediumGap),
@@ -26,8 +30,8 @@ class JoinWelcomePage extends StatelessWidget {
                 width: 70,
               ),
             ),
-            WelcomeText2(text: "wildlegion59@gmail.com"),
-            WelcomeText3(text: "닉네임을뭘로할지몰라서최대글자로"),
+            WelcomeText2(text: ref.read(joinFormProvider).email),
+            WelcomeText3(text: ref.read(joinFormProvider).nickname),
             Spacer(),
             MainScreenButton(
               text: "시작하기",

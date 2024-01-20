@@ -10,12 +10,13 @@ import 'package:team3_kakao/ui/pages/friends/friends_plus_Id_page.dart';
 import 'package:team3_kakao/ui/pages/friends/friends_plus_add_Page.dart';
 import 'package:team3_kakao/ui/pages/friends/friends_plus_main_page.dart';
 
-class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
+class ChattingMainAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   String title;
   String imagePathL;
   String imagePathR;
 
-  MainAppBar({
+  ChattingMainAppBar({
     required this.title,
     required this.imagePathL,
     required this.imagePathR,
@@ -40,9 +41,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, Move.friendSearchPage);
-          },
+          onTap: () {},
           child: SvgPicture.asset(
             imagePathL,
             fit: BoxFit.cover,

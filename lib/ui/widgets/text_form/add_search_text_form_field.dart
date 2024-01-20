@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 
-class SearchTextFormField extends StatefulWidget {
-  const SearchTextFormField({super.key});
+class AddSearchTextFormField extends StatefulWidget {
+  const AddSearchTextFormField({super.key});
 
   @override
-  State<SearchTextFormField> createState() => _SearchTextFormFieldState();
+  State<AddSearchTextFormField> createState() => _AddSearchTextFormFieldState();
 }
 
-class _SearchTextFormFieldState extends State<SearchTextFormField> {
+class _AddSearchTextFormFieldState extends State<AddSearchTextFormField> {
   TextEditingController _textEditingController = TextEditingController();
   bool _isTextNotEmpty = false;
 

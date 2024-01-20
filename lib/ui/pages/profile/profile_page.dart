@@ -16,27 +16,53 @@ import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/round_icon_btn.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
-import '../../../data/model/profile_detail_model.dart';
-import '../../../data/provider/profile_detail_provider.dart';
 import '../../../data/provider/profile_update_provider.dart';
 
-class ProfilePage extends ConsumerWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
 
+  @override
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends ConsumerState<ProfilePage> {
+  bool isFavorite = false;
   final logger = Logger();
 
+  void changeFavorite(FriendsDTO model, WidgetRef ref) {
+    setState(() {
+      isFavorite = !isFavorite; // 토글 형태로 변경
+    });
+
+    // 여기에 즐겨찾기 업데이트 등의 로직 추가
+    ref.read(favoriteUpdateProvider.notifier).updateFavoriteStatus(model);
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-
+  Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
-    // ParamStore paramStore = ref.watch(paramProvider);
     SessionUser session = ref.read(sessionProvider);
-    // FriendsDTO model = paramStore.friendDTO!;
+    //FriendsDTO model = paramStore.friendDTO!;
 
-    FriendsDTO model = paramStore.friendDTO!;
+    FriendsDTO model = FriendsDTO(
+        userId: paramStore.friendDTO!.userId,
+        backImage: paramStore.friendDTO!.backImage,
+        birthdate: paramStore.friendDTO!.backImage,
+        isBirthday: paramStore.friendDTO!.isBirthday,
+        nickname: paramStore.friendDTO!.nickname,
+        phoneNum: paramStore.friendDTO!.phoneNum,
+        profileImage: paramStore.friendDTO!.profileImage,
+        statusMessage: paramStore.friendDTO!.statusMessage,
+        isFavorite: paramStore.friendDTO!.isFavorite);
+
+    ProfileUpdateModel? profileModel = ref.watch(profileUpdateProvider);
+
+    FriendsDTO friendsDto = FriendsDTO(
+        userId: model.userId,
+        nickname: model.nickname,
+        statusMessage: model.statusMessage);
 
     logger.d('즐찾: ${model!.isFavorite}');
-    ref.watch(profileUpdateProvider);
 
     return Scaffold(
       body: Container(
@@ -140,6 +166,7 @@ class ProfilePage extends ConsumerWidget {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_02.png",
             text: "프로필 편집",
+            routeToNavigate: Move.profileEditPage,
           ),
           SizedBox(
             width: 50,
@@ -182,7 +209,45 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 
-  // 친구 즐찾 상태에 따라 뜨는 아이콘
+  Widget _buildFriendProfileTopIcons(FriendsDTO model, WidgetRef ref) {
+    // String imagePath = model.isFavorite!
+    //     ? "assets/icons/profile/profile_top_icon_07.png"
+    //     : "assets/icons/profile/profile_top_icon_06.png";
+    // isFavorite = model.isFavorite!;
+    return Row(
+      children: [
+        // 즐찾 되어 있는 상태일 때
+        // if (model.isFavorite!)
+        RoundIconButton2(
+          imagePath: isFavorite
+              ? "assets/icons/profile/profile_top_icon_07.png"
+              : "assets/icons/profile/profile_top_icon_06.png",
+          onPressed: () {
+            changeFavorite(model, ref);
+            logger.d("버튼클릭!! 즐찾 상태111111!!");
+            logger.d(model.isFavorite);
+            // _updateFavoriteStatus(model, ref);
+            logger.d("버튼클릭!! 즐찾 상태!!");
+            logger.d(model.isFavorite);
+          },
+        ),
+        SizedBox(width: smallGap),
+        RoundIconButton2(
+          imagePath: "assets/icons/profile/profile_top_icon_04.png",
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
+  void _updateFavoriteStatus(FriendsDTO model, WidgetRef ref) {
+    SessionUser sessionUser = ref.read(sessionProvider);
+    ParamStore paramStore = ref.read(paramProvider);
+
+    ref.read(favoriteUpdateProvider.notifier).updateFavoriteStatus(model);
+  }
+}
+// 친구 즐찾 상태에 따라 뜨는 아이콘
 //   Widget _buildFriendProfileTopIcons(FriendsDTO model) {
 //     return Row(
 //       children: [
@@ -196,46 +261,59 @@ class ProfilePage extends ConsumerWidget {
 //     );
 //   }
 // }
-  Widget _buildFriendProfileTopIcons(FriendsDTO model, WidgetRef ref) {
-    return Row(
-      children: [
-        // 즐찾 되어 있는 상태일 때
-        if (model.isFavorite!)
-          RoundIconButton2(
-            imagePath: "assets/icons/profile/profile_top_icon_07.png",
-            onPressed: () {
-              print("Button Clicked!");
-              _abcd(model, ref);
-              logger.d("버튼클릭!! 즐찾 상태!!");
-              logger.d(model.isFavorite);
-            },
-          )
-        else
-          // 즐찾 안된 상태일때
-          RoundIconButton2(
-            imagePath: "assets/icons/profile/profile_top_icon_06.png",
-            onPressed: () {
-              _abcd(model, ref);
-              logger.d("버튼클릭!! 즐찾 상태!!");
-              logger.d(model.isFavorite);
-            },
-          ),
-        SizedBox(width: smallGap),
-        RoundIconButton2(
-          imagePath: "assets/icons/profile/profile_top_icon_04.png",
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
 
-  void _abcd(FriendsDTO model, WidgetRef ref) {
-    SessionUser sessionUser = ref.read(sessionProvider);
-    FavoriteFriendDTO favoriteFriendDTO = FavoriteFriendDTO.fromFriendsDTO(model);
-    logger.d('에비씨디 메숴드');
-    logger.d(favoriteFriendDTO.isFavorite);
-    ref.read(favoriteUpdateProvider.notifier).updateFavoriteStatus(favoriteFriendDTO, sessionUser.user!.jwt!);
+//   Widget _buildFriendProfileTopIcons(FriendsDTO model, WidgetRef ref) {
+//     return Row(
+//       children: [
+//         // 즐찾 되어 있는 상태일 때
+//         if (model.isFavorite!)
+//           RoundIconButton2(
+//             imagePath: "assets/icons/profile/profile_top_icon_07.png",
+//             onPressed: () {
+//               logger.d("버튼클릭!! 즐찾 상태111111!!");
+//               logger.d(model.isFavorite);
+//               _abcd(model, ref);
+//               logger.d("버튼클릭!! 즐찾 상태!!");
+//               logger.d(model.isFavorite);
+//             },
+//           )
+//         else
+//           // 즐찾 안된 상태일때
+//           RoundIconButton2(
+//             imagePath: "assets/icons/profile/profile_top_icon_06.png",
+//             onPressed: () {
+//               logger.d("버튼클릭!! 즐찾 상태111111!!");
+//               logger.d(model.isFavorite);
+//               _abcd(model, ref);
+//               logger.d("버튼클릭!! 즐찾 상태2222");
+//               logger.d(model.isFavorite);
+//               // ref.read(profileUpdateProvider.notifier).updateProfileIcon("assets/icons/profile/profile_top_icon_06.png");
+//               // ref.read(favoriteUpdateProvider.notifier).updateProfileIcon("assets/icons/profile/profile_top_icon_06.png");
+//             },
+//           ),
+//         SizedBox(width: smallGap),
+//         RoundIconButton2(
+//           imagePath: "assets/icons/profile/profile_top_icon_04.png",
+//           onPressed: () {},
+//         ),
+//       ],
+//     );
 
-
-  }
-}
+// void _abcd(FriendsDTO model, WidgetRef ref) {
+//   // SessionUser sessionUser = ref.read(sessionProvider);
+//   // ParamStore paramStore = ref.read(paramProvider);
+//   // FavoriteFriendDTO favoriteFriendDTO =
+//   //     FavoriteFriendDTO.fromFriendsDTO(model);
+//   // FriendsDTO friendsDTO = FriendsDTO();
+//   // logger.d('에비씨디 메숴드');
+//   // logger.d(favoriteFriendDTO.isFavorite);
+//   // ref.read(favoriteUpdateProvider.notifier).updateFavoriteStatus(
+//   //     favoriteFriendDTO, friendsDTO, sessionUser.user!.jwt!);
+//   // // ref.read(favoriteUpdateProvider.notifier).notifyInit(favoriteFriendDTO);
+//   bool newFavoriteStatus = !model.isFavorite!;
+//   ref.read(favoriteUpdateProvider.notifier).updateFavoriteStatus(model, newFavoriteStatus, jwt);
+//   ref.read(favoriteUpdateProvider.notifier).updateProfileIcon(
+//     newFavoriteStatus
+//     ?
+//   )
+// }

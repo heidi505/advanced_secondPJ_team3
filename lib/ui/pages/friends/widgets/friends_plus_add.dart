@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/ui/pages/user/find/find_account_check_page.dart';
 
 class InsertAddName extends StatelessWidget {
@@ -29,14 +32,18 @@ class InsertAddName extends StatelessWidget {
   }
 }
 
-class InsertAddPhone extends StatelessWidget {
+class InsertAddPhone extends ConsumerWidget {
   String text;
 
   InsertAddPhone({required this.text});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    TextEditingController? controller = TextEditingController();
     return TextFormField(
+      onChanged: (value) {
+        ref.read(paramProvider).addPhoneNumForSearch(value);
+      },
       decoration: InputDecoration(
         hintText: "$text",
         hintStyle: TextStyle(color: basicColorB9),
