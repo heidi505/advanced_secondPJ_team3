@@ -44,7 +44,9 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
   double bottomInset = 0.0;
   bool isPopupVisible = false;
   bool isFirst = true;
-  bool isVisible = true;
+
+  //bool? isvisible;
+//bool? visible = false;
 
   //화면 아예 위로 올라가버리는 문제 - body 위젯으로 빼고 거기서 통신하면 될듯
   @override
@@ -82,7 +84,8 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                   child: Column(
                     children: [
                       Visibility(
-                        visible: isVisible,
+                        visible: ref.read(paramProvider).isVisible?? false,
+                        //null-->false
                         child: Positioned(
                           top: 0,
                           child: Container(

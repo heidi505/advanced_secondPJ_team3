@@ -16,6 +16,7 @@ class RequestParam {
   NotifyItem? notifyItem;
   int? chatId;
   bool? isChattingLisPage = false;
+  bool? isVisible = false;
   ProfileUpdateResponseDTO? profileUpdateResponseDTO;
 
   RequestParam(
@@ -26,6 +27,7 @@ class RequestParam {
       this.notifyText,
         this.notifyItem,
         this.chatId,
+        this.isVisible,
       });
 }
 
@@ -59,6 +61,7 @@ class ParamStore extends RequestParam {
   void addNotifyItem(NotifyItem notifyItem){
     this.notifyItem = notifyItem;
   }
+
 }
 
 final paramProvider = Provider<ParamStore>((ref) {

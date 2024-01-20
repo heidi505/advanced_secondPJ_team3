@@ -19,7 +19,9 @@ class NotifyWritePage extends ConsumerStatefulWidget {
 class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
   final _formKey = GlobalKey<FormState>();
   bool? _isNotify = false; //체크 박스 변수 선언 -- > false 초기화
+  bool isVisible = false; //공지 컨테이너 변수 선언
   TextEditingController _textEditingController = TextEditingController();
+ // final isVisibleProvider = StateProvider<bool, bool>((ref) => false);
 
 //1. textField --> 컨트롤러 연결 ok
   //2. 완료 버튼 --> 제출
@@ -50,11 +52,17 @@ class _NotifyWritePageState extends ConsumerState<NotifyWritePage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    value: _isNotify, //여기에 값을 받네
+                    value: _isNotify,
+                     //여기에 값을 받네
                     onChanged: (value) {//색깔 변함 함수
                       setState(() {//setState (컴포넌트로 안빠짐)
                         //위젯 상태를 변경하고 변경된 상태를 화면에 반영
                         _isNotify = value ?? false;
+                        isVisible = _isNotify!;
+                        ref.read(paramProvider).isVisible = isVisible;
+                        Logger().d("이게 무슨값이요???$isVisible"); //true
+                        Logger().d("이게 무슨값이요???$isVisible"); //true
+                        Logger().d("이게 무슨값이요???${paramStore.isVisible}"); //true
                         //value ==null이면 false
                         //여기의 true 값을 넘기려면 ??
                       });
