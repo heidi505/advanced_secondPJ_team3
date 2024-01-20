@@ -3,23 +3,34 @@ class User {
   String? nickname;
   String? email;
   String? phoneNum;
-  String? password;
   String? jwt;
+  String? profileImage;
 
-  User({this.id, this.email, this.phoneNum, this.nickname, this.jwt});
+
+
+  User({this.id, this.email, this.phoneNum, this.nickname, this.jwt, this.profileImage});
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "nickname": nickname,
         "email": email,
         "phoneNum": phoneNum,
-        "password": password,
+        "jwt": jwt,
+        "profileImage": profileImage,
       };
 
   User.fromJson(Map<String, dynamic> json)
       : id = json["id"],
+        nickname = json["nickname"],
         email = json["email"],
         phoneNum = json["phoneNum"],
-        password = json["password"],
-        nickname = json["nickname"],
-        jwt = json["jwt"];
+        jwt = json["jwt"],
+        profileImage = json["profileImage"];
+
+  @override
+  String toString() {
+    return 'User{id: $id, nickname: $nickname, email: $email, phoneNum: $phoneNum, jwt: $jwt, profileImage: $profileImage}';
+  }
+
 }
+

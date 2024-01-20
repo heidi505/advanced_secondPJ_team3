@@ -1,6 +1,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
@@ -26,8 +27,7 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
     int? sessionId = ref.read(sessionProvider).user?.id;
     String sessionJwt = ref.read(sessionProvider).user!.jwt!;
     ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
-    ProfileUpdateResponseDTO profileUpdateResponseDto = new ProfileUpdateResponseDTO();
-    ResponseDTO responseDTO = await UserRepository().fetchProfileUpdate(profileUpdateRequestDto, sessionJwt);
+    ResponseDTO responseDTO = await UserRepository().fetchProfileDetail(sessionId, sessionJwt);
     state = ProfileUpdateModel(responseDTO.data);
   }
 
@@ -41,7 +41,6 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
 }
 
 // 프로바이더
-final profileUpdateProvider =
-  StateNotifierProvider<ProfileUpdateViewModel, ProfileUpdateModel?>((ref){
+final profileUpdateProvider = StateNotifierProvider<ProfileUpdateViewModel, ProfileUpdateModel?>((ref){
   return ProfileUpdateViewModel(null, ref)..notifyInit();
 });

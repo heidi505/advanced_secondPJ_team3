@@ -1,12 +1,14 @@
 import 'dart:core';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/data/dto/friend_add_dto/email_friend_add_request_dto.dart';
 import 'package:team3_kakao/data/dto/friend_add_dto/email_friend_add_response_dto.dart';
 import 'package:team3_kakao/data/dto/friend_add_dto/phoneNum_friend_add_request_dto.dart';
 import 'package:team3_kakao/data/dto/friend_add_dto/phoneNum_friend_add_response_dto.dart';
+import 'package:team3_kakao/data/dto/friend_dto/friend_search_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_backImage_delete_response_dto/profile_backimage_delete_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_image_delete_response_dto/profile_image_delete_response_dto.dart';
@@ -16,6 +18,7 @@ import 'package:team3_kakao/data/dto/user_dto/phone_num_response_dto.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/data/model/user_mock.dart';
+import 'package:team3_kakao/ui/pages/friends/friends_search_page.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_detail_model.dart';
 
 import '../dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
@@ -25,6 +28,7 @@ import '../provider/profile_detail_provider.dart';
 // MVVM패턴 : View -> Provider(전역프로바이더or뷰모델) -> Repository(통신+파싱을 책임)
 // 나중에 싱글톤으로 바꿀것
 class UserRepository {
+
 
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
@@ -118,7 +122,7 @@ class UserRepository {
   // 200이 아니면 catch로 감
 
   // 프로필 상세보기
-  Future<ResponseDTO> fetchProfileDetail(int id, String jwt) async {
+  Future<ResponseDTO> fetchProfileDetail(int? id, String jwt) async {
     Logger().d("유저 리파지토리 진입");
     try {
       // 서버에 요청
@@ -142,24 +146,21 @@ class UserRepository {
 
   // 프로필 수정
 
-  Future<ResponseDTO> fetchProfileUpdate(
-      ProfileUpdateRequestDTO profileUpdateRequestDTO, String jwt) async {
+  Future<ResponseDTO> fetchProfileUpdate(ProfileUpdateRequestDTO profileUpdateRequestDTO, String jwt) async {
+    Logger().d("업데이트 레파지토리 진입 확인(닉네임) : ${profileUpdateRequestDTO.nickname}");
+    Logger().d("업데이트 레파지토리 진입 확인(상태메세지) : ${profileUpdateRequestDTO.statusMessage}");
+
     try {
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
-      Response response = await dio.post("/user/my-profile-update",
-          data: profileUpdateRequestDTO.toJson());
+      Response response = await dio.post("/user/my-profile-update", data: profileUpdateRequestDTO.toJson(), options: Options(headers: {"Authorization": "$jwt"}));
 
       // response.data의 값을 Dart객체로 변환 작업
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
       Logger().d("${responseDTO.data} 1번 파싱 안됨");
       // 수정한 정보만 추출해서 덮어 씌우기
-      responseDTO.data =
-      new ProfileUpdateResponseDTO.fromJson(responseDTO.data);
+      responseDTO.data = new ProfileUpdateResponseDTO.fromJson(responseDTO.data);
       Logger().d("${responseDTO.data} 2번 파싱 안됨");
-
-      responseDTO.data =
-      new ProfileDetailResponseDTO.fromJson(responseDTO.data);
-
+      responseDTO.data = new ProfileDetailResponseDTO.fromJson(responseDTO.data);
       return responseDTO;
     } catch (e) {
       Logger().d("캐치 탐 ${e.toString()}");
@@ -244,6 +245,32 @@ class UserRepository {
       return ResponseDTO(success: false);
     }
   }
+
+  // 친구 검색
+  Future<ResponseDTO> fetchFriendSearch(String keyword,String jwt) async {
+
+    Logger().d("키워드 들어옵니까? : ${keyword}");
+    try{
+      Response response = await dio.get("/user/search-friend",
+          queryParameters: {"keyword": keyword},
+        options: Options(headers:  {"Authorization": jwt})
+      );
+      Logger().d("페이지 통신 완료 : ${response.data}");
+
+      // 서버에서 받아온 값을 Dart 객체로 변환
+      ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+      Logger().d("타입 변경 완료 : ${responseDTO.data}");
+
+      List<FriendSearchResponseDTO> mapList = (responseDTO.data as List<dynamic>).map((e) => FriendSearchResponseDTO.fromJson(e)).toList();
+      // 필요한 유저 정보만 추출해서 덮어 씌우기
+      responseDTO.data = mapList;
+      Logger().d("파싱 완료 : ${responseDTO.data.toString()}");
+
+      return responseDTO;
+    }catch(e){
+      Logger().d(e.toString());
+      return ResponseDTO(success: false);
+    }
+  }
+
 }
-
-

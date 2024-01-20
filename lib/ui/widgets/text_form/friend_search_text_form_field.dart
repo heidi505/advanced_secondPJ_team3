@@ -1,57 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
+import 'package:team3_kakao/data/provider/Friend_search_provider.dart';
 
-class FriendSearchTextFormField extends StatefulWidget {
+class FriendSearchTextFormField extends ConsumerStatefulWidget {
   const FriendSearchTextFormField({super.key});
 
   @override
-  State<FriendSearchTextFormField> createState() =>
+  ConsumerState<FriendSearchTextFormField> createState() =>
       _FriendSearchTextFormFieldState();
 }
 
-class _FriendSearchTextFormFieldState extends State<FriendSearchTextFormField> {
-  TextEditingController _textEditingController = TextEditingController();
-  bool _isTextNotEmpty = false;
-
-  void _updateTextStatus() {
-    setState(() {
-      _isTextNotEmpty = _textEditingController.text.isNotEmpty;
-    });
-  }
+class _FriendSearchTextFormFieldState extends ConsumerState<FriendSearchTextFormField> {
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: _textEditingController,
-      autovalidateMode: AutovalidateMode.always,
+      onChanged: (value) {
+        Logger().d("값 들어옴 value = $value");
+        ref.read(searchProvider.notifier).updateSearchKeyword(value);
+        ref.read(searchProvider.notifier).notifyInit();
+        Logger().d("value = $value");
+      },
+      style: TextStyle(fontSize: 14.0),
       decoration: InputDecoration(
-        hintText: '이름으로 검색',
-        hintStyle: h5(color: basicColorB9),
+        fillColor: Color(0xFFF1F1F2),
         filled: true,
-        fillColor: formColor.withOpacity(0.5),
-        suffixIcon: _isTextNotEmpty
-            ? IconButton(
-                icon: Icon(Icons.clear),
-                onPressed: () {
-                  setState(() {
-                    _textEditingController.clear();
-                  });
-                },
-              )
-            : null,
-        contentPadding: EdgeInsets.all(10.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.0),
-          borderSide: BorderSide.none,
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 10.0,
+        ),
+        hintText: "검색어를 입력해주세요.",
+        hintStyle: TextStyle(
+          color: Color(0xFF6C6A6B),
+          fontSize: 14.0,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.0),
-          borderSide: BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(color:  Color(0xFFF1F1F2)),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.0),
-          borderSide: BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(color:  Color(0xFFF1F1F2)),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(color:  Color(0xFFF1F1F2)),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(color:  Color(0xFFF1F1F2)),
         ),
       ),
     );
