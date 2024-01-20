@@ -1,4 +1,3 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
@@ -9,7 +8,7 @@ import 'package:team3_kakao/data/repository/user_repository.dart';
 import '../dto/profile_dto/profile_update_response_dto/profile_update_response_dto.dart';
 
 // 모델 (상태)
-class ProfileUpdateModel{
+class ProfileUpdateModel {
   ProfileUpdateResponseDTO profileUpdateResponseDTO;
   ProfileUpdateModel(this.profileUpdateResponseDTO);
 }
@@ -25,23 +24,25 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
   Future<void> notifyInit() async {
     int? sessionId = ref.read(sessionProvider).user?.id;
     String sessionJwt = ref.read(sessionProvider).user!.jwt!;
-    ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
-    ProfileUpdateResponseDTO profileUpdateResponseDto = new ProfileUpdateResponseDTO();
-    ResponseDTO responseDTO = await UserRepository().fetchProfileUpdate(profileUpdateRequestDto, sessionJwt);
+    ResponseDTO responseDTO =
+        await UserRepository().fetchProfileDetail(sessionId, sessionJwt);
     state = ProfileUpdateModel(responseDTO.data);
   }
 
-  Future<void> updateProfile(ProfileUpdateRequestDTO profileUpdateRequestDto) async{
+  Future<void> updateProfile(
+      ProfileUpdateRequestDTO profileUpdateRequestDto) async {
     Logger().d("업데이트 레파지토리 진입 전(닉네임) : ${profileUpdateRequestDto.nickname}");
-    Logger().d("업데이트 레파지토리 진입 전(상태메세지) : ${profileUpdateRequestDto.statusMessage}");
-    ResponseDTO responseDTO = await UserRepository().fetchProfileUpdate(profileUpdateRequestDto, ref.read(sessionProvider).user!.jwt!);
-    Logger().d("업데이트 실패해서 나옴? ${responseDTO.errorType?.message}" );
+    Logger()
+        .d("업데이트 레파지토리 진입 전(상태메세지) : ${profileUpdateRequestDto.statusMessage}");
+    ResponseDTO responseDTO = await UserRepository().fetchProfileUpdate(
+        profileUpdateRequestDto, ref.read(sessionProvider).user!.jwt!);
+    Logger().d("업데이트 실패해서 나옴? ${responseDTO.errorType?.message}");
     state = ProfileUpdateModel(responseDTO.data);
   }
 }
 
 // 프로바이더
 final profileUpdateProvider =
-  StateNotifierProvider<ProfileUpdateViewModel, ProfileUpdateModel?>((ref){
+    StateNotifierProvider<ProfileUpdateViewModel, ProfileUpdateModel?>((ref) {
   return ProfileUpdateViewModel(null, ref)..notifyInit();
 });

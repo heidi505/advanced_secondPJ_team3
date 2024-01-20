@@ -10,6 +10,7 @@ import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_response_dto/profile_update_response_dto.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
@@ -69,7 +70,8 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
   Widget build(BuildContext context) {
     User session = ref.read(sessionProvider).user!;
     FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
-
+    ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+    ProfileUpdateResponseDTO? profile = model?.profileUpdateResponseDTO;
     print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
     print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
     return Scaffold(
@@ -132,6 +134,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                             backImage: base64ImageBack.isEmpty
                                 ? myProfile.backImage
                                 : base64ImageBack);
+
                         Logger().d("전부다 !!!!!" +
                             widget._nicknameController.text +
                             "||||||" +
@@ -143,8 +146,10 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                         await ref
                             .read(profileUpdateProvider.notifier)
                             .updateProfile(dto);
-                        Navigator.pushNamed(context,
-                            Move.profilePage); // 이 버튼을 눌렀을때 리퀘스트에 값이 담기고 통신 해야함
+                        SessionUser user = ref.read(sessionProvider);
+                        user.profileUpdate(dto, user.jwt!);
+                        // Navigator.pushNamed(context,
+                        //     Move.profilePage); // 이 버튼을 눌렀을때 리퀘스트에 값이 담기고 통신 해야함
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.transparent,
@@ -168,12 +173,23 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
               const Spacer(),
               Stack(
                 children: [
-                  ProfileImage(
-                    imagePath: "$baseUrl/images/${session.id}.jpg",
-                    imageWidth: 100,
-                    imageHeight: 100,
-                    circular: 42,
-                  ),
+                  selectedProfileImagePath != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(42),
+                          child: Image.file(
+                            selectedProfileImagePath!,
+                            fit: BoxFit.cover,
+                            width: 100,
+                            height: 100,
+                          ),
+                        )
+                      : ProfileImage(
+                          imagePath:
+                              "$baseUrl/images/${profile?.profileImage}.jpg",
+                          imageWidth: 100,
+                          imageHeight: 100,
+                          circular: 42,
+                        ),
                   Positioned(
                     bottom: 0, // Adjust this value as needed
                     right: 0, // Adjust this value as needed
@@ -191,7 +207,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileTextFormField(
                     nicknameController: widget._nicknameController,
                     textWidget: Text(
-                      session.nickname!,
+                      profile!.nickname!,
                       style: h4(color: basicColorW),
                     )),
               ),
@@ -201,7 +217,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileSubTextFormField(
                     statusMessageContoller: widget._statusMessageContoller,
                     textWidget: Text(
-                      myProfile.statusMessage!,
+                      profile!.statusMessage!,
                       style: h5(color: basicColorW),
                     )),
               ),

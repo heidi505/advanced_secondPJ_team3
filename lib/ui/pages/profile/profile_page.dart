@@ -21,9 +21,6 @@ import '../../../data/provider/profile_update_provider.dart';
 class ProfilePage extends ConsumerStatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
 
-
-
-
   @override
   ConsumerState<ProfilePage> createState() => _ProfilePageState();
 }
@@ -49,7 +46,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     // FriendsDTO model = paramStore.friendDTO!;
 
     FriendsDTO model = FriendsDTO(
-      userId: paramStore.friendDTO!.userId,
+        userId: paramStore.friendDTO!.userId,
         backImage: paramStore.friendDTO!.backImage,
         birthdate: paramStore.friendDTO!.backImage,
         isBirthday: paramStore.friendDTO!.isBirthday,
@@ -57,8 +54,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         phoneNum: paramStore.friendDTO!.phoneNum,
         profileImage: paramStore.friendDTO!.profileImage,
         statusMessage: paramStore.friendDTO!.statusMessage,
-        isFavorite: paramStore.friendDTO!.isFavorite
-    );
+        isFavorite: paramStore.friendDTO!.isFavorite);
 
     logger.d('즐찾: ${model!.isFavorite}');
     ref.watch(profileUpdateProvider);
@@ -165,6 +161,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_02.png",
             text: "프로필 편집",
+            routeToNavigate: Move.profileEditPage,
           ),
           SizedBox(
             width: 50,
@@ -217,7 +214,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         // 즐찾 되어 있는 상태일 때
         // if (model.isFavorite!)
         RoundIconButton2(
-          imagePath: isFavorite ? "assets/icons/profile/profile_top_icon_07.png" : "assets/icons/profile/profile_top_icon_06.png",
+          imagePath: isFavorite
+              ? "assets/icons/profile/profile_top_icon_07.png"
+              : "assets/icons/profile/profile_top_icon_06.png",
           onPressed: () {
             changeFavorite(model, ref);
             logger.d("버튼클릭!! 즐찾 상태111111!!");
@@ -293,7 +292,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 //         ),
 //       ],
 //     );
-
 
 // void _abcd(FriendsDTO model, WidgetRef ref) {
 //   // SessionUser sessionUser = ref.read(sessionProvider);

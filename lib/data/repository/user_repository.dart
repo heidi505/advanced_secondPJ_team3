@@ -25,7 +25,6 @@ import '../provider/profile_detail_provider.dart';
 // MVVM패턴 : View -> Provider(전역프로바이더or뷰모델) -> Repository(통신+파싱을 책임)
 // 나중에 싱글톤으로 바꿀것
 class UserRepository {
-
   Future<ResponseDTO> fetchLogin(LoginReqDTO requestDTO) async {
     try {
       Response response = await dio.post(
@@ -62,7 +61,7 @@ class UserRepository {
     try {
       Logger().d(requestDTO.email! + "여기" + requestDTO.password!);
       Response<dynamic> response =
-      await dio.post("/sign-up", data: requestDTO.toJson());
+          await dio.post("/sign-up", data: requestDTO.toJson());
       Logger().d("요청완료됨111");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
       Logger().d("요청완료됨222");
@@ -76,7 +75,7 @@ class UserRepository {
   Future<ResponseDTO> fetchMailSend(MailSendDTO requestDTO) async {
     try {
       Response<dynamic> response =
-      await dio.post("/mail-send", data: requestDTO.toJson());
+          await dio.post("/mail-send", data: requestDTO.toJson());
       Logger().d("요청완료됨111" + "mail_send");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
 
@@ -90,7 +89,7 @@ class UserRepository {
   Future<ResponseDTO> fetchMailCheck(MailCheckDTO requestDTO) async {
     try {
       Response<dynamic> response =
-      await dio.post("/mail-check", data: requestDTO.toJson());
+          await dio.post("/mail-check", data: requestDTO.toJson());
       Logger().d("요청완료됨1ss1");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
       Logger().d("요청완료됨1ss1" + "ddddd");
@@ -105,7 +104,7 @@ class UserRepository {
       FindPasswordDTO findPasswordDTO) async {
     try {
       Response<dynamic> response =
-      await dio.post("/password-find", data: findPasswordDTO.toJson());
+          await dio.post("/password-find", data: findPasswordDTO.toJson());
       Logger().d("111.+++이메일 요청이요+++");
       ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
       Logger().d("222. ???이메일 요청이요???");
@@ -118,7 +117,7 @@ class UserRepository {
   // 200이 아니면 catch로 감
 
   // 프로필 상세보기
-  Future<ResponseDTO> fetchProfileDetail(int id, String jwt) async {
+  Future<ResponseDTO> fetchProfileDetail(int? id, String jwt) async {
     Logger().d("유저 리파지토리 진입");
     try {
       // 서버에 요청
@@ -147,18 +146,19 @@ class UserRepository {
     try {
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
       Response response = await dio.post("/user/my-profile-update",
-          data: profileUpdateRequestDTO.toJson());
+          data: profileUpdateRequestDTO.toJson(),
+          options: Options(headers: {"Authorization": jwt}));
 
       // response.data의 값을 Dart객체로 변환 작업
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
       Logger().d("${responseDTO.data} 1번 파싱 안됨");
       // 수정한 정보만 추출해서 덮어 씌우기
       responseDTO.data =
-      new ProfileUpdateResponseDTO.fromJson(responseDTO.data);
+          new ProfileUpdateResponseDTO.fromJson(responseDTO.data);
       Logger().d("${responseDTO.data} 2번 파싱 안됨");
 
-      responseDTO.data =
-      new ProfileDetailResponseDTO.fromJson(responseDTO.data);
+      // responseDTO.data =
+      //   new ProfileDetailResponseDTO.fromJson(responseDTO.data);
 
       return responseDTO;
     } catch (e) {
@@ -167,14 +167,13 @@ class UserRepository {
     }
   }
 
-
 // 프로필 삭제(프로필 이미지)
   Future<ResponseDTO> fetchProfileImageDelete() async {
     try {
       Response response = await dio.get("/user/my-profileImage-delete/{id}");
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
       responseDTO.data =
-      new ProfileImageDeleteResponseDTO.fromJson(responseDTO.data);
+          new ProfileImageDeleteResponseDTO.fromJson(responseDTO.data);
       return responseDTO;
     } catch (e) {
       return ResponseDTO(success: false);
@@ -184,11 +183,11 @@ class UserRepository {
 // 프로필 삭제(배경 이미지)
   Future<ResponseDTO> fetchProfileBackImageDelete() async {
     try {
-      Response response = await dio.get(
-          "/user/my-profileBackImage-delete/{id}");
+      Response response =
+          await dio.get("/user/my-profileBackImage-delete/{id}");
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
       responseDTO.data =
-      new ProfileBackImageDeleteResponseDTO.fromJson(responseDTO.data);
+          new ProfileBackImageDeleteResponseDTO.fromJson(responseDTO.data);
       return responseDTO;
     } catch (e) {
       return ResponseDTO(success: false);
@@ -225,8 +224,8 @@ class UserRepository {
   }
 
 // 내 정보 전화번호 수정
-  Future<ResponseDTO> fetchPhoneNumUpdate(PhoneNumUpdateDTO phoneNumUpdateDTO,
-      String jwt) async {
+  Future<ResponseDTO> fetchPhoneNumUpdate(
+      PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async {
     try {
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
       Response response = await dio.post("/user/update",
@@ -245,5 +244,3 @@ class UserRepository {
     }
   }
 }
-
-
