@@ -61,7 +61,6 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
       return CircularProgressIndicator();
     }
 
-
     return Scaffold(
       backgroundColor: primaryColor02,
       appBar: AppBar(
@@ -146,8 +145,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
                         } else {
                           // 상대방
                           chat = OtherChat(
-                              name:
-                                  model!.messages[index].userNickname!,
+                              name: model!.messages[index].userNickname!,
                               text: model!.messages[index].content,
                               time: model!.messages[index].time!,
                               userId: model!.messages[index].userId!,
@@ -343,7 +341,7 @@ class _ChatRoomPageState extends ConsumerState<ChatRoomPage> {
 
   void _pickImageFromGallery() async {
     XFile? pickedImage =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       Uint8List temp = await pickedImage.readAsBytes();
