@@ -8,8 +8,10 @@ import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/favorite_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/provider/favorite_friend_provider.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/profile_detail_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_favorites.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
@@ -41,8 +43,18 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     ParamStore paramStore = ref.read(paramProvider);
-    SessionUser session = ref.read(sessionProvider);
+    // SessionUser session = ref.read(sessionProvider);
     //FriendsDTO model = paramStore.friendDTO!;
+    ProfileDetailModel? profileDetailModel = ref.watch(profileDetailProvider);
+
+    if (profileDetailModel == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    ProfileDetailResponseDTO profile =
+        profileDetailModel!.profileDetailResponseDTO!;
 
     FriendsDTO model = FriendsDTO(
         userId: paramStore.friendDTO!.userId,
@@ -80,17 +92,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             children: [
               const Spacer(),
               ProfileImage(
-                  imagePath: "$baseUrl/images/${session?.user?.profileImage}",
+                  imagePath: "$baseUrl/images/${profile.profileImage}",
                   imageWidth: 100,
                   imageHeight: 100,
                   circular: 42),
               const SizedBox(
                 height: xsmallGap,
               ),
-              Text(model!.nickname!, style: h4(color: basicColorW)),
+              Text(profile!.nickname!, style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
-                model!.statusMessage!,
+                profile!.statusMessage!,
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
@@ -99,7 +111,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               const Divider(
                 color: formColor,
               ),
-              if (session.user!.id! != model!.userId!)
+              if (profile.id! != model!.userId!)
                 _buildFriendProfileIcons()
               else
                 _buildMyProfileIcons(),
@@ -136,7 +148,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               SizedBox(
                 width: smallGap,
               ),
-              if (session.user!.id! != model!.userId!)
+              if (profile.id! != model!.userId!)
                 _buildFriendProfileTopIcons(model, ref)
               else
                 RoundIconButton(

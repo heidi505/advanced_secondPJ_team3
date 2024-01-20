@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_response_dto/profile_update_response_dto.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_area.dart';
 
@@ -11,19 +12,22 @@ import '../../../../data/dto/profile_dto/profile_update_request_dto/profile_upda
 import '../../../../data/provider/profile_update_provider.dart';
 
 class ProfileSubTextFormField extends ConsumerStatefulWidget {
-
   final statusMessageContoller;
   final Widget textWidget;
 
-  const ProfileSubTextFormField({Key? key, required this.textWidget,required this.statusMessageContoller})
+  const ProfileSubTextFormField(
+      {Key? key,
+      required this.textWidget,
+      required this.statusMessageContoller})
       : super(key: key);
 
   @override
-  ConsumerState<ProfileSubTextFormField> createState() => _ProfileSubTextFormFieldState();
+  ConsumerState<ProfileSubTextFormField> createState() =>
+      _ProfileSubTextFormFieldState();
 }
 
-
-class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormField> {
+class _ProfileSubTextFormFieldState
+    extends ConsumerState<ProfileSubTextFormField> {
   bool _isTextNotEmpty = false;
 
   @override
@@ -34,20 +38,26 @@ class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormFiel
 
   void _updateTextStatus() {
     setState(() {
-      _isTextNotEmpty =
-          widget.statusMessageContoller.text.isNotEmpty ||widget.statusMessageContoller.text != widget.textWidget;
+      _isTextNotEmpty = widget.statusMessageContoller.text.isNotEmpty ||
+          widget.statusMessageContoller.text != widget.textWidget;
     });
   }
 
   void _messageOnFieldSubmitted(String value) {
     Logger().d("----- 메세지 벨류 확인 ----- : + ${value}");
-    Logger().d("----- 메세지 컨트롤러 확인 ----- : " + widget.statusMessageContoller.text);
+    Logger()
+        .d("----- 메세지 컨트롤러 확인 ----- : " + widget.statusMessageContoller.text);
     // ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
     // ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
   }
 
   @override
   Widget build(BuildContext context) {
+    ProfileUpdateResponseDTO? profile =
+        ref.watch(profileUpdateProvider)?.profileUpdateResponseDTO;
+    if (profile == null) {
+      return Center(child: CircularProgressIndicator());
+    }
     return InkWell(
       onTap: () {
         showDialog(
@@ -69,7 +79,7 @@ class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormFiel
                             _updateTextStatus();
                           },
                           decoration: InputDecoration(
-                            hintText: '홍길동',
+                            hintText: '${profile.statusMessage}',
                             hintStyle: TextStyle(color: basicColorW),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: basicColorW),
@@ -113,7 +123,7 @@ class _ProfileSubTextFormFieldState extends ConsumerState<ProfileSubTextFormFiel
       child: ProfileTextArea(
         textWidget: _isTextNotEmpty
             ? Text(
-          widget.statusMessageContoller.text,
+                widget.statusMessageContoller.text,
                 style: TextStyle(color: basicColorW),
               )
             : widget.textWidget,

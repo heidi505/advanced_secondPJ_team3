@@ -9,27 +9,30 @@ import '../repository/user_repository.dart';
 
 // 모델
 class ProfileDetailModel {
-  ProfileDetailResponseDTO profileDetailResponseDTO;
+  ProfileDetailResponseDTO? profileDetailResponseDTO;
   ProfileDetailModel(this.profileDetailResponseDTO);
 }
 
 // 뷰모델
-class ProfileDetailViewModel extends StateNotifier<ProfileDetailModel?>{
+class ProfileDetailViewModel extends StateNotifier<ProfileDetailModel?> {
   // Provider에 접근
   Ref ref;
   // 생성자
   ProfileDetailViewModel(super._state, this.ref);
   // 화면이 그려지기 전에 값을 가져오거나 초기화하는 역할
   Future<void> notifyInit() async {
-    int? sessionId = ref.read(sessionProvider).user?.id ?? 1;
-    String? sessionJwt = ref.read(sessionProvider).user!.jwt!;
+    int sessionId = ref.read(sessionProvider).user?.id ?? 1;
+    String sessionJwt = ref.read(sessionProvider).user!.jwt!;
     // 통신을 통해 가져온 값 담기
-    ResponseDTO responseDTO = await UserRepository().fetchProfileDetail(sessionId, sessionJwt);
+    ResponseDTO responseDTO =
+        await UserRepository().fetchProfileDetail(sessionId, sessionJwt);
+    Logger().d(responseDTO);
     state = ProfileDetailModel(responseDTO.data);
   }
 }
 
 // 프로바이더
-final profileDetailProvider = StateNotifierProvider.autoDispose<ProfileDetailViewModel, ProfileDetailModel?>((ref){
-  return ProfileDetailViewModel(null, ref)..notifyInit();
+final profileDetailProvider =
+    StateNotifierProvider<ProfileDetailViewModel, ProfileDetailModel?>((ref) {
+  return ProfileDetailViewModel(ProfileDetailModel(null), ref)..notifyInit();
 });

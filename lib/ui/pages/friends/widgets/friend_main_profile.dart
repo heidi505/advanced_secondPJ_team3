@@ -7,7 +7,10 @@ import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_response_dto/profile_update_response_dto.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/profile_detail_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 
 import '../../../../data/model/profile.dart';
@@ -25,7 +28,13 @@ class FriendMainProfile extends ConsumerWidget {
     SessionUser session = ref.read(sessionProvider);
     ParamStore paramStore = ref.read(paramProvider);
 
-    ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+    ProfileDetailModel? model = ref.watch(profileDetailProvider);
+
+    if (model == null) {
+      return SliverToBoxAdapter(child: CircularProgressIndicator());
+    }
+
+    ProfileDetailResponseDTO profile = model!.profileDetailResponseDTO!;
 
     FriendsDTO myProfileDTO = FriendsDTO(
         userId: session.user!.id!,
@@ -52,7 +61,7 @@ class FriendMainProfile extends ConsumerWidget {
           children: [
             ClipRRect(
               child: Image.network(
-                "$baseUrl/images/${session.user!.id}.jpg",
+                "$baseUrl/images/${profile?.profileImage}",
                 fit: BoxFit.cover,
                 width: 60,
                 height: 60,
@@ -66,11 +75,11 @@ class FriendMainProfile extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${session.user!.nickname}",
+                  "${profile?.nickname}",
                   style: h4(),
                 ),
                 Text(
-                  "${myProfile.statusMessage}",
+                  "${profile?.statusMessage}",
                   style: h6(color: basicColorB9),
                 ),
               ],

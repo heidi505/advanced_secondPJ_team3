@@ -22,16 +22,17 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
   ProfileUpdateViewModel(super._state, this.ref);
 
   // 화면이 그려지기 전에 값을 가져오거나 초기화하는 역할
-  Future<void> notifyInit() async {
-    Logger().d("프로필 수정 페이지 접근");
-    int? sessionId = ref.read(sessionProvider).user?.id;
-    String sessionJwt = ref.read(sessionProvider).user!.jwt!;
-    ResponseDTO responseDTO =
-        await UserRepository().fetchProfileDetail(sessionId, sessionJwt);
-    Logger().d("정보수정페이지 응답 ${responseDTO.data}");
-    state = ProfileUpdateModel(responseDTO.data);
-    Logger().d("정보수정페이지 응답 ${state}");
-  }
+  // Future<void> notifyInit() async {
+  //   Logger().d("프로필 수정 페이지 접근");
+  //   int? sessionId = ref.read(sessionProvider).user?.id;
+  //   String sessionJwt = ref.read(sessionProvider).user!.jwt!;
+  //   ResponseDTO responseDTO =
+  //       await UserRepository().fetchProfileDetail(sessionId, sessionJwt);
+  //   Logger().d("정보수정페이지 응답 ${responseDTO.data}");
+  //   ProfileDetailResponseDTO profileDetailResponseDTO = responseDTO.data;
+  //   state = ProfileUpdateModel(profileDetailResponseDTO);
+  //   Logger().d("정보수정페이지 응답 ${state}");
+  // }
 
   Future<void> updateProfile(
       ProfileUpdateRequestDTO profileUpdateRequestDto) async {
@@ -49,5 +50,5 @@ class ProfileUpdateViewModel extends StateNotifier<ProfileUpdateModel?> {
 
 final profileUpdateProvider =
     StateNotifierProvider<ProfileUpdateViewModel, ProfileUpdateModel?>((ref) {
-  return ProfileUpdateViewModel(null, ref)..notifyInit();
+  return ProfileUpdateViewModel(ProfileUpdateModel(null), ref);
 });

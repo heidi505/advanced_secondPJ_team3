@@ -6,14 +6,13 @@ import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/friend_repository.dart';
 import 'package:team3_kakao/main.dart';
 
-class MainPageModel{
+class MainPageModel {
   MainDTO? mainDTO;
 
   MainPageModel({this.mainDTO});
 }
 
-class MainPageViewModel extends StateNotifier<MainPageModel?>{
-
+class MainPageViewModel extends StateNotifier<MainPageModel?> {
   Ref ref;
   final mContext = navigatorKey.currentContext!;
 
@@ -22,7 +21,8 @@ class MainPageViewModel extends StateNotifier<MainPageModel?>{
   Future<void> notifyInit() async {
     SessionUser sessionUser = ref.read(sessionProvider);
     Logger().d(sessionUser.user!.id);
-    ResponseDTO responseDTO = await FriendRepository().notifyMain(sessionUser.user!.id!, sessionUser.user!.jwt!);
+    ResponseDTO responseDTO = await FriendRepository()
+        .notifyMain(sessionUser.user!.id!, sessionUser.user!.jwt!);
 
     MainDTO mainDTO = responseDTO.data;
 
@@ -30,6 +30,7 @@ class MainPageViewModel extends StateNotifier<MainPageModel?>{
   }
 }
 
-final mainProvider = StateNotifierProvider<MainPageViewModel, MainPageModel?>((ref) {
-  return MainPageViewModel(ref, null)..notifyInit();
+final mainProvider =
+    StateNotifierProvider<MainPageViewModel, MainPageModel?>((ref) {
+  return MainPageViewModel(ref, MainPageModel(mainDTO: null))..notifyInit();
 });

@@ -19,12 +19,13 @@ class FriendBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     MainPageModel? model = ref.watch(mainProvider);
 
-    if (model == null) {
+    if (model?.mainDTO == null) {
       return CircularProgressIndicator();
     }
 
-    MainDTO? mainDTO = model!.mainDTO;
-    if(mainDTO!.birthdayFriendList == null || mainDTO!.birthdayFriendList!.isEmpty){
+    MainDTO mainDTO = model!.mainDTO!;
+    if (mainDTO!.birthdayFriendList == null ||
+        mainDTO!.birthdayFriendList!.isEmpty) {
       return CustomScrollView(
         slivers: [
           FriendMainProfile(myProfile: mainDTO!.userProfile!),
@@ -33,16 +34,16 @@ class FriendBody extends ConsumerWidget {
           FriendList(friendsList: mainDTO!.friendList),
         ],
       );
+    } else {
+      return CustomScrollView(
+        slivers: [
+          FriendMainProfile(myProfile: mainDTO!.userProfile!),
+          FriendMakePop(),
+          FriendBirthday(friendList: mainDTO!.birthdayFriendList!),
+          FriendTItle(count: mainDTO.friendList!.length),
+          FriendList(friendsList: mainDTO!.friendList),
+        ],
+      );
     }
-
-    return CustomScrollView(
-      slivers: [
-        FriendMainProfile(myProfile: mainDTO!.userProfile!),
-        FriendMakePop(),
-        FriendBirthday(friendList: mainDTO!.birthdayFriendList!),
-        FriendTItle(count: mainDTO.friendList!.length),
-        FriendList(friendsList: mainDTO!.friendList),
-      ],
-    );
   }
 }

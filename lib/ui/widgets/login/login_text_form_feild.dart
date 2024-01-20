@@ -39,9 +39,9 @@ class LoginTextFormField extends ConsumerWidget {
 
 class LoginButton extends ConsumerWidget {
   dynamic? formKey;
-  String text;
-  String? email;
-  String? password;
+  String? text;
+  TextEditingController? email;
+  TextEditingController? password;
   LoginButton(
       {super.key, required this.text, this.email, this.password, this.formKey});
 
@@ -55,7 +55,7 @@ class LoginButton extends ConsumerWidget {
             if (formKey.currentState!.validate()) {
               Logger().d("유효성 통과");
               LoginReqDTO loginReqDTO =
-                  new LoginReqDTO(email: email!, password: password!);
+                  new LoginReqDTO(email: email!.text, password: password!.text);
               SessionUser user = ref.read(sessionProvider);
               user.login(loginReqDTO);
             }

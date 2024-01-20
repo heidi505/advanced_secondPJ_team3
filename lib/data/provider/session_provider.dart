@@ -34,10 +34,13 @@ class SessionUser {
       this.user = responseDTO.data as User;
       this.jwt = responseDTO.token;
 
+      Logger().d("-----세션 값 확인");
+      Logger().d(user.toString() + "확인중" + jwt!);
       // print("성공");
       // 3. 페이지 이동
-      Navigator.pushNamedAndRemoveUntil(
-          mContext!, Move.mainPage, (route) => false);
+      // Navigator.pushNamedAndRemoveUntil(
+      //     mContext!, Move.mainPage, (route) => false);
+      Navigator.pushNamed(mContext!, Move.mainPage);
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(
           SnackBar(content: Text("${responseDTO.errorType!.message!}")));

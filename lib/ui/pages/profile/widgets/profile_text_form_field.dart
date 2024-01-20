@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_response_dto/profile_update_response_dto.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_area.dart';
 
@@ -11,16 +12,16 @@ import '../../../../data/dto/profile_dto/profile_update_request_dto/profile_upda
 import '../../../../data/provider/profile_update_provider.dart';
 
 class ProfileTextFormField extends ConsumerStatefulWidget {
-
   final nicknameController;
   final Widget textWidget;
 
-  const ProfileTextFormField({Key? key, required this.textWidget, required this.nicknameController})
+  const ProfileTextFormField(
+      {Key? key, required this.textWidget, required this.nicknameController})
       : super(key: key);
 
-
   @override
-  ConsumerState<ProfileTextFormField> createState() => _ProfileTextFormFieldState();
+  ConsumerState<ProfileTextFormField> createState() =>
+      _ProfileTextFormFieldState();
 }
 
 class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
@@ -35,8 +36,8 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
 
   void _updateTextStatus() {
     setState(() {
-      _isTextNotEmpty =
-          widget.nicknameController.text.isNotEmpty || widget.nicknameController.text != widget.textWidget;
+      _isTextNotEmpty = widget.nicknameController.text.isNotEmpty ||
+          widget.nicknameController.text != widget.textWidget;
     });
   }
 
@@ -49,6 +50,11 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
 
   @override
   Widget build(BuildContext context) {
+    ProfileUpdateResponseDTO? profile =
+        ref.watch(profileUpdateProvider)?.profileUpdateResponseDTO;
+    if (profile == null) {
+      return Center(child: CircularProgressIndicator());
+    }
     return InkWell(
       onTap: () {
         showDialog(
@@ -70,7 +76,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                             _updateTextStatus();
                           },
                           decoration: InputDecoration(
-                            hintText: '홍길동',
+                            hintText: '${profile.nickname}',
                             hintStyle: TextStyle(color: basicColorW),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: basicColorW),
@@ -114,7 +120,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
       child: ProfileTextArea(
         textWidget: _isTextNotEmpty
             ? Text(
-          widget.nicknameController.text,
+                widget.nicknameController.text,
                 style: TextStyle(color: basicColorW),
               )
             : widget.textWidget,
