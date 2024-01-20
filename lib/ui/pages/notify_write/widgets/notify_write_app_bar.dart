@@ -55,7 +55,7 @@ class NotifyWirteAppBar extends StatelessWidget implements PreferredSizeWidget {
                //addChatNotify 에 텍스트 넣어주기
                     //Logger().d("진짜 모르겠다 도대체 뭔데 진짜로 제발 $chatId");
                     Logger().d("'+++++Submitted Text++++++: $submitText'"); //ok
-                    Navigator.pushNamed(context, Move.ChatNotifyPage);
+
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.transparent,

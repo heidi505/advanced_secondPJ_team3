@@ -10,12 +10,14 @@ import 'package:team3_kakao/data/repository/chat_repository.dart';
 import '../../../main.dart';
 
 class ChatNotifyModel {
+  //ChatNotifyViewModel 상태
   List<ChatNotifyDTO>? chatNotifyDTOList;
 
   ChatNotifyModel({this.chatNotifyDTOList});
 }
 
 class ChatNotifyViewModel extends StateNotifier<ChatNotifyModel?> {
+  //ChatNotifyModel 상태 관리하고 업뎃
   Ref ref;
   final mContext = navigatorKey.currentContext;
 
@@ -33,10 +35,18 @@ class ChatNotifyViewModel extends StateNotifier<ChatNotifyModel?> {
 
     //채팅방 목록 조회
 
+    // QuerySnapshot<Map<String, dynamic>> chatRoomCollection = await db
+    //     .collection("chatNotify")
+    //     .where("userId", arrayContains: session.user!.id) //userId 포함된 chatidId 조회
+    //     .get();
+    // Logger().d("00000 ${chatRoomCollection.docs}");
+
+
     QuerySnapshot<Map<String, dynamic>> chatRoomCollection = await db
         .collection("ChatRoom1")
         .where("users", arrayContains: session.user!.id) //userId 포함된 users 조회
         .get();
+    Logger().d("00000 ${chatRoomCollection.docs.length}");
 
     // DocumentSnapshot<Map<String, dynamic>> chatRoomCollection = await db
     //     .collection("ChatRoom1")
@@ -53,17 +63,9 @@ class ChatNotifyViewModel extends StateNotifier<ChatNotifyModel?> {
     //for문 돌면서 순회
     for (QueryDocumentSnapshot<
         Map<String, dynamic>> chatDoc in chatRoomCollection.docs) {
-      Map<String, dynamic>? data = chatDoc.data();
-
-      Logger().d("+++${data["chatName"]}");
-      // 문서의 데이터 가져오기
-      Logger().d(
-          "+++채팅방 조회함돠+++ : ${chatRoomCollection.docs.map((e) => e.data())}");
-      Logger().d("++유저아이디!!!!!+++ : ${session.user!.id}");
-
       //채팅방 목록 돌아보면서 필터링
 
-      for (var chatDoc in chatRoomCollection.docs) {
+
         //chatRoom 문서
         dynamic data = chatDoc.data();
         Logger().d("+++채팅방 필터링 중+++ : ${data}");
@@ -85,6 +87,7 @@ class ChatNotifyViewModel extends StateNotifier<ChatNotifyModel?> {
         Logger().d(
             "+++컬렉션 문서 들고오는 중++++${chatNotifyDocs.docs.length}"); //ok --1
 
+       // List<ChatNotifyDTO> dtoList = [];
         //문서 필드 확인
         for (QueryDocumentSnapshot<Map<String, dynamic>> chatNotifyDoc in chatNotifyDocs.docs) {
           Map<String, dynamic>? data = chatNotifyDoc.data();
@@ -102,9 +105,9 @@ class ChatNotifyViewModel extends StateNotifier<ChatNotifyModel?> {
           Logger().d("+++리스트에 추가 +++ ${chatNotifyDTOList.content}");
           dtoList.add(chatNotifyDTOList);
         }
-        state = ChatNotifyModel(chatNotifyDTOList: dtoList);
         //기존의 chatNotifyDTOList dtoList 다시 갱신해줘야함 !!
       }
+
 //
 // Future<void> addMessage(String text) async{
 //   SessionUser session = ref.read(sessionProvider);
@@ -118,10 +121,12 @@ class ChatNotifyViewModel extends StateNotifier<ChatNotifyModel?> {
 // state = OtherChatModel(messages: newMessageList);
 // });
 // }
+    state = ChatNotifyModel(chatNotifyDTOList: dtoList);
     }
+
   }
 
-}
+
 
   final chatNotifyProvider =
   StateNotifierProvider.autoDispose<ChatNotifyViewModel, ChatNotifyModel?>(
@@ -129,3 +134,7 @@ class ChatNotifyViewModel extends StateNotifier<ChatNotifyModel?> {
         return ChatNotifyViewModel(ref, null)
           ..notifyInit();
       });
+
+//요약 :
+//notifyInit이 호출되면 채팅방 조회하고 채팅알림을 조회
+//조회된 채팅 알림을 ChatNotifyDTO로 변환하여 dtoList에 추가 -> state에 반영

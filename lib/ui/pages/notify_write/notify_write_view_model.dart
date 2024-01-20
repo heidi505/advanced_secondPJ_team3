@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chat_notify_list_dto.dart';
 import 'package:team3_kakao/data/model/chat_notify_item.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
@@ -31,9 +33,10 @@ class NotifyChatWriteViewModel extends StateNotifier<NotifyChatWriteModel?> {
     ParamStore paramStore = ref.read(paramProvider);
     Logger().d("!!!!!!!!!!!!! ${paramStore.notifyText}");
 
-    await ChatRepository().addNotify(textController, session.user!.id!,paramStore.chatRoomDocId!);
+    await ChatRepository().addNotify(textController, session.user!.id!,paramStore.chatRoomDocId!, mContext!);
     Logger().d("+++++++${paramStore.chatRoomDocId}");
     Logger().d("+++++++${paramStore.chatroomDTO?.chatId}");
+
   }
   //state = NotifyChatWriteModel(notifyItem: NotifyItem());
 

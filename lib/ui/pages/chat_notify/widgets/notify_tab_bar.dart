@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
@@ -17,6 +19,9 @@ class _NotifyTabBarState extends State<NotifyTabBar>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   TextEditingController _textEditingController = TextEditingController();
+
+
+
 
   @override
   void initState() {
@@ -73,18 +78,27 @@ class _NotifyTabBarState extends State<NotifyTabBar>
                     ),
                     // 두 번째 탭의 내용
                     ListView.separated(
+
                       itemCount: notifyModel.chatNotifyDTOList!.length, // 예시로 10개의 아이템을 표시
                       separatorBuilder: (BuildContext context, int index) {
                         return Divider(); // 각 아이템 사이에 구분선을 추가
                       },
                       itemBuilder: (BuildContext context, int index) {
-                        Logger().d("+++ListTile Title: ${notifyModel!.chatNotifyDTOList![index].content}");
+                        // Logger().d("+++ListTile Title: ${notifyModel!.chatNotifyDTOList![index].content}");
+                        Logger().d("+++ListTile Title: ${notifyModel!.chatNotifyDTOList![index].createdAt}");
+                        Timestamp? timestamp = notifyModel!.chatNotifyDTOList![index].createdAt;
+                        DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+                            timestamp!.seconds * 1000 + timestamp.nanoseconds ~/ 1000000);
+
+                        String formattedDate = DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
+
                         return ListTile(
                           title:
                             Text(
                                 "${notifyModel!.chatNotifyDTOList![index].content}"),
                             //textAlign: TextAlign.start,
-                          subtitle: Text('TimeStamp'),
+                          subtitle: Text('$formattedDate'),
+
                         );
                       },
                     ),
