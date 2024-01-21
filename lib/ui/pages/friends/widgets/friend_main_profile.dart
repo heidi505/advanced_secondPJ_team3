@@ -17,7 +17,6 @@ import '../../../../data/provider/profile_update_provider.dart';
 final logger = Logger();
 
 class FriendMainProfile extends ConsumerWidget {
-
   final Profile myProfile;
   const FriendMainProfile({super.key, required this.myProfile});
 
@@ -32,7 +31,7 @@ class FriendMainProfile extends ConsumerWidget {
         userId: session.user!.id!,
         nickname: session.user!.nickname,
         phoneNum: session.user!.phoneNum,
-        statusMessage: myProfile.statusMessage);
+        statusMessage: session.user!.statusMessage);
 
     // FriendsDTO myProfileDTO = FriendsDTO(
     //     userId: session.user!.id!,
@@ -71,7 +70,7 @@ class FriendMainProfile extends ConsumerWidget {
                   style: h4(),
                 ),
                 Text(
-                  "${myProfile.statusMessage}",
+                  "${session.user!.statusMessage}",
                   style: h6(color: basicColorB9),
                 ),
               ],

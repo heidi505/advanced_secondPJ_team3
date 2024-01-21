@@ -10,6 +10,7 @@ import 'package:team3_kakao/data/model/chat.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/chat_repository.dart';
 import 'package:team3_kakao/main.dart';
+import 'package:team3_kakao/ui/pages/main_view_model.dart';
 
 import '../../../_core/constants/move.dart';
 import '../../../data/dto/response_dto.dart';
@@ -95,13 +96,28 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
   }
 
   Future<void> chatSetting(String chatDocId, String func, int userId) async {
-    await ChatRepository().setChatting(chatDocId, func, userId);
+    List<ChatroomDTO> oldState = state!.chatRoomDTOList;
+
+    int index =
+        oldState.indexWhere((element) => element.chatDocId == chatDocId);
+
+    ChatroomDTO dto = oldState.removeAt(index);
+    oldState.insert(0, dto);
+
+    state = ChattingPageModel(chatRoomDTOList: oldState);
   }
 
   //채팅방 나가기
   Future<void> deleteChat(String chatDocId, int userId) async {
     await ChatRepository().deleteChat(chatDocId, userId);
     await notifyInit();
+  }
+
+  void addFavChatRoom(String chatDocId) {
+    List<ChatroomDTO> chats = state!.chatRoomDTOList!;
+    ChatroomDTO chatroomDTO =
+        chats.singleWhere((element) => element.chatDocId == chatDocId);
+    ref.read(mainProvider.notifier).addFavorites(chatroomDTO);
   }
 }
 

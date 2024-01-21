@@ -16,7 +16,6 @@ import 'package:team3_kakao/ui/widgets/text_form/friend_search_text_form_field.d
 import 'package:team3_kakao/ui/widgets/text_form/add_search_text_form_field.dart';
 
 class FriendSearchPage extends ConsumerWidget {
-
   final logger = Logger();
 
   @override
@@ -35,7 +34,6 @@ class FriendSearchPage extends ConsumerWidget {
     }
     userList = model.friendSerchResponseDTO;
     logger.d("모델에 값 잘 담김3? ${userList.toString()}");
-
 
     return Scaffold(
       backgroundColor: bgAndLineColor,
@@ -61,7 +59,7 @@ class FriendSearchPage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding:
-              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,19 +92,19 @@ class FriendSearchPage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) =>
-                    Container(
-                      child: ChattingItem(
-                        ontap: () {
-                          Navigator.pushNamed(context, Move.profilePage);
-                        },
-                        circular: 16.0,
-                        imageWidth: 40,
-                        imageHeight: 40,
-                        imagePath: "${dio.options.baseUrl}${userList?[index].profileImage}",
-                        title: "${userList?[index].nickname}",
-                      ),
-                    ),
+                (context, index) => Container(
+                  child: ChattingItem(
+                    ontap: () {
+                      Navigator.pushNamed(context, Move.profilePage);
+                    },
+                    circular: 16.0,
+                    imageWidth: 40,
+                    imageHeight: 40,
+                    imagePath:
+                        "${dio.options.baseUrl}/images/${userList?[index].id}.jpg",
+                    title: "${userList?[index].nickname}",
+                  ),
+                ),
                 childCount: userList?.length,
               ),
             ),
