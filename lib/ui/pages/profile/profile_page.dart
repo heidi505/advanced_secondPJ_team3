@@ -81,10 +81,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.zero,
           image: DecorationImage(
-            image: AssetImage("assets/images/profile_basic_image.png"),
-            fit: BoxFit.cover,
-          ),
+              image: NetworkImage(
+                session.user!.id != model!.userId
+                    ? "$baseUrl/images/${paramStore.friendDTO!.backImage}"
+                    : "$baseUrl/images/${profile.backImage}",
+              ),
+              fit: BoxFit.cover),
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -137,7 +141,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 color: basicColorW,
               ),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, Move.mainPage, (route) => false);
               },
             ),
             actions: [

@@ -60,9 +60,11 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
   // 콜백 함수 - back 이미지
   void updateBackImage(File imagePath) {
     Logger().d("선택된 이미지 경로 : $imagePath");
-    if (imagePath == null) {
-      selectedBackImagePath = null;
-    }
+    setState(() {
+      if (imagePath == null) {
+        selectedBackImagePath = null;
+      }
+    });
     selectedBackImagePath = imagePath;
     String base64ImageBack = "";
     final bytes = File(selectedBackImagePath!.path).readAsBytesSync();
@@ -90,10 +92,16 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/profile_basic_image.png"),
-            fit: BoxFit.cover,
-          ),
+          borderRadius: BorderRadius.circular(0),
+          image: selectedBackImagePath != null
+              ? DecorationImage(
+                  image: FileImage(selectedBackImagePath!),
+                  fit: BoxFit.cover,
+                )
+              : DecorationImage(
+                  image: NetworkImage("$baseUrl/images/${profile.backImage}"),
+                  fit: BoxFit.cover,
+                ),
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,

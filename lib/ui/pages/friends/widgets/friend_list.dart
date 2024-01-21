@@ -22,33 +22,31 @@ class FriendList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ParamStore paramStore = ref.read(paramProvider);
 
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: friendsList!.length!,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                ChattingItem(
-                  ontap: () {
-                    paramStore.addProfileDetail(friendsList![index]);
-                    logger.d(
-                        '즐찾 들어와줘어어어어 제바아알 ${friendsList![index].isFavorite}');
-                    Navigator.pushNamed(context, Move.profilePage);
-                  },
-                  circular: 16.0,
-                  imageWidth: 40,
-                  imageHeight: 40,
-                  imagePath:
-                      "$baseUrl/images/${friendsList![index].userId}.jpg",
-                  title: friendsList![index].nickname!,
-                  subTitle: friendsList![index].statusMessage,
-                ),
-              ],
-            );
-          },
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: friendsList!.length!,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              ChattingItem(
+                ontap: () {
+                  paramStore.addProfileDetail(friendsList![index]);
+                  logger
+                      .d('즐찾 들어와줘어어어어 제바아알 ${friendsList![index].isFavorite}');
+                  Navigator.pushNamed(context, Move.profilePage);
+                },
+                circular: 16.0,
+                imageWidth: 40,
+                imageHeight: 40,
+                imagePath: "$baseUrl/images/${friendsList![index].userId}.jpg",
+                title: friendsList![index].nickname!,
+                subTitle: friendsList![index].statusMessage,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

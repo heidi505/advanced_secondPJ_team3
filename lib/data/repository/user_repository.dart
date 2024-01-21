@@ -147,10 +147,6 @@ class UserRepository {
 
   Future<ResponseDTO> fetchProfileUpdate(
       ProfileUpdateRequestDTO profileUpdateRequestDTO, String jwt) async {
-    Logger().d("업데이트 레파지토리 진입 확인(닉네임) : ${profileUpdateRequestDTO.nickname}");
-    Logger().d(
-        "업데이트 레파지토리 진입 확인(상태메세지) : ${profileUpdateRequestDTO.statusMessage}");
-
     try {
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
       Response response = await dio.post("/user/my-profile-update",

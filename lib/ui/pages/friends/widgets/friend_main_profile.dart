@@ -29,12 +29,10 @@ class FriendMainProfile extends ConsumerWidget {
     ParamStore paramStore = ref.read(paramProvider);
 
     ProfileDetailModel? model = ref.watch(profileDetailProvider);
-
+    ProfileDetailResponseDTO profile = model!.profileDetailResponseDTO!;
     if (model == null) {
       return CircularProgressIndicator();
     }
-
-    ProfileDetailResponseDTO profile = model!.profileDetailResponseDTO!;
 
     FriendsDTO myProfileDTO = FriendsDTO(
         userId: session.user!.id!,

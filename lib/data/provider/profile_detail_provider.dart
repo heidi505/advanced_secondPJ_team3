@@ -32,7 +32,7 @@ class ProfileDetailViewModel extends StateNotifier<ProfileDetailModel?> {
 }
 
 // 프로바이더
-final profileDetailProvider =
-    StateNotifierProvider<ProfileDetailViewModel, ProfileDetailModel?>((ref) {
+final profileDetailProvider = StateNotifierProvider.autoDispose<
+    ProfileDetailViewModel, ProfileDetailModel?>((ref) {
   return ProfileDetailViewModel(ProfileDetailModel(null), ref)..notifyInit();
 });
