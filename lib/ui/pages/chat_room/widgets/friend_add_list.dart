@@ -31,7 +31,7 @@ class _FriendAddListState extends State<FriendAddList> {
       children: [
         Container(
           child: ListTile(
-            leading: OpenProfileImage(
+            leading: OpenProfileImage2(
               imageHeight: 50,
               imageWidth: 50,
               imagePath: "$baseUrl/images/${widget.friend!.id}.jpg",
