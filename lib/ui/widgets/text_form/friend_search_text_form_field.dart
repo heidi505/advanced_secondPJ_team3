@@ -23,7 +23,7 @@ class _FriendSearchTextFormFieldState
     return TextFormField(
       controller: controller,
       onFieldSubmitted: (value) {
-        ref.read(searchProvider.notifier).notifyInit(value);
+        ref.read(searchProvider.notifier).notifyInit("최죠");
       },
       // onChanged: (value) {
       //   setState(() {

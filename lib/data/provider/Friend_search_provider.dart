@@ -29,7 +29,6 @@ class FriendSearchViewModel extends StateNotifier<FriendSearchModel?> {
 
   Future<void> notifyInit(String keyword) async {
     SessionUser sessionUser = ref.read(sessionProvider);
-    String keyword = ref.read(paramProvider).searchKeyword!;
 
     Logger().d("노티파이 진입");
     ResponseDTO responseDTO = await UserRepository()

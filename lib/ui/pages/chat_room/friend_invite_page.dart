@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
+import 'package:team3_kakao/data/provider/Friend_search_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/friend_add.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/friend_add_list.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_title.dart';
@@ -33,6 +34,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
   @override
   Widget build(BuildContext context) {
     MainPageModel? model = ref.watch(mainProvider);
+    FriendSearchModel? searchModel = ref.watch(searchProvider);
 
     if (model == null) {
       return CircularProgressIndicator();

@@ -95,7 +95,15 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
   }
 
   Future<void> chatSetting(String chatDocId, String func, int userId) async {
-    await ChatRepository().setChatting(chatDocId, func, userId);
+    List<ChatroomDTO> oldState = state!.chatRoomDTOList;
+
+    int index =
+        oldState.indexWhere((element) => element.chatDocId == chatDocId);
+
+    ChatroomDTO dto = oldState.removeAt(index);
+    oldState.insert(0, dto);
+
+    state = ChattingPageModel(chatRoomDTOList: oldState);
   }
 
   //채팅방 나가기
