@@ -4,6 +4,7 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/provider/Friend_search_provider.dart';
+import 'package:team3_kakao/data/provider/add_friend_to_chat_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/friend_add.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/friend_add_list.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_title.dart';
@@ -35,6 +36,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
   Widget build(BuildContext context) {
     MainPageModel? model = ref.watch(mainProvider);
     FriendSearchModel? searchModel = ref.watch(searchProvider);
+    AddFriendToChatModel? pickedOne = ref.watch(addFriendToChatProvider);
 
     if (model == null) {
       return CircularProgressIndicator();
@@ -53,7 +55,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
               Navigator.pop(context);
             },
             child: Image.asset(
-              "assets/icons/close.png",
+              "assets/icons/check_icon.png",
               fit: BoxFit.cover,
               width: 30,
               height: 30,
@@ -64,14 +66,14 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
       ),
       body: CustomScrollView(
         slivers: [
-          _buildSliverAppBar(),
+          _buildSliverAppBar(pickedOne!.friendsToAdd!),
           _buildSliverList(),
         ],
       ),
     );
   }
 
-  Widget _buildSliverAppBar() {
+  Widget _buildSliverAppBar(List<FriendsDTO> friends) {
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverAppBarDelegate(
@@ -85,7 +87,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                _buildFriendAdd(),
+                Expanded(child: _buildFriendAdd(friends)),
                 AddSearchTextFormField(),
               ],
             ),
@@ -96,16 +98,29 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
   }
 
   Widget _buildSliverList() {
+    List<dynamic> friends;
+    FriendSearchModel? searchModel = ref.watch(searchProvider);
+    int userId;
+    if (searchModel!.friendSerchResponseDTO!.isEmpty) {
+      friends = ref.read(mainProvider)!.mainDTO!.friendList!;
+    } else {
+      friends = searchModel!.friendSerchResponseDTO!
+          .map((e) => FriendsDTO(
+              nickname: e.nickname, userId: e.id, profileImage: e.profileImage))
+          .toList();
+    }
+
     return SliverFillRemaining(
       child: CustomScrollView(
         slivers: [
-          FriendTItle(count: mainDTO!.friendList!.length),
+          FriendTItle(count: friends.length),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return FriendAddList(isChecked: isChecked);
+                return FriendAddList(
+                    isChecked: isChecked, friend: friends[index]);
               },
-              childCount: 15,
+              childCount: friends.length,
             ),
           ),
         ],
@@ -113,15 +128,19 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
     );
   }
 
-  Widget _buildFriendAdd() {
+  Widget _buildFriendAdd(List<FriendsDTO> friends) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
-      child: Row(
-        children: [
-          FriendAdd(),
-          SizedBox(width: smallGap),
-          FriendAdd(),
-        ],
+      child: Container(
+        height: 100,
+        width: friends.length * 50,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return FriendAdd(pickedFriend: friends[index]);
+          },
+          itemCount: friends.length,
+        ),
       ),
     );
   }

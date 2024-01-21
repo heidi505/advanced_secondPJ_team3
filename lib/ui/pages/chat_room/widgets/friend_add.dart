@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/friend_dto/friend_search_response_dto.dart';
+import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/open_profile_image.dart';
 
-class FriendAdd extends StatelessWidget {
-  const FriendAdd({
-    super.key,
-  });
+import '../../../../data/provider/add_friend_to_chat_provider.dart';
+
+class FriendAdd extends ConsumerWidget {
+  FriendsDTO? pickedFriend;
+  FriendAdd({super.key, this.pickedFriend});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(addFriendToChatProvider);
     return Column(
       children: [
         Stack(
           children: [
             Container(
-              child: OpenProfileImage(
-                imagePath: "assets/images/basic_img.jpeg",
+              child: OpenProfileImage2(
+                imagePath: "$baseUrl/images/${pickedFriend!.userId}.jpg",
                 imageWidth: 50,
                 imageHeight: 50,
                 circular: 20,
@@ -26,9 +32,7 @@ class FriendAdd extends StatelessWidget {
               top: -2,
               right: -2,
               child: GestureDetector(
-                onTap: () {
-                  // 엑스 표시를 눌렀을 때 수행할 동작 추가
-                },
+                onTap: () {},
                 child: Container(
                   child: Image.asset(
                     "assets/icons/circle_close_icon.png",
@@ -45,7 +49,7 @@ class FriendAdd extends StatelessWidget {
         SizedBox(
           height: xsmallGap,
         ),
-        Text("그노"),
+        Text("${pickedFriend!.nickname}"),
       ],
     );
   }
