@@ -97,7 +97,17 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
   }
 
   Widget _buildSliverList() {
-    List<FriendsDTO> friends = ref.read(mainProvider)!.mainDTO!.friendList!;
+    List<dynamic> friends;
+    FriendSearchModel? searchModel = ref.watch(searchProvider);
+    int userId;
+    if (searchModel!.friendSerchResponseDTO!.isEmpty) {
+      friends = ref.read(mainProvider)!.mainDTO!.friendList!;
+    } else {
+      friends = searchModel!.friendSerchResponseDTO!
+          .map((e) => FriendsDTO(
+              nickname: e.nickname, userId: e.id, profileImage: e.profileImage))
+          .toList();
+    }
 
     return SliverFillRemaining(
       child: CustomScrollView(

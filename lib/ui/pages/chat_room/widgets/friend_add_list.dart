@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
@@ -49,12 +50,12 @@ class _FriendAddListState extends ConsumerState<FriendAddList> {
                 onChanged: (bool? newValue) {
                   setState(() {
                     _isChecked = newValue!;
-                    if (_isChecked) {
-                      ref
-                          .read(addFriendToChatProvider.notifier)
-                          .friendsToAdd(widget.friend!);
-                    }
                   });
+                  if (_isChecked == true) {
+                    ref
+                        .read(addFriendToChatProvider.notifier)
+                        .friendsToAdd(widget.friend!);
+                  }
                 },
                 activeColor: primaryColor01,
                 checkColor: basicColorB,

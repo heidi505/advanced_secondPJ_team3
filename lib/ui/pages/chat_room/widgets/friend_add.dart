@@ -15,7 +15,7 @@ class FriendAdd extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AddFriendToChatModel? model = ref.watch(addFriendToChatProvider);
+    ref.watch(addFriendToChatProvider);
     return Column(
       children: [
         Stack(
