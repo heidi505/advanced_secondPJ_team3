@@ -178,11 +178,11 @@ class ChatRepository {
     return newChatDoc;
   }
 
-
-  Future<void> addNotify( String content, int userId, String chatRoomDocId, BuildContext mContext) async {
+  Future<void> addNotify(String content, int userId, String chatRoomDocId,
+      BuildContext mContext) async {
     final db = FirebaseFirestore.instance;
     NotifyItem notifyItem = NotifyItem(
-         content: content,  userId: userId, createdAt: Timestamp.now());
+        content: content, userId: userId, createdAt: Timestamp.now());
     final docRef = await db
         .collection("ChatRoom1")
         .doc(chatRoomDocId)
@@ -190,5 +190,17 @@ class ChatRepository {
         .add(notifyItem.toJson());
 
     Navigator.pushNamed(mContext, Move.ChatNotifyPage);
+  }
+
+  Future<void> addChatUser(List<FriendsDTO> newChatUsers, String chatRoomDocId,
+      List<int> oldUsers) async {
+    List<int> newChatUserId = newChatUsers.map((e) => e.userId!).toList();
+    final db = FirebaseFirestore.instance;
+
+    oldUsers.addAll(newChatUserId);
+
+    final chatDocRef = await db.collection("ChatRoom1").doc(chatRoomDocId);
+
+    chatDocRef.update({"users": oldUsers});
   }
 }

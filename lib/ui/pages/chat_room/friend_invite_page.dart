@@ -5,6 +5,7 @@ import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/provider/Friend_search_provider.dart';
 import 'package:team3_kakao/data/provider/add_friend_to_chat_provider.dart';
+import 'package:team3_kakao/ui/pages/chat_room/other_chat_view_model.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/friend_add.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/friend_add_list.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_title.dart';
@@ -52,7 +53,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
         actions: [
           InkWell(
             onTap: () {
-              Navigator.pop(context);
+              ref.read(otherChatProvider.notifier).addChatUser();
             },
             child: Image.asset(
               "assets/icons/check_icon.png",
@@ -74,6 +75,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
   }
 
   Widget _buildSliverAppBar(List<FriendsDTO> friends) {
+    ref.watch(addFriendToChatProvider);
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverAppBarDelegate(
@@ -130,10 +132,8 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
 
   Widget _buildFriendAdd(List<FriendsDTO> friends) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
-        height: 100,
-        width: friends.length * 50,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {

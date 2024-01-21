@@ -19,9 +19,10 @@ class AddFriendToChatViewModel extends StateNotifier<AddFriendToChatModel?> {
 
   void friendsToAdd(FriendsDTO friend) {
     List<FriendsDTO> oldList = state!.friendsToAdd!;
-    oldList.add(friend);
 
-    state = AddFriendToChatModel(friendsToAdd: oldList);
+    List<FriendsDTO> newList = [...oldList];
+    newList.add(friend);
+    state = AddFriendToChatModel(friendsToAdd: newList);
   }
 }
 
