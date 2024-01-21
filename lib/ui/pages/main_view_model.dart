@@ -46,11 +46,18 @@ class MainPageViewModel extends StateNotifier<MainPageModel?> {
     Navigator.pushNamed(mContext!, Move.mainPage);
   }
 
-  void addFavorites(String chatDocId) {
+  void addFavorites(ChatroomDTO chatroomDTO) {
     MainDTO oldMain = state!.mainDTO!;
-    ChatroomDTO favChatRoom =
-    oldMain.favorites =
-    List<ChatroomDTO> newFav =
+    if (oldMain.favorites == null) {
+      List<ChatroomDTO> newFavList = [];
+      newFavList.add(chatroomDTO);
+      oldMain.favorites = newFavList;
+
+      state = MainPageModel(mainDTO: oldMain);
+    } else {
+      oldMain.favorites!.add(chatroomDTO);
+      state = MainPageModel(mainDTO: oldMain);
+    }
   }
 }
 

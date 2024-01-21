@@ -39,6 +39,7 @@ class FriendBody extends ConsumerWidget {
     return CustomScrollView(
       slivers: [
         FriendMainProfile(myProfile: mainDTO!.userProfile!),
+        FriendFavorites(favorites: mainDTO!.favorites ?? []),
         FriendMakePop(),
         FriendBirthday(friendList: mainDTO!.birthdayFriendList!),
         FriendTItle(count: mainDTO.friendList!.length),
