@@ -4,6 +4,7 @@ import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/provider/Friend_search_provider.dart';
+import 'package:team3_kakao/data/provider/add_friend_to_chat_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/friend_add.dart';
 import 'package:team3_kakao/ui/pages/chat_room/widgets/friend_add_list.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_title.dart';
@@ -85,7 +86,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                _buildFriendAdd(),
+                Expanded(child: _buildFriendAdd()),
                 AddSearchTextFormField(),
               ],
             ),
@@ -96,22 +97,19 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
   }
 
   Widget _buildSliverList() {
-    FriendSearchModel? model = ref.watch(searchProvider);
-    if (model == null || model.friendSerchResponseDTO!.isEmpty) {
-      return SliverFillRemaining(child: SizedBox());
-    }
+    List<FriendsDTO> friends = ref.read(mainProvider)!.mainDTO!.friendList!;
+
     return SliverFillRemaining(
       child: CustomScrollView(
         slivers: [
-          FriendTItle(count: model!.friendSerchResponseDTO!.length),
+          FriendTItle(count: friends.length),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return FriendAddList(
-                    isChecked: isChecked,
-                    friend: model!.friendSerchResponseDTO![index]);
+                    isChecked: isChecked, friend: friends[index]);
               },
-              childCount: model!.friendSerchResponseDTO!.length,
+              childCount: friends.length,
             ),
           ),
         ],
@@ -120,14 +118,19 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
   }
 
   Widget _buildFriendAdd() {
+    AddFriendToChatModel? model = ref.watch(addFriendToChatProvider);
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
-      child: Row(
-        children: [
-          FriendAdd(),
-          SizedBox(width: smallGap),
-          FriendAdd(),
-        ],
+      child: Container(
+        height: 100,
+        width: model!.friendsToAdd!.length * 50,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return FriendAdd(pickedFriend: model!.friendsToAdd![index]);
+          },
+          itemCount: model!.friendsToAdd!.length,
+        ),
       ),
     );
   }
