@@ -12,8 +12,8 @@ import 'package:team3_kakao/ui/pages/main_view_model.dart';
 
 class FriendBody extends ConsumerWidget {
   const FriendBody({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,26 +24,28 @@ class FriendBody extends ConsumerWidget {
     }
 
     MainDTO mainDTO = model!.mainDTO!;
-    // if (mainDTO!.birthdayFriendList == null ||
-    //     mainDTO!.birthdayFriendList!.isEmpty) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FriendMainProfile(myProfile: mainDTO!.userProfile!),
-        FriendMakePop(),
-        FriendTItle(count: mainDTO.friendList!.length),
-        FriendList(friendsList: mainDTO!.friendList),
-      ],
-    );
-  } // else {
-  //   return CustomScrollView(
-  //     slivers: [
-  //       FriendMainProfile(myProfile: mainDTO!.userProfile!),
-  //       FriendMakePop(),
-  //       FriendBirthday(friendList: mainDTO!.birthdayFriendList!),
-  //       FriendTItle(count: mainDTO.friendList!.length),
-  //       FriendList(friendsList: mainDTO!.friendList),
-  //     ],
-  //   );
-  // }
+
+    if (mainDTO.birthdayFriendList == null ||
+        mainDTO.birthdayFriendList!.isEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FriendMainProfile(myProfile: mainDTO.userProfile!),
+          FriendMakePop(),
+          FriendTitle(count: mainDTO.friendList!.length),
+          FriendList(friendsList: mainDTO.friendList),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          FriendMainProfile(myProfile: mainDTO.userProfile!),
+          FriendMakePop(),
+          FriendBirthday(friendList: mainDTO.birthdayFriendList!),
+          FriendTitle(count: mainDTO.friendList!.length),
+          FriendList(friendsList: mainDTO.friendList),
+        ],
+      );
+    }
+  }
 }

@@ -25,6 +25,7 @@ class LoginTextFormField extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(top: xsmallGap, bottom: mediumGap),
           child: TextFormField(
+            obscureText: text == "비밀번호" ? true : false,
             controller: controller,
             decoration: InputDecoration(
               hintText: "$text",

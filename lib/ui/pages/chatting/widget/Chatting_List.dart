@@ -25,6 +25,7 @@ import 'package:team3_kakao/ui/pages/chatting/widget/chat_menu_modal.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_person_count.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chatting_count.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/group_profile.dart';
+import 'package:team3_kakao/ui/pages/main_view_model.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
@@ -45,100 +46,102 @@ class ChattingList extends ConsumerWidget {
       return SliverToBoxAdapter(child: CircularProgressIndicator());
     }
 
-    if(model!.chatRoomDTOList.isNotEmpty){
+    if (model!.chatRoomDTOList.isNotEmpty) {
       return SliverPadding(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
-                (context, index) =>
-                Column(
-                  children: [
-                    SizedBox(
-                      height: smallGap,
-                    ),
-                    GroupProfile(
-                      userIdList: model!.chatRoomDTOList[index].userIdList,
-                      onlongPress: () {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: ((context) {
-                            ref
-                                .read(paramProvider)
-                                .addChatRoomDTO(model!.chatRoomDTOList[index]);
-                            return _ChatMenuModal(
-                                context, model!.chatRoomDTOList[index], ref);
-                          }),
-                        );
-                      },
-                      ontap: () {
+            (context, index) => Column(
+              children: [
+                SizedBox(
+                  height: smallGap,
+                ),
+                GroupProfile(
+                  userIdList: model!.chatRoomDTOList[index].userIdList,
+                  onlongPress: () {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: ((context) {
                         ref
                             .read(paramProvider)
                             .addChatRoomDTO(model!.chatRoomDTOList[index]);
-                        ref.read(paramProvider).addChatRoomDocId(
-                            model!.chatRoomDTOList[index].chatDocId!);
-                        Navigator.pushNamed(context, Move.chatRoomPage);
-                      },
-                      imagePath: "$baseUrl/images/${index + 1}.jpg",
-                      title: model!.chatRoomDTOList[index].chatName!,
-                      peopleCount: model!.chatRoomDTOList[index].peopleCount!,
-                      subTitle: model!.chatRoomDTOList[index].lastChat ?? "",
-                      multiItem: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            model.chatRoomDTOList[index].lastChatTime ?? "",
-                            style: h6(color: basicColorB9),
-                          ),
-                          SizedBox(
-                            height: xsmallGap,
-                          ),
-                          ChattingCount(),
-                        ],
+                        return _ChatMenuModal(
+                            context, model!.chatRoomDTOList[index], ref);
+                      }),
+                    );
+                  },
+                  ontap: () {
+                    ref
+                        .read(paramProvider)
+                        .addChatRoomDTO(model!.chatRoomDTOList[index]);
+                    ref.read(paramProvider).addChatRoomDocId(
+                        model!.chatRoomDTOList[index].chatDocId!);
+                    Navigator.pushNamed(context, Move.chatRoomPage);
+                  },
+                  imagePath: "$baseUrl/images/${index + 1}.jpg",
+                  title: model!.chatRoomDTOList[index].chatName!,
+                  peopleCount: model!.chatRoomDTOList[index].peopleCount!,
+                  subTitle: model!.chatRoomDTOList[index].lastChat ?? "",
+                  multiItem: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        model.chatRoomDTOList[index].lastChatTime ?? "",
+                        style: h6(color: basicColorB9),
                       ),
-                    )
-                  ],
-                ),
+                      SizedBox(
+                        height: xsmallGap,
+                      ),
+                      // ChattingCount(),
+                    ],
+                  ),
+                )
+              ],
+            ),
             childCount: model!.chatRoomDTOList.length,
           ),
         ),
       );
-    }else{
-      return SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.only(top: xxlargeGap),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: pointColor03.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/images/chat_empty_icon.png",
-                          fit: BoxFit.cover,
-                          height: 150,
-                        ),
-                        SizedBox(
-                          height: smallGap,
-                        ),
-                        Text(
-                          "개설된 채팅방이 없습니다",
-                          style: h4(fontWeight: FontWeight.w500),
-                        ),
-                      ],
+    } else {
+      return SliverPadding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        sliver: SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(top: xxlargeGap),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: pointColor03.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/chat_empty_icon.png",
+                            fit: BoxFit.cover,
+                            height: 150,
+                          ),
+                          SizedBox(
+                            height: smallGap,
+                          ),
+                          Text(
+                            "개설된 채팅방이 없습니다",
+                            style: h4(fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -169,8 +172,9 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
-                ref.read(chattingPageProvider.notifier).chatSetting(
-                    chatroomDTO.chatDocId!, "isBookMarked", session.user!.id!);
+                ref
+                    .read(chattingPageProvider.notifier)
+                    .addFavChatRoom(chatroomDTO.chatDocId!);
                 showCustom(context, "즐겨찾기에 추가되었습니다.");
               },
               text: Text(
@@ -214,7 +218,6 @@ class ChattingList extends ConsumerWidget {
       ),
     );
   }
-
 
   showCustom(BuildContext context, String text) {
     FToast fToast = FToast();

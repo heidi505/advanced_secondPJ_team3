@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +10,7 @@ import 'package:team3_kakao/data/model/chat.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/chat_repository.dart';
 import 'package:team3_kakao/main.dart';
+import 'package:team3_kakao/ui/pages/main_view_model.dart';
 
 import '../../../_core/constants/move.dart';
 import '../../../data/dto/response_dto.dart';
@@ -46,16 +46,14 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
         if (messages.docs.isNotEmpty) {
           Map<String, dynamic> lastMessage = messages.docs.last.data();
 
-
-
           MessageDTO lastMessageDTO = MessageDTO(
               content: lastMessage["content"],
               createdAt: lastMessage["createdAt"],
               userId: lastMessage["userId"]);
 
-          lastMessage["isPhoto"] ?
-          e.lastChat = "사진"
-              : e.lastChat = lastMessage["content"];
+          lastMessageDTO.content.startsWith("[File:")
+              ? e.lastChat = "사진"
+              : e.lastChat = lastMessageDTO.content;
 
           int lastHour = lastMessageDTO.createdAt!.toDate().hour;
           int lastMinute = lastMessageDTO.createdAt!.toDate().minute;
@@ -72,10 +70,7 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
         }
       }).toList();
       state = ChattingPageModel(chatRoomDTOList: event);
-    }
-    );
-
-
+    });
   }
 
   Future<void> changeChatName(
@@ -101,13 +96,28 @@ class ChattingPageViewModel extends StateNotifier<ChattingPageModel?> {
   }
 
   Future<void> chatSetting(String chatDocId, String func, int userId) async {
-    await ChatRepository().setChatting(chatDocId, func, userId);
+    List<ChatroomDTO> oldState = state!.chatRoomDTOList;
+
+    int index =
+        oldState.indexWhere((element) => element.chatDocId == chatDocId);
+
+    ChatroomDTO dto = oldState.removeAt(index);
+    oldState.insert(0, dto);
+
+    state = ChattingPageModel(chatRoomDTOList: oldState);
   }
 
   //채팅방 나가기
   Future<void> deleteChat(String chatDocId, int userId) async {
     await ChatRepository().deleteChat(chatDocId, userId);
     await notifyInit();
+  }
+
+  void addFavChatRoom(String chatDocId) {
+    List<ChatroomDTO> chats = state!.chatRoomDTOList!;
+    ChatroomDTO chatroomDTO =
+        chats.singleWhere((element) => element.chatDocId == chatDocId);
+    ref.read(mainProvider.notifier).addFavorites(chatroomDTO);
   }
 }
 

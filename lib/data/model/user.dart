@@ -31,7 +31,8 @@ class User {
         email = json["email"],
         phoneNum = json["phoneNum"],
         jwt = json["jwt"],
-        profileImage = json["profileImage"];
+        profileImage = json["profileImage"],
+        statusMessage = json["statusMessage"];
 
   @override
   String toString() {

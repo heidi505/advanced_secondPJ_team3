@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/utils/date_format.dart';
 import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/chat_users_dto.dart';
@@ -176,15 +178,17 @@ class ChatRepository {
     return newChatDoc;
   }
 
-  Future<void> addNotify(
-      String content, int userId, String chatRoomDocId) async {
+
+  Future<void> addNotify( String content, int userId, String chatRoomDocId, BuildContext mContext) async {
     final db = FirebaseFirestore.instance;
     NotifyItem notifyItem = NotifyItem(
-        content: content, userId: userId, createdAt: Timestamp.now());
+         content: content,  userId: userId, createdAt: Timestamp.now());
     final docRef = await db
         .collection("ChatRoom1")
         .doc(chatRoomDocId)
         .collection("chatNotify")
         .add(notifyItem.toJson());
+
+    Navigator.pushNamed(mContext, Move.ChatNotifyPage);
   }
 }

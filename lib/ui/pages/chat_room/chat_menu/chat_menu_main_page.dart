@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +40,13 @@ class ChatRoomHamburger extends ConsumerWidget {
         a.userId == session.user!.id! ||
         a == sortedUserDTO.firstWhere((b) => b.userId == a.userId));
 
+    List<MessageDTO> photoMessages = messages!
+        .where((message) => message?.isPhoto == true)
+        .map((message) => message!) // null이 아님이 보장되기 때문에 ! 연산자를 사용
+        .toList();
+
+    Logger().d("포토메세지 테스트중 ${photoMessages.length}");
+
     return Drawer(
       child: Column(
         children: [
@@ -60,15 +69,22 @@ class ChatRoomHamburger extends ConsumerWidget {
                         linkto: ChatRoomMediaPage()),
                     // 실제 보유 이미지들 + 리스트로(?) 가져오게 수정해야함!
                     Container(
-                      height: 90,
-                      child: Row(
-                        children: [
-                          Image.asset("assets/images/cat.jpg",
-                              fit: BoxFit.cover, height: 70, width: 70),
-                          SizedBox(width: xsmallGap), // 여백을 추가하는 부분
-                          Image.asset("assets/images/dog.jpg",
-                              fit: BoxFit.cover, height: 70, width: 70),
-                        ],
+                      height: 50,
+                      width: photoMessages.length * 100,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          String filePath =
+                              photoMessages[index].content.split("'")[1];
+                          return Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: FileImage(File(filePath)),
+                                      fit: BoxFit.contain)));
+                        },
+                        itemCount: photoMessages.length,
                       ),
                     ),
                     ChatHamIcon(

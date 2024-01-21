@@ -34,15 +34,15 @@ class FriendRepository {
     print("isFavorite 타입: ${favoriteFriendRequestDTO.isFavorite.runtimeType}");
 
     // try {
-      Response<dynamic> response = await dio.put(
-          "/friends/favorite/${favoriteFriendRequestDTO.userId}",
-          options: Options(headers: {"Authorization": jwt}),
-          data: favoriteFriendRequestDTO.toJson(),
-          );
-      ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
-      responseDTO.data = new FavoriteFriendResponseDTO.fromJson(responseDTO.data);
+    Response<dynamic> response = await dio.put(
+      "/friends/favorite/${favoriteFriendRequestDTO.userId}",
+      options: Options(headers: {"Authorization": jwt}),
+      data: favoriteFriendRequestDTO.toJson(),
+    );
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+    responseDTO.data = new FavoriteFriendResponseDTO.fromJson(responseDTO.data);
 
-      return responseDTO;
+    return responseDTO;
     // } catch (e) {
     //   logger.e("Error in fetchFavoriteStatus: $e");
     //   return ResponseDTO(
@@ -53,15 +53,25 @@ class FriendRepository {
     // }
   }
 
-  Future<ResponseDTO> fetchSearchingFriend(String phoneNumForSearch, String jwt) async {
-    Response response = await dio.get("/user/search-user/$phoneNumForSearch", options: Options(headers: {"Authorization" : jwt}));
-
+  Future<ResponseDTO> fetchSearchingFriend(
+      String phoneNumForSearch, String jwt) async {
+    Response response = await dio.get("/user/search-user/$phoneNumForSearch",
+        options: Options(headers: {"Authorization": jwt}));
     ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
-    Logger().d(responseDTO.data);
+
     responseDTO.data = ProfileDetailResponseDTO.fromJson(responseDTO.data);
-    Logger().d(responseDTO.data);
 
     return responseDTO;
+  }
 
+  Future<ResponseDTO> addFriend(String phoneNum, String jwt, int userId) async {
+    Map<String, dynamic> req = {"id": userId, "phoneNum": phoneNum};
+
+    Response response = await dio.post("/user/phoneNum-friend-add",
+        data: req, options: Options(headers: {"Authorization": jwt}));
+    ResponseDTO responseDTO = ResponseDTO.fromJson(response.data);
+    responseDTO.data = MainDTO.fromJson(responseDTO.data);
+
+    return responseDTO;
   }
 }

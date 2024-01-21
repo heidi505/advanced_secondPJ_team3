@@ -3,6 +3,7 @@ import 'package:logger/logger.dart';
 import 'package:team3_kakao/data/dto/friend_dto/friend_search_response_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/model/user.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/user_repository.dart';
 import 'package:team3_kakao/main.dart';
@@ -26,12 +27,12 @@ class FriendSearchViewModel extends StateNotifier<FriendSearchModel?> {
         friendSerchResponseDTO: state?.friendSerchResponseDTO ?? []);
   }
 
-  Future<void> notifyInit() async {
-    SessionUser? sessionUser = ref.read(sessionProvider);
+  Future<void> notifyInit(String keyword) async {
+    SessionUser sessionUser = ref.read(sessionProvider);
 
     Logger().d("노티파이 진입");
     ResponseDTO responseDTO = await UserRepository()
-        .fetchFriendSearch(state!.keyword!, sessionUser!.user!.jwt!);
+        .fetchFriendSearch(keyword, sessionUser.user!.jwt!);
     Logger().d(responseDTO.data);
     state = FriendSearchModel(friendSerchResponseDTO: responseDTO.data);
   }

@@ -153,7 +153,6 @@ class UserRepository {
 
     try {
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
-
       Response response = await dio.post("/user/my-profile-update",
           data: profileUpdateRequestDTO.toJson(),
           options: Options(headers: {"Authorization": jwt}));
@@ -162,14 +161,12 @@ class UserRepository {
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
       Logger().d("${responseDTO.data} 1번 파싱 안됨");
       // 수정한 정보만 추출해서 덮어 씌우기
-
       responseDTO.data =
           new ProfileUpdateResponseDTO.fromJson(responseDTO.data);
       Logger().d("${responseDTO.data} 2번 파싱 안됨");
 
       // responseDTO.data =
       //   new ProfileDetailResponseDTO.fromJson(responseDTO.data);
-
       return responseDTO;
     } catch (e) {
       Logger().d("캐치 탐 ${e.toString()}");

@@ -89,10 +89,10 @@ class _MainScreenState extends State<MainPage>
               ),
             ),
           ),
-          Positioned(
-            right: 0,
-            child: (id != 3 && id != 0) ? ChattingCount() : SizedBox.shrink(),
-          ),
+          // Positioned(
+          //   right: 0,
+          //   child: (id != 3 && id != 0) ? ChattingCount() : SizedBox.shrink(),
+          // ),
         ],
       ),
       activeIcon: Stack(
@@ -107,10 +107,10 @@ class _MainScreenState extends State<MainPage>
               ),
             ),
           ),
-          Positioned(
-            right: 0,
-            child: (id != 3 && id != 0) ? ChattingCount() : SizedBox.shrink(),
-          ),
+          // Positioned(
+          //   right: 0,
+          //   child: (id != 3 && id != 0) ? ChattingCount() : SizedBox.shrink(),
+          // ),
         ],
       ),
       label: "${label}",

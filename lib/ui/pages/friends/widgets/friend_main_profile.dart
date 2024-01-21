@@ -40,7 +40,7 @@ class FriendMainProfile extends ConsumerWidget {
         userId: session.user!.id!,
         nickname: session.user!.nickname,
         phoneNum: session.user!.phoneNum,
-        statusMessage: myProfile.statusMessage);
+        statusMessage: session.user!.statusMessage);
 
     // FriendsDTO myProfileDTO = FriendsDTO(
     //     userId: session.user!.id!,
