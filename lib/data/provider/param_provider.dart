@@ -22,9 +22,10 @@ class RequestParam {
   List<ChatUsersDTO>? chatUsers;
   FavoriteFriendDTO? favoriteFriendDTO;
   String? phoneNumForSearch;
+  String? searchKeyword;
 
-
-  RequestParam({this.chatRoomDocId,
+  RequestParam({
+    this.chatRoomDocId,
     this.chatroomDTO,
     this.chatNotifyDTO,
     this.friendDTO,
@@ -58,15 +59,13 @@ class ParamStore extends RequestParam {
     this.profileUpdateResponseDTO = profileUpdateResponseDto;
   }
 
-
   void addNotifyChatId(int chatId) {
     this.chatId = chatId;
   }
 
-  void addNotifyItem(NotifyItem notifyItem){
+  void addNotifyItem(NotifyItem notifyItem) {
     this.notifyItem = notifyItem;
   }
-
 
   void addChatUsersList(List<ChatUsersDTO> dtoList) {
     this.chatUsers = dtoList;
@@ -80,6 +79,9 @@ class ParamStore extends RequestParam {
     this.phoneNumForSearch = value;
   }
 
+  void addSearchKeyword(String value) {
+    this.searchKeyword = value;
+  }
 }
 
 final paramProvider = Provider<ParamStore>((ref) {
