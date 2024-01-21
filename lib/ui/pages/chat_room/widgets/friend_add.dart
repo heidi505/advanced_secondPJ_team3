@@ -15,7 +15,6 @@ class FriendAdd extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(addFriendToChatProvider);
     return Column(
       children: [
         Stack(
@@ -31,16 +30,13 @@ class FriendAdd extends ConsumerWidget {
             Positioned(
               top: -2,
               right: -2,
-              child: GestureDetector(
-                onTap: () {},
-                child: Container(
-                  child: Image.asset(
-                    "assets/icons/circle_close_icon.png",
-                    fit: BoxFit.cover,
-                    width: 20,
-                    height: 20,
-                    color: bgAndLineColor,
-                  ),
+              child: Container(
+                child: Image.asset(
+                  "assets/icons/circle_close_icon.png",
+                  fit: BoxFit.cover,
+                  width: 20,
+                  height: 20,
+                  color: bgAndLineColor,
                 ),
               ),
             ),

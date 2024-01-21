@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
+import 'package:team3_kakao/data/provider/add_friend_to_chat_provider.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/chat_repository.dart';
@@ -129,7 +131,6 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
       paramStore.addChatRoomDocId(newChatDoc.id);
       paramStore.addChatRoomDTO(chatroomDTO);
 
-
       Navigator.push(
           mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
     } else {
@@ -145,6 +146,16 @@ class OtherChatViewModel extends StateNotifier<OtherChatModel?> {
             mContext!, MaterialPageRoute(builder: (context) => ChatRoomPage()));
       }
     }
+  }
+
+  Future<void> addChatUser() async {
+    List<FriendsDTO> newChatUsers =
+        ref.read(addFriendToChatProvider)!.friendsToAdd!;
+
+    ParamStore paramStore = ref.read(paramProvider);
+    String chatRoomDocid = paramStore.chatRoomDocId!;
+    List<int> oldUsers = paramStore.chatroomDTO!.userIdList!;
+    await ChatRepository().addChatUser(newChatUsers, chatRoomDocid, oldUsers);
   }
 }
 
