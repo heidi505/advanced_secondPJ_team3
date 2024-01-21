@@ -28,13 +28,12 @@ class FriendsBirthDayPage extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.zero,
                     color: Colors.transparent,
-                    child:
-                    ListTile(
+                    child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       dense: true,
                       leading: ClipRRect(
                         child: Image.network(
-                          baseUrl + "/images/${friendList[index].userId}.jpg",
+                          baseUrl + "/images/${friendList[index].profileImage}",
                           fit: BoxFit.cover,
                           width: 40,
                           height: 40,

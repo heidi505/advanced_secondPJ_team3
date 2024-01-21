@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
+import 'package:team3_kakao/data/provider/profile_detail_provider.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_media_page.dart';
 import 'package:team3_kakao/ui/pages/chat_room/chat_menu/chat_menu_settings_page.dart';
 
@@ -116,7 +119,7 @@ class PlusUser extends StatelessWidget {
   }
 }
 
-class MyProfile extends StatelessWidget {
+class MyProfile extends ConsumerWidget {
   String text;
   String? profilePic;
   int userId;
@@ -124,7 +127,15 @@ class MyProfile extends StatelessWidget {
   MyProfile({required this.text, this.profilePic, required this.userId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ProfileDetailModel? profileDetailModel = ref.watch(profileDetailProvider);
+
+    if (profileDetailModel == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+    ProfileDetailResponseDTO profile =
+        profileDetailModel.profileDetailResponseDTO!;
+
     return Padding(
       padding: const EdgeInsets.only(top: xsmallGap, bottom: xsmallGap),
       child: Row(
@@ -132,7 +143,7 @@ class MyProfile extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(mediumGap),
             child: Image.network(
-              "$baseUrl/images/$userId.jpg",
+              "$baseUrl/images/${profile.profileImage}",
               fit: BoxFit.cover,
               height: 50,
               width: 50,
@@ -181,7 +192,7 @@ class UserList extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(mediumGap),
             child: Image.network(
-              "$baseUrl/images/$userId.jpg",
+              "$baseUrl/images/$profilePic",
               fit: BoxFit.cover,
               height: 50,
               width: 50,

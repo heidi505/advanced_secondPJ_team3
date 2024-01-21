@@ -7,7 +7,6 @@ import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/data/repository/friend_repository.dart';
 import 'package:team3_kakao/main.dart';
-
 import '../../_core/constants/move.dart';
 import '../../data/provider/param_provider.dart';
 
@@ -63,5 +62,5 @@ class MainPageViewModel extends StateNotifier<MainPageModel?> {
 
 final mainProvider =
     StateNotifierProvider<MainPageViewModel, MainPageModel?>((ref) {
-  return MainPageViewModel(ref, null)..notifyInit();
+  return MainPageViewModel(ref, MainPageModel(mainDTO: null))..notifyInit();
 });

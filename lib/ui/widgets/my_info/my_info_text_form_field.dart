@@ -51,7 +51,11 @@ class TextMenuCard extends ConsumerWidget {
     ref.watch(phoneNumUpdateProvider);
     final newState =
         ref.watch(phoneNumUpdateProvider.notifier).state?.dto.newPhoneNum;
-    Logger().d("++state 값++: $newState");
+
+    if (newState == null) {
+      Center(child: CircularProgressIndicator());
+      Logger().d("++state 값++: $newState");
+    }
 
     return InkWell(
       onTap: () {

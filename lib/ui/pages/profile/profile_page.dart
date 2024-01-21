@@ -8,8 +8,10 @@ import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
 import 'package:team3_kakao/data/dto/friend_dto/favorite_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/provider/favorite_friend_provider.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/profile_detail_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/friends/widgets/friend_favorites.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_icon_btn.dart';
@@ -43,6 +45,16 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     ParamStore paramStore = ref.read(paramProvider);
     SessionUser session = ref.read(sessionProvider);
     //FriendsDTO model = paramStore.friendDTO!;
+    ProfileDetailModel? profileDetailModel = ref.watch(profileDetailProvider);
+
+    if (profileDetailModel == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    ProfileDetailResponseDTO profile =
+        profileDetailModel!.profileDetailResponseDTO!;
 
     FriendsDTO model = FriendsDTO(
         userId: paramStore.friendDTO!.userId,
@@ -62,15 +74,21 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         nickname: model.nickname,
         statusMessage: model.statusMessage);
 
-    logger.d('즐찾: ${model!.isFavorite}');
+    // logger.d('즐찾: ${model!.isFavorite}');
+
+    //  logger.d('값 나옴? : ${profileModel?.profileUpdateResponseDTO?.nickname}');
 
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.zero,
           image: DecorationImage(
-            image: AssetImage("assets/images/profile_basic_image.png"),
-            fit: BoxFit.cover,
-          ),
+              image: NetworkImage(
+                session.user!.id != model!.userId
+                    ? "$baseUrl/images/${paramStore.friendDTO!.backImage}"
+                    : "$baseUrl/images/${profile.backImage}",
+              ),
+              fit: BoxFit.cover),
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -78,17 +96,28 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             children: [
               const Spacer(),
               ProfileImage(
-                  imagePath: "$baseUrl/images/${model!.userId}.jpg",
-                  imageWidth: 100,
-                  imageHeight: 100,
-                  circular: 42),
+                imagePath: session.user!.id != model!.userId
+                    ? "$baseUrl/images/${paramStore.friendDTO!.profileImage}"
+                    : "$baseUrl/images/${profile.profileImage}",
+                imageWidth: 100,
+                imageHeight: 100,
+                circular: 42,
+              ),
               const SizedBox(
                 height: xsmallGap,
               ),
-              Text(model!.nickname!, style: h4(color: basicColorW)),
+              Text(
+                session.user!.id != model!.userId
+                    ? paramStore.friendDTO!.nickname ?? 'DefaultNickname'
+                    : profile.nickname ?? 'DefaultNickname',
+                style: h4(color: basicColorW),
+              ),
               const SizedBox(height: xsmallGap),
               Text(
-                model!.statusMessage!,
+                session.user!.id != model!.userId
+                    ? paramStore.friendDTO!.statusMessage ??
+                        'DefaultStatusMessage'
+                    : profile.statusMessage ?? 'DefaultStatusMessage',
                 style: h5(color: basicColorW),
               ),
               const SizedBox(
@@ -112,7 +141,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 color: basicColorW,
               ),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, Move.mainPage, (route) => false);
               },
             ),
             actions: [
@@ -159,6 +189,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           BottomIconButton(
             imagePath: "assets/icons/profile/profile_icon_01.png",
             text: "나와의 채팅",
+            routeToNavigate: Move.chatRoomPage,
           ),
           SizedBox(
             width: 50,
@@ -261,7 +292,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 //     );
 //   }
 // }
-
 //   Widget _buildFriendProfileTopIcons(FriendsDTO model, WidgetRef ref) {
 //     return Row(
 //       children: [

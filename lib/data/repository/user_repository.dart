@@ -124,7 +124,8 @@ class UserRepository {
     Logger().d("유저 리파지토리 진입");
     try {
       // 서버에 요청
-      Response response = await dio.get("/user/my-profile-detail/$id");
+      Response response = await dio.get("/user/my-profile-detail/$id",
+          options: Options(headers: {"Authorization": jwt}));
       Logger().d("페이지 통신 완료 : ${response.data}");
 
       // 서버에서 받아온 값을 Dart 객체로 변환
@@ -146,15 +147,11 @@ class UserRepository {
 
   Future<ResponseDTO> fetchProfileUpdate(
       ProfileUpdateRequestDTO profileUpdateRequestDTO, String jwt) async {
-    Logger().d("업데이트 레파지토리 진입 확인(닉네임) : ${profileUpdateRequestDTO.nickname}");
-    Logger().d(
-        "업데이트 레파지토리 진입 확인(상태메세지) : ${profileUpdateRequestDTO.statusMessage}");
-
     try {
       // DTO의 값을 컨트롤러로 요청을 보내고 Response 객체에 담는다.
       Response response = await dio.post("/user/my-profile-update",
           data: profileUpdateRequestDTO.toJson(),
-          options: Options(headers: {"Authorization": "$jwt"}));
+          options: Options(headers: {"Authorization": jwt}));
 
       // response.data의 값을 Dart객체로 변환 작업
       ResponseDTO responseDTO = new ResponseDTO.fromJson(response.data);
@@ -162,6 +159,10 @@ class UserRepository {
       // 수정한 정보만 추출해서 덮어 씌우기
       responseDTO.data =
           new ProfileUpdateResponseDTO.fromJson(responseDTO.data);
+      Logger().d("${responseDTO.data} 2번 파싱 안됨");
+
+      // responseDTO.data =
+      //   new ProfileDetailResponseDTO.fromJson(responseDTO.data);
       return responseDTO;
     } catch (e) {
       Logger().d("캐치 탐 ${e.toString()}");

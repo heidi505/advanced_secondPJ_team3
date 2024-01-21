@@ -115,7 +115,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
     return SliverFillRemaining(
       child: CustomScrollView(
         slivers: [
-          FriendTItle(count: friends.length),
+          FriendTitle(count: friends.length),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
@@ -124,7 +124,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
               },
               childCount: friends.length,
             ),
-          ),
+          )
         ],
       ),
     );

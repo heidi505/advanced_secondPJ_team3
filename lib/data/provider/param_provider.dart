@@ -85,5 +85,6 @@ class ParamStore extends RequestParam {
 }
 
 final paramProvider = Provider<ParamStore>((ref) {
+  print('파람 프로바이더 진입함?');
   return new ParamStore();
 });

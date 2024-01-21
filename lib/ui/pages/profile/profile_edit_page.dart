@@ -9,9 +9,12 @@ import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_detail_response_dto/profile_detail_response_dto.dart';
 import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_response_dto/profile_update_response_dto.dart';
 import 'package:team3_kakao/data/model/user.dart';
 import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/data/provider/profile_detail_provider.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_camera_btn.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_edit_bottom_btn.dart';
@@ -21,7 +24,6 @@ import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_form_field.dar
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
 import '../../../data/dto/friend_dto/main_dto.dart';
-import '../../../data/dto/response_dto.dart';
 import '../../../data/provider/profile_update_provider.dart';
 
 class ProfileEditPage extends ConsumerStatefulWidget {
@@ -43,22 +45,26 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
   // 콜백 함수 - profile 이미지
   void updateProfileImage(File imagePath) {
     Logger().d("선택된 이미지 경로 : $imagePath");
-    if (imagePath == null) {
-      selectedProfileImagePath = null;
-    }
-    selectedProfileImagePath = imagePath;
-    String base64ImageProfile = "";
-    final bytes = File(selectedProfileImagePath!.path).readAsBytesSync();
-    base64ImageProfile = base64Encode(bytes);
-    Logger().d("base64 - profile - 이미지 = $base64ImageProfile");
+    setState(() {
+      if (imagePath == null) {
+        selectedProfileImagePath = null;
+      }
+      selectedProfileImagePath = imagePath;
+      String base64ImageProfile = "";
+      final bytes = File(selectedProfileImagePath!.path).readAsBytesSync();
+      base64ImageProfile = base64Encode(bytes);
+      Logger().d("base64 - profile - 이미지 = $base64ImageProfile");
+    });
   }
 
   // 콜백 함수 - back 이미지
   void updateBackImage(File imagePath) {
     Logger().d("선택된 이미지 경로 : $imagePath");
-    if (imagePath == null) {
-      selectedBackImagePath = null;
-    }
+    setState(() {
+      if (imagePath == null) {
+        selectedBackImagePath = null;
+      }
+    });
     selectedBackImagePath = imagePath;
     String base64ImageBack = "";
     final bytes = File(selectedBackImagePath!.path).readAsBytesSync();
@@ -68,21 +74,34 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    User session = ref.read(sessionProvider).user!;
-    FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
-    print("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
-    print("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
-
-    ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+    ProfileDetailModel? profileDetailModel = ref.watch(profileDetailProvider);
+    if (profileDetailModel == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+    ProfileDetailResponseDTO profile =
+        profileDetailModel.profileDetailResponseDTO!;
+    // FriendsDTO myProfile = ref.read(paramProvider).friendDTO!;
+    // ProfileUpdateModel? model = ref.watch(profileUpdateProvider);
+    // ProfileUpdateResponseDTO? profile = model?.profileUpdateResponseDTO;
+    Logger().d("컨트롤러로 값 들어옴? ${widget._statusMessageContoller.text}");
+    Logger().d("컨트롤러로 값 들어옴? ${widget._nicknameController.text}");
+    widget._nicknameController.text = profile!.nickname;
+    widget._statusMessageContoller.text = profile!.statusMessage;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/profile_basic_image.png"),
-            fit: BoxFit.cover,
-          ),
+          borderRadius: BorderRadius.circular(0),
+          image: selectedBackImagePath != null
+              ? DecorationImage(
+                  image: FileImage(selectedBackImagePath!),
+                  fit: BoxFit.cover,
+                )
+              : DecorationImage(
+                  image: NetworkImage("$baseUrl/images/${profile.backImage}"),
+                  fit: BoxFit.cover,
+                ),
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -107,7 +126,6 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
             actions: [
               Consumer(
                 builder: (context, ref, child) {
-                  SessionUser seeeionUser = ref.read(sessionProvider);
                   return Container(
                     width: 60,
                     height: 40,
@@ -126,14 +144,21 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                           base64ImageBack = base64Encode(bytes);
                         }
                         ProfileUpdateRequestDTO dto = ProfileUpdateRequestDTO(
-                            nickname: widget._nicknameController.text,
-                            statusMessage: widget._statusMessageContoller.text,
-                            profileImage: base64ImageProfile.isEmpty
-                                ? myProfile.profileImage
-                                : base64ImageProfile,
-                            backImage: base64ImageBack.isEmpty
-                                ? myProfile.backImage
-                                : base64ImageBack);
+                          nickname: widget._nicknameController.text == null
+                              ? "${profile.nickname}"
+                              : widget._nicknameController.text,
+                          statusMessage:
+                              widget._statusMessageContoller.text == null
+                                  ? "${profile.statusMessage}"
+                                  : widget._statusMessageContoller.text,
+                          profileImage: base64ImageProfile.isEmpty
+                              ? profile.profileImage ?? ""
+                              : base64ImageProfile,
+                          backImage: base64ImageBack.isEmpty
+                              ? profile.backImage ?? ""
+                              : base64ImageBack,
+                        );
+
                         Logger().d("전부다 !!!!!" +
                             widget._nicknameController.text +
                             "||||||" +
@@ -145,8 +170,11 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                         await ref
                             .read(profileUpdateProvider.notifier)
                             .updateProfile(dto);
-                        Navigator.pushNamed(context,
-                            Move.profilePage); // 이 버튼을 눌렀을때 리퀘스트에 값이 담기고 통신 해야함
+                        SessionUser user = ref.read(sessionProvider);
+                        ref.read(profileDetailProvider.notifier).notifyInit();
+                        user.profileUpdate(dto, user.jwt!);
+                        // Navigator.pushNamed(context,
+                        //     Move.profilePage); // 이 버튼을 눌렀을때 리퀘스트에 값이 담기고 통신 해야함
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.transparent,
@@ -170,12 +198,22 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
               const Spacer(),
               Stack(
                 children: [
-                  ProfileImage(
-                    imagePath: "$baseUrl/images/${session.id}.jpg",
-                    imageWidth: 100,
-                    imageHeight: 100,
-                    circular: 42,
-                  ),
+                  selectedProfileImagePath != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(42),
+                          child: Image.file(
+                            selectedProfileImagePath!,
+                            fit: BoxFit.cover,
+                            width: 100,
+                            height: 100,
+                          ),
+                        )
+                      : ProfileImage(
+                          imagePath: "$baseUrl/images/${profile.profileImage}",
+                          imageWidth: 100,
+                          imageHeight: 100,
+                          circular: 42,
+                        ),
                   Positioned(
                     bottom: 0, // Adjust this value as needed
                     right: 0, // Adjust this value as needed
@@ -193,6 +231,8 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileTextFormField(
                     nicknameController: widget._nicknameController,
                     textWidget: Text(
+                      profile?.nickname ?? "",
+
 // <<<<<<< HEAD
 //                       //model!.profileUpdateResponseDTO!.nickname!,
 //                   widget.user.name,
@@ -200,7 +240,6 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
 //                 )),
 //
 // =======
-                      session.nickname!,
                       style: h4(color: basicColorW),
                     )),
               ),
@@ -210,14 +249,7 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                 child: ProfileSubTextFormField(
                     statusMessageContoller: widget._statusMessageContoller,
                     textWidget: Text(
-// <<<<<<< HEAD
-//                       //model!.profileUpdateResponseDTO!.statusMessage!,
-//                   widget.user.intro,
-//                   style: h5(color: basicColorW),
-//                 )),
-// =======
-                      session.statusMessage!,
-                      style: h5(color: basicColorW),
+                      profile?.nickname ?? "",
                     )),
               ),
               const SizedBox(
