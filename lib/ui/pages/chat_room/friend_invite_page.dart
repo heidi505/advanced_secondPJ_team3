@@ -36,6 +36,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
   Widget build(BuildContext context) {
     MainPageModel? model = ref.watch(mainProvider);
     FriendSearchModel? searchModel = ref.watch(searchProvider);
+    AddFriendToChatModel? pickedOne = ref.watch(addFriendToChatProvider);
 
     if (model == null) {
       return CircularProgressIndicator();
@@ -54,7 +55,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
               Navigator.pop(context);
             },
             child: Image.asset(
-              "assets/icons/close.png",
+              "assets/icons/check_icon.png",
               fit: BoxFit.cover,
               width: 30,
               height: 30,
@@ -65,14 +66,14 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
       ),
       body: CustomScrollView(
         slivers: [
-          _buildSliverAppBar(),
+          _buildSliverAppBar(pickedOne!.friendsToAdd!),
           _buildSliverList(),
         ],
       ),
     );
   }
 
-  Widget _buildSliverAppBar() {
+  Widget _buildSliverAppBar(List<FriendsDTO> friends) {
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverAppBarDelegate(
@@ -86,7 +87,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Expanded(child: _buildFriendAdd()),
+                Expanded(child: _buildFriendAdd(friends)),
                 AddSearchTextFormField(),
               ],
             ),
@@ -127,19 +128,18 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
     );
   }
 
-  Widget _buildFriendAdd() {
-    AddFriendToChatModel? model = ref.watch(addFriendToChatProvider);
+  Widget _buildFriendAdd(List<FriendsDTO> friends) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Container(
         height: 100,
-        width: model!.friendsToAdd!.length * 50,
+        width: friends.length * 50,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            return FriendAdd(pickedFriend: model!.friendsToAdd![index]);
+            return FriendAdd(pickedFriend: friends[index]);
           },
-          itemCount: model!.friendsToAdd!.length,
+          itemCount: friends.length,
         ),
       ),
     );
