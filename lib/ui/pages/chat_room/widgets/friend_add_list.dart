@@ -50,12 +50,12 @@ class _FriendAddListState extends ConsumerState<FriendAddList> {
                 onChanged: (bool? newValue) {
                   setState(() {
                     _isChecked = newValue!;
+                    if (_isChecked == true) {
+                      ref
+                          .read(addFriendToChatProvider.notifier)
+                          .friendsToAdd(widget.friend!);
+                    }
                   });
-                  if (_isChecked == true) {
-                    ref
-                        .read(addFriendToChatProvider.notifier)
-                        .friendsToAdd(widget.friend!);
-                  }
                 },
                 activeColor: primaryColor01,
                 checkColor: basicColorB,

@@ -12,12 +12,12 @@ class AddFriendToChatModel {
 }
 
 class AddFriendToChatViewModel extends StateNotifier<AddFriendToChatModel?> {
+  AddFriendToChatViewModel(this.ref, super._state);
+
   Ref ref;
   final mContext = navigatorKey.currentContext;
 
-  AddFriendToChatViewModel(this.ref, super._state);
-
-  Future<void> friendsToAdd(FriendsDTO friend) async {
+  void friendsToAdd(FriendsDTO friend) {
     List<FriendsDTO> oldList = state!.friendsToAdd!;
     oldList.add(friend);
 
