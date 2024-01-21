@@ -25,6 +25,7 @@ import 'package:team3_kakao/ui/pages/chatting/widget/chat_menu_modal.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chat_person_count.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/chatting_count.dart';
 import 'package:team3_kakao/ui/pages/chatting/widget/group_profile.dart';
+import 'package:team3_kakao/ui/pages/main_view_model.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/chatting_item.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/profile_image.dart';
 
@@ -171,8 +172,9 @@ class ChattingList extends ConsumerWidget {
             ),
             ChatMenuModalBox(
               ontap: () {
-                ref.read(chattingPageProvider.notifier).chatSetting(
-                    chatroomDTO.chatDocId!, "isBookMarked", session.user!.id!);
+                ref
+                    .read(chattingPageProvider.notifier)
+                    .addFavChatRoom(chatroomDTO.chatDocId!);
                 showCustom(context, "즐겨찾기에 추가되었습니다.");
               },
               text: Text(

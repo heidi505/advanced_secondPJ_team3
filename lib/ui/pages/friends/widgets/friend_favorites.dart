@@ -10,8 +10,6 @@ class FriendFavorites extends StatelessWidget {
     super.key,
   });
 
-  get baseUrl => null;
-
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -38,26 +36,10 @@ class FriendFavorites extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      child: Column(
-                        children: [
-                          ChattingItem(
-                            circular: 16.0,
-                            imageWidth: 40,
-                            imageHeight: 40,
-                            imagePath: baseUrl + "/images/basic.jpeg",
-                            title: "김하얀",
-                            subTitle: "어제 1월 2일",
-                          ),
-                          ChattingItem(
-                            circular: 16.0,
-                            imageWidth: 40,
-                            imageHeight: 40,
-                            imagePath: baseUrl + "/images/basic.jpeg",
-                            title: "김하얀",
-                            subTitle: "어제 1월 2일",
-                          ),
-                        ],
-                      ),
+                      height: ,
+                      child: ListView.builder(
+                          itemBuilder:
+                          itemCount: ,)
                     ),
                   ],
                 ),

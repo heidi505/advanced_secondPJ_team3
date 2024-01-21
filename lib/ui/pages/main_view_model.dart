@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:team3_kakao/data/dto/chat_dto/chatting_list_page_dto.dart';
 import 'package:team3_kakao/data/dto/friend_dto/main_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/provider/session_provider.dart';
@@ -43,6 +44,13 @@ class MainPageViewModel extends StateNotifier<MainPageModel?> {
     state = MainPageModel(mainDTO: responseDTO.data);
 
     Navigator.pushNamed(mContext!, Move.mainPage);
+  }
+
+  void addFavorites(String chatDocId) {
+    MainDTO oldMain = state!.mainDTO!;
+    ChatroomDTO favChatRoom =
+    oldMain.favorites =
+    List<ChatroomDTO> newFav =
   }
 }
 
