@@ -96,16 +96,22 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
   }
 
   Widget _buildSliverList() {
+    FriendSearchModel? model = ref.watch(searchProvider);
+    if (model == null || model.friendSerchResponseDTO!.isEmpty) {
+      return SliverFillRemaining(child: SizedBox());
+    }
     return SliverFillRemaining(
       child: CustomScrollView(
         slivers: [
-          FriendTItle(count: mainDTO!.friendList!.length),
+          FriendTItle(count: model!.friendSerchResponseDTO!.length),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return FriendAddList(isChecked: isChecked);
+                return FriendAddList(
+                    isChecked: isChecked,
+                    friend: model!.friendSerchResponseDTO![index]);
               },
-              childCount: 15,
+              childCount: model!.friendSerchResponseDTO!.length,
             ),
           ),
         ],

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/_core/constants/http.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/friend_dto/friend_search_response_dto.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/open_profile_image.dart';
 
 class FriendAddList extends StatefulWidget {
-  const FriendAddList({
-    Key? key,
-    required this.isChecked,
-  }) : super(key: key);
+  FriendAddList({Key? key, required this.isChecked, this.friend})
+      : super(key: key);
 
   final bool isChecked;
+  FriendSearchResponseDTO? friend;
 
   @override
   State<FriendAddList> createState() => _FriendAddListState();
@@ -33,10 +34,10 @@ class _FriendAddListState extends State<FriendAddList> {
             leading: OpenProfileImage(
               imageHeight: 50,
               imageWidth: 50,
-              imagePath: "assets/images/basic_img.jpeg",
+              imagePath: "$baseUrl/images/${widget.friend!.id}.jpg",
               circular: 20,
             ),
-            title: Text('으네옹니'),
+            title: Text(widget.friend!.nickname!),
             trailing: Transform.scale(
               scale: 1.3,
               child: Checkbox(

@@ -18,7 +18,7 @@ class OpenProfileImage extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return ClipRRect(
-          child: Image.asset(
+          child: Image.network(
             imagePath,
             fit: BoxFit.cover,
             width: imageWidth,

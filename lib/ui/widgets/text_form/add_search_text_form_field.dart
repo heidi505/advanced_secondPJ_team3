@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
+import 'package:team3_kakao/data/provider/Friend_search_provider.dart';
+import 'package:team3_kakao/data/provider/param_provider.dart';
+import 'package:team3_kakao/ui/pages/friends/friends_add_view_model.dart';
 
-class AddSearchTextFormField extends StatefulWidget {
+class AddSearchTextFormField extends ConsumerStatefulWidget {
   const AddSearchTextFormField({super.key});
 
   @override
-  State<AddSearchTextFormField> createState() => _AddSearchTextFormFieldState();
+  _AddSearchTextFormFieldState createState() => _AddSearchTextFormFieldState();
 }
 
-class _AddSearchTextFormFieldState extends State<AddSearchTextFormField> {
+class _AddSearchTextFormFieldState
+    extends ConsumerState<AddSearchTextFormField> {
   TextEditingController _textEditingController = TextEditingController();
   bool _isTextNotEmpty = false;
 
@@ -22,6 +27,9 @@ class _AddSearchTextFormFieldState extends State<AddSearchTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _textEditingController,
+      onFieldSubmitted: (value) {
+        ref.read(searchProvider.notifier).notifyInit("그노");
+      },
       autovalidateMode: AutovalidateMode.always,
       decoration: InputDecoration(
         hintText: '이름으로 검색',
