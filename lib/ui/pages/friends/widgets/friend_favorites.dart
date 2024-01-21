@@ -40,7 +40,7 @@ class FriendFavorites extends ConsumerWidget {
                 child: Column(
                   children: [
                     Container(
-                        height: favorites!.length * 20,
+                        height: favorites!.length * 70,
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             return GroupProfile(
