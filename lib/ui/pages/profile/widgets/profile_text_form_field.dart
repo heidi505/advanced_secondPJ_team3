@@ -11,16 +11,16 @@ import '../../../../data/dto/profile_dto/profile_update_request_dto/profile_upda
 import '../../../../data/provider/profile_update_provider.dart';
 
 class ProfileTextFormField extends ConsumerStatefulWidget {
-
   final nicknameController;
   final Widget textWidget;
 
-  const ProfileTextFormField({Key? key, required this.textWidget, required this.nicknameController})
+  const ProfileTextFormField(
+      {Key? key, required this.textWidget, required this.nicknameController})
       : super(key: key);
 
-
   @override
-  ConsumerState<ProfileTextFormField> createState() => _ProfileTextFormFieldState();
+  ConsumerState<ProfileTextFormField> createState() =>
+      _ProfileTextFormFieldState();
 }
 
 class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
@@ -35,16 +35,19 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
 
   void _updateTextStatus() {
     setState(() {
-      _isTextNotEmpty =
-          widget.nicknameController.text.isNotEmpty || widget.nicknameController.text != widget.textWidget;
+      _isTextNotEmpty = widget.nicknameController.text.isNotEmpty ||
+          widget.nicknameController.text != widget.textWidget;
     });
   }
 
   void _nicknameOnFieldSubmitted(String value) {
     Logger().d("----- 닉네임 벨류 확인 ----- : + ${value}");
     Logger().d("----- 닉네임 컨트롤러 확인 ----- : " + widget.nicknameController.text);
-    // ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
-    // ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
+    ProfileUpdateRequestDTO profileUpdateRequestDto =
+        new ProfileUpdateRequestDTO();
+    ref
+        .read(profileUpdateProvider.notifier)
+        .updateProfile(profileUpdateRequestDto);
   }
 
   @override
@@ -114,7 +117,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
       child: ProfileTextArea(
         textWidget: _isTextNotEmpty
             ? Text(
-          widget.nicknameController.text,
+                widget.nicknameController.text,
                 style: TextStyle(color: basicColorW),
               )
             : widget.textWidget,

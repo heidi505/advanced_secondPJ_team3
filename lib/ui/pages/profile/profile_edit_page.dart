@@ -29,7 +29,8 @@ class ProfileEditPage extends ConsumerStatefulWidget {
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nicknameController = new TextEditingController();
-  final TextEditingController _statusMessageContoller = new TextEditingController();
+  final TextEditingController _statusMessageContoller =
+      new TextEditingController();
 
   @override
   ConsumerState<ProfileEditPage> createState() => _ProfileEditPageState();
@@ -202,7 +203,6 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
                       session.nickname!,
                       style: h4(color: basicColorW),
                     )),
-
               ),
               const SizedBox(height: xsmallGap),
               Padding(
@@ -216,10 +216,9 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
 //                   style: h5(color: basicColorW),
 //                 )),
 // =======
-                      myProfile.statusMessage!,
+                      session.statusMessage!,
                       style: h5(color: basicColorW),
                     )),
-
               ),
               const SizedBox(
                 height: mediumGap,
