@@ -18,11 +18,9 @@ import '../../../data/model/profile_detail_model.dart';
 import '../../../data/provider/profile_detail_provider.dart';
 
 class ProfileFriendPage extends ConsumerWidget {
-  // ProfileFriendPage({Key? key, required this.user}) : super(key: key);
   ProfileFriendPage({Key? key, required this.friendsDTO}) : super(key: key);
 
   FriendsDTO friendsDTO;
-
   // final UserMock user;
   final logger = Logger();
 
@@ -30,7 +28,6 @@ class ProfileFriendPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ProfileDetailModel? model = ref.watch(profileDetailProvider);
     ProfileUpdateModel? updateModel = ref.watch(profileUpdateProvider);
-
 
     logger.d('즐찾: ${friendsDTO.isFavorite}');
 
@@ -64,8 +61,7 @@ class ProfileFriendPage extends ConsumerWidget {
               // --------------- 테스트 ----------------
               // Text(model.profileDetailResponseDTO.nickname,
               //     style: h4(color: basicColorW)),
-              Text("${friendsDTO.nickname}",
-                  style: h4(color: basicColorW)),
+              Text("${friendsDTO.nickname}", style: h4(color: basicColorW)),
               const SizedBox(height: xsmallGap),
               Text(
                 "${friendsDTO.statusMessage}",

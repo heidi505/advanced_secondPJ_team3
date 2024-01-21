@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/move.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_request_dto/profile_update_request_dto.dart';
 import 'package:team3_kakao/data/dto/response_dto.dart';
 import 'package:team3_kakao/data/dto/user_requestDTO.dart';
 import 'package:team3_kakao/data/model/user.dart';
@@ -33,10 +34,13 @@ class SessionUser {
       this.user = responseDTO.data as User;
       this.jwt = responseDTO.token;
 
+      Logger().d("-----세션 값 확인");
+      Logger().d(user.toString() + "확인중" + jwt!);
       // print("성공");
       // 3. 페이지 이동
-      Navigator.pushNamedAndRemoveUntil(
-          mContext!, Move.mainPage, (route) => false);
+      // Navigator.pushNamedAndRemoveUntil(
+      //     mContext!, Move.mainPage, (route) => false);
+      Navigator.pushNamed(mContext!, Move.mainPage);
     } else {
       ScaffoldMessenger.of(mContext!).showSnackBar(
           SnackBar(content: Text("${responseDTO.errorType!.message!}")));
@@ -79,21 +83,24 @@ class SessionUser {
     }
   }
 
-  // Future<void> profileJoin(JoinReqDTO joinReqDTO) async {
-  //   // 1. 통신 코드
-  //   ResponseDTO responseDTO = await UserRepository().fetchJoin(joinReqDTO);
-  //
-  //   // 2. 비지니스 로직
-  //   if (responseDTO.success == true) {
-  //     Navigator.pushNamed(mContext!, Move.joinWelcomePage);
-  //   } else {
-  //     ScaffoldMessenger.of(mContext!).showSnackBar(
-  //       SnackBar(
-  //         content: Text(responseDTO.errorType!.message!),
-  //       ),
-  //     );
-  //   }
-  // }
+  Future<void> profileUpdate(
+      ProfileUpdateRequestDTO profileUpdateRequestDTO, String jwt) async {
+    // 1. 통신 코드
+    ResponseDTO responseDTO =
+        await UserRepository().fetchProfileUpdate(profileUpdateRequestDTO, jwt);
+
+    // 2. 비지니스 로직
+    if (responseDTO.success == true) {
+      Logger().d("통신 성공");
+      Navigator.popAndPushNamed(mContext!, Move.profilePage);
+    } else {
+      ScaffoldMessenger.of(mContext!).showSnackBar(
+        SnackBar(
+          content: Text(responseDTO.errorType!.message!),
+        ),
+      );
+    }
+  }
 
   Future<void> mailSend(MailSendDTO mailSendDTO) async {
     // 1. 통신 코드
@@ -128,11 +135,12 @@ class SessionUser {
     }
   }
 
-  Future<void> newPhoneNum(PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async {
+  Future<void> newPhoneNum(
+      PhoneNumUpdateDTO phoneNumUpdateDTO, String jwt) async {
     Logger().d("+++phoneNum 여기서 통신 시작 +++");
     // 1. 통신 코드
     ResponseDTO responseDTO =
-    await UserRepository().fetchPhoneNumUpdate(phoneNumUpdateDTO, jwt);
+        await UserRepository().fetchPhoneNumUpdate(phoneNumUpdateDTO, jwt);
 
     // 2. 비지니스 로직
     if (responseDTO.success == true) {
@@ -146,7 +154,6 @@ class SessionUser {
     }
   }
 }
-
 
 //3. 창고 관리자
 final sessionProvider = Provider<SessionUser>((ref) {

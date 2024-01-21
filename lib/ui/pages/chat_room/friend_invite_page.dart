@@ -122,7 +122,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
               },
               childCount: friends.length,
             ),
-          ),
+          )
         ],
       ),
     );

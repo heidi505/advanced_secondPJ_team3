@@ -55,8 +55,8 @@ class _LoginScreenState extends State<LoginPage>
               validator: validatePassword(),
             ),
             LoginButton(
-              email: _email.text,
-              password: _password.text,
+              email: _email,
+              password: _password,
               text: "로그인",
               formKey: _formKey,
             ),

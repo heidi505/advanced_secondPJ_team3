@@ -13,12 +13,11 @@ class _FriendsPageState extends State<FriendsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(
-        title: "친구",
-        imagePathL: "assets/icons/search_icon.svg",
-        imagePathR: "assets/icons/friend_add_icon.svg",
-      ),
-      body: FriendBody()
-    );
+        appBar: MainAppBar(
+          title: "친구",
+          imagePathL: "assets/icons/search_icon.svg",
+          imagePathR: "assets/icons/friend_add_icon.svg",
+        ),
+        body: FriendBody());
   }
 }

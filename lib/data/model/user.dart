@@ -5,6 +5,7 @@ class User {
   String? phoneNum;
   String? jwt;
   String? profileImage;
+  String? backImage;
   String? statusMessage;
 
   User(
@@ -13,6 +14,7 @@ class User {
       this.phoneNum,
       this.nickname,
       this.jwt,
+      this.backImage,
       this.profileImage,
       this.statusMessage});
 
@@ -23,6 +25,7 @@ class User {
         "phoneNum": phoneNum,
         "jwt": jwt,
         "profileImage": profileImage,
+        "backImage": backImage,
       };
 
   User.fromJson(Map<String, dynamic> json)
@@ -32,10 +35,11 @@ class User {
         phoneNum = json["phoneNum"],
         jwt = json["jwt"],
         profileImage = json["profileImage"],
+        backImage = json["backImage"],
         statusMessage = json["statusMessage"];
 
   @override
   String toString() {
-    return 'User{id: $id, nickname: $nickname, email: $email, phoneNum: $phoneNum, jwt: $jwt, profileImage: $profileImage}';
+    return 'User{id: $id, nickname: $nickname, email: $email, phoneNum: $phoneNum, jwt: $jwt, profileImage: $profileImage, backImage : $backImage}';
   }
 }

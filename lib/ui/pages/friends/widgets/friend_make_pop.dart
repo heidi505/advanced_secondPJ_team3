@@ -10,38 +10,33 @@ class FriendMakePop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: bgAndLineColor,
-              width: 1.0
-            ),
-            bottom: BorderSide(
-              color: bgAndLineColor,
-              width: 1.0,
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: bgAndLineColor, width: 1.0),
+          bottom: BorderSide(
+            color: bgAndLineColor,
+            width: 1.0,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 4.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FriendSubTitle(
-                title: "펑",
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 4.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FriendSubTitle(
+              title: "펑",
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(bottom: 8.0, left: 16.0, right: 16.0),
+              child: FriendTextItem(
+                imagePath: "assets/icons/pop_icon.svg",
+                text: "나의 펑을 만들어보세요!",
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(bottom: 8.0, left: 16.0, right: 16.0),
-                child: FriendTextItem(
-                  imagePath: "assets/icons/pop_icon.svg",
-                  text: "나의 펑을 만들어보세요!",
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

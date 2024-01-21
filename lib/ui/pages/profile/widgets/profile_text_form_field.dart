@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:team3_kakao/_core/constants/color.dart';
 import 'package:team3_kakao/_core/constants/font.dart';
 import 'package:team3_kakao/_core/constants/size.dart';
+import 'package:team3_kakao/data/dto/profile_dto/profile_update_response_dto/profile_update_response_dto.dart';
 import 'package:team3_kakao/ui/pages/profile/profile_edit_page.dart';
 import 'package:team3_kakao/ui/pages/profile/widgets/profile_text_area.dart';
 
@@ -27,31 +28,32 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
   // 닉네임 입력값
   bool _isTextNotEmpty = false;
 
-  @override
-  void initState() {
-    super.initState();
-    widget.nicknameController.addListener(_updateTextStatus);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   widget.nicknameController.addListener(_updateTextStatus);
+  // }
 
   void _updateTextStatus() {
     setState(() {
-      _isTextNotEmpty = widget.nicknameController.text.isNotEmpty ||
-          widget.nicknameController.text != widget.textWidget;
+      widget.nicknameController.text != widget.textWidget;
     });
   }
 
-  void _nicknameOnFieldSubmitted(String value) {
-    Logger().d("----- 닉네임 벨류 확인 ----- : + ${value}");
-    Logger().d("----- 닉네임 컨트롤러 확인 ----- : " + widget.nicknameController.text);
-    ProfileUpdateRequestDTO profileUpdateRequestDto =
-        new ProfileUpdateRequestDTO();
-    ref
-        .read(profileUpdateProvider.notifier)
-        .updateProfile(profileUpdateRequestDto);
-  }
+  // void _nicknameOnFieldSubmitted(String value) {
+  //   Logger().d("----- 닉네임 벨류 확인 ----- : + ${value}");
+  //   Logger().d("----- 닉네임 컨트롤러 확인 ----- : " + widget.nicknameController.text);
+  //   // ProfileUpdateRequestDTO profileUpdateRequestDto = new ProfileUpdateRequestDTO();
+  //   // ref.read(profileUpdateProvider.notifier).updateProfile(profileUpdateRequestDto);
+  // }
 
   @override
   Widget build(BuildContext context) {
+    // ProfileUpdateResponseDTO? profile =
+    //     ref.watch(profileUpdateProvider)?.profileUpdateResponseDTO;
+    // if (profile == null) {
+    //   return Center(child: CircularProgressIndicator());
+    // }
     return InkWell(
       onTap: () {
         showDialog(
@@ -73,7 +75,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                             _updateTextStatus();
                           },
                           decoration: InputDecoration(
-                            hintText: '홍길동',
+                            // hintText: '${profile.nickname}',
                             hintStyle: TextStyle(color: basicColorW),
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: basicColorW),
@@ -84,7 +86,7 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
                               ),
                             ),
                           ),
-                          onFieldSubmitted: _nicknameOnFieldSubmitted,
+                          // onFieldSubmitted: _nicknameOnFieldSubmitted,
                           style: TextStyle(color: basicColorW),
                         ),
                       ),
@@ -115,13 +117,10 @@ class _ProfileTextFormFieldState extends ConsumerState<ProfileTextFormField> {
         );
       },
       child: ProfileTextArea(
-        textWidget: _isTextNotEmpty
-            ? Text(
-                widget.nicknameController.text,
-                style: TextStyle(color: basicColorW),
-              )
-            : widget.textWidget,
-      ),
+          textWidget: Text(
+        widget.nicknameController.text,
+        style: TextStyle(color: basicColorW),
+      )),
     );
   }
 }
