@@ -14,6 +14,8 @@ import 'package:team3_kakao/ui/widgets/appbar/sliver_app_bar_delegate.dart';
 import 'package:team3_kakao/ui/widgets/chatting_items/open_profile_image.dart';
 import 'package:team3_kakao/ui/widgets/text_form/add_search_text_form_field.dart';
 
+import '../../../_core/constants/move.dart';
+
 class FriendInvitePage extends ConsumerStatefulWidget {
   const FriendInvitePage({Key? key}) : super(key: key);
 
@@ -54,6 +56,7 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
           InkWell(
             onTap: () {
               ref.read(otherChatProvider.notifier).addChatUser();
+              Navigator.pushNamed(context, Move.chatRoomPage);
             },
             child: Image.asset(
               "assets/icons/check_icon.png",
@@ -115,7 +118,6 @@ class _FriendInvitePageState extends ConsumerState<FriendInvitePage> {
     return SliverFillRemaining(
       child: CustomScrollView(
         slivers: [
-          FriendTitle(count: friends.length),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
