@@ -143,7 +143,7 @@ class MyProfile extends ConsumerWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(mediumGap),
             child: Image.network(
-              "$baseUrl/images/${profile.profileImage}",
+              "$baseUrl/images/$userId.jpg",
               fit: BoxFit.cover,
               height: 50,
               width: 50,
@@ -192,7 +192,7 @@ class UserList extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(mediumGap),
             child: Image.network(
-              "$baseUrl/images/$profilePic",
+              "$baseUrl/images/$userId.jpg",
               fit: BoxFit.cover,
               height: 50,
               width: 50,
