@@ -2,7 +2,7 @@
 
 # 🔔 까톡 🔔
    
-## 프로젝트 개요
+## 📃 프로젝트 개요
 - 개발 기간 : 2023-01-02 ~ 2023-01-19
 Flutter와 FireBase를 사용하여 주요 기능인 채팅 기능을 보여주는 카카오톡 클론코딩 프로젝트입니다.  
 
@@ -13,7 +13,7 @@ Flutter와 FireBase를 사용하여 주요 기능인 채팅 기능을 보여주�
 + 이은지
 + 윤혜림
   
-## 📚 Stacks
+## 📚 기술 스택
 
 ### Front
 <img src="https://img.shields.io/badge/flutter-E34F26?style=for-the-badge&logo=flutter&logoColor=white"> <img src="https://img.shields.io/badge/firebase-1572B6?style=for-the-badge&logo=firebase&logoColor=white"> 
@@ -21,7 +21,7 @@ Flutter와 FireBase를 사용하여 주요 기능인 채팅 기능을 보여주�
 ### Collaboration tools
 <img src="https://img.shields.io/badge/figma-0769AD?style=for-the-badge&logo=figma&logoColor=white"> <img src="https://img.shields.io/badge/notion-4FC08D?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
   
-## SiteMap
+## 📑 사이트맵
 ![Screenshot_14](https://github.com/heidi505/advanced_first_project/assets/98313279/e3d353f6-140e-4df8-8b3d-eb5937571e67)
 
 ## 📓 주요 기능 설명
