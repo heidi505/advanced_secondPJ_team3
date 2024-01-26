@@ -13,7 +13,7 @@ Flutter와 FireBase를 사용하여 주요 기능인 채팅 기능을 보여주�
 + 이은지
 + 윤혜림
   
-## 📚 기술 스택
+## 📚 기술 스택
 
 ### Front
 <img src="https://img.shields.io/badge/flutter-E34F26?style=for-the-badge&logo=flutter&logoColor=white"> <img src="https://img.shields.io/badge/firebase-1572B6?style=for-the-badge&logo=firebase&logoColor=white"> 
